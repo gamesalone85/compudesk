@@ -31,6 +31,9 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
+
+    background: url('../img/fondo.jpg') no-repeat center center;
+    background-size: cover;
 }
 
 .hero-content {
