@@ -36,7 +36,19 @@ body {
     position: relative;
     z-index: 2;
 }
+.hero-content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
 
+.hero-content p {
+    margin-bottom: 25px;
+    color: #9ca3af;
+}
+
+.hero-content .btn {
+    margin-top: 10px;
+}
 /* BOTÓN */
 .btn {
     background: #22c55e;
