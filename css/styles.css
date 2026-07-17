@@ -1055,3 +1055,94 @@ grid-template-columns:1fr;
 }
 
 }
+/*==================================================
+MARCAS
+==================================================*/
+
+#marcas{
+
+    background:#F5F7FA;
+
+    overflow:hidden;
+
+}
+
+.brands-slider{
+
+    width:100%;
+
+    overflow:hidden;
+
+    padding:20px 0 60px;
+
+}
+
+.brands-track{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:80px;
+
+    width:max-content;
+
+    animation:scrollBrands 30s linear infinite;
+
+}
+
+.brands-track img{
+
+    height:60px;
+
+    width:auto;
+
+    filter:grayscale(100%);
+
+    opacity:.65;
+
+    transition:.35s;
+
+}
+
+.brands-track img:hover{
+
+    filter:none;
+
+    opacity:1;
+
+    transform:scale(1.08);
+
+}
+
+@keyframes scrollBrands{
+
+    from{
+
+        transform:translateX(0);
+
+    }
+
+    to{
+
+        transform:translateX(-50%);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+.brands-track{
+
+gap:50px;
+
+}
+
+.brands-track img{
+
+height:42px;
+
+}
+
+}
