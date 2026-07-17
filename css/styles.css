@@ -1,88 +1,603 @@
-/* RESET */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+/* ===================================================
+   COMPUDESK
+   Design System v1.0
+=================================================== */
+
+/*==========================
+RESET
+==========================*/
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-/* BODY + FONDO */
-body {
-    font-family: Arial, sans-serif;
-    background: url('../img/fondo.jpg') no-repeat center center fixed;
-    background-size: cover;
-    color: white;
+html{
+    scroll-behavior:smooth;
 }
 
-/* OVERLAY */
-.overlay {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.6);
-    top: 0;
-    left: 0;
+body{
+    font-family:'Inter',sans-serif;
+    background:#F5F7FA;
+    color:#364152;
+    line-height:1.6;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
 }
 
-/* HERO */
-.hero {
-    position: relative;
-    height: 50vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-}
-.hero-content {
-    position: relative;
-    z-index: 2;
-}
-.hero-content h1 {
-    font-size: 36px;
-    margin-bottom: 20px;
+/*==========================
+VARIABLES
+==========================*/
+
+:root{
+
+    /* Colores */
+
+    --primary:#154A91;
+    --primary-dark:#081120;
+    --secondary:#00D4FF;
+
+    --white:#FFFFFF;
+
+    --background:#F5F7FA;
+
+    --text:#364152;
+
+    --gray:#6B7280;
+
+    --border:#E5E7EB;
+
+    --success:#0FA958;
+
+    --danger:#E63946;
+
+    /* Tipografía */
+
+    --title-font:'Space Grotesk',sans-serif;
+    --text-font:'Inter',sans-serif;
+
+    /* Espaciados */
+
+    --space-xs:.5rem;
+    --space-sm:1rem;
+    --space-md:2rem;
+    --space-lg:4rem;
+    --space-xl:6rem;
+
+    /* Bordes */
+
+    --radius-sm:8px;
+    --radius-md:15px;
+    --radius-lg:24px;
+
+    /* Sombras */
+
+    --shadow-sm:0 5px 15px rgba(0,0,0,.08);
+
+    --shadow-md:0 10px 30px rgba(0,0,0,.12);
+
+    --shadow-lg:0 20px 50px rgba(0,0,0,.18);
+
+    /* Animaciones */
+
+    --transition:.35s ease;
 }
 
-.hero-content p {
-    margin-bottom: 25px;
-    color: #9ca3af;
+/*==========================
+TIPOGRAFÍA
+==========================*/
+
+h1,h2,h3,h4,h5,h6{
+
+    font-family:var(--title-font);
+
+    color:var(--primary-dark);
+
+    font-weight:700;
+
+    line-height:1.2;
+
 }
 
-.hero-content .btn {
-    margin-top: 10px;
-}
-/* BOTÓN */
-.btn {
-    background: #22c55e;
-    padding: 10px 20px;
-    color: black;
-    text-decoration: none;
-    border-radius: 5px;
+h1{
+
+    font-size:clamp(2.6rem,5vw,4.8rem);
+
 }
 
-/* SECCIONES */
-.section {
-    padding: 60px 20px;
-    text-align: center;
-    background: rgba(2,6,23,0.9);
+h2{
+
+    font-size:clamp(2rem,4vw,3.2rem);
+
 }
 
-/* GRID */
-.grid {
-    display: flex;
-    gap: 20px;
-    justify-content: center;
-    flex-wrap: wrap;
+h3{
+
+    font-size:1.5rem;
+
 }
 
-/* CARDS */
-.card {
-    background: #111827;
-    padding: 20px;
-    border-radius: 10px;
-    min-width: 200px;
+p{
+
+    font-size:1rem;
+
+    color:var(--text);
+
 }
 
-/* IMÁGENES */
-.flyers img {
-    width: 450px;
-    border-radius: 10px;
+/*==========================
+LINKS
+==========================*/
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+/*==========================
+IMÁGENES
+==========================*/
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+/*==========================
+LISTAS
+==========================*/
+
+ul{
+
+    list-style:none;
+
+}
+
+/*==========================
+BOTONES
+==========================*/
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    padding:15px 34px;
+
+    border:none;
+
+    border-radius:50px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:var(--transition);
+
+    font-size:1rem;
+
+}
+
+.btn-primary{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+.btn-primary:hover{
+
+    background:var(--secondary);
+
+    color:#081120;
+
+    transform:translateY(-3px);
+
+}
+
+.btn-outline{
+
+    border:2px solid white;
+
+    color:white;
+
+    background:transparent;
+
+}
+
+.btn-outline:hover{
+
+    background:white;
+
+    color:var(--primary);
+
+}
+
+/*==========================
+CONTENEDOR
+==========================*/
+
+.container{
+
+    width:min(1200px,90%);
+
+    margin:auto;
+
+}
+
+/*==========================
+SECCIONES
+==========================*/
+
+section{
+
+    padding:90px 0;
+
+}
+
+/*==========================
+TÍTULOS
+==========================*/
+
+.section-title{
+
+    text-align:center;
+
+    margin-bottom:50px;
+
+}
+
+.section-title span{
+
+    color:var(--secondary);
+
+    font-weight:700;
+
+    letter-spacing:2px;
+
+    text-transform:uppercase;
+
+    display:block;
+
+    margin-bottom:10px;
+
+}
+
+.section-title h2{
+
+    margin-bottom:20px;
+
+}
+
+.section-title p{
+
+    max-width:700px;
+
+    margin:auto;
+
+}
+
+/*==========================
+CARDS
+==========================*/
+
+.card{
+
+    background:white;
+
+    border-radius:var(--radius-lg);
+
+    padding:35px;
+
+    box-shadow:var(--shadow-sm);
+
+    transition:var(--transition);
+
+}
+
+.card:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:var(--shadow-lg);
+
+}
+
+/*==========================
+HEADER
+==========================*/
+
+header{
+
+    width:100%;
+
+    position:fixed;
+
+    top:0;
+
+    left:0;
+
+    z-index:999;
+
+}
+
+/*==========================
+FOOTER
+==========================*/
+
+footer{
+
+    background:var(--primary-dark);
+
+    color:white;
+
+    padding:60px 0;
+
+}
+
+/*==========================
+SCROLLBAR
+==========================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:var(--primary);
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#ECECEC;
+
+}
+
+/*==========================
+RESPONSIVE
+==========================*/
+
+@media(max-width:992px){
+
+    section{
+
+        padding:70px 0;
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    h1{
+
+        font-size:2.5rem;
+
+    }
+
+    h2{
+
+        font-size:2rem;
+
+    }
+
+    .btn{
+
+        width:100%;
+
+    }
+
+}
+
+@media(max-width:480px){
+
+    body{
+
+        font-size:15px;
+
+    }
+
+}
+
+/*==================================================
+HEADER
+==================================================*/
+
+header{
+
+    position:fixed;
+
+    width:100%;
+
+    top:0;
+
+    left:0;
+
+    z-index:9999;
+
+    transition:.35s;
+
+    background:rgba(8,17,32,.25);
+
+    backdrop-filter:blur(14px);
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+
+}
+
+.header-scrolled{
+
+    background:#081120;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+}
+
+.navbar{
+
+    height:85px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+}
+
+.logo img{
+
+    height:52px;
+
+}
+
+.nav-menu ul{
+
+    display:flex;
+
+    gap:40px;
+
+}
+
+.nav-menu a{
+
+    color:white;
+
+    font-weight:600;
+
+    position:relative;
+
+    transition:.3s;
+
+}
+
+.nav-menu a::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:0;
+
+    bottom:-6px;
+
+    width:0;
+
+    height:2px;
+
+    background:#00D4FF;
+
+    transition:.35s;
+
+}
+
+.nav-menu a:hover{
+
+    color:#00D4FF;
+
+}
+
+.nav-menu a:hover::after{
+
+    width:100%;
+
+}
+
+.header-buttons{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+.menu-toggle{
+
+    display:none;
+
+    background:none;
+
+    border:none;
+
+    color:white;
+
+    font-size:1.8rem;
+
+    cursor:pointer;
+
+}
+
+/*======================
+MÓVIL
+======================*/
+
+@media(max-width:992px){
+
+.nav-menu{
+
+    position:fixed;
+
+    top:85px;
+
+    right:-100%;
+
+    width:300px;
+
+    height:calc(100vh - 85px);
+
+    background:#081120;
+
+    transition:.35s;
+
+    padding:40px;
+
+}
+
+.nav-menu.active{
+
+    right:0;
+
+}
+
+.nav-menu ul{
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+.menu-toggle{
+
+    display:block;
+
+}
+
+.header-buttons .btn{
+
+    display:none;
+
+}
+
 }
