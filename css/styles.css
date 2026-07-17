@@ -912,3 +912,146 @@ grid-template-columns:1fr;
 }
 
 }
+/*==================================================
+POR QUÉ COMPUDESK
+==================================================*/
+
+#porque-compudesk{
+
+    background:#081120;
+
+    color:white;
+
+}
+
+#porque-compudesk h2,
+#porque-compudesk h3,
+#porque-compudesk p{
+
+    color:white;
+
+}
+
+.stats-grid{
+
+    margin-top:60px;
+
+    display:grid;
+
+    grid-template-columns:repeat(4,1fr);
+
+    gap:30px;
+
+}
+
+.stat-card{
+
+    background:rgba(255,255,255,.05);
+
+    border:1px solid rgba(255,255,255,.08);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:20px;
+
+    padding:35px;
+
+    text-align:center;
+
+}
+
+.counter{
+
+    font-family:var(--title-font);
+
+    font-size:3rem;
+
+    color:#00D4FF;
+
+    font-weight:700;
+
+    margin-bottom:10px;
+
+}
+
+.stat-card span{
+
+    color:#d7dce4;
+
+}
+
+.advantages{
+
+    display:grid;
+
+    grid-template-columns:repeat(2,1fr);
+
+    gap:30px;
+
+    margin-top:80px;
+
+}
+
+.advantage{
+
+    display:flex;
+
+    gap:25px;
+
+    align-items:flex-start;
+
+    background:rgba(255,255,255,.04);
+
+    padding:30px;
+
+    border-radius:20px;
+
+}
+
+.advantage i{
+
+    font-size:2rem;
+
+    color:#00D4FF;
+
+    min-width:45px;
+
+}
+
+.advantage h3{
+
+    margin-bottom:10px;
+
+}
+
+.advantage p{
+
+    color:#CED7E5;
+
+}
+
+@media(max-width:992px){
+
+.stats-grid{
+
+grid-template-columns:repeat(2,1fr);
+
+}
+
+.advantages{
+
+grid-template-columns:1fr;
+
+}
+
+}
+
+@media(max-width:768px){
+
+.stats-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
