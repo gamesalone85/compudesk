@@ -1268,3 +1268,160 @@ grid-template-columns:1fr;
 }
 
 }
+/*==================================================
+CTA
+==================================================*/
+
+#cta{
+
+    background:#154A91;
+
+}
+
+.cta-box{
+
+    background:linear-gradient(135deg,#154A91,#081120);
+
+    border-radius:30px;
+
+    padding:70px;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+.cta-box h2{
+
+    color:white;
+
+    margin-bottom:20px;
+
+}
+
+.cta-box p{
+
+    color:#dce8f5;
+
+    max-width:700px;
+
+    margin:0 auto 35px;
+
+}
+
+/*==================================================
+CONTACTO
+==================================================*/
+
+#contacto{
+
+    background:white;
+
+}
+
+.contact-grid{
+
+    display:grid;
+
+    grid-template-columns:420px 1fr;
+
+    gap:50px;
+
+    margin-top:60px;
+
+}
+
+.contact-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+.contact-card{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:flex-start;
+
+    padding:25px;
+
+    border-radius:20px;
+
+    background:#F7F9FC;
+
+}
+
+.contact-card i{
+
+    color:#154A91;
+
+    font-size:1.8rem;
+
+    min-width:35px;
+
+}
+
+.contact-form{
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+.contact-form input,
+
+.contact-form textarea{
+
+    width:100%;
+
+    padding:18px;
+
+    border-radius:12px;
+
+    border:1px solid #D9DEE7;
+
+    font-family:inherit;
+
+    font-size:1rem;
+
+}
+
+.contact-form input:focus,
+
+.contact-form textarea:focus{
+
+    outline:none;
+
+    border-color:#154A91;
+
+}
+
+.contact-form textarea{
+
+    resize:vertical;
+
+}
+
+@media(max-width:992px){
+
+.contact-grid{
+
+grid-template-columns:1fr;
+
+}
+
+.cta-box{
+
+padding:40px;
+
+}
+
+}
