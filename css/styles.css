@@ -1425,3 +1425,218 @@ padding:40px;
 }
 
 }
+/*==================================================
+FOOTER
+==================================================*/
+
+footer{
+
+    background:#081120;
+
+    color:#D8E3F2;
+
+}
+
+.footer-grid{
+
+    display:grid;
+
+    grid-template-columns:2fr 1fr 1fr 1fr;
+
+    gap:50px;
+
+}
+
+.footer-logo{
+
+    width:180px;
+
+    margin-bottom:25px;
+
+}
+
+.footer-column h3{
+
+    color:white;
+
+    margin-bottom:25px;
+
+}
+
+.footer-column ul{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+.footer-column li{
+
+    transition:.3s;
+
+}
+
+.footer-column li:hover{
+
+    color:#00D4FF;
+
+}
+
+.footer-column i{
+
+    color:#00D4FF;
+
+    margin-right:10px;
+
+}
+
+.footer-social{
+
+    display:flex;
+
+    gap:15px;
+
+    margin-top:30px;
+
+}
+
+.footer-social a{
+
+    width:45px;
+
+    height:45px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    border-radius:50%;
+
+    background:#154A91;
+
+    transition:.35s;
+
+}
+
+.footer-social a:hover{
+
+    background:#00D4FF;
+
+    color:#081120;
+
+}
+
+.footer-bottom{
+
+    border-top:1px solid rgba(255,255,255,.08);
+
+    margin-top:60px;
+
+    padding-top:25px;
+
+    text-align:center;
+
+}
+
+/*======================================
+BOTÓN WHATSAPP
+======================================*/
+
+.whatsapp{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:25px;
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:50%;
+
+    background:#25D366;
+
+    color:white;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:2rem;
+
+    box-shadow:0 10px 30px rgba(0,0,0,.25);
+
+    z-index:9999;
+
+    transition:.35s;
+
+}
+
+.whatsapp:hover{
+
+    transform:scale(1.12);
+
+}
+
+/*======================================
+BOTÓN SUBIR
+======================================*/
+
+#toTop{
+
+    position:fixed;
+
+    right:25px;
+
+    bottom:105px;
+
+    width:55px;
+
+    height:55px;
+
+    border:none;
+
+    border-radius:50%;
+
+    background:#154A91;
+
+    color:white;
+
+    cursor:pointer;
+
+    display:none;
+
+    font-size:1.2rem;
+
+    transition:.35s;
+
+    z-index:9999;
+
+}
+
+#toTop:hover{
+
+    background:#00D4FF;
+
+    color:#081120;
+
+}
+
+@media(max-width:992px){
+
+.footer-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
