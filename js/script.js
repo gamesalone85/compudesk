@@ -85,69 +85,13 @@ counters.forEach(counter => observer.observe(counter));
 /*=========================================
 FORMULARIO GOOGLE
 =========================================*/
-
-
 document
 .getElementById("contactForm")
-.addEventListener("submit",function(e){
+.addEventListener("submit", function(){
 
-e.preventDefault();
+    const boton = this.querySelector("button");
 
-
-fetch("https://script.google.com/macros/s/AKfycbxHa7wTUVSg85jJfo60jakZUqa2zYhY7H7xhWMVR-uSl7owOLyMIYErNwCAOreN9OE/exec",{
-
-method:"POST",
-
-body:JSON.stringify({
-
-nombre:
-document.getElementById("nombre").value,
-
-correo:
-document.getElementById("correo").value,
-
-empresa:
-document.getElementById("empresa").value,
-
-telefono:
-document.getElementById("telefono").value,
-
-servicio:
-document.getElementById("servicio").value,
-
-mensaje:
-document.getElementById("mensaje").value
-
-})
-
-})
-
-
-.then(res=>res.json())
-
-
-.then(()=>{
-
-alert(
-"Solicitud enviada correctamente. Gracias por contactar a CompuDesk."
-);
-
-
-document
-.getElementById("contactForm")
-.reset();
-
-
-})
-
-
-.catch(()=>{
-
-alert(
-"Error al enviar la solicitud. Intenta nuevamente."
-);
-
-});
-
+    boton.innerHTML = "Enviando...";
+    boton.disabled = true;
 
 });
