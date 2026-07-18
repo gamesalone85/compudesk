@@ -80,3 +80,59 @@ const observer = new IntersectionObserver(entries => {
 });
 
 counters.forEach(counter => observer.observe(counter));
+
+
+/*=========================================
+FORMULARIO GOOGLE
+=========================================*/
+
+
+const form = document.getElementById("contactForm");
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+
+fetch("TU_URL_DE_GOOGLE_SCRIPT",{
+
+method:"POST",
+
+body:JSON.stringify({
+
+nombre:
+document.getElementById("nombre").value,
+
+correo:
+document.getElementById("correo").value,
+
+empresa:
+document.getElementById("empresa").value,
+
+telefono:
+document.getElementById("telefono").value,
+
+mensaje:
+document.getElementById("mensaje").value
+
+})
+
+})
+
+.then(res=>res.json())
+
+.then(data=>{
+
+alert("Solicitud enviada correctamente. Gracias por contactar a Compudesk.");
+
+form.reset();
+
+})
+
+.catch(error=>{
+
+alert("Error al enviar la solicitud.");
+
+});
+
+});
