@@ -684,58 +684,64 @@
 
             </div>
 
-            <form class="contact-form" id="contactForm">
+<form 
+class="contact-form" 
+id="contactForm"
+action="https://script.google.com/macros/s/AKfycbxHa7wTUVSg85jJfo60jakZUqa2zYhY7H7xhWMVR-uSl7owOLyMIYErNwCAOreN9OE/exec"
+method="POST">
 
 
 <input
-id="nombre"
 type="text"
+name="nombre"
 placeholder="Nombre"
 required>
 
 
 <input
-id="correo"
 type="email"
+name="correo"
 placeholder="Correo electrónico"
 required>
 
 
 <input
-id="empresa"
 type="text"
+name="empresa"
 placeholder="Empresa">
 
 
 <input
-id="telefono"
 type="tel"
+name="telefono"
 placeholder="Teléfono">
 
 
-<select id="servicio">
+<select 
+name="servicio"
+required>
 
-<option>
+<option value="">
 Selecciona un servicio
 </option>
 
-<option>
+<option value="Soporte Técnico">
 Soporte Técnico
 </option>
 
-<option>
+<option value="Redes e Infraestructura">
 Redes e Infraestructura
 </option>
 
-<option>
+<option value="Seguridad Informática">
 Seguridad Informática
 </option>
 
-<option>
+<option value="Servidores">
 Servidores
 </option>
 
-<option>
+<option value="Respaldos y Nube">
 Respaldos y Nube
 </option>
 
@@ -743,7 +749,7 @@ Respaldos y Nube
 
 
 <textarea
-id="mensaje"
+name="mensaje"
 rows="6"
 placeholder="Cuéntanos cómo podemos ayudarte..."
 required></textarea>
@@ -759,7 +765,6 @@ Enviar Solicitud
 
 
 </form>
-
         </div>
 
     </div>
