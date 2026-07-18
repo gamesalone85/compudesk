@@ -94,7 +94,7 @@ form.addEventListener("submit", function(e){
 e.preventDefault();
 
 
-fetch("TU_URL_DE_GOOGLE_SCRIPT",{
+fetch("https://script.google.com/macros/s/AKfycbwtEmtAdfK4rHLKVhM3kYTACsryw14Nb0mkFN724ZwDVsrrOesz6OUrZf6ao5q24Gc/exec",{
 
 method:"POST",
 
