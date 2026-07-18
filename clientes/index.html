@@ -10,7 +10,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-<title>Clientes | CompuDesk</title>
+<title>Portal de Clientes | CompuDesk</title>
 
 
 <meta name="description"
@@ -23,11 +23,7 @@ content="Portal exclusivo para clientes Compudesk. Gestiona soporte técnico, ti
 <meta name="theme-color" content="#081120">
 
 
-
-<!-- Favicon -->
-
 <link rel="icon" href="../favicon.ico">
-
 
 
 <!-- Google Fonts -->
@@ -35,6 +31,7 @@ content="Portal exclusivo para clientes Compudesk. Gestiona soporte técnico, ti
 <link rel="preconnect" href="https://fonts.googleapis.com">
 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap"
 rel="stylesheet">
@@ -56,21 +53,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </head>
 
 
-
 <body>
 
 
-
-<!-- =============================== -->
+<!-- ==================================== -->
 <!-- HEADER -->
-<!-- =============================== -->
+<!-- ==================================== -->
 
 
 <header id="header">
 
 
 <div class="container navbar">
-
 
 
 <a href="../index.html" class="logo">
@@ -81,7 +75,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-
 <nav class="nav-menu" id="navMenu">
 
 
@@ -89,53 +82,40 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 <li>
-
 <a href="../index.html">
 Inicio
 </a>
-
 </li>
 
 
 
 <li>
-
 <a href="../index.html#servicios">
 Servicios
 </a>
-
 </li>
 
 
 
-
 <li>
-
 <a href="index.html">
 Clientes
 </a>
-
 </li>
-
 
 
 
 <li>
-
 <a href="../index.html#contacto">
 Contacto
 </a>
-
 </li>
-
 
 
 </ul>
 
 
 </nav>
-
-
 
 
 
@@ -148,7 +128,6 @@ class="btn btn-primary">
 Solicitar Cotización
 
 </a>
-
 
 
 
@@ -172,12 +151,20 @@ Solicitar Cotización
 
 
 
-<!-- =============================== -->
+<main>
+
+
+
+
+<!-- ==================================== -->
 <!-- HERO CLIENTES -->
-<!-- =============================== -->
+<!-- ==================================== -->
 
 
-<section class="hero">
+<section id="hero">
+
+
+<div class="hero-overlay"></div>
 
 
 <div class="container hero-content">
@@ -187,11 +174,19 @@ Solicitar Cotización
 <div class="hero-text">
 
 
+<span class="hero-tag">
+
+<i class="fa-solid fa-user-lock"></i>
+
+Portal exclusivo para clientes
+
+</span>
+
+
 
 <h1>
 
-Portal de 
-<span>Clientes</span>
+Gestiona tu soporte tecnológico desde un solo lugar
 
 </h1>
 
@@ -199,14 +194,18 @@ Portal de
 
 <p>
 
-Área exclusiva para clientes Compudesk.
-Administra solicitudes, soporte técnico y servicios contratados.
+Consulta tickets, servicios contratados,
+equipos registrados y mantén comunicación
+directa con el equipo Compudesk.
 
 </p>
 
 
 
-<a href="login-clientes.html"
+<div class="hero-buttons">
+
+
+<a href="login.html"
 class="btn btn-primary">
 
 Ingresar al Portal
@@ -215,7 +214,21 @@ Ingresar al Portal
 
 
 
+<a href="#servicios"
+class="btn btn-outline">
+
+Conocer Beneficios
+
+</a>
+
+
 </div>
+
+
+
+</div>
+
+
 
 
 
@@ -230,6 +243,7 @@ alt="Portal Clientes Compudesk">
 
 
 
+
 </div>
 
 
@@ -240,13 +254,12 @@ alt="Portal Clientes Compudesk">
 
 
 
-
-<!-- =============================== -->
+<!-- ==================================== -->
 <!-- SERVICIOS CLIENTES -->
-<!-- =============================== -->
+<!-- ==================================== -->
 
 
-<section class="servicios">
+<section id="servicios">
 
 
 <div class="container">
@@ -256,16 +269,20 @@ alt="Portal Clientes Compudesk">
 <div class="section-title">
 
 
+<span>PORTAL CLIENTES</span>
+
+
 <h2>
 
-Servicios para clientes
+Todo lo que necesitas para administrar tu soporte
 
 </h2>
 
 
 <p>
 
-Todo lo necesario para gestionar tu soporte tecnológico.
+Herramientas diseñadas para mantener comunicación,
+seguimiento y control de tus servicios tecnológicos.
 
 </p>
 
@@ -276,17 +293,21 @@ Todo lo necesario para gestionar tu soporte tecnológico.
 
 
 
-<div class="cards">
+<div class="services-grid">
 
 
 
 
 
+<article class="service-card">
 
-<div class="card">
 
+<div class="service-icon">
 
 <i class="fa-solid fa-ticket"></i>
+
+</div>
+
 
 
 <h3>
@@ -299,12 +320,13 @@ Tickets de soporte
 
 <p>
 
-Levanta solicitudes y consulta el avance de tus requerimientos.
+Genera solicitudes, consulta avances
+y da seguimiento a tus incidentes.
 
 </p>
 
 
-</div>
+</article>
 
 
 
@@ -312,16 +334,20 @@ Levanta solicitudes y consulta el avance de tus requerimientos.
 
 
 
-<div class="card">
+<article class="service-card">
 
+
+<div class="service-icon">
 
 <i class="fa-solid fa-building"></i>
 
+</div>
+
 
 
 <h3>
 
-Mi Empresa
+Información empresarial
 
 </h3>
 
@@ -329,12 +355,13 @@ Mi Empresa
 
 <p>
 
-Consulta información, servicios contratados y datos registrados.
+Consulta datos de tu empresa,
+servicios contratados y configuración.
 
 </p>
 
 
-</div>
+</article>
 
 
 
@@ -342,17 +369,20 @@ Consulta información, servicios contratados y datos registrados.
 
 
 
+<article class="service-card">
 
-<div class="card">
 
+<div class="service-icon">
 
 <i class="fa-solid fa-laptop"></i>
 
+</div>
+
 
 
 <h3>
 
-Mis Equipos
+Equipos registrados
 
 </h3>
 
@@ -360,7 +390,158 @@ Mis Equipos
 
 <p>
 
-Consulta equipos, mantenimientos e inventario tecnológico.
+Administra el inventario tecnológico
+asociado a tu organización.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="service-card">
+
+
+<div class="service-icon">
+
+<i class="fa-solid fa-file-lines"></i>
+
+</div>
+
+
+
+<h3>
+
+Documentación
+
+</h3>
+
+
+
+<p>
+
+Consulta manuales, reportes técnicos
+y documentación disponible.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="service-card">
+
+
+<div class="service-icon">
+
+<i class="fa-solid fa-chart-line"></i>
+
+</div>
+
+
+
+<h3>
+
+Historial de servicios
+
+</h3>
+
+
+
+<p>
+
+Revisa trabajos realizados,
+mantenimientos y solicitudes anteriores.
+
+</p>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="service-card">
+
+
+<div class="service-icon">
+
+<i class="fa-solid fa-headset"></i>
+
+</div>
+
+
+
+<h3>
+
+Soporte directo
+
+</h3>
+
+
+
+<p>
+
+Comunicación con especialistas
+Compudesk cuando lo necesites.
+
+</p>
+
+
+</article>
+
+
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+<!-- ==================================== -->
+<!-- ESTADÍSTICAS CLIENTES -->
+<!-- ==================================== -->
+
+
+<section id="porque-compudesk">
+
+
+<div class="container">
+
+
+<div class="section-title">
+
+
+<span>BENEFICIOS DEL PORTAL</span>
+
+
+<h2>
+
+Control y seguimiento de tus servicios tecnológicos
+
+</h2>
+
+
+<p>
+
+Consulta información importante de tu empresa
+y mantén siempre el control de tus solicitudes.
 
 </p>
 
@@ -368,6 +549,249 @@ Consulta equipos, mantenimientos e inventario tecnológico.
 </div>
 
 
+
+
+
+<div class="stats-grid">
+
+
+<div class="stat-card">
+
+
+<div class="counter">
+
+24/7
+
+</div>
+
+
+<span>
+
+Disponibilidad de soporte
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="counter">
+
+100%
+
+</div>
+
+
+<span>
+
+Seguimiento de tickets
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="counter">
+
+1
+
+</div>
+
+
+<span>
+
+ID único empresarial
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="stat-card">
+
+
+<div class="counter">
+
+0
+
+</div>
+
+
+<span>
+
+Pérdida de información
+
+</span>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="advantages">
+
+
+
+
+
+<article class="advantage">
+
+
+<i class="fa-solid fa-shield-halved"></i>
+
+
+<div>
+
+
+<h3>
+
+Información segura
+
+</h3>
+
+
+<p>
+
+Cada empresa tendrá acceso únicamente
+a sus datos y solicitudes.
+
+</p>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="advantage">
+
+
+<i class="fa-solid fa-bolt"></i>
+
+
+<div>
+
+
+<h3>
+
+Atención rápida
+
+</h3>
+
+
+<p>
+
+Reduce tiempos de respuesta mediante
+un sistema organizado de tickets.
+
+</p>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="advantage">
+
+
+<i class="fa-solid fa-database"></i>
+
+
+<div>
+
+
+<h3>
+
+Historial completo
+
+</h3>
+
+
+<p>
+
+Consulta servicios realizados,
+mantenimientos y solicitudes anteriores.
+
+</p>
+
+
+</div>
+
+
+</article>
+
+
+
+
+
+
+
+<article class="advantage">
+
+
+<i class="fa-solid fa-users-gear"></i>
+
+
+<div>
+
+
+<h3>
+
+Soporte personalizado
+
+</h3>
+
+
+<p>
+
+Cada cliente cuenta con seguimiento
+según sus necesidades.
+
+</p>
+
+
+</div>
+
+
+</article>
 
 
 
@@ -387,12 +811,12 @@ Consulta equipos, mantenimientos e inventario tecnológico.
 
 
 
-<!-- =============================== -->
-<!-- BENEFICIOS -->
-<!-- =============================== -->
+<!-- ==================================== -->
+<!-- PROCESO DE SOPORTE -->
+<!-- ==================================== -->
 
 
-<section class="porque-compudesk">
+<section id="portal-clientes">
 
 
 <div class="container">
@@ -402,11 +826,22 @@ Consulta equipos, mantenimientos e inventario tecnológico.
 <div class="section-title">
 
 
+<span>NUESTRO PROCESO</span>
+
+
 <h2>
 
-¿Por qué usar el Portal Clientes?
+Así funciona tu atención técnica
 
 </h2>
+
+
+<p>
+
+Un flujo sencillo para resolver tus necesidades
+tecnológicas de forma eficiente.
+
+</p>
 
 
 </div>
@@ -414,13 +849,117 @@ Consulta equipos, mantenimientos e inventario tecnológico.
 
 
 
-<div class="cards">
+
+<div class="timeline">
 
 
-<div class="card">
 
 
-<i class="fa-solid fa-clock"></i>
+
+<div class="timeline-item">
+
+
+<div class="timeline-number">
+
+01
+
+</div>
+
+
+<h3>
+
+Crear solicitud
+
+</h3>
+
+
+<p>
+
+Registra tu problema o requerimiento
+desde el portal.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="timeline-item">
+
+
+<div class="timeline-number">
+
+02
+
+</div>
+
+
+<h3>
+
+Diagnóstico
+
+</h3>
+
+
+<p>
+
+Nuestro equipo analiza la situación
+y asigna la solución adecuada.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="timeline-item">
+
+
+<div class="timeline-number">
+
+03
+
+</div>
+
+
+<h3>
+
+Resolución
+
+</h3>
+
+
+<p>
+
+Aplicamos la solución técnica
+necesaria para resolver el incidente.
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="timeline-item">
+
+
+<div class="timeline-number">
+
+04
+
+</div>
 
 
 <h3>
@@ -432,7 +971,8 @@ Seguimiento
 
 <p>
 
-Consulta el estado de tus solicitudes en tiempo real.
+Validamos el resultado y cerramos
+la solicitud correctamente.
 
 </p>
 
@@ -443,58 +983,7 @@ Consulta el estado de tus solicitudes en tiempo real.
 
 
 
-<div class="card">
-
-
-<i class="fa-solid fa-shield-halved"></i>
-
-
-<h3>
-
-Seguridad
-
-</h3>
-
-
-<p>
-
-Información protegida exclusivamente para tu empresa.
-
-</p>
-
-
 </div>
-
-
-
-
-
-<div class="card">
-
-
-<i class="fa-solid fa-headset"></i>
-
-
-<h3>
-
-Soporte
-
-</h3>
-
-
-<p>
-
-Comunicación directa con el equipo Compudesk.
-
-</p>
-
-
-</div>
-
-
-
-</div>
-
 
 
 </div>
@@ -508,9 +997,71 @@ Comunicación directa con el equipo Compudesk.
 
 
 
-<!-- =============================== -->
+
+<!-- ==================================== -->
+<!-- CTA -->
+<!-- ==================================== -->
+
+
+<section id="cta">
+
+
+<div class="container">
+
+
+<div class="cta-box">
+
+
+<h2>
+
+¿Necesitas soporte tecnológico?
+
+</h2>
+
+
+<p>
+
+Ingresa al portal de clientes y administra
+todas tus solicitudes con Compudesk.
+
+</p>
+
+
+<a href="login.html"
+class="btn btn-primary">
+
+
+Ingresar al Portal
+
+
+</a>
+
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+
+<!-- ==================================== -->
 <!-- FOOTER -->
-<!-- =============================== -->
+<!-- ==================================== -->
 
 
 <footer>
@@ -519,11 +1070,257 @@ Comunicación directa con el equipo Compudesk.
 <div class="container">
 
 
+
+<div class="footer-grid">
+
+
+
+
+
+<div class="footer-column">
+
+
+<img src="../img/logo.png"
+alt="CompuDesk"
+class="footer-logo">
+
+
+
 <p>
 
-© 2026 CompuDesk | Soluciones Tecnológicas
+En CompuDesk ofrecemos soluciones tecnológicas
+para empresas y hogares, especializándonos en
+soporte técnico, infraestructura TI, redes,
+servidores y seguridad.
 
 </p>
+
+
+
+
+<div class="footer-social">
+
+
+<a href="#">
+
+<i class="fab fa-facebook-f"></i>
+
+</a>
+
+
+
+<a href="#">
+
+<i class="fab fa-instagram"></i>
+
+</a>
+
+
+
+<a href="#">
+
+<i class="fab fa-youtube"></i>
+
+</a>
+
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="footer-column">
+
+
+<h3>
+
+Servicios
+
+</h3>
+
+
+
+<ul>
+
+
+<li>Soporte Técnico</li>
+
+<li>Redes Empresariales</li>
+
+<li>Servidores</li>
+
+<li>Videovigilancia</li>
+
+<li>Mantenimiento</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="footer-column">
+
+
+<h3>
+
+Empresa
+
+</h3>
+
+
+
+<ul>
+
+
+<li>
+
+<a href="../index.html">
+
+Inicio
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="../legal/index.html">
+
+Legal
+
+</a>
+
+</li>
+
+
+
+<li>
+
+<a href="../index.html#contacto">
+
+Contacto
+
+</a>
+
+</li>
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="footer-column">
+
+
+<h3>
+
+Contacto
+
+</h3>
+
+
+
+<ul>
+
+
+<li>
+
+<i class="fa-solid fa-phone"></i>
+
+(55) 1461 7007
+
+</li>
+
+
+
+<li>
+
+<i class="fa-solid fa-envelope"></i>
+
+ventas_compudesk@outlook.com
+
+</li>
+
+
+
+<li>
+
+<i class="fa-solid fa-location-dot"></i>
+
+Ciudad de México
+
+</li>
+
+
+
+<li>
+
+<i class="fa-solid fa-clock"></i>
+
+Lun - Vie | 9:00 - 18:00
+
+</li>
+
+
+
+</ul>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+<div class="footer-bottom">
+
+
+<p>
+
+© 2026 CompuDesk. Todos los derechos reservados.
+
+</p>
+
+
+</div>
+
+
+
 
 
 </div>
@@ -536,10 +1333,47 @@ Comunicación directa con el equipo Compudesk.
 
 
 
+<!-- BOTÓN ARRIBA -->
 
-<!-- JS PRINCIPAL -->
+
+<button id="toTop">
+
+
+<i class="fa-solid fa-arrow-up"></i>
+
+
+</button>
+
+
+
+
+
+<!-- WHATSAPP -->
+
+
+<a href="https://wa.me/525514617007"
+class="whatsapp"
+target="_blank">
+
+
+<i class="fab fa-whatsapp"></i>
+
+
+</a>
+
+
+
+
+
+
+
+<!-- JS -->
+
 
 <script src="../js/script.js"></script>
+
+
+<script src="js/clientes.js"></script>
 
 
 
