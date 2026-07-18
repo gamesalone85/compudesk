@@ -87,14 +87,14 @@ FORMULARIO GOOGLE
 =========================================*/
 
 
-const form = document.getElementById("contactForm");
-
-form.addEventListener("submit", function(e){
+document
+.getElementById("contactForm")
+.addEventListener("submit",function(e){
 
 e.preventDefault();
 
 
-fetch("https://script.google.com/macros/s/AKfycbwtEmtAdfK4rHLKVhM3kYTACsryw14Nb0mkFN724ZwDVsrrOesz6OUrZf6ao5q24Gc/exec",{
+fetch("https://script.google.com/macros/s/AKfycbxHa7wTUVSg85jJfo60jakZUqa2zYhY7H7xhWMVR-uSl7owOLyMIYErNwCAOreN9OE/exec",{
 
 method:"POST",
 
@@ -112,6 +112,9 @@ document.getElementById("empresa").value,
 telefono:
 document.getElementById("telefono").value,
 
+servicio:
+document.getElementById("servicio").value,
+
 mensaje:
 document.getElementById("mensaje").value
 
@@ -119,20 +122,32 @@ document.getElementById("mensaje").value
 
 })
 
+
 .then(res=>res.json())
 
-.then(data=>{
 
-alert("Solicitud enviada correctamente. Gracias por contactar a Compudesk.");
+.then(()=>{
 
-form.reset();
+alert(
+"Solicitud enviada correctamente. Gracias por contactar a CompuDesk."
+);
+
+
+document
+.getElementById("contactForm")
+.reset();
+
 
 })
 
-.catch(error=>{
 
-alert("Error al enviar la solicitud.");
+.catch(()=>{
+
+alert(
+"Error al enviar la solicitud. Intenta nuevamente."
+);
 
 });
+
 
 });
