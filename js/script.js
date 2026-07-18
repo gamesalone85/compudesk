@@ -85,13 +85,121 @@ counters.forEach(counter => observer.observe(counter));
 /*=========================================
 FORMULARIO GOOGLE
 =========================================*/
-document
-.getElementById("contactForm")
-.addEventListener("submit", function(){
+const form = document.getElementById("contactForm");
 
-    const boton = this.querySelector("button");
+const status = document.getElementById("formStatus");
 
-    boton.innerHTML = "Enviando...";
-    boton.disabled = true;
+
+if(form){
+
+form.addEventListener("submit", function(e){
+
+e.preventDefault();
+
+
+const boton = form.querySelector("button");
+
+
+boton.innerHTML = "Enviando...";
+boton.disabled = true;
+
+
+const datos = {
+
+nombre:
+form.querySelector('[name="nombre"]').value,
+
+
+correo:
+form.querySelector('[name="correo"]').value,
+
+
+empresa:
+form.querySelector('[name="empresa"]').value,
+
+
+telefono:
+form.querySelector('[name="telefono"]').value,
+
+
+servicio:
+form.querySelector('[name="servicio"]').value,
+
+
+mensaje:
+form.querySelector('[name="mensaje"]').value
+
+};
+
+
+
+fetch(
+
+"https://script.google.com/macros/s/AKfycbwQaX8zGnPb8jPpzSj1dEn4kgoNkc20PYSKa8nRLl6rG0FAikuMVtQCl6tSZrBj-qjb/exec",
+
+{
+
+method:"POST",
+
+mode:"no-cors",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify(datos)
+
+}
+
+)
+
+
+.then(()=>{
+
+
+status.style.display="block";
+
+
+status.innerHTML=
+
+"✅ Solicitud enviada correctamente. Un especialista de CompuDesk se pondrá en contacto contigo.";
+
+
+
+form.reset();
+
+
+boton.innerHTML="Enviar Solicitud";
+
+boton.disabled=false;
+
+
+})
+
+
+.catch(()=>{
+
+
+status.style.display="block";
+
+
+status.innerHTML=
+
+"❌ No se pudo enviar la solicitud. Intenta nuevamente.";
+
+
+
+boton.innerHTML="Enviar Solicitud";
+
+boton.disabled=false;
+
 
 });
+
+
+});
+
+
+}
