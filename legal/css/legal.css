@@ -614,3 +614,70 @@ flex-direction:column;
 }
 
 }
+/*==================================
+LEGAL TABLE
+==================================*/
+
+.legal-table{
+
+width:100%;
+
+border-collapse:collapse;
+
+margin:30px 0;
+
+background:#fff;
+
+border-radius:12px;
+
+overflow:hidden;
+
+box-shadow:0 8px 25px rgba(0,0,0,.06);
+
+}
+
+.legal-table th{
+
+background:#154A91;
+
+color:#fff;
+
+padding:18px;
+
+text-align:left;
+
+}
+
+.legal-table td{
+
+padding:16px 18px;
+
+border-bottom:1px solid #E5E7EB;
+
+}
+
+.legal-table tr:last-child td{
+
+border-bottom:none;
+
+}
+
+.legal-table tbody tr:hover{
+
+background:#F8FAFC;
+
+}
+
+@media(max-width:768px){
+
+.legal-table{
+
+display:block;
+
+overflow-x:auto;
+
+white-space:nowrap;
+
+}
+
+}
