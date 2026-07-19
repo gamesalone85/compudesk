@@ -203,23 +203,123 @@ boton.disabled=false;
 
 
 }
-// =============================
-// Cookies CompuDesk
-// =============================
+
+// =================================
+// Sistema de Cookies CompuDesk
+// =================================
 
 
-console.log("Script cookies cargado");
+document.addEventListener("DOMContentLoaded", function(){
 
 
 const cookieBanner = document.getElementById("cookieBanner");
 
+const acceptCookies = document.getElementById("acceptCookies");
 
-console.log(cookieBanner);
+const rejectCookies = document.getElementById("rejectCookies");
 
 
-if(cookieBanner){
 
-cookieBanner.style.display="block";
+if(!cookieBanner){
+    return;
+}
+
+
+
+// Revisar consentimiento guardado
+
+const consent = localStorage.getItem("compudeskCookieConsent");
+
+
+
+if(consent === null){
+
+    cookieBanner.style.display = "block";
+
+}
+else{
+
+    cookieBanner.style.display = "none";
+
+}
+
+
+
+// ================================
+// ACEPTAR COOKIES
+// ================================
+
+
+if(acceptCookies){
+
+
+acceptCookies.addEventListener("click",function(){
+
+
+localStorage.setItem(
+"compudeskCookieConsent",
+"accepted"
+);
+
+
+
+cookieBanner.style.display="none";
+
+
+
+// Aquí posteriormente cargaremos:
+// Google Analytics
+// Google Tag Manager
+// Pixel
+
+
+console.log(
+"Cookies aceptadas"
+);
+
+
+
+});
 
 
 }
+
+
+
+
+// ================================
+// RECHAZAR COOKIES
+// ================================
+
+
+if(rejectCookies){
+
+
+rejectCookies.addEventListener("click",function(){
+
+
+localStorage.setItem(
+"compudeskCookieConsent",
+"rejected"
+);
+
+
+
+cookieBanner.style.display="none";
+
+
+
+console.log(
+"Cookies rechazadas"
+);
+
+
+
+});
+
+
+}
+
+
+
+});
