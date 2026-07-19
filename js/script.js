@@ -208,61 +208,18 @@ boton.disabled=false;
 // =============================
 
 
-const cookieBanner =
-document.getElementById("cookieBanner");
+console.log("Script cookies cargado");
 
 
-const acceptCookies =
-document.getElementById("acceptCookies");
+const cookieBanner = document.getElementById("cookieBanner");
 
 
-const rejectCookies =
-document.getElementById("rejectCookies");
-
+console.log(cookieBanner);
 
 
 if(cookieBanner){
 
-
-if(!localStorage.getItem("compudeskCookies")){
-
-
 cookieBanner.style.display="block";
-
-
-}
-
-
-
-acceptCookies.addEventListener("click",()=>{
-
-
-localStorage.setItem(
-"compudeskCookies",
-"accepted"
-);
-
-
-cookieBanner.style.display="none";
-
-
-});
-
-
-
-rejectCookies.addEventListener("click",()=>{
-
-
-localStorage.setItem(
-"compudeskCookies",
-"rejected"
-);
-
-
-cookieBanner.style.display="none";
-
-
-});
 
 
 }
