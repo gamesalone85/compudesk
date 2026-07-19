@@ -208,24 +208,216 @@ document.addEventListener("DOMContentLoaded", function(){
 
 });
 
-// =============================
-// Cookies CompuDesk
-// =============================
+// ==========================================
+// Sistema de Cookies CompuDesk
+// Consentimiento y Google Analytics
+// ==========================================
 
 
-console.log("Script cookies cargado");
+document.addEventListener("DOMContentLoaded", function(){
 
 
-const cookieBanner = document.getElementById("cookieBanner");
+    const cookieBanner = document.getElementById("cookieBanner");
+
+    const acceptCookies = document.getElementById("acceptCookies");
+
+    const rejectCookies = document.getElementById("rejectCookies");
 
 
-console.log(cookieBanner);
+
+    // Si no existe el banner no ejecuta nada
+
+    if(!cookieBanner){
+
+        return;
+
+    }
 
 
-if(cookieBanner){
 
-cookieBanner.style.display="block";
+    // Revisar si el usuario ya tomó una decisión
+
+    const consent = localStorage.getItem(
+        "compudeskCookieConsent"
+    );
+
+
+
+    if(consent === null){
+
+
+        // Primera visita
+
+        cookieBanner.style.display = "block";
+
+
+    }else{
+
+
+        // Ya decidió anteriormente
+
+        cookieBanner.style.display = "none";
+
+
+        // Si aceptó cargar Analytics
+
+        if(consent === "accepted"){
+
+            loadAnalytics();
+
+        }
+
+
+    }
+
+
+
+
+
+    // ======================================
+    // Usuario acepta cookies
+    // ======================================
+
+
+    if(acceptCookies){
+
+
+        acceptCookies.addEventListener(
+            "click",
+            function(){
+
+
+                localStorage.setItem(
+                    "compudeskCookieConsent",
+                    "accepted"
+                );
+
+
+                cookieBanner.style.display = "none";
+
+
+
+                console.log(
+                    "Cookies aceptadas"
+                );
+
+
+
+                // Cargar herramientas autorizadas
+
+                loadAnalytics();
+
+
+
+            }
+
+        );
+
+
+    }
+
+
+
+
+
+    // ======================================
+    // Usuario rechaza cookies
+    // ======================================
+
+
+    if(rejectCookies){
+
+
+        rejectCookies.addEventListener(
+            "click",
+            function(){
+
+
+                localStorage.setItem(
+                    "compudeskCookieConsent",
+                    "rejected"
+                );
+
+
+                cookieBanner.style.display = "none";
+
+
+
+                console.log(
+                    "Cookies rechazadas"
+                );
+
+
+
+            }
+
+        );
+
+
+    }
+
+
+
+
+});
+
+
+
+
+
+
+// ==========================================
+// Google Analytics preparado
+// ==========================================
+
+
+function loadAnalytics(){
+
+
+
+    const analyticsLoaded =
+    document.getElementById(
+        "googleAnalytics"
+    );
+
+
+
+    // Evitar cargar dos veces
+
+    if(analyticsLoaded){
+
+        return;
+
+    }
+
+
+
+    console.log(
+        "Google Analytics autorizado"
+    );
+
+
+
+    /*
+    
+    AQUÍ SE CARGARÁ GOOGLE ANALYTICS
+
+    Ejemplo futuro:
+
+    const script=document.createElement("script");
+
+    script.src=
+    "https://www.googletagmanager.com/gtag/js?id=TU_ID";
+
+    script.async=true;
+
+    script.id="googleAnalytics";
+
+    document.head.appendChild(script);
+
+
+    */
+
 
 
 }
-
