@@ -207,3 +207,25 @@ document.addEventListener("DOMContentLoaded", function(){
 
 
 });
+
+// =============================
+// Cookies CompuDesk
+// =============================
+
+
+console.log("Script cookies cargado");
+
+
+const cookieBanner = document.getElementById("cookieBanner");
+
+
+console.log(cookieBanner);
+
+
+if(cookieBanner){
+
+cookieBanner.style.display="block";
+
+
+}
+
