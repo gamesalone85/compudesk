@@ -240,7 +240,11 @@ form.querySelector('[name="mensaje"]').value.trim();
 
 
 
-if(nombre.length < 5){
+const nombreValido =
+/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+
+
+if(nombre.length < 5 || !nombreValido.test(nombre)){
 
 
 status.style.display="block";
@@ -295,6 +299,70 @@ return;
 }
 
 
+
+// Bloqueo de correos falsos conocidos
+
+const dominiosBloqueados = [
+
+"correo.com",
+"example.com",
+"test.com",
+"fake.com"
+
+];
+
+
+
+const dominioCorreo =
+correo.split("@")[1].toLowerCase();
+
+
+
+if(dominiosBloqueados.includes(dominioCorreo)){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Utiliza un correo válido de contacto.";
+
+
+return;
+
+
+}
+
+
+
+
+// Validación teléfono
+
+if(telefono !== ""){
+
+
+const telefonoValido =
+/^[0-9\s\-\+\(\)]{8,15}$/;
+
+
+
+if(!telefonoValido.test(telefono)){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Ingresa un teléfono válido.";
+
+
+return;
+
+
+}
+
+
+}
 
 // ===============================
 // BLOQUEAR BOTÓN
