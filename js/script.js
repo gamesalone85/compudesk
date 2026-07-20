@@ -6,17 +6,26 @@ const menu = document.getElementById("navMenu");
 
 const toggle = document.getElementById("menuToggle");
 
+
+if(toggle && menu){
+
 toggle.addEventListener("click",()=>{
 
 menu.classList.toggle("active");
 
 });
 
+}
+
+
 //==============================
 // HEADER SCROLL
 //==============================
 
 const header=document.getElementById("header");
+
+
+if(header){
 
 window.addEventListener("scroll",()=>{
 
@@ -31,105 +40,308 @@ header.classList.remove("header-scrolled");
 }
 
 });
+
+}
+
+
 /*=========================================
 CONTADORES
 =========================================*/
 
+
 const counters = document.querySelectorAll(".counter");
+
+
+if(counters.length){
+
 
 const observer = new IntersectionObserver(entries => {
 
-    entries.forEach(entry => {
 
-        if (!entry.isIntersecting) return;
+entries.forEach(entry => {
 
-        const counter = entry.target;
 
-        const target = counter.dataset.target;
+if (!entry.isIntersecting) return;
 
-        if (!target) return;
 
-        let current = 0;
+const counter = entry.target;
 
-        const increment = target / 120;
 
-        const update = () => {
+const target = counter.dataset.target;
 
-            current += increment;
 
-            if (current < target) {
+if (!target) return;
 
-                counter.textContent = Math.floor(current);
 
-                requestAnimationFrame(update);
+let current = 0;
 
-            } else {
 
-                counter.textContent = target + "+";
+const increment = target / 120;
 
-            }
 
-        };
+const update = () => {
 
-        update();
 
-        observer.unobserve(counter);
+current += increment;
 
-    });
+
+if (current < target) {
+
+
+counter.textContent = Math.floor(current);
+
+
+requestAnimationFrame(update);
+
+
+}else{
+
+
+counter.textContent = target + "+";
+
+
+}
+
+
+};
+
+
+update();
+
+
+observer.unobserve(counter);
+
 
 });
+
+
+});
+
 
 counters.forEach(counter => observer.observe(counter));
 
 
+}
+
+
+
 /*=========================================
-FORMULARIO GOOGLE
+FORMULARIO GOOGLE + SEGURIDAD
 =========================================*/
+
+
 const form = document.getElementById("contactForm");
 
 const status = document.getElementById("formStatus");
 
 
+// Tiempo de inicio del formulario
+
+const inicioFormulario = Date.now();
+
+
+
 if(form){
+
 
 form.addEventListener("submit", function(e){
 
+
 e.preventDefault();
+
+
+
+// ===============================
+// PROTECCIÓN ANTI SPAM
+// ===============================
+
+
+
+// 1. Honeypot
+
+const honeypotField = form.querySelector('[name="website"]');
+
+
+if(honeypotField && honeypotField.value !== ""){
+
+
+console.log("Spam detectado");
+
+
+return;
+
+
+}
+
+
+
+// 2. Tiempo mínimo de llenado
+
+
+const tiempo = Date.now() - inicioFormulario;
+
+
+if(tiempo < 5000){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Por favor espera unos segundos antes de enviar.";
+
+
+return;
+
+
+}
+
+
+
+// ===============================
+// OBTENER DATOS LIMPIOS
+// ===============================
+
+
+const nombre = 
+form.querySelector('[name="nombre"]').value.trim();
+
+
+
+const correo = 
+form.querySelector('[name="correo"]').value.trim();
+
+
+
+const empresa = 
+form.querySelector('[name="empresa"]').value.trim();
+
+
+
+const telefono = 
+form.querySelector('[name="telefono"]').value.trim();
+
+
+
+const servicio = 
+form.querySelector('[name="servicio"]').value;
+
+
+
+const mensaje = 
+form.querySelector('[name="mensaje"]').value.trim();
+
+
+
+
+// ===============================
+// VALIDACIONES
+// ===============================
+
+
+
+if(nombre.length < 5){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Ingresa un nombre válido.";
+
+
+return;
+
+
+}
+
+
+
+if(mensaje.length < 10){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Describe un poco más tu solicitud.";
+
+
+return;
+
+
+}
+
+
+
+const correoValido =
+/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+
+if(!correoValido.test(correo)){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Ingresa un correo válido.";
+
+
+return;
+
+
+}
+
+
+
+// ===============================
+// BLOQUEAR BOTÓN
+// ===============================
 
 
 const boton = form.querySelector("button");
 
 
 boton.innerHTML = "Enviando...";
+
+
 boton.disabled = true;
+
+
+
+
+// ===============================
+// OBJETO A GOOGLE SHEETS
+// ===============================
 
 
 const datos = {
 
-nombre:
-form.querySelector('[name="nombre"]').value,
 
+nombre:nombre,
 
-correo:
-form.querySelector('[name="correo"]').value,
+correo:correo,
 
+empresa:empresa,
 
-empresa:
-form.querySelector('[name="empresa"]').value,
+telefono:telefono,
 
+servicio:servicio,
 
-telefono:
-form.querySelector('[name="telefono"]').value,
+mensaje:mensaje
 
-
-servicio:
-form.querySelector('[name="servicio"]').value,
-
-
-mensaje:
-form.querySelector('[name="mensaje"]').value
 
 };
+
+
+
+
+
+// ===============================
+// ENVÍO GOOGLE APPS SCRIPT
+// ===============================
 
 
 
@@ -139,21 +351,30 @@ fetch(
 
 {
 
+
 method:"POST",
+
 
 mode:"no-cors",
 
+
 headers:{
+
 
 "Content-Type":"application/json"
 
+
 },
+
 
 body:JSON.stringify(datos)
 
+
 }
 
+
 )
+
 
 
 .then(()=>{
@@ -173,10 +394,13 @@ form.reset();
 
 boton.innerHTML="Enviar Solicitud";
 
+
 boton.disabled=false;
 
 
+
 })
+
 
 
 .catch(()=>{
@@ -193,10 +417,13 @@ status.innerHTML=
 
 boton.innerHTML="Enviar Solicitud";
 
+
 boton.disabled=false;
 
 
+
 });
+
 
 
 });
@@ -204,154 +431,124 @@ boton.disabled=false;
 
 }
 
+
+
+
+
+
 // ==========================================
 // Sistema de Cookies CompuDesk
-// Consentimiento y Google Analytics
 // ==========================================
 
 
 document.addEventListener("DOMContentLoaded", function(){
 
 
-    const cookieBanner = document.getElementById("cookieBanner");
+const cookieBanner = document.getElementById("cookieBanner");
 
-    const acceptCookies = document.getElementById("acceptCookies");
 
-    const rejectCookies = document.getElementById("rejectCookies");
+const acceptCookies = document.getElementById("acceptCookies");
 
 
+const rejectCookies = document.getElementById("rejectCookies");
 
-    // Si no existe el banner no ejecuta nada
 
-    if(!cookieBanner){
 
-        return;
+if(!cookieBanner){
 
-    }
+return;
 
+}
 
 
-    // Revisar si el usuario ya tomó una decisión
 
-    const consent = localStorage.getItem(
-        "compudeskCookieConsent"
-    );
+const consent = localStorage.getItem(
+"compudeskCookieConsent"
+);
 
 
 
-    if(consent === null){
+if(consent === null){
 
 
-        // Primera visita
+cookieBanner.style.display="block";
 
-        cookieBanner.style.display = "block";
 
+}else{
 
-    }else{
 
+cookieBanner.style.display="none";
 
-        // Ya decidió anteriormente
 
-        cookieBanner.style.display = "none";
 
+if(consent==="accepted"){
 
-        // Si aceptó cargar Analytics
 
-        if(consent === "accepted"){
+loadAnalytics();
 
-            loadAnalytics();
 
-        }
+}
 
 
-    }
+}
 
 
 
 
 
-    // ======================================
-    // Usuario acepta cookies
-    // ======================================
+if(acceptCookies){
 
 
-    if(acceptCookies){
+acceptCookies.addEventListener("click",function(){
 
 
-        acceptCookies.addEventListener(
-            "click",
-            function(){
 
+localStorage.setItem(
+"compudeskCookieConsent",
+"accepted"
+);
 
-                localStorage.setItem(
-                    "compudeskCookieConsent",
-                    "accepted"
-                );
 
 
-                cookieBanner.style.display = "none";
+cookieBanner.style.display="none";
 
 
 
-                console.log(
-                    "Cookies aceptadas"
-                );
+loadAnalytics();
 
 
 
-                // Cargar herramientas autorizadas
+});
 
-                loadAnalytics();
 
+}
 
 
-            }
 
-        );
 
 
-    }
+if(rejectCookies){
 
 
+rejectCookies.addEventListener("click",function(){
 
 
 
-    // ======================================
-    // Usuario rechaza cookies
-    // ======================================
+localStorage.setItem(
+"compudeskCookieConsent",
+"rejected"
+);
 
 
-    if(rejectCookies){
 
+cookieBanner.style.display="none";
 
-        rejectCookies.addEventListener(
-            "click",
-            function(){
 
 
-                localStorage.setItem(
-                    "compudeskCookieConsent",
-                    "rejected"
-                );
+});
 
 
-                cookieBanner.style.display = "none";
-
-
-
-                console.log(
-                    "Cookies rechazadas"
-                );
-
-
-
-            }
-
-        );
-
-
-    }
-
+}
 
 
 
@@ -371,49 +568,33 @@ function loadAnalytics(){
 
 
 
-    const analyticsLoaded =
-    document.getElementById(
-        "googleAnalytics"
-    );
+const analyticsLoaded =
+document.getElementById(
+"googleAnalytics"
+);
 
 
 
-    // Evitar cargar dos veces
+if(analyticsLoaded){
 
-    if(analyticsLoaded){
+return;
 
-        return;
-
-    }
+}
 
 
 
-    console.log(
-        "Google Analytics autorizado"
-    );
+console.log(
+"Google Analytics autorizado"
+);
 
 
 
-    /*
-    
-    AQUÍ SE CARGARÁ GOOGLE ANALYTICS
+/*
 
-    Ejemplo futuro:
-
-    const script=document.createElement("script");
-
-    script.src=
-    "https://www.googletagmanager.com/gtag/js?id=TU_ID";
-
-    script.async=true;
-
-    script.id="googleAnalytics";
-
-    document.head.appendChild(script);
+Aquí irá Google Analytics cuando esté configurado.
 
 
-    */
-
+*/
 
 
 }
