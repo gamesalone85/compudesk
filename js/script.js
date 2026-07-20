@@ -134,6 +134,8 @@ const form = document.getElementById("contactForm");
 
 const status = document.getElementById("formStatus");
 
+const aceptoPrivacidad = document.getElementById("aceptoPrivacidad");
+
 
 // Tiempo de inicio del formulario
 
@@ -148,6 +150,41 @@ form.addEventListener("submit", function(e){
 
 
 e.preventDefault();
+
+// ===============================
+// VALIDACIÓN LEGAL
+// ===============================
+
+
+if(aceptoPrivacidad && !aceptoPrivacidad.checked){
+
+
+status.style.display="block";
+
+
+status.innerHTML =
+"⚠️ Debes aceptar el Aviso de Privacidad y los Términos y Condiciones.";
+
+
+return;
+
+
+}
+
+
+// Guardar consentimiento legal
+
+
+localStorage.setItem(
+"compudeskPrivacidadAceptada",
+"true"
+);
+
+
+localStorage.setItem(
+"compudeskPrivacidadFecha",
+new Date().toISOString()
+);
 
 
 
@@ -398,13 +435,15 @@ telefono:telefono,
 
 servicio:servicio,
 
-mensaje:mensaje
+mensaje:mensaje,
 
+
+privacidad:"Aceptado",
+
+fechaPrivacidad:
+new Date().toLocaleString("es-MX")
 
 };
-
-
-
 
 
 // ===============================
@@ -623,7 +662,42 @@ cookieBanner.style.display="none";
 });
 
 
+// ==========================================
+// Consentimiento Aviso Privacidad
+// ==========================================
 
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+const acepto =
+localStorage.getItem(
+"compudeskPrivacidadAceptada"
+);
+
+
+
+const check =
+document.getElementById(
+"aceptoPrivacidad"
+);
+
+
+
+if(
+acepto==="true" &&
+check
+){
+
+check.checked=true;
+
+}
+
+
+
+});
 
 
 
