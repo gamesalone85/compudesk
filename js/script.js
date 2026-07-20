@@ -440,7 +440,7 @@ mensaje:mensaje,
 
 privacidad:"Aceptado",
 
-fechaPrivacidad:
+fechaprivacidad:
 new Date().toLocaleString("es-MX")
 
 };
