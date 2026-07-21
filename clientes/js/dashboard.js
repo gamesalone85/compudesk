@@ -108,6 +108,73 @@ dashboard.cliente
 
 /*
 ==========================================================
+CARGAR DATOS SIDEBAR
+==========================================================
+*/
+
+
+function cargarUsuarioSidebar(){
+
+
+const nombre =
+document.getElementById(
+"usuarioNombre"
+);
+
+
+const rol =
+document.getElementById(
+"usuarioRol"
+);
+
+
+const avatar =
+document.getElementById(
+"usuarioAvatar"
+);
+
+
+
+if(nombre){
+
+nombre.textContent =
+dashboard.cliente.nombre || "Cliente";
+
+}
+
+
+
+if(rol){
+
+rol.textContent =
+dashboard.cliente.plan || "Usuario";
+
+}
+
+
+
+if(avatar){
+
+
+const iniciales =
+(dashboard.cliente.nombre || "Cliente")
+.substring(0,2)
+.toUpperCase();
+
+
+
+avatar.textContent =
+iniciales;
+
+
+}
+
+
+}
+
+
+/*
+==========================================================
 CARGAR DATOS DE SESIÓN
 ==========================================================
 */
@@ -419,6 +486,9 @@ cargarSesion();
 
 
 cargarCliente();
+
+
+cargarUsuarioSidebar();
 
 
 cargarEstadisticas();
