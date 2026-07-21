@@ -142,13 +142,13 @@ BOTÓN REGRESAR
 
 .back-home{
 
+    position:fixed;
 
-    position:absolute;
+    top:24px;
 
-    top:30px;
+    left:24px;
 
-    left:40px;
-
+    z-index:1000;
 
     display:flex;
 
@@ -156,16 +156,23 @@ BOTÓN REGRESAR
 
     gap:10px;
 
+    padding:10px 16px;
+
+    border-radius:12px;
+
+    background:rgba(255,255,255,.85);
+
+    backdrop-filter:blur(10px);
+
+    box-shadow:0 8px 25px rgba(0,0,0,.08);
 
     text-decoration:none;
 
     color:var(--text);
 
-
     font-weight:600;
 
-    transition:.3s;
-
+    transition:.25s;
 
 }
 
@@ -243,7 +250,7 @@ INFORMACIÓN IZQUIERDA
 .login-logo{
 
 
-    width:230px;
+    width:150px;
 
     margin-bottom:30px;
 
