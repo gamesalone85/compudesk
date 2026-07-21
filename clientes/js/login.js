@@ -2,6 +2,7 @@
 ========================================
 COMPU DESK
 Portal Clientes Login JS
+Versión 1.1
 ========================================
 */
 
@@ -9,7 +10,6 @@ Portal Clientes Login JS
 document.addEventListener(
 "DOMContentLoaded",
 function(){
-
 
 
 console.log(
@@ -20,7 +20,11 @@ console.log(
 
 
 
-// Mostrar / ocultar contraseña
+/*
+========================================
+MOSTRAR / OCULTAR CONTRASEÑA
+========================================
+*/
 
 
 const passwordInput =
@@ -32,7 +36,7 @@ document.getElementById("togglePassword");
 
 
 
-if(togglePassword){
+if(togglePassword && passwordInput){
 
 
 togglePassword.addEventListener(
@@ -76,7 +80,12 @@ type === "password"
 
 
 
-// Validación visual temporal
+
+/*
+========================================
+LOGIN
+========================================
+*/
 
 
 const form =
@@ -96,9 +105,166 @@ e.preventDefault();
 
 
 
-console.log(
-"Intento de acceso preparado para Firebase"
+const email =
+document.getElementById("email").value.trim();
+
+
+
+const password =
+document.getElementById("password").value.trim();
+
+
+
+const remember =
+document.getElementById("remember").checked;
+
+
+
+
+
+/*
+========================================
+VALIDACIÓN BÁSICA
+========================================
+*/
+
+
+if(
+email === ""
+||
+password === ""
+){
+
+
+mostrarMensaje(
+"Completa todos los campos",
+"error"
 );
+
+
+return;
+
+
+}
+
+
+
+
+
+/*
+========================================
+LOGIN TEMPORAL DE PRUEBA
+========================================
+
+Después será reemplazado
+por Firebase Authentication
+
+========================================
+*/
+
+
+const usuarioDemo = {
+
+
+correo:
+"admin@compudesk.org",
+
+
+password:
+"CompuDesk2026",
+
+
+datos:{
+
+
+id:"001",
+
+
+nombre:"Administrador",
+
+
+empresa:"Compu Desk",
+
+
+plan:"Administrador"
+
+
+}
+
+
+};
+
+
+
+
+
+if(
+email === usuarioDemo.correo
+&&
+password === usuarioDemo.password
+
+){
+
+
+
+localStorage.setItem(
+"clienteCompudesk",
+JSON.stringify(
+usuarioDemo.datos
+)
+);
+
+
+
+if(remember){
+
+
+localStorage.setItem(
+"recordarCliente",
+"true"
+);
+
+
+}
+
+
+
+mostrarMensaje(
+"Acceso correcto",
+"success"
+);
+
+
+
+
+setTimeout(
+function(){
+
+
+window.location.href =
+"dashboard.html";
+
+
+},
+1000
+);
+
+
+
+
+}else{
+
+
+
+mostrarMensaje(
+"Correo o contraseña incorrectos",
+"error"
+);
+
+
+
+}
+
 
 
 
@@ -106,6 +272,95 @@ console.log(
 
 
 }
+
+
+
+
+
+
+/*
+========================================
+MENSAJES
+========================================
+*/
+
+
+function mostrarMensaje(
+mensaje,
+tipo
+){
+
+
+
+let alerta =
+document.querySelector(
+".login-alert"
+);
+
+
+
+if(!alerta){
+
+
+alerta =
+document.createElement(
+"div"
+);
+
+
+
+alerta.className =
+"login-alert";
+
+
+
+const card =
+document.querySelector(
+".login-card"
+);
+
+
+
+card.insertBefore(
+alerta,
+card.firstChild
+);
+
+
+
+}
+
+
+
+
+alerta.textContent =
+mensaje;
+
+
+
+alerta.className =
+"login-alert "
++
+tipo;
+
+
+
+setTimeout(
+function(){
+
+
+alerta.remove();
+
+
+},
+3000
+);
+
+
+
+}
+
+
 
 
 
