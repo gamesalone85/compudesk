@@ -1,0 +1,560 @@
+/*
+==========================================================
+COMPU DESK SUPPORT CENTER
+Framework CSS v1.0
+Archivo: portal.css
+Autor: Compu Desk
+==========================================================
+*/
+
+/*=========================================================
+=            VARIABLES GLOBALES
+=========================================================*/
+
+:root{
+
+    /* Colores corporativos */
+
+    --cd-primary:#0057FF;
+    --cd-primary-hover:#0048D9;
+
+    --cd-secondary:#081120;
+
+    --cd-success:#16A34A;
+
+    --cd-warning:#F59E0B;
+
+    --cd-danger:#DC2626;
+
+    --cd-info:#0284C7;
+
+    /* Escala de grises */
+
+    --cd-white:#FFFFFF;
+
+    --cd-bg:#F4F7FB;
+
+    --cd-bg-light:#FAFBFD;
+
+    --cd-border:#E2E8F0;
+
+    --cd-border-dark:#CBD5E1;
+
+    --cd-text:#1E293B;
+
+    --cd-text-light:#64748B;
+
+    /* Sidebar */
+
+    --cd-sidebar:#081120;
+
+    --cd-sidebar-hover:#0E1A2D;
+
+    --cd-sidebar-text:#D6E1F0;
+
+    /* Sombras */
+
+    --cd-shadow-xs:0 2px 8px rgba(0,0,0,.04);
+
+    --cd-shadow-sm:0 6px 18px rgba(0,0,0,.08);
+
+    --cd-shadow-md:0 10px 30px rgba(0,0,0,.10);
+
+    --cd-shadow-lg:0 20px 60px rgba(0,0,0,.15);
+
+    /* Bordes */
+
+    --cd-radius-xs:6px;
+
+    --cd-radius-sm:10px;
+
+    --cd-radius-md:16px;
+
+    --cd-radius-lg:24px;
+
+    --cd-radius-xl:30px;
+
+    /* Espaciados */
+
+    --cd-space-1:4px;
+
+    --cd-space-2:8px;
+
+    --cd-space-3:12px;
+
+    --cd-space-4:16px;
+
+    --cd-space-5:24px;
+
+    --cd-space-6:32px;
+
+    --cd-space-7:48px;
+
+    --cd-space-8:64px;
+
+    /* Sidebar */
+
+    --sidebar-width:270px;
+
+    /* Animaciones */
+
+    --transition:.25s ease;
+
+}
+
+/*=========================================================
+=            RESET
+=========================================================*/
+
+*{
+
+    margin:0;
+
+    padding:0;
+
+    box-sizing:border-box;
+
+}
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:var(--cd-bg);
+
+    color:var(--cd-text);
+
+    min-height:100vh;
+
+    -webkit-font-smoothing:antialiased;
+
+    text-rendering:optimizeLegibility;
+
+}
+
+img{
+
+    max-width:100%;
+
+    display:block;
+
+}
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+button{
+
+    border:none;
+
+    outline:none;
+
+    background:none;
+
+    cursor:pointer;
+
+    font-family:inherit;
+
+}
+
+input,
+select,
+textarea{
+
+    font-family:inherit;
+
+    outline:none;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+
+/*=========================================================
+=            SCROLLBAR
+=========================================================*/
+
+::-webkit-scrollbar{
+
+    width:10px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#EDF2F7;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    background:#B8C5D6;
+
+    border-radius:20px;
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:#94A3B8;
+
+}
+
+/*=========================================================
+=            LAYOUT GENERAL
+=========================================================*/
+
+.cd-app{
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+.cd-main{
+
+    flex:1;
+
+    display:flex;
+
+    flex-direction:column;
+
+    min-height:100vh;
+
+}
+
+.cd-content{
+
+    padding:40px;
+
+}
+
+/*=========================================================
+=            CONTENEDORES
+=========================================================*/
+
+.cd-container{
+
+    width:100%;
+
+    max-width:1600px;
+
+    margin:auto;
+
+}
+
+.cd-grid{
+
+    display:grid;
+
+    gap:24px;
+
+}
+
+.grid-2{
+
+    grid-template-columns:repeat(2,1fr);
+
+}
+
+.grid-3{
+
+    grid-template-columns:repeat(3,1fr);
+
+}
+
+.grid-4{
+
+    grid-template-columns:repeat(4,1fr);
+
+}
+
+/*=========================================================
+=            TIPOGRAFÍA
+=========================================================*/
+
+h1{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    margin-bottom:12px;
+
+}
+
+h2{
+
+    font-size:28px;
+
+    font-weight:700;
+
+}
+
+h3{
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+h4{
+
+    font-size:18px;
+
+    font-weight:600;
+
+}
+
+p{
+
+    color:var(--cd-text-light);
+
+    line-height:1.7;
+
+}
+
+/*=========================================================
+=            UTILIDADES
+=========================================================*/
+
+.text-center{
+
+    text-align:center;
+
+}
+
+.text-right{
+
+    text-align:right;
+
+}
+
+.text-left{
+
+    text-align:left;
+
+}
+
+.mt-1{margin-top:8px;}
+.mt-2{margin-top:16px;}
+.mt-3{margin-top:24px;}
+.mt-4{margin-top:32px;}
+.mt-5{margin-top:48px;}
+
+.mb-1{margin-bottom:8px;}
+.mb-2{margin-bottom:16px;}
+.mb-3{margin-bottom:24px;}
+.mb-4{margin-bottom:32px;}
+.mb-5{margin-bottom:48px;}
+
+.p-1{padding:8px;}
+.p-2{padding:16px;}
+.p-3{padding:24px;}
+.p-4{padding:32px;}
+
+.w-100{
+
+    width:100%;
+
+}
+
+.hidden{
+
+    display:none!important;
+
+}
+
+.flex{
+
+    display:flex;
+
+}
+
+.flex-between{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+.flex-center{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.flex-column{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+.gap-1{
+
+    gap:8px;
+
+}
+
+.gap-2{
+
+    gap:16px;
+
+}
+
+.gap-3{
+
+    gap:24px;
+
+}
+
+.round{
+
+    border-radius:50%;
+
+}
+
+.shadow{
+
+    box-shadow:var(--cd-shadow-sm);
+
+}
+
+.bg-white{
+
+    background:var(--cd-white);
+
+}
+
+.border{
+
+    border:1px solid var(--cd-border);
+
+}
+
+/*=========================================================
+=            ANIMACIONES BASE
+=========================================================*/
+
+.fade-in{
+
+    animation:fadeIn .45s ease;
+
+}
+
+.slide-up{
+
+    animation:slideUp .45s ease;
+
+}
+
+@keyframes fadeIn{
+
+    from{
+
+        opacity:0;
+
+    }
+
+    to{
+
+        opacity:1;
+
+    }
+
+}
+
+@keyframes slideUp{
+
+    from{
+
+        opacity:0;
+
+        transform:translateY(25px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:none;
+
+    }
+
+}
+
+/*=========================================================
+=            RESPONSIVE BASE
+=========================================================*/
+
+@media(max-width:992px){
+
+    .grid-4{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+    .grid-3{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media(max-width:768px){
+
+    .cd-content{
+
+        padding:24px;
+
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4{
+
+        grid-template-columns:1fr;
+
+    }
+
+    h1{
+
+        font-size:28px;
+
+    }
+
+    h2{
+
+        font-size:24px;
+
+    }
+
+}
