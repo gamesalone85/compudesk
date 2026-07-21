@@ -3,7 +3,7 @@
 COMPU DESK
 Support Center
 Dashboard JavaScript
-Versión 1.0
+Versión 1.1
 ==========================================================
 */
 
@@ -13,169 +13,43 @@ document.addEventListener(
 function(){
 
 
+
 console.log(
 "Dashboard Compu Desk cargado correctamente"
 );
 
 
 
-/*
-/*
-==========================================================
-DATOS ACTUALES DEL CLIENTE
-==========================================================
-
-Actualmente vacío.
-Los datos serán cargados posteriormente
-desde autenticación y base de datos.
-
-==========================================================
-*/
-
 
 const dashboard = {
 
 
-    cliente:{
+cliente:{
 
 
-        id:null,
+id:null,
 
-        nombre:null,
+nombre:null,
 
-        empresa:null,
+empresa:null,
 
-        plan:null
+plan:null,
 
-
-    },
-
-
-    estadisticas:{
+rol:null
 
 
-        abiertos:0,
-
-        pendientes:0,
-
-        resueltos:0,
-
-        tiempo:"--"
-
-
-    }
+}
 
 
 };
 
-/*
-==========================================================
-CARGAR INFORMACIÓN CLIENTE
-==========================================================
-*/
 
 
-function cargarCliente(){
-
-
-const nombre =
-document.getElementById(
-"nombreCliente"
-);
-
-
-
-if(nombre){
-
-
-nombre.textContent =
-dashboard.cliente.nombre || "Cliente";
-
-
-}
-
-
-
-console.log(
-"Cliente cargado:",
-dashboard.cliente
-);
-
-
-
-}
 
 
 /*
 ==========================================================
-CARGAR DATOS SIDEBAR
-==========================================================
-*/
-
-
-function cargarUsuarioSidebar(){
-
-
-const nombre =
-document.getElementById(
-"usuarioNombre"
-);
-
-
-const rol =
-document.getElementById(
-"usuarioRol"
-);
-
-
-const avatar =
-document.getElementById(
-"usuarioAvatar"
-);
-
-
-
-if(nombre){
-
-nombre.textContent =
-dashboard.cliente.nombre || "Cliente";
-
-}
-
-
-
-if(rol){
-
-rol.textContent =
-dashboard.cliente.plan || "Usuario";
-
-}
-
-
-
-if(avatar){
-
-
-const iniciales =
-(dashboard.cliente.nombre || "Cliente")
-.substring(0,2)
-.toUpperCase();
-
-
-
-avatar.textContent =
-iniciales;
-
-
-}
-
-
-}
-
-
-/*
-==========================================================
-CARGAR DATOS DE SESIÓN
+CARGAR SESIÓN
 ==========================================================
 */
 
@@ -194,7 +68,7 @@ if(!sesion){
 
 
 console.log(
-"No existe sesión activa"
+"No existe sesión"
 );
 
 
@@ -202,6 +76,7 @@ return;
 
 
 }
+
 
 
 
@@ -210,149 +85,178 @@ JSON.parse(sesion);
 
 
 
+console.log(
+"Sesión encontrada:",
+datos
+);
+
+
+
 dashboard.cliente.id =
-datos.id || null;
+datos.id;
 
 
 
 dashboard.cliente.nombre =
-datos.nombre || null;
+datos.nombre;
 
 
 
 dashboard.cliente.empresa =
-datos.empresa || null;
+datos.empresa;
 
 
 
 dashboard.cliente.plan =
-datos.plan || null;
+datos.plan;
 
 
 
-console.log(
-"Datos cliente cargados:",
-dashboard.cliente
-);
+dashboard.cliente.rol =
+datos.rol;
 
 
 
 }
-
-
-/*
-==========================================================
-ACTUALIZAR WIDGETS
-==========================================================
-*/
-
-
-function cargarEstadisticas(){
-
-
-
-const widgets = {
-
-
-"ticketsAbiertos":
-dashboard.estadisticas.abiertos,
-
-
-"ticketsPendientes":
-dashboard.estadisticas.pendientes,
-
-
-"ticketsResueltos":
-dashboard.estadisticas.resueltos,
-
-
-"tiempoPromedio":
-dashboard.estadisticas.tiempo
-
-
-
-};
-
-
-
-
-Object.keys(widgets).forEach(
-function(id){
-
-
-
-const elemento =
-document.getElementById(id);
-
-
-
-if(elemento){
-
-
-elemento.textContent =
-widgets[id];
-
-
-}
-
-
-
-});
-
-
-}
-
 
 
 
 
 /*
 ==========================================================
-MENU MOVIL
+MOSTRAR USUARIO
 ==========================================================
 */
 
 
-function menuMovil(){
+function mostrarUsuario(){
 
 
 
-const boton =
-document.querySelector(
-".cd-menu-toggle"
+const nombre =
+document.getElementById(
+"nombreCliente"
 );
 
 
 
-const sidebar =
-document.querySelector(
-".cd-sidebar"
+const usuario =
+document.getElementById(
+"usuarioNombre"
 );
 
 
 
-if(!boton || !sidebar){
+const rol =
+document.getElementById(
+"usuarioRol"
+);
 
-return;
+
+
+const avatar =
+document.getElementById(
+"usuarioAvatar"
+);
+
+
+
+
+
+const nombreCliente =
+dashboard.cliente.nombre
+||
+"Usuario";
+
+
+
+
+
+if(nombre){
+
+nombre.textContent =
+nombreCliente;
 
 }
 
 
 
 
-boton.addEventListener(
-"click",
-function(){
+if(usuario){
+
+usuario.textContent =
+nombreCliente;
+
+}
 
 
 
-sidebar.classList.toggle(
-"open"
+
+if(rol){
+
+rol.textContent =
+dashboard.cliente.rol
+||
+"Usuario";
+
+}
+
+
+
+
+if(avatar){
+
+
+avatar.textContent =
+nombreCliente
+.substring(0,2)
+.toUpperCase();
+
+
+}
+
+
+
+}
+
+
+
+
+/*
+==========================================================
+FECHA
+==========================================================
+*/
+
+
+function mostrarFecha(){
+
+
+const fecha =
+document.getElementById(
+"fechaActual"
 );
 
 
 
-});
+if(fecha){
+
+
+fecha.textContent =
+new Date()
+.toLocaleDateString(
+"es-MX",
+{
+weekday:"long",
+year:"numeric",
+month:"long",
+day:"numeric"
+}
+);
+
+
+}
+
 
 
 }
@@ -371,7 +275,6 @@ CERRAR SESIÓN
 function cerrarSesion(){
 
 
-
 const boton =
 document.querySelector(
 ".fa-right-from-bracket"
@@ -379,24 +282,13 @@ document.querySelector(
 
 
 
-if(!boton){
-
-return;
-
-}
+if(boton){
 
 
-
-boton.parentElement.addEventListener(
+boton.parentElement
+.addEventListener(
 "click",
 function(){
-
-
-
-console.log(
-"Cerrando sesión..."
-);
-
 
 
 localStorage.removeItem(
@@ -409,66 +301,12 @@ window.location.href =
 "login.html";
 
 
-
 });
 
 
 }
 
 
-
-
-
-/*
-==========================================================
-FECHA ACTUAL
-==========================================================
-*/
-
-
-function mostrarFecha(){
-
-
-
-const fecha =
-document.getElementById(
-"fechaActual"
-);
-
-
-
-if(!fecha){
-
-return;
-
-}
-
-
-
-const hoy =
-new Date();
-
-
-
-fecha.textContent =
-hoy.toLocaleDateString(
-"es-MX",
-{
-
-weekday:"long",
-
-year:"numeric",
-
-month:"long",
-
-day:"numeric"
-
-}
-
-);
-
-
-
 }
 
 
@@ -477,27 +315,19 @@ day:"numeric"
 
 /*
 ==========================================================
-INICIALIZACIÓN
+INICIO
 ==========================================================
 */
 
 
 cargarSesion();
 
+mostrarUsuario();
 
-cargarCliente();
-
-
-cargarUsuarioSidebar();
-
-
-cargarEstadisticas();
-
-
-menuMovil();
-
+mostrarFecha();
 
 cerrarSesion();
 
 
-mostrarFecha();
+
+});
