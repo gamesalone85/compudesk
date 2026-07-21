@@ -20,8 +20,15 @@ console.log(
 
 
 /*
+/*
 ==========================================================
-CONFIGURACIÓN DASHBOARD
+DATOS ACTUALES DEL CLIENTE
+==========================================================
+
+Actualmente vacío.
+Los datos serán cargados posteriormente
+desde autenticación y base de datos.
+
 ==========================================================
 */
 
@@ -31,11 +38,15 @@ const dashboard = {
 
     cliente:{
 
-        nombre:"Iván",
 
-        empresa:"Empresa Demo",
+        id:null,
 
-        plan:"Soporte Empresarial"
+        nombre:null,
+
+        empresa:null,
+
+        plan:null
+
 
     },
 
@@ -43,23 +54,19 @@ const dashboard = {
     estadisticas:{
 
 
-        abiertos:3,
+        abiertos:0,
 
-        pendientes:1,
+        pendientes:0,
 
-        resueltos:18,
+        resueltos:0,
 
-        tiempo:"2 h"
+        tiempo:"--"
 
 
     }
 
 
 };
-
-
-
-
 
 /*
 ==========================================================
@@ -82,7 +89,7 @@ if(nombre){
 
 
 nombre.textContent =
-dashboard.cliente.nombre;
+dashboard.cliente.nombre || "Cliente";
 
 
 }
@@ -99,7 +106,71 @@ dashboard.cliente
 }
 
 
+/*
+==========================================================
+CARGAR DATOS DE SESIÓN
+==========================================================
+*/
 
+
+function cargarSesion(){
+
+
+const sesion =
+localStorage.getItem(
+"clienteCompudesk"
+);
+
+
+
+if(!sesion){
+
+
+console.log(
+"No existe sesión activa"
+);
+
+
+return;
+
+
+}
+
+
+
+const datos =
+JSON.parse(sesion);
+
+
+
+dashboard.cliente.id =
+datos.id || null;
+
+
+
+dashboard.cliente.nombre =
+datos.nombre || null;
+
+
+
+dashboard.cliente.empresa =
+datos.empresa || null;
+
+
+
+dashboard.cliente.plan =
+datos.plan || null;
+
+
+
+console.log(
+"Datos cliente cargados:",
+dashboard.cliente
+);
+
+
+
+}
 
 
 /*
@@ -344,6 +415,9 @@ INICIALIZACIÓN
 */
 
 
+cargarSesion();
+
+
 cargarCliente();
 
 
@@ -357,7 +431,3 @@ cerrarSesion();
 
 
 mostrarFecha();
-
-
-
-});
