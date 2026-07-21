@@ -2,7 +2,7 @@
 ========================================
 COMPU DESK
 Portal Clientes Login JS
-Versión 1.1
+Versión 1.2
 ========================================
 */
 
@@ -15,8 +15,6 @@ function(){
 console.log(
 "Login Portal Clientes Compu Desk cargado"
 );
-
-
 
 
 
@@ -44,39 +42,26 @@ togglePassword.addEventListener(
 function(){
 
 
-const type =
-passwordInput.getAttribute("type")
-===
-"password"
-?
-"text"
-:
-"password";
+const visible =
+passwordInput.type === "text";
 
 
-
-passwordInput.setAttribute(
-"type",
-type
-);
-
+passwordInput.type =
+visible ? "password" : "text";
 
 
 this.innerHTML =
-type === "password"
+visible
 ?
 '<i class="fa-solid fa-eye"></i>'
 :
 '<i class="fa-solid fa-eye-slash"></i>';
 
 
-
 });
 
 
 }
-
-
 
 
 
@@ -106,27 +91,27 @@ e.preventDefault();
 
 
 const email =
-document.getElementById("email").value.trim();
+document
+.getElementById("email")
+.value
+.trim();
 
 
 
 const password =
-document.getElementById("password").value.trim();
+document
+.getElementById("password")
+.value
+.trim();
 
 
 
 const remember =
-document.getElementById("remember").checked;
+document
+.getElementById("remember")
+.checked;
 
 
-
-
-
-/*
-========================================
-VALIDACIÓN BÁSICA
-========================================
-*/
 
 
 if(
@@ -150,15 +135,10 @@ return;
 
 
 
-
 /*
 ========================================
-LOGIN TEMPORAL DE PRUEBA
-========================================
-
-Después será reemplazado
-por Firebase Authentication
-
+USUARIO TEMPORAL
+DESPUÉS SERÁ FIREBASE
 ========================================
 */
 
@@ -179,14 +159,13 @@ datos:{
 
 id:"001",
 
-
 nombre:"Administrador",
-
 
 empresa:"Compu Desk",
 
+plan:"Administrador",
 
-plan:"Administrador"
+rol:"Administrador"
 
 
 }
@@ -229,11 +208,17 @@ localStorage.setItem(
 
 
 
+console.log(
+"Sesión creada:",
+usuarioDemo.datos
+);
+
+
+
 mostrarMensaje(
 "Acceso correcto",
 "success"
 );
-
 
 
 
@@ -246,14 +231,12 @@ window.location.href =
 
 
 },
-1000
+800
 );
 
 
 
-
 }else{
-
 
 
 mostrarMensaje(
@@ -262,10 +245,7 @@ mostrarMensaje(
 );
 
 
-
 }
-
-
 
 
 });
@@ -289,7 +269,6 @@ function mostrarMensaje(
 mensaje,
 tipo
 ){
-
 
 
 let alerta =
@@ -321,15 +300,17 @@ document.querySelector(
 
 
 
+if(card){
+
 card.insertBefore(
 alerta,
 card.firstChild
 );
 
+}
 
 
 }
-
 
 
 
@@ -337,11 +318,8 @@ alerta.textContent =
 mensaje;
 
 
-
 alerta.className =
-"login-alert "
-+
-tipo;
+"login-alert " + tipo;
 
 
 
@@ -349,7 +327,11 @@ setTimeout(
 function(){
 
 
+if(alerta){
+
 alerta.remove();
+
+}
 
 
 },
@@ -359,8 +341,6 @@ alerta.remove();
 
 
 }
-
-
 
 
 
