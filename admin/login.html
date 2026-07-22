@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Panel de Administración | Compu Desk</title>
+
+    <link rel="stylesheet" href="css/login.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          referrerpolicy="no-referrer" />
+</head>
+
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="logo-area">
+
+            <!-- Cambia esta ruta por tu logo -->
+            <img src="../img/logo.png"
+                 alt="Compu Desk"
+                 class="logo">
+
+            <h1>Compu Desk</h1>
+
+            <p>Panel de Administración</p>
+
+        </div>
+
+        <form id="loginForm" autocomplete="off">
+
+            <div class="input-group">
+
+                <label for="email">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    Correo electrónico
+
+                </label>
+
+                <input
+                    id="email"
+                    type="email"
+                    placeholder="soporte@compudesk.org"
+                    required>
+
+            </div>
+
+            <div class="input-group">
+
+                <label for="password">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    Contraseña
+
+                </label>
+
+                <div class="password-box">
+
+                    <input
+                        id="password"
+                        type="password"
+                        placeholder="************"
+                        required>
+
+                    <button
+                        id="togglePassword"
+                        type="button">
+
+                        <i class="fa-solid fa-eye"></i>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div class="remember">
+
+                <label>
+
+                    <input
+                        id="remember"
+                        type="checkbox">
+
+                    Mantener sesión iniciada
+
+                </label>
+
+            </div>
+
+            <button
+                id="btnLogin"
+                class="btn-login"
+                type="submit">
+
+                <span id="btnText">
+
+                    Iniciar sesión
+
+                </span>
+
+                <span
+                    id="spinner"
+                    class="spinner hidden">
+
+                </span>
+
+            </button>
+
+            <div
+                id="message"
+                class="message">
+
+            </div>
+
+        </form>
+
+        <footer>
+
+            <p>
+
+                © 2026 Compu Desk
+
+            </p>
+
+            <small>
+
+                Uso exclusivo de personal autorizado.
+
+            </small>
+
+        </footer>
+
+    </div>
+
+</div>
+
+<script type="module" src="js/login.js"></script>
+
+</body>
+</html>
