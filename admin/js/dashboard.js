@@ -1,18 +1,14 @@
 // ==========================================
 // COMPU DESK ADMIN
 // Dashboard Controller
-// Firebase + Firestore
 // ==========================================
-
 
 import "./admin-layout.js";
 
-
-import { 
+import {
     db
-} 
+}
 from "../../assets/firebase/firebase-config.js";
-
 
 import {
 
@@ -24,262 +20,102 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-
-
-
-
 // ==========================================
-// Cargar KPIs desde Firebase
+// Cargar KPIs
 // ==========================================
-
 
 async function cargarKPIs(){
 
-
     try{
 
-
-
-        // ============================
+        // ==========================
         // CLIENTES
-        // ============================
-
+        // ==========================
 
         const clientesSnapshot =
-await getDocs(
+        await getDocs(
 
-    collection(
-        db,
-        "clientes"
-    )
+            collection(
+                db,
+                "clientes"
+            )
 
-);
-
-console.log("Clientes encontrados:", clientesSnapshot.size);
-console.log(clientesSnapshot.docs);
+        );
 
 
-
-const clientesElemento =
-document.getElementById(
-    "totalClientesDashboard"
-);
-
-console.log("Elemento HTML:", clientesElemento);
-
-if(clientesElemento){
-
-    clientesElemento.textContent =
-    clientesSnapshot.size;
-
-    console.log(
-        "Valor asignado:",
-        clientesElemento.textContent
-    );
-
-}
+        const totalClientes =
+        document.getElementById(
+            "totalClientesDashboard"
+        );
 
 
-        // ============================
-        // USUARIOS
-        // ============================
+        if(totalClientes){
+
+            totalClientes.textContent =
+            clientesSnapshot.size;
+
+        }
 
 
-        const usuariosElemento =
+        // ==========================
+        // KPIs pendientes
+        // ==========================
+
+        const usuarios =
         document.getElementById(
             "totalUsuariosDashboard"
         );
 
+        if(usuarios){
 
-
-        if(usuariosElemento){
-
-
-            try{
-
-
-                const usuariosSnapshot =
-                await getDocs(
-
-                    collection(
-                        db,
-                        "usuarios"
-                    )
-
-                );
-
-
-
-                usuariosElemento.textContent =
-                usuariosSnapshot.size;
-
-
-            }
-            catch(error){
-
-
-                console.warn(
-                    "Colección usuarios no disponible",
-                    error
-                );
-
-
-                usuariosElemento.textContent =
-                "0";
-
-
-            }
-
+            usuarios.textContent = "-";
 
         }
 
 
 
-
-
-
-
-        // ============================
-        // TICKETS
-        // ============================
-
-
-        const ticketsElemento =
+        const tickets =
         document.getElementById(
             "totalTicketsDashboard"
         );
 
+        if(tickets){
 
-
-        if(ticketsElemento){
-
-
-            try{
-
-
-                const ticketsSnapshot =
-                await getDocs(
-
-                    collection(
-                        db,
-                        "tickets"
-                    )
-
-                );
-
-
-
-                ticketsElemento.textContent =
-                ticketsSnapshot.size;
-
-
-            }
-            catch(error){
-
-
-                console.warn(
-                    "Colección tickets no disponible",
-                    error
-                );
-
-
-                ticketsElemento.textContent =
-                "0";
-
-
-            }
-
+            tickets.textContent = "-";
 
         }
 
 
 
-
-
-
-
-
-        // ============================
-        // EQUIPOS
-        // ============================
-
-
-        const equiposElemento =
+        const equipos =
         document.getElementById(
             "totalEquiposDashboard"
         );
 
+        if(equipos){
 
-
-        if(equiposElemento){
-
-
-            try{
-
-
-                const equiposSnapshot =
-                await getDocs(
-
-                    collection(
-                        db,
-                        "equipos"
-                    )
-
-                );
-
-
-
-                equiposElemento.textContent =
-                equiposSnapshot.size;
-
-
-            }
-            catch(error){
-
-
-                console.warn(
-                    "Colección equipos no disponible",
-                    error
-                );
-
-
-                equiposElemento.textContent =
-                "0";
-
-
-            }
-
+            equipos.textContent = "-";
 
         }
 
 
-
-
-
     }
+
     catch(error){
 
-
         console.error(
-            "Error cargando KPIs:",
+            "Error cargando dashboard:",
             error
         );
 
-
     }
-
-
 
 }
 
 
 
-
-
-
 // ==========================================
-// Inicializar Dashboard
+// Inicio
 // ==========================================
-
 
 cargarKPIs();
