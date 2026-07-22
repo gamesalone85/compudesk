@@ -3,7 +3,7 @@
 COMPU DESK
 Support Center
 Dashboard JavaScript
-Versión 1.1
+Versión 2.0
 ==========================================================
 */
 
@@ -13,12 +13,17 @@ document.addEventListener(
 function(){
 
 
-
 console.log(
 "Dashboard Compu Desk cargado correctamente"
 );
 
 
+
+/*
+==========================================================
+MODELO DE DATOS DEL DASHBOARD
+==========================================================
+*/
 
 
 const dashboard = {
@@ -35,13 +40,37 @@ empresa:null,
 
 plan:null,
 
-rol:null
+rol:null,
+
+horario:null,
+
+contacto:null
 
 
-}
+},
+
+
+estadisticas:{
+
+
+abiertos:0,
+
+pendientes:0,
+
+resueltos:0,
+
+tiempo:"0 h"
+
+
+},
+
+
+actividad:[]
+
 
 
 };
+
 
 
 
@@ -67,8 +96,8 @@ localStorage.getItem(
 if(!sesion){
 
 
-console.log(
-"No existe sesión"
+console.warn(
+"No existe sesión activa"
 );
 
 
@@ -79,41 +108,68 @@ return;
 
 
 
+try{
+
 
 const datos =
 JSON.parse(sesion);
 
 
 
+dashboard.cliente = {
+
+
+id:
+datos.id || null,
+
+
+nombre:
+datos.nombre || "Usuario",
+
+
+empresa:
+datos.empresa || "Empresa no asignada",
+
+
+plan:
+datos.plan || "Sin plan",
+
+
+rol:
+datos.rol || "Cliente",
+
+
+horario:
+datos.horario || "Lunes a Viernes 09:00 - 18:00",
+
+
+contacto:
+datos.contacto || "soporte@compudesk.org"
+
+
+};
+
+
+
 console.log(
-"Sesión encontrada:",
-datos
+"Cliente cargado:",
+dashboard.cliente
 );
 
 
 
-dashboard.cliente.id =
-datos.id;
+}
+
+catch(error){
 
 
-
-dashboard.cliente.nombre =
-datos.nombre;
-
-
-
-dashboard.cliente.empresa =
-datos.empresa;
+console.error(
+"Error leyendo sesión",
+error
+);
 
 
-
-dashboard.cliente.plan =
-datos.plan;
-
-
-
-dashboard.cliente.rol =
-datos.rol;
+}
 
 
 
@@ -122,9 +178,11 @@ datos.rol;
 
 
 
+
+
 /*
 ==========================================================
-MOSTRAR USUARIO
+MOSTRAR INFORMACIÓN USUARIO
 ==========================================================
 */
 
@@ -132,26 +190,22 @@ MOSTRAR USUARIO
 function mostrarUsuario(){
 
 
-
-const nombre =
+const nombreCliente =
 document.getElementById(
 "nombreCliente"
 );
 
 
-
-const usuario =
+const usuarioNombre =
 document.getElementById(
 "usuarioNombre"
 );
 
 
-
-const rol =
+const usuarioRol =
 document.getElementById(
 "usuarioRol"
 );
-
 
 
 const avatar =
@@ -161,46 +215,35 @@ document.getElementById(
 
 
 
-
-
-const nombreCliente =
-dashboard.cliente.nombre
-||
-"Usuario";
+let nombre =
+dashboard.cliente.nombre;
 
 
 
+if(nombreCliente){
 
-
-if(nombre){
-
-nombre.textContent =
-nombreCliente;
+nombreCliente.textContent =
+nombre;
 
 }
 
 
 
+if(usuarioNombre){
 
-if(usuario){
-
-usuario.textContent =
-nombreCliente;
-
-}
-
-
-
-
-if(rol){
-
-rol.textContent =
-dashboard.cliente.rol
-||
-"Usuario";
+usuarioNombre.textContent =
+nombre;
 
 }
 
+
+
+if(usuarioRol){
+
+usuarioRol.textContent =
+dashboard.cliente.rol;
+
+}
 
 
 
@@ -208,7 +251,7 @@ if(avatar){
 
 
 avatar.textContent =
-nombreCliente
+nombre
 .substring(0,2)
 .toUpperCase();
 
@@ -222,9 +265,250 @@ nombreCliente
 
 
 
+
+
+
 /*
 ==========================================================
-FECHA
+DATOS EMPRESA
+==========================================================
+*/
+
+
+function mostrarEmpresa(){
+
+
+
+const empresa =
+document.getElementById(
+"empresaCliente"
+);
+
+
+
+const plan =
+document.getElementById(
+"planCliente"
+);
+
+
+
+const horario =
+document.getElementById(
+"horarioCliente"
+);
+
+
+
+const contacto =
+document.getElementById(
+"contactoCliente"
+);
+
+
+
+
+if(empresa){
+
+empresa.textContent =
+dashboard.cliente.empresa;
+
+}
+
+
+
+if(plan){
+
+plan.textContent =
+dashboard.cliente.plan;
+
+}
+
+
+
+if(horario){
+
+horario.textContent =
+dashboard.cliente.horario;
+
+}
+
+
+
+if(contacto){
+
+contacto.textContent =
+dashboard.cliente.contacto;
+
+}
+
+
+
+}
+
+
+
+
+
+
+/*
+==========================================================
+WIDGETS TICKETS
+==========================================================
+*/
+
+
+function mostrarEstadisticas(){
+
+
+
+const elementos = {
+
+
+ticketsAbiertos:
+dashboard.estadisticas.abiertos,
+
+
+ticketsPendientes:
+dashboard.estadisticas.pendientes,
+
+
+ticketsResueltos:
+dashboard.estadisticas.resueltos,
+
+
+tiempoPromedio:
+dashboard.estadisticas.tiempo
+
+
+};
+
+
+
+
+Object.keys(elementos)
+.forEach(
+function(id){
+
+
+const elemento =
+document.getElementById(id);
+
+
+
+if(elemento){
+
+
+elemento.textContent =
+elementos[id];
+
+
+}
+
+
+});
+
+
+}
+
+
+
+
+
+
+/*
+==========================================================
+ACTIVIDAD RECIENTE
+==========================================================
+*/
+
+
+function mostrarActividad(){
+
+
+
+const contenedor =
+document.getElementById(
+"actividadReciente"
+);
+
+
+
+if(!contenedor){
+
+return;
+
+}
+
+
+
+if(
+dashboard.actividad.length === 0
+){
+
+
+contenedor.innerHTML = `
+
+<p>
+No existen actividades recientes.
+</p>
+
+`;
+
+
+
+return;
+
+}
+
+
+
+
+let html = "";
+
+
+
+dashboard.actividad.forEach(
+function(item){
+
+
+html += `
+
+<div class="activity-item">
+
+<strong>
+${item.titulo}
+</strong>
+
+<p>
+${item.fecha}
+</p>
+
+</div>
+
+
+`;
+
+
+});
+
+
+
+contenedor.innerHTML =
+html;
+
+
+
+}
+
+
+
+
+
+
+/*
+==========================================================
+FECHA ACTUAL
 ==========================================================
 */
 
@@ -247,11 +531,17 @@ new Date()
 .toLocaleDateString(
 "es-MX",
 {
+
 weekday:"long",
+
 year:"numeric",
+
 month:"long",
+
 day:"numeric"
+
 }
+
 );
 
 
@@ -260,6 +550,61 @@ day:"numeric"
 
 
 }
+
+
+
+
+
+
+/*
+==========================================================
+MENU MOVIL
+==========================================================
+*/
+
+
+function menuMovil(){
+
+
+
+const boton =
+document.querySelector(
+".cd-menu-toggle"
+);
+
+
+
+const sidebar =
+document.querySelector(
+".cd-sidebar"
+);
+
+
+
+if(
+boton &&
+sidebar
+){
+
+
+boton.addEventListener(
+"click",
+function(){
+
+
+sidebar.classList.toggle(
+"open"
+);
+
+
+});
+
+
+}
+
+
+}
+
 
 
 
@@ -282,13 +627,24 @@ document.querySelector(
 
 
 
-if(boton){
+if(!boton){
+
+return;
+
+}
+
 
 
 boton.parentElement
 .addEventListener(
 "click",
 function(){
+
+
+console.log(
+"Cerrando sesión"
+);
+
 
 
 localStorage.removeItem(
@@ -307,24 +663,37 @@ window.location.href =
 }
 
 
-}
-
 
 
 
 
 /*
 ==========================================================
-INICIO
+INICIALIZACIÓN
 ==========================================================
 */
 
 
 cargarSesion();
 
+
 mostrarUsuario();
 
+
+mostrarEmpresa();
+
+
+mostrarEstadisticas();
+
+
+mostrarActividad();
+
+
 mostrarFecha();
+
+
+menuMovil();
+
 
 cerrarSesion();
 
