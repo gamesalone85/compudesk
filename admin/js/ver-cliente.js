@@ -18,6 +18,16 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+import { generarPDF }
+
+from "./generar-pdf-cliente.js";
+
+
+
+
+// ==========================================
+// VARIABLES
+// ==========================================
 
 
 const parametros =
@@ -32,13 +42,22 @@ parametros.get("id");
 
 
 
+let clienteActual = null;
+
+
+
 
 
 if(!clienteID){
 
-window.location.href="index.html";
+
+    window.location.href =
+    "index.html";
+
 
 }
+
+
 
 
 
@@ -57,96 +76,133 @@ clienteID
 
 
 
+// ==========================================
+// CARGAR CLIENTE
+// ==========================================
+
+
 async function cargarCliente(){
 
 
 try{
 
 
-const resultado =
-await getDoc(clienteRef);
 
-
-
-if(!resultado.exists()){
-
-
-alert("Cliente no encontrado");
-
-window.location.href="index.html";
-
-return;
-
-}
-
-
-
-const cliente =
-resultado.data();
+    const resultado =
+    await getDoc(clienteRef);
 
 
 
 
-
-document.getElementById("empresa")
-.textContent =
-cliente.empresa;
+    if(!resultado.exists()){
 
 
-
-document.getElementById("contacto")
-.textContent =
-cliente.contacto;
-
+        alert(
+            "Cliente no encontrado"
+        );
 
 
-document.getElementById("correo")
-.textContent =
-cliente.correo;
+        window.location.href =
+        "index.html";
 
 
+        return;
 
-document.getElementById("telefono")
-.textContent =
-cliente.telefono;
+
+    }
 
 
 
-document.getElementById("plan")
-.textContent =
-cliente.plan;
+
+    const cliente =
+    resultado.data();
+
+
+
+    // Guardamos cliente global
+
+    clienteActual = cliente;
 
 
 
 
 
-const estado =
-document.getElementById("estado");
 
-
-estado.textContent =
-cliente.estado.toUpperCase();
-
-
-
-estado.className =
-"estado " + cliente.estado;
+    // ==============================
+    // MOSTRAR INFORMACIÓN
+    // ==============================
 
 
 
-// Botón PDF
+    document
+    .getElementById("empresa")
+    .textContent =
+    cliente.empresa || "-";
 
-document
-.getElementById("btnPDF")
-.dataset.cliente =
-JSON.stringify(cliente);
+
+
+
+    document
+    .getElementById("contacto")
+    .textContent =
+    cliente.contacto || "-";
+
+
+
+
+    document
+    .getElementById("correo")
+    .textContent =
+    cliente.correo || "-";
+
+
+
+
+    document
+    .getElementById("telefono")
+    .textContent =
+    cliente.telefono || "-";
+
+
+
+
+    document
+    .getElementById("plan")
+    .textContent =
+    cliente.plan || "-";
+
+
+
+
+
+    const estado =
+    document.getElementById("estado");
+
+
+
+    estado.textContent =
+    (cliente.estado || "pendiente")
+    .toUpperCase();
+
+
+
+
+    estado.className =
+    "estado " + cliente.estado;
+
+
 
 
 
 }
 catch(error){
 
-console.error(error);
+
+    console.error(
+        "Error cargando cliente:",
+        error
+    );
+
 
 }
 
@@ -154,6 +210,58 @@ console.error(error);
 
 }
 
+
+
+
+
+
+
+
+
+// ==========================================
+// BOTÓN GENERAR PDF
+// ==========================================
+
+
+document
+.getElementById("btnPDF")
+.addEventListener(
+"click",
+()=>{
+
+
+    if(!clienteActual){
+
+
+        alert(
+            "No hay información del cliente disponible."
+        );
+
+
+        return;
+
+
+    }
+
+
+
+    generarPDF(
+        clienteActual
+    );
+
+
+
+});
+
+
+
+
+
+
+
+// ==========================================
+// INICIO
+// ==========================================
 
 
 cargarCliente();
