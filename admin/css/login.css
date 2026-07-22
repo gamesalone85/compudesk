@@ -1,0 +1,417 @@
+/* =========================================
+   COMPU DESK - ADMIN LOGIN
+   Estilos del panel administrativo
+========================================= */
+
+
+/* Variables globales */
+
+:root {
+
+    --cd-red: #C8102E;
+    --cd-gray: #54565A;
+    --cd-light-gray: #F5F5F5;
+    --cd-white: #FFFFFF;
+    --cd-dark: #222222;
+
+    --shadow:
+        0 15px 35px rgba(0,0,0,0.12);
+
+}
+
+
+/* Reset */
+
+* {
+
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+
+body {
+
+    font-family: 'Inter', sans-serif;
+    background: var(--cd-light-gray);
+
+    min-height: 100vh;
+
+}
+
+
+/* Contenedor principal */
+
+.login-page {
+
+    min-height: 100vh;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    padding: 20px;
+
+}
+
+
+/* Tarjeta */
+
+.login-card {
+
+    background: var(--cd-white);
+
+    width: 100%;
+
+    max-width: 420px;
+
+    padding: 40px;
+
+    border-radius: 16px;
+
+    box-shadow: var(--shadow);
+
+}
+
+
+/* Encabezado */
+
+.login-header {
+
+    text-align: center;
+
+    margin-bottom: 35px;
+
+}
+
+
+.logo {
+
+    width: 90px;
+
+    height: 90px;
+
+    object-fit: contain;
+
+    margin-bottom: 15px;
+
+}
+
+
+.login-header h1 {
+
+    color: var(--cd-gray);
+
+    font-size: 28px;
+
+    font-weight: 700;
+
+}
+
+
+.login-header p {
+
+    margin-top: 8px;
+
+    color: #777;
+
+    font-size: 15px;
+
+}
+
+
+/* Formularios */
+
+.form-group {
+
+    margin-bottom: 22px;
+
+}
+
+
+.form-group label {
+
+    display: block;
+
+    margin-bottom: 8px;
+
+    color: var(--cd-gray);
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.form-group label i {
+
+    color: var(--cd-red);
+
+    margin-right: 6px;
+
+}
+
+
+.form-group input {
+
+    width: 100%;
+
+    height: 45px;
+
+    padding: 0 14px;
+
+    border: 1px solid #d8d8d8;
+
+    border-radius: 8px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: .3s;
+
+}
+
+
+.form-group input:focus {
+
+    border-color: var(--cd-red);
+
+    box-shadow:
+        0 0 0 3px rgba(200,16,46,.12);
+
+}
+
+
+/* Password */
+
+.password-wrapper {
+
+    position: relative;
+
+}
+
+
+.password-wrapper input {
+
+    padding-right: 45px;
+
+}
+
+
+.toggle-password {
+
+    position: absolute;
+
+    right: 10px;
+
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    background: transparent;
+
+    border: none;
+
+    cursor: pointer;
+
+    color: var(--cd-gray);
+
+    font-size: 16px;
+
+}
+
+
+/* Opciones */
+
+.form-options {
+
+    margin-bottom: 25px;
+
+}
+
+
+.remember {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: var(--cd-gray);
+
+    font-size: 14px;
+
+    cursor: pointer;
+
+}
+
+
+.remember input {
+
+    accent-color: var(--cd-red);
+
+}
+
+
+/* Botón */
+
+.btn-login {
+
+    width: 100%;
+
+    height: 48px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: var(--cd-red);
+
+    color: white;
+
+    font-size: 16px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: .3s;
+
+}
+
+
+.btn-login:hover {
+
+    opacity: .9;
+
+}
+
+
+.btn-login:disabled {
+
+    opacity: .6;
+
+    cursor: not-allowed;
+
+}
+
+
+/* Spinner */
+
+.spinner {
+
+    display: inline-block;
+
+    width: 18px;
+
+    height: 18px;
+
+    border: 3px solid rgba(255,255,255,.5);
+
+    border-top-color: white;
+
+    border-radius: 50%;
+
+    animation: spin .8s linear infinite;
+
+}
+
+
+.hidden {
+
+    display: none;
+
+}
+
+
+@keyframes spin {
+
+    from {
+
+        transform: rotate(0deg);
+
+    }
+
+    to {
+
+        transform: rotate(360deg);
+
+    }
+
+}
+
+
+/* Mensajes */
+
+.login-message {
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    font-size: 14px;
+
+    min-height: 20px;
+
+}
+
+
+.login-message.error {
+
+    color: #b00020;
+
+}
+
+
+.login-message.success {
+
+    color: #008000;
+
+}
+
+
+/* Footer */
+
+.login-footer {
+
+    margin-top: 35px;
+
+    text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 6px;
+
+    color: #888;
+
+    font-size: 12px;
+
+}
+
+
+/* Responsive */
+
+@media(max-width:480px){
+
+    .login-card {
+
+        padding: 30px 22px;
+
+    }
+
+
+    .login-header h1 {
+
+        font-size: 24px;
+
+    }
+
+}
