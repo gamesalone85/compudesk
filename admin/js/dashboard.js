@@ -1,21 +1,40 @@
 // ==========================================
 // COMPU DESK ADMIN
 // Dashboard Controller
+// Firebase + Firestore
 // ==========================================
 
 
-import { auth } from "../../assets/firebase/firebase-config.js";
+import { 
+    auth,
+    db
+} from "../../assets/firebase/firebase-config.js";
 
 
 import {
+
     signOut
+
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
+import {
+
+    collection,
+    getDocs
+
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+
+
+
+// ==========================================
 // Cargar componentes HTML
+// ==========================================
+
 
 async function cargarComponente(id, archivo){
 
@@ -23,13 +42,27 @@ async function cargarComponente(id, archivo){
     try{
 
 
-        const respuesta = await fetch(archivo);
+        const respuesta =
+        await fetch(archivo);
 
 
-        const contenido = await respuesta.text();
+
+        const contenido =
+        await respuesta.text();
 
 
-        document.getElementById(id).innerHTML = contenido;
+
+        const elemento =
+        document.getElementById(id);
+
+
+
+        if(elemento){
+
+            elemento.innerHTML =
+            contenido;
+
+        }
 
 
 
@@ -51,12 +84,18 @@ async function cargarComponente(id, archivo){
 
 
 
-// Cargar sidebar y header
+
+
+// ==========================================
+// Cargar Sidebar y Header
+// ==========================================
+
 
 await cargarComponente(
     "sidebar",
     "components/sidebar.html"
 );
+
 
 
 await cargarComponente(
@@ -68,7 +107,11 @@ await cargarComponente(
 
 
 
-// Obtener datos del administrador
+
+// ==========================================
+// Datos del administrador
+// ==========================================
+
 
 const admin = JSON.parse(
 
@@ -81,8 +124,8 @@ const admin = JSON.parse(
 
 
 
-if(admin){
 
+if(admin){
 
 
     const nombre =
@@ -91,10 +134,12 @@ if(admin){
     );
 
 
+
     const rol =
     document.getElementById(
         "adminRole"
     );
+
 
 
 
@@ -107,13 +152,13 @@ if(admin){
 
 
 
+
     if(rol){
 
         rol.textContent =
         admin.rol;
 
     }
-
 
 
 }
@@ -123,7 +168,12 @@ if(admin){
 
 
 
+
+
+// ==========================================
 // Logout
+// ==========================================
+
 
 const logoutButton =
 document.getElementById(
@@ -132,7 +182,10 @@ document.getElementById(
 
 
 
+
+
 if(logoutButton){
+
 
 
     logoutButton.addEventListener(
@@ -158,7 +211,8 @@ if(logoutButton){
 
 
 
-            }catch(error){
+            }
+            catch(error){
 
 
                 console.error(
@@ -170,9 +224,266 @@ if(logoutButton){
             }
 
 
-
         }
+
     );
 
 
 }
+
+
+
+
+
+
+
+
+
+// ==========================================
+// Cargar KPIs desde Firebase
+// ==========================================
+
+
+async function cargarKPIs(){
+
+
+
+    try{
+
+
+
+        // ============================
+        // CLIENTES
+        // ============================
+
+
+        const clientesSnapshot =
+        await getDocs(
+
+            collection(
+                db,
+                "clientes"
+            )
+
+        );
+
+
+
+        const totalClientes =
+        clientesSnapshot.size;
+
+
+
+        const clientesElemento =
+        document.getElementById(
+            "totalClientesDashboard"
+        );
+
+
+
+        if(clientesElemento){
+
+
+            clientesElemento.textContent =
+            totalClientes;
+
+
+        }
+
+
+
+
+
+
+
+        // ============================
+        // USUARIOS
+        // ============================
+
+
+        const usuariosElemento =
+        document.getElementById(
+            "totalUsuariosDashboard"
+        );
+
+
+
+        if(usuariosElemento){
+
+
+
+            try{
+
+
+                const usuariosSnapshot =
+                await getDocs(
+
+                    collection(
+                        db,
+                        "usuarios"
+                    )
+
+                );
+
+
+
+                usuariosElemento.textContent =
+                usuariosSnapshot.size;
+
+
+
+            }
+            catch(error){
+
+
+                usuariosElemento.textContent =
+                "0";
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+        // ============================
+        // TICKETS
+        // ============================
+
+
+        const ticketsElemento =
+        document.getElementById(
+            "totalTicketsDashboard"
+        );
+
+
+
+        if(ticketsElemento){
+
+
+            try{
+
+
+                const ticketsSnapshot =
+                await getDocs(
+
+                    collection(
+                        db,
+                        "tickets"
+                    )
+
+                );
+
+
+
+                ticketsElemento.textContent =
+                ticketsSnapshot.size;
+
+
+
+            }
+            catch(error){
+
+
+                ticketsElemento.textContent =
+                "0";
+
+
+            }
+
+
+        }
+
+
+
+
+
+
+
+
+        // ============================
+        // EQUIPOS
+        // ============================
+
+
+        const equiposElemento =
+        document.getElementById(
+            "totalEquiposDashboard"
+        );
+
+
+
+        if(equiposElemento){
+
+
+            try{
+
+
+                const equiposSnapshot =
+                await getDocs(
+
+                    collection(
+                        db,
+                        "equipos"
+                    )
+
+                );
+
+
+
+                equiposElemento.textContent =
+                equiposSnapshot.size;
+
+
+
+            }
+            catch(error){
+
+
+                equiposElemento.textContent =
+                "0";
+
+
+            }
+
+
+        }
+
+
+
+
+
+    }
+    catch(error){
+
+
+        console.error(
+
+            "Error cargando KPIs:",
+            error
+
+        );
+
+
+    }
+
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// Iniciar Dashboard
+// ==========================================
+
+
+cargarKPIs();
