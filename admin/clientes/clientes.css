@@ -231,3 +231,44 @@ td{
 
 
 }
+.estado{
+
+    padding:5px 10px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+
+
+.estado.activo{
+
+    background:#d4edda;
+
+    color:#155724;
+
+}
+
+
+
+.estado.inactivo{
+
+    background:#f8d7da;
+
+    color:#721c24;
+
+}
+
+
+
+.estado.pendiente{
+
+    background:#fff3cd;
+
+    color:#856404;
+
+}
