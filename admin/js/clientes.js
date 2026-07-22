@@ -15,10 +15,17 @@ import {
     query,
     orderBy
 
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+
+
+// ==========================================
+// ELEMENTOS HTML
+// ==========================================
 
 
 const tablaClientes =
@@ -34,37 +41,53 @@ document.getElementById("buscarCliente");
 
 
 
+
 let clientes = [];
 
 
 
 
-// Cargar clientes
+
+
+
+// ==========================================
+// CARGAR CLIENTES FIRESTORE
+// ==========================================
+
 
 async function cargarClientes(){
+
 
 
     try{
 
 
         const clientesRef =
-        collection(db,"clientes");
+        collection(
+            db,
+            "clientes"
+        );
 
 
 
         const consulta =
         query(
+
             clientesRef,
+
             orderBy(
                 "fechaAlta",
                 "desc"
             )
+
         );
 
 
 
         const resultado =
-        await getDocs(consulta);
+        await getDocs(
+            consulta
+        );
 
 
 
@@ -72,32 +95,52 @@ async function cargarClientes(){
 
 
 
-        resultado.forEach((doc)=>{
+        resultado.forEach((documento)=>{
 
 
             clientes.push({
 
-                id:doc.id,
 
-                ...doc.data()
+                id:
+                documento.id,
+
+
+                ...documento.data()
+
+
 
             });
+
 
 
         });
 
 
 
-        mostrarClientes(clientes);
+
+
+        mostrarClientes(
+            clientes
+        );
 
 
 
-        totalClientes.textContent =
-        clientes.length;
+
+
+        if(totalClientes){
+
+            totalClientes.textContent =
+            clientes.length;
+
+        }
 
 
 
-    }catch(error){
+
+    }
+
+    catch(error){
+
 
 
         console.error(
@@ -106,22 +149,31 @@ async function cargarClientes(){
         );
 
 
-        tablaClientes.innerHTML = `
 
-        <tr>
+        if(tablaClientes){
 
-            <td colspan="6">
 
-            Error al cargar clientes.
+            tablaClientes.innerHTML = `
 
-            </td>
+            <tr>
 
-        </tr>
+                <td colspan="6">
 
-        `;
+                    Error cargando clientes.
+
+                </td>
+
+            </tr>
+
+            `;
+
+
+        }
+
 
 
     }
+
 
 
 }
@@ -132,33 +184,63 @@ async function cargarClientes(){
 
 
 
-// Pintar tabla
+
+
+// ==========================================
+// MOSTRAR CLIENTES
+// ==========================================
+
 
 function mostrarClientes(lista){
+
+
+
+
+
+    if(!tablaClientes){
+
+        return;
+
+    }
+
+
+
 
 
 
     if(lista.length === 0){
 
 
+
         tablaClientes.innerHTML = `
+
 
         <tr>
 
+
             <td colspan="6">
 
-            No existen clientes registrados.
+
+                No existen clientes registrados.
+
 
             </td>
 
+
         </tr>
+
 
         `;
 
 
+
         return;
 
+
     }
+
+
+
 
 
 
@@ -169,15 +251,28 @@ function mostrarClientes(lista){
 
 
 
+
+
+
     lista.forEach((cliente)=>{
 
 
 
-        const fila = document.createElement("tr");
+
+
+        const fila =
+        document.createElement(
+            "tr"
+        );
+
+
+
+
 
 
 
         fila.innerHTML = `
+
 
 
         <td>
@@ -187,11 +282,17 @@ function mostrarClientes(lista){
         </td>
 
 
+
+
+
         <td>
 
             ${cliente.contacto || "-"}
 
         </td>
+
+
+
 
 
         <td>
@@ -201,6 +302,9 @@ function mostrarClientes(lista){
         </td>
 
 
+
+
+
         <td>
 
             ${cliente.plan || "-"}
@@ -208,39 +312,87 @@ function mostrarClientes(lista){
         </td>
 
 
+
+
+
         <td>
 
-            <span class="estado ${cliente.estado}">
 
-            ${cliente.estado || "pendiente"}
+            <span class="estado ${cliente.estado || "pendiente"}">
+
+
+                ${(cliente.estado || "pendiente").toUpperCase()}
+
 
             </span>
+
+
 
         </td>
 
 
-        <td>
 
 
-            <a href="editar.html?id=${cliente.id}">
 
-            <i class="fa-solid fa-pen"></i>
+        <td class="acciones">
+
+
+            <a 
+
+            href="ver.html?id=${cliente.id}"
+
+            title="Ver cliente">
+
+
+                <i class="fa-solid fa-eye"></i>
+
 
             </a>
 
 
+
+
+
+            <a 
+
+            href="editar.html?id=${cliente.id}"
+
+            title="Editar cliente">
+
+
+                <i class="fa-solid fa-pen"></i>
+
+
+            </a>
+
+
+
+
+
         </td>
+
+
 
 
         `;
 
 
 
-        tablaClientes.appendChild(fila);
+
+
+
+        tablaClientes.appendChild(
+            fila
+        );
+
+
 
 
 
     });
+
+
+
 
 
 
@@ -252,16 +404,29 @@ function mostrarClientes(lista){
 
 
 
-// Buscador
+
+
+// ==========================================
+// BUSCADOR
+// ==========================================
+
+
+if(buscarCliente){
+
+
 
 buscarCliente.addEventListener(
 "input",
 ()=>{
 
 
+
     const texto =
     buscarCliente.value
-    .toLowerCase();
+    .toLowerCase()
+    .trim();
+
+
 
 
 
@@ -269,33 +434,58 @@ buscarCliente.addEventListener(
     clientes.filter((cliente)=>{
 
 
+
+
+
         return (
+
 
             cliente.empresa
             ?.toLowerCase()
             .includes(texto)
 
+
+
             ||
+
+
 
             cliente.contacto
             ?.toLowerCase()
             .includes(texto)
 
+
+
+
             ||
+
+
 
             cliente.correo
             ?.toLowerCase()
             .includes(texto)
 
 
+
         );
+
+
+
 
 
     });
 
 
 
-    mostrarClientes(filtrados);
+
+
+
+    mostrarClientes(
+        filtrados
+    );
+
+
+
 
 
 
@@ -303,10 +493,19 @@ buscarCliente.addEventListener(
 
 
 
+}
 
 
 
 
-// Inicio
+
+
+
+
+
+// ==========================================
+// INICIO
+// ==========================================
+
 
 cargarClientes();
