@@ -1,154 +1,170 @@
 <!DOCTYPE html>
 <html lang="es-MX">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Panel de Administración | Compu Desk</title>
 
-    <link rel="stylesheet" href="css/login.css">
+    <meta name="robots" content="noindex,nofollow">
 
+    <link rel="icon" href="../img/logo.png">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+          rel="stylesheet">
 
+    <!-- Font Awesome -->
     <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-          referrerpolicy="no-referrer" />
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/login.css">
+
 </head>
 
 <body>
 
-<div class="login-container">
+    <main class="login-page">
 
-    <div class="login-card">
+        <section class="login-card">
 
-        <div class="logo-area">
+            <header class="login-header">
 
-            <!-- Cambia esta ruta por tu logo -->
-            <img src="../img/logo.png"
-                 alt="Compu Desk"
-                 class="logo">
+                <img src="../img/logo.png"
+                     alt="Compu Desk"
+                     class="logo">
 
-            <h1>Compu Desk</h1>
+                <h1>Compu Desk</h1>
 
-            <p>Panel de Administración</p>
+                <p>Panel de Administración</p>
 
-        </div>
+            </header>
 
-        <form id="loginForm" autocomplete="off">
+            <form id="loginForm" novalidate>
 
-            <div class="input-group">
+                <div class="form-group">
 
-                <label for="email">
+                    <label for="email">
 
-                    <i class="fa-solid fa-envelope"></i>
+                        <i class="fa-solid fa-envelope"></i>
 
-                    Correo electrónico
+                        Correo electrónico
 
-                </label>
-
-                <input
-                    id="email"
-                    type="email"
-                    placeholder="soporte@compudesk.org"
-                    required>
-
-            </div>
-
-            <div class="input-group">
-
-                <label for="password">
-
-                    <i class="fa-solid fa-lock"></i>
-
-                    Contraseña
-
-                </label>
-
-                <div class="password-box">
+                    </label>
 
                     <input
-                        id="password"
-                        type="password"
-                        placeholder="************"
+                        id="email"
+                        name="email"
+                        type="email"
+                        placeholder="soporte@compudesk.org"
+                        autocomplete="username"
                         required>
-
-                    <button
-                        id="togglePassword"
-                        type="button">
-
-                        <i class="fa-solid fa-eye"></i>
-
-                    </button>
 
                 </div>
 
-            </div>
+                <div class="form-group">
 
-            <div class="remember">
+                    <label for="password">
 
-                <label>
+                        <i class="fa-solid fa-lock"></i>
 
-                    <input
-                        id="remember"
-                        type="checkbox">
+                        Contraseña
 
-                    Mantener sesión iniciada
+                    </label>
 
-                </label>
+                    <div class="password-wrapper">
 
-            </div>
+                        <input
+                            id="password"
+                            name="password"
+                            type="password"
+                            placeholder="••••••••••••"
+                            autocomplete="current-password"
+                            required>
 
-            <button
-                id="btnLogin"
-                class="btn-login"
-                type="submit">
+                        <button
+                            type="button"
+                            id="togglePassword"
+                            class="toggle-password"
+                            aria-label="Mostrar contraseña">
 
-                <span id="btnText">
+                            <i class="fa-solid fa-eye"></i>
 
-                    Iniciar sesión
+                        </button>
 
-                </span>
+                    </div>
 
-                <span
-                    id="spinner"
-                    class="spinner hidden">
+                </div>
 
-                </span>
+                <div class="form-options">
 
-            </button>
+                    <label class="remember">
 
-            <div
-                id="message"
-                class="message">
+                        <input
+                            type="checkbox"
+                            id="rememberSession">
 
-            </div>
+                        <span>Mantener sesión iniciada</span>
 
-        </form>
+                    </label>
 
-        <footer>
+                </div>
 
-            <p>
+                <button
+                    type="submit"
+                    id="btnLogin"
+                    class="btn-login">
 
-                © 2026 Compu Desk
+                    <span id="btnText">
 
-            </p>
+                        Iniciar sesión
 
-            <small>
+                    </span>
 
-                Uso exclusivo de personal autorizado.
+                    <span
+                        id="loadingSpinner"
+                        class="spinner hidden">
 
-            </small>
+                    </span>
 
-        </footer>
+                </button>
 
-    </div>
+                <div
+                    id="loginMessage"
+                    class="login-message">
 
-</div>
+                </div>
 
-<script type="module" src="js/login.js"></script>
+            </form>
+
+            <footer class="login-footer">
+
+                <small>
+
+                    Sistema exclusivo para personal autorizado.
+
+                </small>
+
+                <small>
+
+                    © 2026 Compu Desk
+
+                </small>
+
+            </footer>
+
+        </section>
+
+    </main>
+
+    <script type="module" src="js/login.js"></script>
 
 </body>
+
 </html>
