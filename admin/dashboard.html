@@ -7,9 +7,21 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Dashboard Administrador | Compu Desk</title>
 
-<link rel="stylesheet" href="css/dashboard.css">
+<title>
+Dashboard Administrador | Compu Desk
+</title>
+
+
+<link rel="icon" href="../img/logo.png">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<link rel="stylesheet" href="css/admin.css">
+
 
 </head>
 
@@ -17,80 +29,160 @@
 <body>
 
 
-<main class="admin-dashboard">
+<div class="admin-layout">
 
 
-    <h1>
-        Panel Administrativo Compu Desk
-    </h1>
+    <!-- Sidebar -->
+
+    <div id="sidebar"></div>
 
 
-    <p>
-        Bienvenido al sistema de administración.
-    </p>
+
+    <main class="admin-content">
 
 
-    <div id="adminInfo"></div>
+        <!-- Header -->
+
+        <div id="header"></div>
 
 
-    <button id="logout">
-        Cerrar sesión
-    </button>
+
+        <section class="dashboard-cards">
 
 
-</main>
+            <article class="card">
+
+
+                <i class="fa-solid fa-building"></i>
+
+
+                <div>
+
+                    <h3>
+                        Clientes
+                    </h3>
+
+
+                    <span>
+                        0
+                    </span>
+
+
+                </div>
+
+
+            </article>
+
+
+
+            <article class="card">
+
+
+                <i class="fa-solid fa-users"></i>
+
+
+                <div>
+
+                    <h3>
+                        Usuarios
+                    </h3>
+
+
+                    <span>
+                        0
+                    </span>
+
+
+                </div>
+
+
+            </article>
+
+
+
+
+            <article class="card">
+
+
+                <i class="fa-solid fa-ticket"></i>
+
+
+                <div>
+
+                    <h3>
+                        Tickets abiertos
+                    </h3>
+
+
+                    <span>
+                        0
+                    </span>
+
+
+                </div>
+
+
+            </article>
+
+
+
+
+            <article class="card">
+
+
+                <i class="fa-solid fa-computer"></i>
+
+
+                <div>
+
+                    <h3>
+                        Equipos
+                    </h3>
+
+
+                    <span>
+                        0
+                    </span>
+
+
+                </div>
+
+
+            </article>
+
+
+        </section>
+
+
+
+        <section class="welcome">
+
+
+            <h2>
+                Bienvenido al sistema administrativo
+            </h2>
+
+
+            <p>
+                Desde aquí podrás administrar clientes,
+                usuarios, tickets y servicios.
+            </p>
+
+
+        </section>
+
+
+
+    </main>
+
+
+</div>
+
+
 
 <script type="module" src="js/auth-guard.js"></script>
-<script type="module">
 
-
-import { auth } from "../assets/firebase/firebase-config.js";
-
-
-import {
-    signOut
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-
-const data =
-JSON.parse(
-localStorage.getItem("compudeskAdmin")
-);
-
-
-
-document.getElementById("adminInfo").innerHTML = `
-
-<h3>${data.nombre}</h3>
-
-<p>${data.correo}</p>
-
-<p>Rol: ${data.rol}</p>
-
-`;
-
-
-
-document
-.getElementById("logout")
-.addEventListener("click", async()=>{
-
-
-await signOut(auth);
-
-
-localStorage.removeItem("compudeskAdmin");
-
-
-window.location.href="login.html";
-
-
-});
-
-
-</script>
+<script type="module" src="js/dashboard.js"></script>
 
 
 </body>
