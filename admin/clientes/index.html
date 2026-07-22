@@ -13,16 +13,28 @@ Clientes | Compu Desk Admin
 </title>
 
 
+<meta name="robots" content="noindex,nofollow">
+
+
 <link rel="icon" href="../../img/logo.png">
 
+
+<!-- Font Awesome -->
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
-<link rel="stylesheet" href="../css/dashboard.css">
+
+<!-- CSS ADMIN -->
+
+<link rel="stylesheet" href="../css/admin.css">
+
+
+<!-- CSS CLIENTES -->
 
 <link rel="stylesheet" href="clientes.css">
+
 
 
 </head>
@@ -31,13 +43,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
+
 <div class="admin-layout">
 
 
 
-    <!-- Sidebar -->
+    <!-- SIDEBAR -->
 
-    <div id="sidebar"></div>
+    <aside id="sidebar"></aside>
+
+
 
 
 
@@ -45,14 +60,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-        <!-- Header -->
+        <!-- HEADER -->
 
-        <div id="header"></div>
+        <header id="header"></header>
+
+
 
 
 
 
         <section class="page-header">
+
 
 
             <div>
@@ -65,6 +83,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 </h2>
 
 
+
                 <p>
 
                     Administración de empresas y usuarios registrados.
@@ -72,7 +91,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 </p>
 
 
+
             </div>
+
+
 
 
 
@@ -82,13 +104,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
                 <i class="fa-solid fa-plus"></i>
 
+
                 Nuevo cliente
+
 
 
             </a>
 
 
+
+
         </section>
+
+
+
+
 
 
 
@@ -98,10 +128,13 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
+
+
             <div class="client-card">
 
 
                 <i class="fa-solid fa-building"></i>
+
 
 
                 <div>
@@ -109,9 +142,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
                     <span>
 
-                        Clientes activos
+                        Clientes registrados
 
                     </span>
+
 
 
                     <strong id="totalClientes">
@@ -121,7 +155,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     </strong>
 
 
+
                 </div>
+
 
 
             </div>
@@ -129,10 +165,18 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
+
+
+
+
+
             <div class="client-card">
 
 
-                <i class="fa-solid fa-user-check"></i>
+
+                <i class="fa-solid fa-users"></i>
+
+
 
 
                 <div>
@@ -145,6 +189,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     </span>
 
 
+
+
                     <strong id="totalUsuarios">
 
                         0
@@ -152,10 +198,14 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     </strong>
 
 
+
+
                 </div>
 
 
+
             </div>
+
 
 
 
@@ -167,11 +217,17 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
+
+
+
         <section class="table-container">
 
 
 
+
+
             <div class="table-header">
+
 
 
                 <h3>
@@ -181,13 +237,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 </h3>
 
 
+
+
+
                 <input
+
                 type="search"
+
                 id="buscarCliente"
+
                 placeholder="Buscar cliente...">
 
 
+
+
+
             </div>
+
+
+
+
 
 
 
@@ -200,39 +269,61 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                 <thead>
 
 
+
                     <tr>
 
+
+
                         <th>
+
                             Empresa
+
                         </th>
 
 
+
                         <th>
+
                             Contacto
+
                         </th>
 
 
+
                         <th>
+
                             Correo
+
                         </th>
 
 
+
                         <th>
+
                             Plan
+
                         </th>
 
 
+
                         <th>
+
                             Estado
+
                         </th>
+
 
 
                         <th>
+
                             Acciones
+
                         </th>
+
 
 
                     </tr>
+
 
 
                 </thead>
@@ -240,7 +331,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
+
+
                 <tbody id="clientesTabla">
+
 
 
                     <tr>
@@ -248,7 +342,9 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
                         <td colspan="6">
 
-                            No existen clientes registrados.
+
+                            Cargando clientes...
+
 
                         </td>
 
@@ -256,11 +352,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
                     </tr>
 
 
+
+
                 </tbody>
 
 
 
+
+
+
             </table>
+
+
+
 
 
 
@@ -269,7 +373,10 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
+
     </main>
+
+
 
 
 
@@ -279,9 +386,28 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-<script type="module" src="../js/auth-guard.js"></script>
 
-<script type="module" src="../js/clientes.js"></script>
+
+<!-- CARGADOR DE COMPONENTES -->
+
+<script src="../../js/layout.js"></script>
+
+
+
+
+<!-- SEGURIDAD ADMIN -->
+
+<script type="module"
+src="../js/auth-guard.js"></script>
+
+
+
+
+<!-- FIREBASE CLIENTES -->
+
+<script type="module"
+src="../js/clientes.js"></script>
+
 
 
 
