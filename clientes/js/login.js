@@ -16,6 +16,11 @@ console.log(
 "Login Portal Clientes Compu Desk cargado"
 );
 
+console.log(
+"Usuarios disponibles:",
+usuariosCompuDesk
+);
+
 
 
 
