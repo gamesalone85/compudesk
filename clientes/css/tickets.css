@@ -91,3 +91,64 @@ border-bottom:1px solid #eee;
 
 }
 
+/* ======================================
+FORMULARIO TICKETS
+====================================== */
+
+
+.ticket-form-group{
+
+margin-bottom:20px;
+
+}
+
+
+.ticket-form-group label{
+
+display:block;
+
+font-weight:600;
+
+margin-bottom:8px;
+
+}
+
+
+
+.ticket-form-group input,
+.ticket-form-group select,
+.ticket-form-group textarea{
+
+
+width:100%;
+
+padding:12px;
+
+border-radius:8px;
+
+border:1px solid #ddd;
+
+font-family:inherit;
+
+font-size:14px;
+
+
+}
+
+
+
+.ticket-form-group textarea{
+
+resize:vertical;
+
+}
+
+
+
+#mensajeTicket{
+
+margin-top:20px;
+
+font-weight:600;
+
+}
