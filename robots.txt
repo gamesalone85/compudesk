@@ -2,10 +2,22 @@ User-agent: *
 
 Allow: /
 
-Sitemap:
+# Evitar indexación de áreas privadas
 
-https://www.compudesk.org/sitemap.xml
+Disallow: /clientes/perfil/
+Disallow: /clientes/dashboard/
+Disallow: /admin/
+Disallow: /private/
 
-Host:
 
-https://www.compudesk.org
+# Archivos sensibles
+
+Disallow: /.git/
+Disallow: /.env
+Disallow: /backup/
+Disallow: /config/
+
+
+# Sitemap oficial
+
+Sitemap: https://www.compudesk.org/sitemap.xml
