@@ -46,37 +46,38 @@ async function cargarKPIs(){
 
 
         const clientesSnapshot =
-        await getDocs(
+await getDocs(
 
-            collection(
-                db,
-                "clientes"
-            )
+    collection(
+        db,
+        "clientes"
+    )
 
-        );
+);
 
-
-
-        const clientesElemento =
-        document.getElementById(
-            "totalClientesDashboard"
-        );
+console.log("Clientes encontrados:", clientesSnapshot.size);
+console.log(clientesSnapshot.docs);
 
 
 
-        if(clientesElemento){
+const clientesElemento =
+document.getElementById(
+    "totalClientesDashboard"
+);
 
+console.log("Elemento HTML:", clientesElemento);
 
-            clientesElemento.textContent =
-            clientesSnapshot.size;
+if(clientesElemento){
 
+    clientesElemento.textContent =
+    clientesSnapshot.size;
 
-        }
+    console.log(
+        "Valor asignado:",
+        clientesElemento.textContent
+    );
 
-
-
-
-
+}
 
 
         // ============================
