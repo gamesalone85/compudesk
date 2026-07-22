@@ -1,0 +1,148 @@
+/*
+==================================================
+COMPU DESK
+Centro de Ayuda
+CSS
+Versión 1.0
+==================================================
+*/
+
+
+/* BUSCADOR */
+
+.help-search{
+
+display:flex;
+
+gap:15px;
+
+width:100%;
+
+}
+
+
+
+.help-search input{
+
+
+flex:1;
+
+padding:14px 18px;
+
+border-radius:12px;
+
+border:1px solid #ddd;
+
+font-size:15px;
+
+font-family:inherit;
+
+
+}
+
+
+
+.help-search button{
+
+
+background:#c8102e;
+
+color:white;
+
+border:none;
+
+padding:0 25px;
+
+border-radius:12px;
+
+cursor:pointer;
+
+font-weight:600;
+
+
+}
+
+
+
+.help-search button:hover{
+
+
+opacity:.9;
+
+
+}
+
+
+
+
+
+/* TARJETAS DE CATEGORIA */
+
+
+.cd-widget h3{
+
+
+margin-top:15px;
+
+margin-bottom:8px;
+
+
+}
+
+
+
+.cd-widget p{
+
+
+font-size:14px;
+
+color:#666;
+
+
+}
+
+
+
+
+/* LINK CREAR TICKET */
+
+
+.cd-action{
+
+
+display:inline-flex;
+
+align-items:center;
+
+gap:10px;
+
+
+}
+
+
+
+
+@media(max-width:768px){
+
+
+.help-search{
+
+
+flex-direction:column;
+
+
+}
+
+
+
+.help-search button{
+
+
+height:45px;
+
+
+}
+
+
+
+}
