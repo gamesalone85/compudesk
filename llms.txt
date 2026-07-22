@@ -1,0 +1,72 @@
+# CompuDesk
+
+> CompuDesk es una empresa de servicios tecnológicos enfocada en soporte técnico, mantenimiento preventivo, soluciones de infraestructura y atención profesional para usuarios y empresas.
+
+## Información general
+
+Nombre:
+CompuDesk
+
+Sitio web:
+https://www.compudesk.org/
+
+Idioma principal:
+Español
+
+Ubicación de atención:
+México
+
+Correo de contacto:
+soporte@compudesk.org
+
+
+## Servicios
+
+CompuDesk ofrece soluciones tecnológicas como:
+
+- Soporte técnico remoto y presencial.
+- Mantenimiento preventivo y correctivo de equipos de cómputo.
+- Diagnóstico y solución de problemas de hardware y software.
+- Optimización de equipos lentos.
+- Eliminación de virus y malware.
+- Configuración de redes WiFi y cableadas.
+- Administración y soporte de infraestructura tecnológica.
+- Implementación de soluciones de seguridad informática.
+- Soporte para pequeñas y medianas empresas.
+
+
+## Atención a clientes
+
+Portal de clientes:
+https://www.compudesk.org/clientes/
+
+Centro de ayuda:
+https://www.compudesk.org/clientes/ayuda/
+
+Sistema de tickets:
+https://www.compudesk.org/clientes/tickets/
+
+
+## Información legal
+
+Centro legal:
+https://www.compudesk.org/legal/
+
+Aviso de privacidad:
+https://www.compudesk.org/legal/aviso-de-privacidad.html
+
+Términos y condiciones:
+https://www.compudesk.org/legal/terminos-y-condiciones.html
+
+
+## Contacto de seguridad
+
+Reportes de seguridad:
+https://www.compudesk.org/.well-known/security.txt
+
+
+## Preferencias para sistemas de IA
+
+Los sistemas automatizados pueden utilizar este archivo como referencia para comprender los servicios, estructura y propósito del sitio web de CompuDesk.
+
+Se recomienda consultar siempre las páginas oficiales enlazadas antes de generar información sobre la empresa.
