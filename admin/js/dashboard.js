@@ -5,18 +5,13 @@
 // ==========================================
 
 
+import "./admin-layout.js";
+
+
 import { 
-    auth,
     db
-} from "../../assets/firebase/firebase-config.js";
-
-
-import {
-
-    signOut
-
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+} 
+from "../../assets/firebase/firebase-config.js";
 
 
 import {
@@ -31,212 +26,6 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-// ==========================================
-// Cargar componentes HTML
-// ==========================================
-
-
-async function cargarComponente(id, archivo){
-
-
-    try{
-
-
-        const respuesta =
-        await fetch(archivo);
-
-
-
-        const contenido =
-        await respuesta.text();
-
-
-
-        const elemento =
-        document.getElementById(id);
-
-
-
-        if(elemento){
-
-            elemento.innerHTML =
-            contenido;
-
-        }
-
-
-
-    }catch(error){
-
-
-        console.error(
-            "Error cargando componente:",
-            archivo,
-            error
-        );
-
-
-    }
-
-
-}
-
-
-
-
-
-
-// ==========================================
-// Cargar Sidebar y Header
-// ==========================================
-
-
-await cargarComponente(
-    "sidebar",
-    "components/sidebar.html"
-);
-
-
-
-await cargarComponente(
-    "header",
-    "components/header.html"
-);
-
-
-
-
-
-
-// ==========================================
-// Datos del administrador
-// ==========================================
-
-
-const admin = JSON.parse(
-
-    localStorage.getItem(
-        "compudeskAdmin"
-    )
-
-);
-
-
-
-
-
-if(admin){
-
-
-    const nombre =
-    document.getElementById(
-        "adminName"
-    );
-
-
-
-    const rol =
-    document.getElementById(
-        "adminRole"
-    );
-
-
-
-
-    if(nombre){
-
-        nombre.textContent =
-        admin.nombre;
-
-    }
-
-
-
-
-    if(rol){
-
-        rol.textContent =
-        admin.rol;
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================
-// Logout
-// ==========================================
-
-
-const logoutButton =
-document.getElementById(
-    "logout"
-);
-
-
-
-
-
-if(logoutButton){
-
-
-
-    logoutButton.addEventListener(
-        "click",
-        async()=>{
-
-
-            try{
-
-
-                await signOut(auth);
-
-
-
-                localStorage.removeItem(
-                    "compudeskAdmin"
-                );
-
-
-
-                window.location.href =
-                "login.html";
-
-
-
-            }
-            catch(error){
-
-
-                console.error(
-                    "Error cerrando sesión",
-                    error
-                );
-
-
-            }
-
-
-        }
-
-    );
-
-
-}
-
-
-
-
-
-
-
 
 
 // ==========================================
@@ -245,7 +34,6 @@ if(logoutButton){
 
 
 async function cargarKPIs(){
-
 
 
     try{
@@ -269,11 +57,6 @@ async function cargarKPIs(){
 
 
 
-        const totalClientes =
-        clientesSnapshot.size;
-
-
-
         const clientesElemento =
         document.getElementById(
             "totalClientesDashboard"
@@ -285,7 +68,7 @@ async function cargarKPIs(){
 
 
             clientesElemento.textContent =
-            totalClientes;
+            clientesSnapshot.size;
 
 
         }
@@ -311,7 +94,6 @@ async function cargarKPIs(){
         if(usuariosElemento){
 
 
-
             try{
 
 
@@ -331,9 +113,14 @@ async function cargarKPIs(){
                 usuariosSnapshot.size;
 
 
-
             }
             catch(error){
+
+
+                console.warn(
+                    "Colección usuarios no disponible",
+                    error
+                );
 
 
                 usuariosElemento.textContent =
@@ -385,9 +172,14 @@ async function cargarKPIs(){
                 ticketsSnapshot.size;
 
 
-
             }
             catch(error){
+
+
+                console.warn(
+                    "Colección tickets no disponible",
+                    error
+                );
 
 
                 ticketsElemento.textContent =
@@ -440,9 +232,14 @@ async function cargarKPIs(){
                 equiposSnapshot.size;
 
 
-
             }
             catch(error){
+
+
+                console.warn(
+                    "Colección equipos no disponible",
+                    error
+                );
 
 
                 equiposElemento.textContent =
@@ -463,10 +260,8 @@ async function cargarKPIs(){
 
 
         console.error(
-
             "Error cargando KPIs:",
             error
-
         );
 
 
@@ -482,7 +277,7 @@ async function cargarKPIs(){
 
 
 // ==========================================
-// Iniciar Dashboard
+// Inicializar Dashboard
 // ==========================================
 
 
