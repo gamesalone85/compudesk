@@ -1,0 +1,9 @@
+Contact: mailto:seguridad@compudesk.org
+
+Expires: 2027-07-21
+
+Preferred-Languages: es, en
+
+Canonical: https://www.compudesk.org/.well-known/security.txt
+
+Policy: https://www.compudesk.org/legal/politica-de-soporte.html
