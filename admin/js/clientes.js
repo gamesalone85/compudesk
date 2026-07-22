@@ -45,7 +45,63 @@ document.getElementById("buscarCliente");
 let clientes = [];
 
 
+// ==========================================
+// CARGAR COMPONENTES ADMIN
+// ==========================================
 
+
+async function cargarComponente(id, archivo){
+
+
+    try{
+
+
+        const respuesta =
+        await fetch(archivo);
+
+
+
+        const contenido =
+        await respuesta.text();
+
+
+
+        document.getElementById(id).innerHTML =
+        contenido;
+
+
+
+    }
+    catch(error){
+
+
+        console.error(
+            "Error cargando componente:",
+            archivo,
+            error
+        );
+
+
+    }
+
+
+}
+
+
+
+
+
+await cargarComponente(
+    "sidebar",
+    "../components/sidebar.html"
+);
+
+
+
+await cargarComponente(
+    "header",
+    "../components/header.html"
+);
 
 
 
