@@ -1,11 +1,11 @@
-# CompuDesk
+# Compu Desk
 
-> CompuDesk es una empresa de servicios tecnológicos enfocada en soporte técnico, mantenimiento preventivo, soluciones de infraestructura y atención profesional para usuarios y empresas.
+> Compu Desk es una empresa de servicios tecnológicos enfocada en soporte técnico, mantenimiento preventivo, soluciones de infraestructura y atención profesional para usuarios y empresas.
 
 ## Información general
 
 Nombre:
-CompuDesk
+Compu Desk
 
 Sitio web:
 https://www.compudesk.org/
@@ -22,7 +22,7 @@ soporte@compudesk.org
 
 ## Servicios
 
-CompuDesk ofrece soluciones tecnológicas como:
+Compu Desk ofrece soluciones tecnológicas como:
 
 - Soporte técnico remoto y presencial.
 - Mantenimiento preventivo y correctivo de equipos de cómputo.
@@ -67,6 +67,6 @@ https://www.compudesk.org/.well-known/security.txt
 
 ## Preferencias para sistemas de IA
 
-Los sistemas automatizados pueden utilizar este archivo como referencia para comprender los servicios, estructura y propósito del sitio web de CompuDesk.
+Los sistemas automatizados pueden utilizar este archivo como referencia para comprender los servicios, estructura y propósito del sitio web de Compu Desk.
 
 Se recomienda consultar siempre las páginas oficiales enlazadas antes de generar información sobre la empresa.
