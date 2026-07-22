@@ -1,0 +1,23 @@
+{
+  "name": "Compu Desk",
+  "short_name": "Compu Desk",
+  "description": "Soporte técnico, mantenimiento y soluciones tecnológicas para empresas y usuarios.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#c8102e",
+  "orientation": "portrait",
+  "lang": "es-MX",
+  "icons": [
+    {
+      "src": "/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}
