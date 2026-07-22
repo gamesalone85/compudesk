@@ -2,7 +2,7 @@
 ========================================
 COMPU DESK
 Portal Clientes Login JS
-Versión 1.2
+Versión 2.0
 ========================================
 */
 
@@ -15,6 +15,7 @@ function(){
 console.log(
 "Login Portal Clientes Compu Desk cargado"
 );
+
 
 
 
@@ -34,7 +35,10 @@ document.getElementById("togglePassword");
 
 
 
-if(togglePassword && passwordInput){
+if(
+togglePassword &&
+passwordInput
+){
 
 
 togglePassword.addEventListener(
@@ -46,8 +50,14 @@ const visible =
 passwordInput.type === "text";
 
 
+
 passwordInput.type =
-visible ? "password" : "text";
+visible
+?
+"password"
+:
+"text";
+
 
 
 this.innerHTML =
@@ -58,6 +68,7 @@ visible
 '<i class="fa-solid fa-eye-slash"></i>';
 
 
+
 });
 
 
@@ -66,19 +77,25 @@ visible
 
 
 
+
+
+
 /*
 ========================================
-LOGIN
+FORMULARIO LOGIN
 ========================================
 */
 
 
 const form =
-document.getElementById("loginForm");
+document.getElementById(
+"loginForm"
+);
 
 
 
 if(form){
+
 
 
 form.addEventListener(
@@ -87,6 +104,7 @@ function(e){
 
 
 e.preventDefault();
+
 
 
 
@@ -114,6 +132,15 @@ document
 
 
 
+
+
+/*
+========================================
+VALIDACIONES
+========================================
+*/
+
+
 if(
 email === ""
 ||
@@ -135,40 +162,90 @@ return;
 
 
 
+
+
 /*
 ========================================
-USUARIO TEMPORAL
-DESPUÉS SERÁ FIREBASE
+BUSCAR USUARIO
 ========================================
 */
 
 
-const usuarioDemo = {
+const usuarioEncontrado =
+
+usuariosCompuDesk.find(
+
+function(usuario){
 
 
-correo:
-"admin@compudesk.org",
+return (
+
+usuario.correo === email
+
+&&
+
+usuario.password === password
 
 
-password:
-"CompuDesk2026",
-
-
-datos:{
-
-
-id:"001",
-
-nombre:"Administrador",
-
-empresa:"Compu Desk",
-
-plan:"Administrador",
-
-rol:"Administrador"
+);
 
 
 }
+
+
+);
+
+
+
+
+
+
+
+/*
+========================================
+ACCESO CORRECTO
+========================================
+*/
+
+
+if(usuarioEncontrado){
+
+
+
+const datosSesion = {
+
+
+id:
+usuarioEncontrado.id,
+
+
+nombre:
+usuarioEncontrado.nombre,
+
+
+correo:
+usuarioEncontrado.correo,
+
+
+empresa:
+usuarioEncontrado.empresa,
+
+
+plan:
+usuarioEncontrado.plan,
+
+
+rol:
+usuarioEncontrado.rol,
+
+
+horario:
+usuarioEncontrado.horario,
+
+
+contacto:
+usuarioEncontrado.contacto
+
 
 
 };
@@ -176,22 +253,17 @@ rol:"Administrador"
 
 
 
-
-if(
-email === usuarioDemo.correo
-&&
-password === usuarioDemo.password
-
-){
-
-
-
 localStorage.setItem(
+
 "clienteCompudesk",
+
 JSON.stringify(
-usuarioDemo.datos
+datosSesion
 )
+
 );
+
+
 
 
 
@@ -208,10 +280,12 @@ localStorage.setItem(
 
 
 
+
 console.log(
 "Sesión creada:",
-usuarioDemo.datos
+datosSesion
 );
+
 
 
 
@@ -219,6 +293,8 @@ mostrarMensaje(
 "Acceso correcto",
 "success"
 );
+
+
 
 
 
@@ -236,7 +312,19 @@ window.location.href =
 
 
 
-}else{
+
+}
+
+
+
+/*
+========================================
+ERROR LOGIN
+========================================
+*/
+
+
+else{
 
 
 mostrarMensaje(
@@ -248,11 +336,12 @@ mostrarMensaje(
 }
 
 
+
+
 });
 
 
 }
-
 
 
 
@@ -271,6 +360,7 @@ tipo
 ){
 
 
+
 let alerta =
 document.querySelector(
 ".login-alert"
@@ -279,6 +369,7 @@ document.querySelector(
 
 
 if(!alerta){
+
 
 
 alerta =
@@ -302,15 +393,18 @@ document.querySelector(
 
 if(card){
 
+
 card.insertBefore(
 alerta,
 card.firstChild
 );
 
+
 }
 
 
 }
+
 
 
 
@@ -318,8 +412,12 @@ alerta.textContent =
 mensaje;
 
 
+
 alerta.className =
-"login-alert " + tipo;
+"login-alert "
++
+tipo;
+
 
 
 
@@ -341,6 +439,7 @@ alerta.remove();
 
 
 }
+
 
 
 
