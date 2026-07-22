@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Perfil Cliente | Compu Desk Admin
+</title>
+
+
+<link rel="icon" href="../../img/logo.png">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<link rel="stylesheet" href="../css/admin.css">
+
+<link rel="stylesheet" href="clientes.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+<div id="sidebar"></div>
+
+
+
+<main class="admin-content">
+
+
+<div id="header"></div>
+
+
+
+
+<section class="page-header">
+
+
+<div>
+
+<h2>
+Perfil del Cliente
+</h2>
+
+<p>
+Información general y servicios contratados.
+</p>
+
+</div>
+
+
+<a href="index.html" class="btn-primary">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Regresar
+
+</a>
+
+
+</section>
+
+
+
+
+
+
+<section class="client-profile">
+
+
+
+<div class="profile-header">
+
+
+<div class="profile-icon">
+
+<i class="fa-solid fa-building"></i>
+
+</div>
+
+
+<div>
+
+<h2 id="empresa">
+
+Cargando...
+
+</h2>
+
+
+<span id="estado">
+
+</span>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="profile-grid">
+
+
+
+<div class="info-box">
+
+<h3>
+
+<i class="fa-solid fa-user"></i>
+
+Contacto
+
+</h3>
+
+
+<p id="contacto"></p>
+
+
+</div>
+
+
+
+
+
+<div class="info-box">
+
+<h3>
+
+<i class="fa-solid fa-envelope"></i>
+
+Correo
+
+</h3>
+
+
+<p id="correo"></p>
+
+
+</div>
+
+
+
+
+
+
+<div class="info-box">
+
+<h3>
+
+<i class="fa-solid fa-phone"></i>
+
+Teléfono
+
+</h3>
+
+
+<p id="telefono"></p>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="info-box">
+
+<h3>
+
+<i class="fa-solid fa-headset"></i>
+
+Plan
+
+</h3>
+
+
+<p id="plan"></p>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="profile-actions">
+
+
+<button 
+id="btnPDF"
+class="btn-primary">
+
+
+<i class="fa-solid fa-file-pdf"></i>
+
+Generar comprobante
+
+
+</button>
+
+
+
+</div>
+
+
+
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+</div>
+
+
+
+
+
+<script type="module" src="../js/auth-guard.js"></script>
+
+<script type="module" src="../js/ver-cliente.js"></script>
+
+
+</body>
+
+</html>
