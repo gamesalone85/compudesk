@@ -1,50 +1,474 @@
+/* ==========================================
+   COMPU DESK ADMIN
+   Dashboard Principal
+========================================== */
+
+
+/* Variables */
+
+:root{
+
+    --cd-red:#C8102E;
+    --cd-gray:#54565A;
+    --cd-dark:#252525;
+    --cd-light:#F5F6F8;
+    --cd-white:#ffffff;
+
+    --shadow:
+    0 8px 25px rgba(0,0,0,.10);
+
+}
+
+
+
+/* Reset */
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+
+
 body{
 
-font-family:Arial, sans-serif;
+    font-family:'Inter',Arial,sans-serif;
 
-background:#f5f5f5;
+    background:var(--cd-light);
 
-padding:40px;
-
-}
-
-
-.admin-dashboard{
-
-background:white;
-
-max-width:600px;
-
-margin:auto;
-
-padding:30px;
-
-border-radius:15px;
-
-box-shadow:0 10px 25px rgba(0,0,0,.1);
+    color:var(--cd-dark);
 
 }
 
 
-h1{
 
-color:#C8102E;
+/* Layout principal */
+
+.admin-layout{
+
+    display:flex;
+
+    min-height:100vh;
 
 }
 
 
-button{
 
-background:#C8102E;
+/* ==========================================
+   SIDEBAR
+========================================== */
 
-color:white;
 
-border:none;
+.sidebar{
 
-padding:12px 20px;
+    width:260px;
 
-border-radius:8px;
+    background:
+    var(--cd-gray);
 
-cursor:pointer;
+    color:white;
+
+    display:flex;
+
+    flex-direction:column;
+
+    position:fixed;
+
+    height:100vh;
+
+}
+
+
+
+.sidebar-logo{
+
+    padding:25px;
+
+    text-align:center;
+
+    border-bottom:
+    1px solid rgba(255,255,255,.15);
+
+}
+
+
+
+.sidebar-logo img{
+
+    width:70px;
+
+    height:70px;
+
+    object-fit:contain;
+
+}
+
+
+
+.sidebar-logo h2{
+
+    margin-top:10px;
+
+    font-size:22px;
+
+}
+
+
+
+/* Menu */
+
+.sidebar-menu{
+
+    padding:20px 0;
+
+    flex:1;
+
+}
+
+
+
+.sidebar-menu a{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:15px 25px;
+
+    color:white;
+
+    text-decoration:none;
+
+    transition:.3s;
+
+    font-size:15px;
+
+}
+
+
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active{
+
+    background:var(--cd-red);
+
+}
+
+
+
+.sidebar-menu i{
+
+    width:20px;
+
+}
+
+
+
+/* Footer sidebar */
+
+.sidebar-footer{
+
+    padding:20px;
+
+}
+
+
+
+.sidebar-footer button{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:8px;
+
+    background:white;
+
+    color:var(--cd-red);
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+
+
+.sidebar-footer button:hover{
+
+    opacity:.9;
+
+}
+
+
+
+/* ==========================================
+   CONTENIDO
+========================================== */
+
+
+.admin-content{
+
+    margin-left:260px;
+
+    width:calc(100% - 260px);
+
+    padding:25px;
+
+}
+
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+
+.admin-header{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.admin-header h1{
+
+    font-size:26px;
+
+}
+
+
+
+.admin-header p{
+
+    color:#777;
+
+    margin-top:5px;
+
+}
+
+
+
+.admin-profile{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+
+
+.admin-profile i{
+
+    font-size:35px;
+
+    color:var(--cd-red);
+
+}
+
+
+
+.admin-profile small{
+
+    display:block;
+
+    color:#777;
+
+}
+
+
+
+/* ==========================================
+   TARJETAS KPI
+========================================== */
+
+
+.dashboard-cards{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:20px;
+
+}
+
+
+
+.card{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:15px;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+
+
+.card i{
+
+    font-size:35px;
+
+    color:var(--cd-red);
+
+}
+
+
+
+.card h3{
+
+    font-size:14px;
+
+    color:#777;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.card span{
+
+    font-size:30px;
+
+    font-weight:700;
+
+}
+
+
+
+/* ==========================================
+   BIENVENIDA
+========================================== */
+
+
+.welcome{
+
+    background:white;
+
+    margin-top:30px;
+
+    padding:30px;
+
+    border-radius:15px;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+
+.welcome h2{
+
+    color:var(--cd-gray);
+
+    margin-bottom:10px;
+
+}
+
+
+
+/* ==========================================
+   RESPONSIVE
+========================================== */
+
+
+@media(max-width:1100px){
+
+
+    .dashboard-cards{
+
+        grid-template-columns:
+        repeat(2,1fr);
+
+    }
+
+}
+
+
+
+@media(max-width:700px){
+
+
+    .sidebar{
+
+        position:relative;
+
+        width:100%;
+
+        height:auto;
+
+    }
+
+
+    .admin-layout{
+
+        flex-direction:column;
+
+    }
+
+
+    .admin-content{
+
+        margin-left:0;
+
+        width:100%;
+
+    }
+
+
+    .dashboard-cards{
+
+        grid-template-columns:1fr;
+
+    }
+
+
+    .admin-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
 
 }
