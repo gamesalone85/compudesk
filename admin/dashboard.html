@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Dashboard Administrador | Compu Desk</title>
+
+<link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+
+<body>
+
+
+<main class="admin-dashboard">
+
+
+    <h1>
+        Panel Administrativo Compu Desk
+    </h1>
+
+
+    <p>
+        Bienvenido al sistema de administración.
+    </p>
+
+
+    <div id="adminInfo"></div>
+
+
+    <button id="logout">
+        Cerrar sesión
+    </button>
+
+
+</main>
+
+
+<script type="module">
+
+
+import { auth } from "../assets/firebase/firebase-config.js";
+
+
+import {
+    signOut
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
+const data =
+JSON.parse(
+localStorage.getItem("compudeskAdmin")
+);
+
+
+
+document.getElementById("adminInfo").innerHTML = `
+
+<h3>${data.nombre}</h3>
+
+<p>${data.correo}</p>
+
+<p>Rol: ${data.rol}</p>
+
+`;
+
+
+
+document
+.getElementById("logout")
+.addEventListener("click", async()=>{
+
+
+await signOut(auth);
+
+
+localStorage.removeItem("compudeskAdmin");
+
+
+window.location.href="login.html";
+
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
