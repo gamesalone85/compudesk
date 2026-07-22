@@ -19,19 +19,19 @@ Clientes | Compu Desk Admin
 <link rel="icon" href="../../img/logo.png">
 
 
-<!-- Font Awesome -->
+<!-- ICONOS -->
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
 
-<!-- CSS ADMIN -->
+<!-- ESTILOS ADMIN -->
 
 <link rel="stylesheet" href="../css/dashboard.css">
 
 
-<!-- CSS CLIENTES -->
+<!-- ESTILOS CLIENTES -->
 
 <link rel="stylesheet" href="clientes.css">
 
@@ -48,333 +48,235 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-    <!-- SIDEBAR -->
 
-    <aside id="sidebar"></aside>
 
+<!-- SIDEBAR -->
 
+<div id="sidebar"></div>
 
 
 
-    <main class="admin-content">
 
 
+<main class="admin-content">
 
-        <!-- HEADER -->
 
-        <header id="header"></header>
 
 
 
+<!-- HEADER -->
 
+<div id="header"></div>
 
 
-        <section class="page-header">
 
 
 
-            <div>
 
 
-                <h2>
+<section class="page-header">
 
-                    Gestión de Clientes
 
-                </h2>
 
+<div>
 
 
-                <p>
+<h2>
 
-                    Administración de empresas y usuarios registrados.
+<i class="fa-solid fa-users"></i>
 
-                </p>
+Gestión de Clientes
 
+</h2>
 
 
-            </div>
 
+<p>
 
+Administración de empresas y usuarios registrados.
 
+</p>
 
 
-            <a href="nuevo.html"
-               class="btn-primary">
 
+</div>
 
-                <i class="fa-solid fa-plus"></i>
 
 
-                Nuevo cliente
 
 
 
-            </a>
 
+<div class="page-actions">
 
 
 
-        </section>
+<a href="../dashboard.html"
+class="btn-secondary">
 
 
+<i class="fa-solid fa-gauge"></i>
 
 
+Dashboard
 
 
+</a>
 
 
 
-        <section class="client-summary">
 
 
+<a href="nuevo.html"
+class="btn-primary">
 
 
+<i class="fa-solid fa-plus"></i>
 
-            <div class="client-card">
 
+Nuevo cliente
 
-                <i class="fa-solid fa-building"></i>
 
+</a>
 
 
-                <div>
 
 
-                    <span>
+</div>
 
-                        Clientes registrados
 
-                    </span>
 
 
 
-                    <strong id="totalClientes">
+</section>
 
-                        0
 
-                    </strong>
 
 
 
-                </div>
 
 
 
-            </div>
 
+<section class="client-summary">
 
 
 
 
 
+<div class="client-card">
 
 
+<i class="fa-solid fa-building"></i>
 
-            <div class="client-card">
 
 
+<div>
 
-                <i class="fa-solid fa-users"></i>
 
+<span>
 
+Clientes registrados
 
+</span>
 
-                <div>
 
 
-                    <span>
+<strong id="totalClientes">
 
-                        Usuarios creados
+0
 
-                    </span>
+</strong>
 
 
 
+</div>
 
-                    <strong id="totalUsuarios">
 
-                        0
 
-                    </strong>
+</div>
 
 
 
 
-                </div>
 
 
 
-            </div>
+<div class="client-card">
 
 
 
+<i class="fa-solid fa-user-check"></i>
 
 
-        </section>
 
 
+<div>
 
 
+<span>
 
+Usuarios creados
 
+</span>
 
 
 
-        <section class="table-container">
+<strong id="totalUsuarios">
 
+0
 
+</strong>
 
 
 
-            <div class="table-header">
+</div>
 
 
 
-                <h3>
+</div>
 
-                    Clientes registrados
 
-                </h3>
 
 
 
+</section>
 
 
-                <input
 
-                type="search"
 
-                id="buscarCliente"
 
-                placeholder="Buscar cliente...">
 
 
 
 
+<section class="table-container">
 
-            </div>
 
 
 
 
+<div class="table-header">
 
 
 
+<h3>
 
+Clientes registrados
 
-            <table>
+</h3>
 
 
 
-                <thead>
 
 
+<input
 
-                    <tr>
+type="search"
 
+id="buscarCliente"
 
-
-                        <th>
-
-                            Empresa
-
-                        </th>
-
-
-
-                        <th>
-
-                            Contacto
-
-                        </th>
-
-
-
-                        <th>
-
-                            Correo
-
-                        </th>
-
-
-
-                        <th>
-
-                            Plan
-
-                        </th>
-
-
-
-                        <th>
-
-                            Estado
-
-                        </th>
-
-
-
-                        <th>
-
-                            Acciones
-
-                        </th>
-
-
-
-                    </tr>
-
-
-
-                </thead>
-
-
-
-
-
-
-                <tbody id="clientesTabla">
-
-
-
-                    <tr>
-
-
-                        <td colspan="6">
-
-
-                            Cargando clientes...
-
-
-                        </td>
-
-
-                    </tr>
-
-
-
-
-                </tbody>
-
-
-
-
-
-
-            </table>
-
-
-
-
-
-
-        </section>
-
-
-
-
-
-    </main>
+placeholder="Buscar cliente...">
 
 
 
@@ -388,26 +290,127 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-<!-- CARGADOR DE COMPONENTES -->
-
-<script src="../../js/layout.js"></script>
 
 
+<table>
 
 
-<!-- SEGURIDAD ADMIN -->
+
+<thead>
+
+
+
+<tr>
+
+
+<th>
+Empresa
+</th>
+
+
+<th>
+Contacto
+</th>
+
+
+<th>
+Correo
+</th>
+
+
+<th>
+Plan
+</th>
+
+
+<th>
+Estado
+</th>
+
+
+<th>
+Acciones
+</th>
+
+
+</tr>
+
+
+
+</thead>
+
+
+
+
+
+
+
+<tbody id="clientesTabla">
+
+
+
+<tr>
+
+
+<td colspan="6">
+
+Cargando clientes...
+
+</td>
+
+
+</tr>
+
+
+
+</tbody>
+
+
+
+
+
+</table>
+
+
+
+
+
+
+
+</section>
+
+
+
+
+
+
+</main>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+<!-- SCRIPTS -->
+
+<script src="../js/layout.js"></script>
+
 
 <script type="module"
 src="../js/auth-guard.js"></script>
 
 
 
-
-<!-- FIREBASE CLIENTES -->
-
 <script type="module"
 src="../js/clientes.js"></script>
-
 
 
 
