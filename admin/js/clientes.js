@@ -4,119 +4,42 @@
 // Firebase Firestore
 // ==========================================
 
+import "./admin-layout.js";
 
 import { db } from "../../assets/firebase/firebase-config.js";
 
-
 import {
-
     collection,
     getDocs,
     query,
     orderBy
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 // ==========================================
 // ELEMENTOS HTML
 // ==========================================
 
-
 const tablaClientes =
 document.getElementById("clientesTabla");
-
 
 const totalClientes =
 document.getElementById("totalClientes");
 
-
 const buscarCliente =
 document.getElementById("buscarCliente");
-
-
 
 
 let clientes = [];
 
 
 // ==========================================
-// CARGAR COMPONENTES ADMIN
-// ==========================================
-
-
-async function cargarComponente(id, archivo){
-
-
-    try{
-
-
-        const respuesta =
-        await fetch(archivo);
-
-
-
-        const contenido =
-        await respuesta.text();
-
-
-
-        document.getElementById(id).innerHTML =
-        contenido;
-
-
-
-    }
-    catch(error){
-
-
-        console.error(
-            "Error cargando componente:",
-            archivo,
-            error
-        );
-
-
-    }
-
-
-}
-
-
-
-
-
-await cargarComponente(
-    "sidebar",
-    "../components/sidebar.html"
-);
-
-
-
-await cargarComponente(
-    "header",
-    "../components/header.html"
-);
-
-
-
-
-// ==========================================
 // CARGAR CLIENTES FIRESTORE
 // ==========================================
 
-
 async function cargarClientes(){
 
-
-
     try{
-
 
         const clientesRef =
         collection(
@@ -124,64 +47,38 @@ async function cargarClientes(){
             "clientes"
         );
 
-
-
         const consulta =
         query(
-
             clientesRef,
-
             orderBy(
                 "fechaAlta",
                 "desc"
             )
-
         );
-
-
 
         const resultado =
         await getDocs(
             consulta
         );
 
-
-
         clientes = [];
-
-
 
         resultado.forEach((documento)=>{
 
-
             clientes.push({
-
 
                 id:
                 documento.id,
 
-
                 ...documento.data()
-
-
 
             });
 
-
-
         });
-
-
-
-
 
         mostrarClientes(
             clientes
         );
-
-
-
-
 
         if(totalClientes){
 
@@ -190,24 +87,16 @@ async function cargarClientes(){
 
         }
 
-
-
-
     }
 
     catch(error){
-
-
 
         console.error(
             "Error cargando clientes:",
             error
         );
 
-
-
         if(tablaClientes){
-
 
             tablaClientes.innerHTML = `
 
@@ -223,35 +112,18 @@ async function cargarClientes(){
 
             `;
 
-
         }
-
-
 
     }
 
-
-
 }
-
-
-
-
-
-
-
 
 
 // ==========================================
 // MOSTRAR CLIENTES
 // ==========================================
 
-
 function mostrarClientes(lista){
-
-
-
-
 
     if(!tablaClientes){
 
@@ -259,77 +131,36 @@ function mostrarClientes(lista){
 
     }
 
-
-
-
-
-
     if(lista.length === 0){
-
-
 
         tablaClientes.innerHTML = `
 
-
         <tr>
-
 
             <td colspan="6">
 
-
                 No existen clientes registrados.
-
 
             </td>
 
-
         </tr>
-
 
         `;
 
-
-
         return;
-
 
     }
 
-
-
-
-
-
-
-
     tablaClientes.innerHTML = "";
 
-
-
-
-
-
-
     lista.forEach((cliente)=>{
-
-
-
-
 
         const fila =
         document.createElement(
             "tr"
         );
 
-
-
-
-
-
-
         fila.innerHTML = `
-
-
 
         <td>
 
@@ -337,19 +168,11 @@ function mostrarClientes(lista){
 
         </td>
 
-
-
-
-
         <td>
 
             ${cliente.contacto || "-"}
 
         </td>
-
-
-
-
 
         <td>
 
@@ -357,211 +180,105 @@ function mostrarClientes(lista){
 
         </td>
 
-
-
-
-
         <td>
 
             ${cliente.plan || "-"}
 
         </td>
 
-
-
-
-
         <td>
-
 
             <span class="estado ${cliente.estado || "pendiente"}">
 
-
                 ${(cliente.estado || "pendiente").toUpperCase()}
-
 
             </span>
 
-
-
         </td>
-
-
-
-
 
         <td class="acciones">
 
-
-            <a 
-
+            <a
             href="ver.html?id=${cliente.id}"
-
             title="Ver cliente">
-
 
                 <i class="fa-solid fa-eye"></i>
 
-
             </a>
 
-
-
-
-
-            <a 
-
+            <a
             href="editar.html?id=${cliente.id}"
-
             title="Editar cliente">
-
 
                 <i class="fa-solid fa-pen"></i>
 
-
             </a>
-
-
-
-
 
         </td>
 
-
-
-
         `;
-
-
-
-
-
 
         tablaClientes.appendChild(
             fila
         );
 
-
-
-
-
     });
 
-
-
-
-
-
 }
-
-
-
-
-
-
-
 
 
 // ==========================================
 // BUSCADOR
 // ==========================================
 
-
 if(buscarCliente){
 
+    buscarCliente.addEventListener(
+        "input",
+        ()=>{
 
+            const texto =
+            buscarCliente.value
+            .toLowerCase()
+            .trim();
 
-buscarCliente.addEventListener(
-"input",
-()=>{
+            const filtrados =
+            clientes.filter((cliente)=>{
 
+                return(
 
+                    cliente.empresa
+                    ?.toLowerCase()
+                    .includes(texto)
 
-    const texto =
-    buscarCliente.value
-    .toLowerCase()
-    .trim();
+                    ||
 
+                    cliente.contacto
+                    ?.toLowerCase()
+                    .includes(texto)
 
+                    ||
 
+                    cliente.correo
+                    ?.toLowerCase()
+                    .includes(texto)
 
+                );
 
-    const filtrados =
-    clientes.filter((cliente)=>{
+            });
 
+            mostrarClientes(
+                filtrados
+            );
 
-
-
-
-        return (
-
-
-            cliente.empresa
-            ?.toLowerCase()
-            .includes(texto)
-
-
-
-            ||
-
-
-
-            cliente.contacto
-            ?.toLowerCase()
-            .includes(texto)
-
-
-
-
-            ||
-
-
-
-            cliente.correo
-            ?.toLowerCase()
-            .includes(texto)
-
-
-
-        );
-
-
-
-
-
-    });
-
-
-
-
-
-
-    mostrarClientes(
-        filtrados
+        }
     );
 
-
-
-
-
-
-});
-
-
-
 }
-
-
-
-
-
-
-
 
 
 // ==========================================
 // INICIO
 // ==========================================
-
 
 cargarClientes();
