@@ -1,11 +1,15 @@
 // ==========================================
 // COMPU DESK ADMIN
 // Nuevo Usuario
-// Firebase Firestore
+// Firebase Authentication + Firestore
 // ==========================================
 
 
-import { db } from "../../assets/firebase/firebase-config.js";
+import { 
+    db,
+    auth
+} from "../../assets/firebase/firebase-config.js";
+
 
 
 import {
@@ -17,6 +21,17 @@ import {
 }
 
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+import {
+
+    createUserWithEmailAndPassword
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
 
 
 
@@ -32,10 +47,13 @@ document.getElementById(
 );
 
 
+
 const mensaje =
 document.getElementById(
     "mensaje"
 );
+
+
 
 
 
@@ -56,8 +74,10 @@ JSON.parse(
 
 
 
+
+
 // ==========================================
-// GUARDAR USUARIO
+// CREAR USUARIO
 // ==========================================
 
 
@@ -66,153 +86,296 @@ formulario.addEventListener(
 async(e)=>{
 
 
-    e.preventDefault();
+e.preventDefault();
 
 
 
-    try{
+try{
 
 
-        mensaje.textContent =
-        "Guardando usuario...";
 
+mensaje.textContent =
+"Creando usuario...";
 
 
-        const usuario = {
 
 
-            nombre:
-            document
-            .getElementById("nombre")
-            .value
-            .trim(),
 
+// ==========================================
+// DATOS FORMULARIO
+// ==========================================
 
 
-            correo:
-            document
-            .getElementById("correo")
-            .value
-            .trim(),
+const nombre =
+document
+.getElementById("nombre")
+.value
+.trim();
 
 
 
-            telefono:
-            document
-            .getElementById("telefono")
-            .value
-            .trim(),
+const correo =
+document
+.getElementById("correo")
+.value
+.trim();
 
 
 
-            empresa:
-            document
-            .getElementById("empresa")
-            .value
-            .trim(),
+const password =
+document
+.getElementById("password")
+.value;
 
 
 
-            rol:
-            document
-            .getElementById("rol")
-            .value,
 
 
+// ==========================================
+// CREAR CUENTA AUTH
+// ==========================================
 
-            estado:
-            document
-            .getElementById("estado")
-            .value,
 
+const credencial =
 
+await createUserWithEmailAndPassword(
 
-            fechaAlta:
-            serverTimestamp(),
+    auth,
 
+    correo,
 
+    password
 
-            creadoPor:
+);
 
-            admin
-            ?
-            admin.nombre
-            :
-            "Administrador"
 
 
-        };
 
 
+const uid =
+credencial.user.uid;
 
 
 
-        await addDoc(
 
-            collection(
-                db,
-                "usuarios"
-            ),
 
-            usuario
 
-        );
 
+// ==========================================
+// DATOS FIRESTORE
+// ==========================================
 
 
+const usuario = {
 
 
-        mensaje.textContent =
-        "Usuario registrado correctamente.";
+uid:
 
 
-        mensaje.style.color =
-        "green";
 
+uid,
 
 
 
+nombre:
 
-        formulario.reset();
 
 
+nombre,
 
 
 
-        setTimeout(()=>{
+correo:
 
 
-            window.location.href =
-            "index.html";
 
+correo,
 
-        },1500);
 
 
+telefono:
 
+document
+.getElementById("telefono")
+.value
+.trim(),
 
 
-    }
-    catch(error){
 
+empresa:
 
-        console.error(
-            "Error guardando usuario:",
-            error
-        );
+document
+.getElementById("empresa")
+.value
+.trim(),
 
 
 
-        mensaje.textContent =
-        "Error al guardar usuario.";
+rol:
 
+document
+.getElementById("rol")
+.value,
 
 
-        mensaje.style.color =
-        "red";
 
+estado:
 
-    }
+document
+.getElementById("estado")
+.value,
+
+
+
+fechaAlta:
+
+serverTimestamp(),
+
+
+
+creadoPor:
+
+admin
+
+?
+admin.nombre
+
+:
+
+"Administrador"
+
+
+
+};
+
+
+
+
+
+
+
+
+// ==========================================
+// GUARDAR PERFIL
+// ==========================================
+
+
+await addDoc(
+
+collection(
+db,
+"usuarios"
+),
+
+usuario
+
+);
+
+
+
+
+
+
+
+mensaje.textContent =
+
+"Usuario creado correctamente.";
+
+
+
+mensaje.style.color =
+
+"green";
+
+
+
+
+
+
+formulario.reset();
+
+
+
+
+
+
+setTimeout(()=>{
+
+
+window.location.href =
+
+"index.html";
+
+
+},1500);
+
+
+
+
+
+
+}
+catch(error){
+
+
+
+console.error(
+
+"Error creando usuario:",
+
+error
+
+);
+
+
+
+
+
+if(error.code === "auth/email-already-in-use"){
+
+
+
+mensaje.textContent =
+
+"El correo ya está registrado.";
+
+
+
+}
+
+else if(error.code === "auth/weak-password"){
+
+
+
+mensaje.textContent =
+
+"La contraseña debe tener mínimo 6 caracteres.";
+
+
+
+}
+
+else{
+
+
+
+mensaje.textContent =
+
+"Error al crear usuario.";
+
+
+
+}
+
+
+
+mensaje.style.color =
+
+"red";
+
+
+
+}
 
 
 
