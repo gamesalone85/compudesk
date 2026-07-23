@@ -4,9 +4,7 @@
 // Sidebar + Header + Session
 // ==========================================
 
-
 import { auth } from "../../assets/firebase/firebase-config.js";
-
 
 import {
     signOut
@@ -14,45 +12,68 @@ import {
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
+// ==========================================
+// Detectar rutas
+// ==========================================
+
+const rutaActual =
+window.location.pathname;
+
+// ¿Estamos dentro de un módulo?
+// Ejemplo:
+// /admin/dashboard.html        -> false
+// /admin/clientes/index.html   -> true
+// /admin/usuarios/index.html   -> true
+// /admin/tickets/index.html    -> true
+// /admin/configuracion/index.html -> true
+
+const esSubModulo =
+rutaActual.includes("/clientes/") ||
+rutaActual.includes("/usuarios/") ||
+rutaActual.includes("/tickets/") ||
+rutaActual.includes("/configuracion/");
+
+const rutaComponentes =
+esSubModulo
+? "../components/"
+: "components/";
 
 
 // ==========================================
-// Cargar componentes HTML
+// Cargar componentes
 // ==========================================
-
 
 async function cargarComponente(id, archivo){
 
-
     try{
-
 
         const respuesta =
         await fetch(archivo);
 
+        if(!respuesta.ok){
 
+            throw new Error(
+                `No se encontró ${archivo}`
+            );
 
-        const contenido =
+        }
+
+        const html =
         await respuesta.text();
-
-
 
         const elemento =
         document.getElementById(id);
 
-
-
         if(elemento){
 
             elemento.innerHTML =
-            contenido;
+            html;
 
         }
 
-
     }
-    catch(error){
 
+    catch(error){
 
         console.error(
             "Error cargando componente:",
@@ -60,53 +81,9 @@ async function cargarComponente(id, archivo){
             error
         );
 
-
     }
 
-
 }
-
-
-
-
-
-
-// ==========================================
-// Detectar ubicación actual
-// ==========================================
-
-
-const ruta =
-window.location.pathname;
-
-
-
-
-let rutaComponentes = "";
-
-
-
-if(
-    ruta.includes("/clientes/")
-){
-
-
-    rutaComponentes =
-    "../";
-
-
-}
-else{
-
-
-    rutaComponentes =
-    "";
-
-}
-
-
-
-
 
 
 
@@ -114,95 +91,87 @@ else{
 // Cargar Sidebar y Header
 // ==========================================
 
-
 await cargarComponente(
-
     "sidebar",
-
-    rutaComponentes + "components/sidebar.html"
-
+    rutaComponentes + "sidebar.html"
 );
-
-
 
 await cargarComponente(
-
     "header",
-
-    rutaComponentes + "components/header.html"
-
+    rutaComponentes + "header.html"
 );
 
 
 
+// ==========================================
+// Marcar menú activo automáticamente
+// ==========================================
 
+const enlaces =
+document.querySelectorAll(
+".sidebar-menu a"
+);
 
+enlaces.forEach((link)=>{
 
+    link.classList.remove("active");
+
+    const href =
+    link.getAttribute("href");
+
+    if(!href)
+    return;
+
+    if(
+        rutaActual.endsWith(href)
+    ){
+
+        link.classList.add("active");
+
+    }
+
+});
 
 
 
 // ==========================================
-// Datos administrador
+// Información administrador
 // ==========================================
-
 
 const admin =
 JSON.parse(
-
-    localStorage.getItem(
-        "compudeskAdmin"
-    )
-
+localStorage.getItem(
+"compudeskAdmin"
+)
 );
-
-
-
-
 
 if(admin){
 
-
-
     const nombre =
     document.getElementById(
-        "adminName"
+    "adminName"
     );
-
-
 
     const rol =
     document.getElementById(
-        "adminRole"
+    "adminRole"
     );
-
-
-
-
 
     if(nombre){
 
         nombre.textContent =
-        admin.nombre;
+        admin.nombre || "";
 
     }
-
-
-
-
 
     if(rol){
 
         rol.textContent =
-        admin.rol;
+        admin.rol || "";
 
     }
 
-
 }
-
-
-
-
 
 
 
@@ -210,49 +179,36 @@ if(admin){
 // Logout
 // ==========================================
 
-
 document.addEventListener(
 "click",
 async(e)=>{
-
 
     if(
         e.target.closest("#logout")
     ){
 
-
         try{
-
 
             await signOut(auth);
 
-
-
             localStorage.removeItem(
-                "compudeskAdmin"
+            "compudeskAdmin"
             );
-
-
 
             window.location.href =
-            "login.html";
-
-
+            "/admin/login.html";
 
         }
+
         catch(error){
 
-
             console.error(
-                "Error cerrando sesión",
-                error
+            "Error cerrando sesión:",
+            error
             );
-
 
         }
 
-
     }
-
 
 });
