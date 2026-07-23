@@ -15,7 +15,8 @@ getDocs,
 query,
 orderBy,
 doc,
-deleteDoc
+deleteDoc,
+updateDoc
 
 }
 
@@ -259,6 +260,23 @@ title="Editar usuario">
 
 
 
+
+<a href="#"
+class="cambiarEstado"
+data-id="${usuario.id}"
+data-estado="${usuario.estado}"
+title="Cambiar estado">
+
+
+<i class="fa-solid fa-user-lock"></i>
+
+
+</a>
+
+
+
+
+
 <a href="reset-password.html?correo=${usuario.correo}"
 title="Cambiar contraseña">
 
@@ -268,12 +286,16 @@ title="Cambiar contraseña">
 
 
 
+
+
 <a href="#"
 class="eliminarUsuario"
 data-id="${usuario.id}"
 title="Eliminar usuario">
 
+
 <i class="fa-solid fa-trash"></i>
+
 
 </a>
 
@@ -349,7 +371,87 @@ alert(
 
 }
 
+// ==========================================
+// CAMBIAR ESTADO USUARIO
+// ==========================================
 
+
+async function cambiarEstado(id, estadoActual){
+
+
+
+const nuevoEstado =
+
+estadoActual === "activo"
+
+?
+
+"inactivo"
+
+:
+
+"activo";
+
+
+
+
+try{
+
+
+await updateDoc(
+
+doc(
+db,
+"usuarios",
+id
+),
+
+{
+
+
+estado:
+nuevoEstado
+
+
+}
+
+);
+
+
+
+
+
+alert(
+
+`Usuario ${nuevoEstado}`
+
+);
+
+
+
+await cargarUsuarios();
+
+
+
+}
+catch(error){
+
+
+console.error(
+"Error cambiando estado:",
+error
+);
+
+
+alert(
+"No se pudo cambiar el estado."
+);
+
+
+}
+
+
+}
 
 // ==========================================
 // RESUMEN
@@ -453,25 +555,54 @@ document.addEventListener(
 (e)=>{
 
 
-const boton =
+const botonEliminar =
 e.target.closest(
 ".eliminarUsuario"
 );
 
 
 
-if(boton){
+if(botonEliminar){
+
 
 e.preventDefault();
 
 
-const id =
-boton.dataset.id;
+eliminarUsuario(
+botonEliminar.dataset.id
+);
 
-
-eliminarUsuario(id);
 
 }
+
+
+
+
+const botonEstado =
+e.target.closest(
+".cambiarEstado"
+);
+
+
+
+if(botonEstado){
+
+
+e.preventDefault();
+
+
+
+cambiarEstado(
+
+botonEstado.dataset.id,
+
+botonEstado.dataset.estado
+
+);
+
+
+}
+
 
 
 });
