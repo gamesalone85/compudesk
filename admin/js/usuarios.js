@@ -259,6 +259,15 @@ title="Editar usuario">
 
 
 
+<a href="reset-password.html?correo=${usuario.correo}"
+title="Cambiar contraseña">
+
+<i class="fa-solid fa-key"></i>
+
+</a>
+
+
+
 <a href="#"
 class="eliminarUsuario"
 data-id="${usuario.id}"
@@ -270,21 +279,6 @@ title="Eliminar usuario">
 
 
 </td>
-
-
-`;
-
-
-
-tablaUsuarios.appendChild(fila);
-
-
-
-});
-
-
-
-}
 
 // ==========================================
 // ELIMINAR USUARIO
