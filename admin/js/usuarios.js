@@ -4,20 +4,17 @@
 // Firebase Firestore
 // ==========================================
 
+import "./admin-layout.js";
 
 import { db } from "../../assets/firebase/firebase-config.js";
 
-
 import {
-
-collection,
-getDocs,
-doc,
-deleteDoc,
-updateDoc
-
+    collection,
+    getDocs,
+    doc,
+    deleteDoc,
+    updateDoc
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
