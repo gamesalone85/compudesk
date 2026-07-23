@@ -1,8 +1,10 @@
-// ==========================================
-// COMPU DESK ADMIN
-// Nuevo Cliente
-// Firestore
-// ==========================================
+/*
+========================================
+COMPU DESK
+Crear Nuevo Ticket
+Firebase Firestore
+========================================
+*/
 
 
 import { db } from "../../assets/firebase/firebase-config.js";
@@ -10,9 +12,9 @@ import { db } from "../../assets/firebase/firebase-config.js";
 
 import {
 
-    collection,
-    addDoc,
-    serverTimestamp
+collection,
+addDoc,
+serverTimestamp
 
 }
 
@@ -23,26 +25,25 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 const formulario =
-document.getElementById("clienteForm");
-
-
-const mensaje =
-document.getElementById("mensaje");
-
-
-
-
-
-// Datos administrador actual
-
-const admin =
-JSON.parse(
-localStorage.getItem("compudeskAdmin")
+document.getElementById(
+"nuevoTicketForm"
 );
 
 
 
 
+
+const mensaje =
+document.getElementById(
+"mensajeTicket"
+);
+
+
+
+
+
+
+if(formulario){
 
 
 
@@ -51,160 +52,239 @@ formulario.addEventListener(
 async(e)=>{
 
 
-    e.preventDefault();
+e.preventDefault();
 
 
 
 
-    try{
 
+const categoria =
+document.getElementById(
+"categoria"
+).value;
 
 
-        mensaje.textContent =
-        "Guardando cliente...";
 
 
+const titulo =
+document.getElementById(
+"titulo"
+).value.trim();
 
 
-        const cliente = {
 
 
-            empresa:
-            document
-            .getElementById("empresa")
-            .value
-            .trim(),
+const descripcion =
+document.getElementById(
+"descripcion"
+).value.trim();
 
 
 
-            contacto:
-            document
-            .getElementById("contacto")
-            .value
-            .trim(),
 
+const prioridad =
+document.getElementById(
+"prioridad"
+).value;
 
 
-            correo:
-            document
-            .getElementById("correo")
-            .value
-            .trim(),
 
 
 
-            telefono:
-            document
-            .getElementById("telefono")
-            .value
-            .trim(),
+if(
+categoria === "" ||
+titulo === "" ||
+descripcion === ""
+){
 
 
+mostrarMensaje(
+"Completa todos los campos",
+"error"
+);
 
 
-            tipo:
-            document
-            .getElementById("tipo")
-            .value,
+return;
 
 
+}
 
-            plan:
-            document
-            .getElementById("plan")
-            .value,
 
 
 
-            estado:
-            document
-            .getElementById("estado")
-            .value,
 
+const cliente =
 
+JSON.parse(
 
-            fechaAlta:
-            serverTimestamp(),
+localStorage.getItem(
+"clienteCompudesk"
+)
 
+);
 
 
-            creadoPor:
 
-            admin
-            ?
-            admin.nombre
-            :
-            "Administrador"
 
-        };
 
 
+if(!cliente){
 
 
+mostrarMensaje(
+"No existe sesión activa",
+"error"
+);
 
 
-        await addDoc(
+return;
 
-            collection(
-                db,
-                "clientes"
-            ),
 
-            cliente
+}
 
-        );
 
 
 
 
 
+const nuevoTicket = {
 
-        mensaje.textContent =
-        "Cliente registrado correctamente.";
 
-        mensaje.style.color =
-        "green";
+clienteId:
+cliente.id || "",
 
 
 
+empresa:
+cliente.empresa || "",
 
 
 
-        setTimeout(()=>{
+cliente:
+cliente.nombre || "",
 
 
-            window.location.href =
-            "index.html";
 
+correo:
+cliente.correo || "",
 
-        },1500);
 
 
+categoria,
 
+titulo,
 
+descripcion,
 
+prioridad,
 
-    }catch(error){
 
 
+estado:
+"Abierto",
 
-        console.error(
-            "Error guardando cliente:",
-            error
-        );
 
 
+fechaCreacion:
+serverTimestamp(),
 
-        mensaje.textContent =
-        "Error al guardar cliente.";
 
-        mensaje.style.color =
-        "red";
 
+fechaActualizacion:
+serverTimestamp()
 
 
-    }
+
+};
+
+
+
+
+
+
+
+try{
+
+
+await addDoc(
+
+collection(
+db,
+"tickets"
+),
+
+nuevoTicket
+
+);
+
+
+
+
+
+mostrarMensaje(
+"Ticket enviado correctamente",
+"success"
+);
+
+
+
+
+
+formulario.reset();
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(
+"Error:",
+error
+);
+
+
+
+mostrarMensaje(
+"Error creando ticket",
+"error"
+);
+
+
+
+}
 
 
 
 });
+
+}
+
+
+
+function mostrarMensaje(
+texto,
+tipo
+){
+
+
+
+if(mensaje){
+
+
+mensaje.textContent =
+texto;
+
+
+
+mensaje.className =
+tipo;
+
+
+}
+
+
+
+}
