@@ -68,26 +68,26 @@ try{
 
 const referencia =
 collection(
-    db,
-    "usuarios"
+db,
+"usuarios"
 );
 
 
 
 const consulta =
 query(
-    referencia,
-    orderBy(
-        "fechaAlta",
-        "desc"
-    )
+referencia,
+orderBy(
+"fechaAlta",
+"desc"
+)
 );
 
 
 
 const resultado =
 await getDocs(
-    consulta
+consulta
 );
 
 
@@ -96,14 +96,15 @@ usuarios=[];
 
 
 
-resultado.forEach((doc)=>{
+resultado.forEach((documento)=>{
 
 
 usuarios.push({
 
-id:doc.id,
+id:
+documento.id,
 
-...doc.data()
+...documento.data()
 
 });
 
@@ -142,7 +143,7 @@ tablaUsuarios.innerHTML=`
 
 <td colspan="6">
 
-Error cargando usuarios
+Error cargando usuarios.
 
 </td>
 
@@ -162,8 +163,10 @@ Error cargando usuarios
 
 
 
+
+
 // ==========================================
-// MOSTRAR TABLA
+// MOSTRAR USUARIOS
 // ==========================================
 
 
@@ -195,7 +198,6 @@ No existen usuarios registrados.
 
 return;
 
-
 }
 
 
@@ -206,7 +208,9 @@ tablaUsuarios.innerHTML="";
 
 
 
+
 lista.forEach((usuario)=>{
+
 
 
 const fila =
@@ -251,7 +255,8 @@ ${(usuario.estado || "inactivo").toUpperCase()}
 <td class="acciones">
 
 
-<a href="editar.html?id=${usuario.id}"
+<a 
+href="editar.html?id=${usuario.id}"
 title="Editar usuario">
 
 <i class="fa-solid fa-pen"></i>
@@ -261,7 +266,8 @@ title="Editar usuario">
 
 
 
-<a href="#"
+<a 
+href="#"
 class="cambiarEstado"
 data-id="${usuario.id}"
 data-estado="${usuario.estado}"
@@ -277,7 +283,8 @@ title="Cambiar estado">
 
 
 
-<a href="reset-password.html?correo=${usuario.correo}"
+<a 
+href="reset-password.html?correo=${usuario.correo}"
 title="Cambiar contraseña">
 
 <i class="fa-solid fa-key"></i>
@@ -288,7 +295,8 @@ title="Cambiar contraseña">
 
 
 
-<a href="#"
+<a 
+href="#"
 class="eliminarUsuario"
 data-id="${usuario.id}"
 title="Eliminar usuario">
@@ -302,12 +310,34 @@ title="Eliminar usuario">
 
 </td>
 
+
+`;
+
+
+
+tablaUsuarios.appendChild(fila);
+
+
+
+});
+
+
+}
+
+
+
+
+
+
+
+
 // ==========================================
 // ELIMINAR USUARIO
 // ==========================================
 
 
 async function eliminarUsuario(id){
+
 
 
 const confirmar =
@@ -317,11 +347,9 @@ confirm(
 
 
 
-if(!confirmar){
-
+if(!confirmar)
 return;
 
-}
 
 
 
@@ -337,6 +365,7 @@ id
 )
 
 );
+
 
 
 
@@ -360,19 +389,28 @@ error
 );
 
 
+
 alert(
 "No se pudo eliminar el usuario."
 );
 
 
+
+}
+
+
+
 }
 
 
 
-}
+
+
+
+
 
 // ==========================================
-// CAMBIAR ESTADO USUARIO
+// CAMBIAR ESTADO
 // ==========================================
 
 
@@ -408,10 +446,8 @@ id
 
 {
 
-
 estado:
 nuevoEstado
-
 
 }
 
@@ -422,9 +458,7 @@ nuevoEstado
 
 
 alert(
-
 `Usuario ${nuevoEstado}`
-
 );
 
 
@@ -443,15 +477,25 @@ error
 );
 
 
+
 alert(
-"No se pudo cambiar el estado."
+"No se pudo cambiar estado."
 );
 
 
+
 }
 
 
+
 }
+
+
+
+
+
+
+
 
 // ==========================================
 // RESUMEN
@@ -471,21 +515,29 @@ usuarios.length;
 
 
 
+
 if(usuariosActivos){
 
 
 usuariosActivos.textContent =
 
 usuarios.filter(
+
 (usuario)=>
+
 usuario.estado==="activo"
+
 ).length;
 
 
 }
 
 
+
 }
+
+
+
 
 
 
@@ -499,41 +551,65 @@ usuario.estado==="activo"
 if(buscarUsuario){
 
 
+
 buscarUsuario.addEventListener(
+
 "input",
+
 ()=>{
 
 
 const texto =
+
 buscarUsuario.value
+
 .toLowerCase()
+
 .trim();
 
 
 
+
+
 const filtrados =
+
 usuarios.filter(
+
 (usuario)=>{
 
 
 return (
 
-usuario.nombre?.toLowerCase().includes(texto)
+usuario.nombre
+?.toLowerCase()
+.includes(texto)
+
 
 ||
 
-usuario.correo?.toLowerCase().includes(texto)
+
+usuario.correo
+?.toLowerCase()
+.includes(texto)
+
+
 
 ||
 
-usuario.empresa?.toLowerCase().includes(texto)
+
+usuario.empresa
+?.toLowerCase()
+.includes(texto)
+
 
 );
 
 
 }
 
+
 );
+
 
 
 
@@ -543,19 +619,38 @@ filtrados
 
 
 
-});
+}
+
+
+
+);
+
 
 
 }
 
 
 
+
+
+
+
+
+// ==========================================
+// BOTONES ACCIONES
+// ==========================================
+
+
 document.addEventListener(
+
 "click",
+
 (e)=>{
 
 
+
 const botonEliminar =
+
 e.target.closest(
 ".eliminarUsuario"
 );
@@ -568,9 +663,13 @@ if(botonEliminar){
 e.preventDefault();
 
 
+
 eliminarUsuario(
+
 botonEliminar.dataset.id
+
 );
+
 
 
 }
@@ -578,10 +677,13 @@ botonEliminar.dataset.id
 
 
 
+
 const botonEstado =
+
 e.target.closest(
 ".cambiarEstado"
 );
+
 
 
 
@@ -601,14 +703,25 @@ botonEstado.dataset.estado
 );
 
 
+
 }
 
 
 
-});
+}
+
+);
+
+
+
+
+
+
+
 
 // ==========================================
 // INICIO
 // ==========================================
 
-await cargarUsuarios();
+
+cargarUsuarios();
