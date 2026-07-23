@@ -1,42 +1,66 @@
 /*
 ========================================
 COMPU DESK
-Portal Clientes Login JS
-Versión 2.0
+Portal Clientes Login
+Firebase Authentication + Firestore
+Versión 3.0
 ========================================
 */
 
 
-document.addEventListener(
-"DOMContentLoaded",
-function(){
+import { auth, db } 
+from "../../assets/firebase/firebase-config.js";
+
+
+import {
+
+signInWithEmailAndPassword
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+import {
+
+collection,
+query,
+where,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
 
 
 console.log(
-"Login Portal Clientes Compu Desk cargado"
+"Login Firebase Compu Desk cargado"
 );
 
-console.log(
-"Usuarios disponibles:",
-usuariosCompuDesk
-);
 
 
 
 
 /*
 ========================================
-MOSTRAR / OCULTAR CONTRASEÑA
+MOSTRAR / OCULTAR PASSWORD
 ========================================
 */
 
 
 const passwordInput =
-document.getElementById("password");
+document.getElementById(
+"password"
+);
 
 
 const togglePassword =
-document.getElementById("togglePassword");
+document.getElementById(
+"togglePassword"
+);
 
 
 
@@ -48,29 +72,36 @@ passwordInput
 
 togglePassword.addEventListener(
 "click",
-function(){
+()=>{
 
 
-const visible =
-passwordInput.type === "text";
+const tipo =
 
+passwordInput.type === "password"
 
-
-passwordInput.type =
-visible
 ?
-"password"
+"text"
+
 :
-"text";
+"password";
 
 
 
-this.innerHTML =
-visible
+passwordInput.type = tipo;
+
+
+
+togglePassword.innerHTML =
+
+tipo === "text"
+
 ?
-'<i class="fa-solid fa-eye"></i>'
+
+'<i class="fa-solid fa-eye-slash"></i>'
+
 :
-'<i class="fa-solid fa-eye-slash"></i>';
+
+'<i class="fa-solid fa-eye"></i>';
 
 
 
@@ -83,29 +114,26 @@ visible
 
 
 
-
-
 /*
 ========================================
-FORMULARIO LOGIN
+LOGIN
 ========================================
 */
 
 
-const form =
+const formulario =
+
 document.getElementById(
 "loginForm"
 );
 
 
 
-if(form){
 
 
-
-form.addEventListener(
+formulario.addEventListener(
 "submit",
-function(e){
+async(e)=>{
 
 
 e.preventDefault();
@@ -113,7 +141,9 @@ e.preventDefault();
 
 
 
+
 const email =
+
 document
 .getElementById("email")
 .value
@@ -122,6 +152,7 @@ document
 
 
 const password =
+
 document
 .getElementById("password")
 .value
@@ -129,26 +160,12 @@ document
 
 
 
-const remember =
-document
-.getElementById("remember")
-.checked;
 
 
-
-
-
-
-/*
-========================================
-VALIDACIONES
-========================================
-*/
 
 
 if(
-email === ""
-||
+email === "" ||
 password === ""
 ){
 
@@ -168,37 +185,194 @@ return;
 
 
 
+try{
+
 
 /*
-========================================
-BUSCAR USUARIO
-========================================
+================================
+AUTENTICAR FIREBASE
+================================
 */
 
 
-const usuarioEncontrado =
+const credencial =
 
-usuariosCompuDesk.find(
+await signInWithEmailAndPassword(
 
-function(usuario){
+auth,
+
+email,
+
+password
+
+);
 
 
-return (
 
-usuario.correo === email
 
-&&
 
-usuario.password === password
+const usuarioAuth =
+
+credencial.user;
+
+
+
+
+
+
+console.log(
+"Usuario autenticado:",
+usuarioAuth.uid
+);
+
+
+
+
+
+
+
+
+/*
+================================
+BUSCAR PERFIL FIRESTORE
+================================
+*/
+
+
+const consulta =
+
+query(
+
+collection(
+db,
+"usuarios"
+),
+
+
+where(
+"correo",
+"==",
+email
+)
 
 
 );
+
+
+
+
+
+
+const resultado =
+
+await getDocs(
+consulta
+);
+
+
+
+
+
+
+if(
+resultado.empty
+){
+
+
+mostrarMensaje(
+"Usuario sin perfil registrado",
+"error"
+);
+
+
+return;
 
 
 }
 
 
+
+
+
+
+
+
+let perfil = null;
+
+
+
+
+
+
+resultado.forEach(
+(documento)=>{
+
+
+perfil = {
+
+
+id:
+documento.id,
+
+
+...documento.data(),
+
+
+uidAuth:
+usuarioAuth.uid
+
+
+};
+
+
+
+});
+
+
+}
+
+
+
+
+
+if(!perfil){
+
+
+mostrarMensaje(
+"No se encontró información del usuario",
+"error"
 );
+
+
+return;
+
+
+}
+
+
+
+
+
+
+
+if(
+perfil.estado &&
+perfil.estado !== "activo"
+){
+
+
+mostrarMensaje(
+"Usuario desactivado",
+"error"
+);
+
+
+return;
+
+
+}
+
+
 
 
 
@@ -207,53 +381,78 @@ usuario.password === password
 
 
 /*
-========================================
-ACCESO CORRECTO
-========================================
+================================
+CREAR SESIÓN CLIENTE
+================================
 */
-
-
-if(usuarioEncontrado){
-
 
 
 const datosSesion = {
 
 
 id:
-usuarioEncontrado.id,
+
+perfil.id,
+
+
+
+uidAuth:
+
+usuarioAuth.uid,
+
 
 
 nombre:
-usuarioEncontrado.nombre,
+
+perfil.nombre || "",
+
 
 
 correo:
-usuarioEncontrado.correo,
+
+perfil.correo || email,
+
 
 
 empresa:
-usuarioEncontrado.empresa,
 
+perfil.empresa || "",
 
-plan:
-usuarioEncontrado.plan,
 
 
 rol:
-usuarioEncontrado.rol,
+
+perfil.rol || "cliente",
+
+
+
+telefono:
+
+perfil.telefono || "",
+
+
+
+plan:
+
+perfil.plan || "",
+
 
 
 horario:
-usuarioEncontrado.horario,
+
+perfil.horario || "",
+
 
 
 contacto:
-usuarioEncontrado.contacto
 
+perfil.contacto || ""
 
 
 };
+
+
+
 
 
 
@@ -272,81 +471,139 @@ datosSesion
 
 
 
-if(remember){
-
-
-localStorage.setItem(
-"recordarCliente",
-"true"
-);
-
-
-}
-
-
 
 
 console.log(
+
 "Sesión creada:",
+
 datosSesion
+
 );
+
+
+
+
 
 
 
 
 mostrarMensaje(
+
 "Acceso correcto",
+
 "success"
+
 );
+
 
 
 
 
 
 setTimeout(
-function(){
+()=>{
 
 
 window.location.href =
+
 "dashboard.html";
 
 
 },
-800
+
+1000
+
 );
+
+
 
 
 
 
 }
 
+catch(error){
 
 
-/*
-========================================
-ERROR LOGIN
-========================================
-*/
+
+console.error(
+"Error login:",
+error
+);
 
 
-else{
+
+
+
+let mensaje =
+
+"Correo o contraseña incorrectos";
+
+
+
+
+switch(error.code){
+
+
+case "auth/user-not-found":
+
+mensaje =
+"Usuario no encontrado";
+
+break;
+
+
+
+case "auth/wrong-password":
+
+mensaje =
+"Contraseña incorrecta";
+
+break;
+
+
+
+case "auth/invalid-credential":
+
+mensaje =
+"Credenciales inválidas";
+
+break;
+
+
+
+case "auth/too-many-requests":
+
+mensaje =
+"Demasiados intentos. Intenta más tarde.";
+
+break;
+
+
+}
+
+
+
 
 
 mostrarMensaje(
-"Correo o contraseña incorrectos",
+mensaje,
 "error"
 );
 
 
-}
 
+
+}
 
 
 
 });
 
 
-}
+
+
 
 
 
@@ -360,16 +617,19 @@ MENSAJES
 
 
 function mostrarMensaje(
-mensaje,
+texto,
 tipo
 ){
 
 
 
 let alerta =
+
 document.querySelector(
 ".login-alert"
 );
+
+
 
 
 
@@ -378,6 +638,7 @@ if(!alerta){
 
 
 alerta =
+
 document.createElement(
 "div"
 );
@@ -390,6 +651,7 @@ alerta.className =
 
 
 const card =
+
 document.querySelector(
 ".login-card"
 );
@@ -397,7 +659,6 @@ document.querySelector(
 
 
 if(card){
-
 
 card.insertBefore(
 alerta,
@@ -408,26 +669,30 @@ card.firstChild
 }
 
 
+
 }
 
 
 
 
+
+
 alerta.textContent =
-mensaje;
+texto;
 
 
 
 alerta.className =
-"login-alert "
-+
-tipo;
+
+"login-alert " + tipo;
+
+
 
 
 
 
 setTimeout(
-function(){
+()=>{
 
 
 if(alerta){
@@ -444,8 +709,3 @@ alerta.remove();
 
 
 }
-
-
-
-
-});
