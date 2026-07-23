@@ -12,8 +12,6 @@ import {
 
 collection,
 getDocs,
-query,
-orderBy,
 doc,
 deleteDoc,
 updateDoc
@@ -55,8 +53,9 @@ let usuarios = [];
 
 
 
+
 // ==========================================
-// CARGAR USUARIOS
+// CARGAR USUARIOS FIRESTORE
 // ==========================================
 
 
@@ -67,6 +66,7 @@ try{
 
 
 const referencia =
+
 collection(
 db,
 "usuarios"
@@ -74,25 +74,17 @@ db,
 
 
 
-const consulta =
-query(
-referencia,
-orderBy(
-"fechaAlta",
-"desc"
-)
-);
-
-
-
 const resultado =
+
 await getDocs(
-consulta
+referencia
 );
 
 
 
-usuarios=[];
+usuarios = [];
+
+
 
 
 
@@ -104,12 +96,43 @@ usuarios.push({
 id:
 documento.id,
 
+
 ...documento.data()
 
+
 });
 
 
 });
+
+
+
+
+
+
+// Ordenar por fecha si existe
+
+usuarios.sort((a,b)=>{
+
+
+const fechaA =
+
+a.fechaAlta?.seconds || 0;
+
+
+
+const fechaB =
+
+b.fechaAlta?.seconds || 0;
+
+
+
+return fechaB - fechaA;
+
+
+});
+
+
 
 
 
@@ -137,7 +160,8 @@ error
 
 if(tablaUsuarios){
 
-tablaUsuarios.innerHTML=`
+
+tablaUsuarios.innerHTML = `
 
 <tr>
 
@@ -165,6 +189,8 @@ Error cargando usuarios.
 
 
 
+
+
 // ==========================================
 // MOSTRAR USUARIOS
 // ==========================================
@@ -179,10 +205,11 @@ return;
 
 
 
-if(lista.length===0){
+
+if(lista.length === 0){
 
 
-tablaUsuarios.innerHTML=`
+tablaUsuarios.innerHTML = `
 
 <tr>
 
@@ -198,12 +225,13 @@ No existen usuarios registrados.
 
 return;
 
+
 }
 
 
 
 
-tablaUsuarios.innerHTML="";
+tablaUsuarios.innerHTML = "";
 
 
 
@@ -212,41 +240,58 @@ tablaUsuarios.innerHTML="";
 lista.forEach((usuario)=>{
 
 
-
 const fila =
+
 document.createElement("tr");
 
 
 
-fila.innerHTML=`
+
+
+fila.innerHTML = `
+
 
 <td>
+
 ${usuario.nombre || "-"}
+
 </td>
 
 
+
 <td>
+
 ${usuario.correo || "-"}
+
 </td>
 
 
+
 <td>
+
 ${usuario.empresa || "-"}
+
 </td>
 
 
+
 <td>
+
 ${usuario.rol || "cliente"}
+
 </td>
 
 
+
 <td>
+
 
 <span class="estado ${usuario.estado || "inactivo"}">
 
 ${(usuario.estado || "inactivo").toUpperCase()}
 
 </span>
+
 
 </td>
 
@@ -255,23 +300,32 @@ ${(usuario.estado || "inactivo").toUpperCase()}
 <td class="acciones">
 
 
-<a 
+<a
+
 href="editar.html?id=${usuario.id}"
+
 title="Editar usuario">
 
+
 <i class="fa-solid fa-pen"></i>
+
 
 </a>
 
 
 
 
-<a 
+<a
+
 href="#"
+
 class="cambiarEstado"
+
 data-id="${usuario.id}"
-data-estado="${usuario.estado}"
-title="Cambiar estado">
+
+data-estado="${usuario.estado || "inactivo"}"
+
+title="Activar / Desactivar">
 
 
 <i class="fa-solid fa-user-lock"></i>
@@ -283,11 +337,15 @@ title="Cambiar estado">
 
 
 
-<a 
-href="reset-password.html?correo=${usuario.correo}"
+<a
+
+href="reset-password.html?correo=${usuario.correo || ""}"
+
 title="Cambiar contraseña">
 
+
 <i class="fa-solid fa-key"></i>
+
 
 </a>
 
@@ -295,10 +353,14 @@ title="Cambiar contraseña">
 
 
 
-<a 
+<a
+
 href="#"
+
 class="eliminarUsuario"
+
 data-id="${usuario.id}"
+
 title="Eliminar usuario">
 
 
@@ -308,10 +370,13 @@ title="Eliminar usuario">
 </a>
 
 
+
 </td>
 
 
 `;
+
+
 
 
 
@@ -322,7 +387,9 @@ tablaUsuarios.appendChild(fila);
 });
 
 
+
 }
+
 
 
 
@@ -341,8 +408,11 @@ async function eliminarUsuario(id){
 
 
 const confirmar =
+
 confirm(
+
 "¿Deseas eliminar este usuario?"
+
 );
 
 
@@ -353,15 +423,20 @@ return;
 
 
 
+
 try{
 
 
 await deleteDoc(
 
 doc(
+
 db,
+
 "usuarios",
+
 id
+
 )
 
 );
@@ -369,13 +444,18 @@ id
 
 
 
+
 alert(
+
 "Usuario eliminado correctamente."
+
 );
 
 
 
-cargarUsuarios();
+
+
+await cargarUsuarios();
 
 
 
@@ -384,14 +464,19 @@ catch(error){
 
 
 console.error(
+
 "Error eliminando usuario:",
+
 error
+
 );
 
 
 
 alert(
+
 "No se pudo eliminar el usuario."
+
 );
 
 
@@ -399,8 +484,8 @@ alert(
 }
 
 
-
 }
+
 
 
 
@@ -414,11 +499,12 @@ alert(
 // ==========================================
 
 
-async function cambiarEstado(id, estadoActual){
+async function cambiarEstado(id,estadoActual){
 
 
 
 const nuevoEstado =
+
 
 estadoActual === "activo"
 
@@ -433,33 +519,48 @@ estadoActual === "activo"
 
 
 
+
+
 try{
 
 
 await updateDoc(
 
 doc(
+
 db,
+
 "usuarios",
+
 id
+
 ),
 
 {
 
+
 estado:
+
 nuevoEstado
+
 
 }
 
+
 );
+
 
 
 
 
 
 alert(
-`Usuario ${nuevoEstado}`
+
+`Usuario cambiado a ${nuevoEstado}`
+
 );
+
+
 
 
 
@@ -472,14 +573,19 @@ catch(error){
 
 
 console.error(
+
 "Error cambiando estado:",
+
 error
+
 );
 
 
 
 alert(
-"No se pudo cambiar estado."
+
+"No se pudo cambiar el estado."
+
 );
 
 
@@ -487,8 +593,8 @@ alert(
 }
 
 
-
 }
+
 
 
 
@@ -508,10 +614,14 @@ function actualizarResumen(){
 
 if(totalUsuarios){
 
+
 totalUsuarios.textContent =
+
 usuarios.length;
 
+
 }
+
 
 
 
@@ -521,20 +631,22 @@ if(usuariosActivos){
 
 usuariosActivos.textContent =
 
+
 usuarios.filter(
 
 (usuario)=>
 
-usuario.estado==="activo"
+usuario.estado === "activo"
 
 ).length;
 
 
-}
-
-
 
 }
+
+
+}
+
 
 
 
@@ -549,7 +661,6 @@ usuario.estado==="activo"
 
 
 if(buscarUsuario){
-
 
 
 buscarUsuario.addEventListener(
@@ -571,7 +682,9 @@ buscarUsuario.value
 
 
 
+
 const filtrados =
+
 
 usuarios.filter(
 
@@ -580,16 +693,23 @@ usuarios.filter(
 
 return (
 
+
 usuario.nombre
+
 ?.toLowerCase()
+
 .includes(texto)
 
 
+
 ||
+
 
 
 usuario.correo
+
 ?.toLowerCase()
+
 .includes(texto)
 
 
@@ -597,9 +717,13 @@ usuario.correo
 ||
 
 
+
 usuario.empresa
+
 ?.toLowerCase()
+
 .includes(texto)
+
 
 
 );
@@ -609,25 +733,29 @@ usuario.empresa
 
 
 );
+
+
 
 
 
 
 mostrarUsuarios(
+
 filtrados
-);
-
-
-
-}
-
-
 
 );
 
 
 
 }
+
+
+
+);
+
+
+}
+
 
 
 
@@ -637,7 +765,7 @@ filtrados
 
 
 // ==========================================
-// BOTONES ACCIONES
+// EVENTOS BOTONES
 // ==========================================
 
 
@@ -648,11 +776,12 @@ document.addEventListener(
 (e)=>{
 
 
-
 const botonEliminar =
 
 e.target.closest(
+
 ".eliminarUsuario"
+
 );
 
 
@@ -678,10 +807,14 @@ botonEliminar.dataset.id
 
 
 
+
+
 const botonEstado =
 
 e.target.closest(
+
 ".cambiarEstado"
+
 );
 
 
@@ -711,6 +844,7 @@ botonEstado.dataset.estado
 }
 
 );
+
 
 
 
