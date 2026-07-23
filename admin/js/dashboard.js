@@ -6,17 +6,42 @@
 import "./admin-layout.js";
 
 import {
+    auth,
     db
 }
 from "../../assets/firebase/firebase-config.js";
 
-import {
 
+import {
     collection,
     getDocs
-
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+import {
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
+
+// ==========================================
+// VALIDAR SESION FIREBASE
+// ==========================================
+
+onAuthStateChanged(auth,(usuario)=>{
+
+
+    console.log(
+        "Usuario Firebase Dashboard:",
+        usuario
+    );
+
+
+});
+
 
 
 
@@ -26,11 +51,11 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 async function cargarKPIs(){
 
+
     try{
 
-        // ==========================
+
         // CLIENTES
-        // ==========================
 
         const clientesSnapshot =
         await getDocs(
@@ -43,10 +68,12 @@ async function cargarKPIs(){
         );
 
 
+
         const totalClientes =
         document.getElementById(
             "totalClientesDashboard"
         );
+
 
 
         if(totalClientes){
@@ -57,14 +84,16 @@ async function cargarKPIs(){
         }
 
 
-        // ==========================
-        // KPIs pendientes
-        // ==========================
+
+
+
+        // USUARIOS
 
         const usuarios =
         document.getElementById(
             "totalUsuariosDashboard"
         );
+
 
         if(usuarios){
 
@@ -74,10 +103,15 @@ async function cargarKPIs(){
 
 
 
+
+
+        // TICKETS
+
         const tickets =
         document.getElementById(
             "totalTicketsDashboard"
         );
+
 
         if(tickets){
 
@@ -87,10 +121,15 @@ async function cargarKPIs(){
 
 
 
+
+
+        // EQUIPOS
+
         const equipos =
         document.getElementById(
             "totalEquiposDashboard"
         );
+
 
         if(equipos){
 
@@ -99,23 +138,29 @@ async function cargarKPIs(){
         }
 
 
-    }
 
+    }
     catch(error){
+
 
         console.error(
             "Error cargando dashboard:",
             error
         );
 
+
     }
+
+
 
 }
 
 
 
+
 // ==========================================
-// Inicio
+// INICIO
 // ==========================================
+
 
 cargarKPIs();
