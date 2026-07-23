@@ -75,7 +75,7 @@ e.preventDefault();
 const correo =
 
 document
-.getElementById("correo")
+.getElementById("email")
 .value
 .trim();
 
