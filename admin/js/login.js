@@ -1,124 +1,248 @@
-// =========================================
-// COMPU DESK ADMIN
-// Login Administrador
-// Firebase Authentication + Firestore
-// =========================================
-
-
-import { auth, db } from "../../assets/firebase/firebase-config.js";
+// ==========================================
+// COMPU DESK
+// Login Firebase Authentication
+// Admin + Usuarios
+// ==========================================
 
 
 import {
-    signInWithEmailAndPassword,
-    setPersistence,
-    browserLocalPersistence,
-    browserSessionPersistence
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+auth,
+db
+
+}
+
+from "../../assets/firebase/firebase-config.js";
+
 
 
 import {
-    doc,
-    getDoc
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+signInWithEmailAndPassword
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 
-// Elementos HTML
+import {
 
-const loginForm = document.getElementById("loginForm");
+doc,
+getDoc
 
-const emailInput = document.getElementById("email");
+}
 
-const passwordInput = document.getElementById("password");
-
-const rememberSession = document.getElementById("rememberSession");
-
-const togglePassword = document.getElementById("togglePassword");
-
-const passwordIcon = togglePassword.querySelector("i");
-
-const btnLogin = document.getElementById("btnLogin");
-
-const btnText = document.getElementById("btnText");
-
-const loadingSpinner = document.getElementById("loadingSpinner");
-
-const loginMessage = document.getElementById("loginMessage");
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
 
-// Mostrar / ocultar contraseña
-
-togglePassword.addEventListener("click",()=>{
 
 
-    if(passwordInput.type === "password"){
 
-        passwordInput.type = "text";
+const formulario =
 
-        passwordIcon.classList.remove("fa-eye");
-
-        passwordIcon.classList.add("fa-eye-slash");
-
-
-    }else{
+document.getElementById(
+"loginForm"
+);
 
 
-        passwordInput.type = "password";
 
-        passwordIcon.classList.remove("fa-eye-slash");
+const mensaje =
 
-        passwordIcon.classList.add("fa-eye");
-
-    }
-
-
-});
+document.getElementById(
+"mensaje"
+);
 
 
 
 
-// Mensajes
-
-function mostrarMensaje(texto,tipo="error"){
 
 
-    loginMessage.textContent = texto;
 
-    loginMessage.className = `login-message ${tipo}`;
+
+formulario.addEventListener(
+"submit",
+async(e)=>{
+
+
+e.preventDefault();
+
+
+
+
+const correo =
+
+document
+.getElementById("correo")
+.value
+.trim();
+
+
+
+
+const password =
+
+document
+.getElementById("password")
+.value;
+
+
+
+
+
+try{
+
+
+
+mensaje.textContent =
+"Iniciando sesión...";
+
+
+
+
+
+// ==========================================
+// LOGIN AUTH
+// ==========================================
+
+
+const resultado =
+
+await signInWithEmailAndPassword(
+
+auth,
+
+correo,
+
+password
+
+);
+
+
+
+
+const usuarioAuth =
+
+resultado.user;
+
+
+
+
+
+
+// ==========================================
+// VALIDAR ADMIN
+// ==========================================
+
+
+const adminRef =
+
+doc(
+
+db,
+
+"admins",
+
+usuarioAuth.uid
+
+);
+
+
+
+
+const adminSnap =
+
+await getDoc(
+adminRef
+);
+
+
+
+
+
+if(adminSnap.exists()){
+
+
+localStorage.setItem(
+
+"compudeskAdmin",
+
+JSON.stringify({
+
+uid:
+usuarioAuth.uid,
+
+
+...adminSnap.data()
+
+})
+
+);
+
+
+
+window.location.href =
+
+"dashboard.html";
+
+
+return;
 
 
 }
 
 
 
-// Estado carga
-
-function loading(estado){
 
 
-    if(estado){
 
 
-        btnLogin.disabled = true;
 
-        btnText.textContent = "Validando...";
-
-        loadingSpinner.classList.remove("hidden");
-
-
-    }else{
+// ==========================================
+// VALIDAR USUARIO CLIENTE
+// ==========================================
 
 
-        btnLogin.disabled = false;
 
-        btnText.textContent = "Iniciar sesión";
+const usuarioRef =
 
-        loadingSpinner.classList.add("hidden");
+doc(
+
+db,
+
+"usuarios",
+
+usuarioAuth.uid
+
+);
 
 
-    }
+
+
+const usuarioSnap =
+
+await getDoc(
+usuarioRef
+);
+
+
+
+
+
+
+if(!usuarioSnap.exists()){
+
+
+
+mensaje.textContent =
+
+"Usuario no registrado en el sistema.";
+
+
+
+return;
 
 
 }
@@ -126,210 +250,122 @@ function loading(estado){
 
 
 
-// Login
 
-loginForm.addEventListener("submit", async(e)=>{
+const usuario =
 
+usuarioSnap.data();
 
-    e.preventDefault();
 
 
 
-    const email = emailInput.value.trim();
 
-    const password = passwordInput.value;
 
+// ==========================================
+// VALIDAR ESTADO
+// ==========================================
 
 
-    if(!email || !password){
+if(usuario.estado !== "activo"){
 
 
-        mostrarMensaje(
-            "Completa todos los campos."
-        );
 
-        return;
+mensaje.textContent =
 
-    }
+"Usuario desactivado. Contacta a soporte.";
 
 
 
-    try{
+await auth.signOut();
 
 
-        loading(true);
+return;
 
-        mostrarMensaje("");
 
+}
 
 
-        // Mantener sesión
 
-        await setPersistence(
 
-            auth,
 
-            rememberSession.checked
 
-            ? browserLocalPersistence
 
-            : browserSessionPersistence
 
-        );
+// ==========================================
+// GUARDAR SESIÓN CLIENTE
+// ==========================================
 
 
+localStorage.setItem(
 
-        // Autenticación Firebase
+"compudeskUsuario",
 
-        const credencial = await signInWithEmailAndPassword(
+JSON.stringify({
 
-            auth,
+uid:
+usuarioAuth.uid,
 
-            email,
 
-            password
+...usuario
 
-        );
 
+})
 
+);
 
-        const uid = credencial.user.uid;
 
 
 
-        // Buscar administrador en Firestore
 
-        const adminRef = doc(
 
-            db,
+window.location.href =
 
-            "admins",
+"../cliente/dashboard.html";
 
-            uid
 
-        );
 
 
-        const adminSnap = await getDoc(adminRef);
 
 
+}
+catch(error){
 
-        if(!adminSnap.exists()){
 
 
-            await auth.signOut();
+console.error(
 
+"Error login:",
 
-            throw new Error(
-                "No tienes permisos de administrador."
-            );
+error
 
+);
 
-        }
 
 
 
-        const adminData = adminSnap.data();
 
+if(error.code === "auth/invalid-credential"){
 
 
-        if(adminData.activo !== true){
+mensaje.textContent =
 
+"Correo o contraseña incorrectos.";
 
-            await auth.signOut();
 
+}
 
-            throw new Error(
-                "Esta cuenta está deshabilitada."
-            );
+else{
 
 
-        }
+mensaje.textContent =
 
+"Error al iniciar sesión.";
 
 
-        if(adminData.rol !== "superadmin"
-            && adminData.rol !== "administrador"){
+}
 
 
-            await auth.signOut();
 
-
-            throw new Error(
-                "Rol sin permisos administrativos."
-            );
-
-
-        }
-
-
-
-        // Guardar datos básicos
-
-        localStorage.setItem(
-
-            "compudeskAdmin",
-
-            JSON.stringify({
-
-                uid: uid,
-
-                nombre: adminData.nombre,
-
-                correo: adminData.correo,
-
-                rol: adminData.rol
-
-            })
-
-        );
-
-
-
-        mostrarMensaje(
-
-            "Acceso correcto. Entrando...",
-
-            "success"
-
-        );
-
-
-
-        setTimeout(()=>{
-
-
-            window.location.href = "dashboard.html";
-
-
-        },1000);
-
-
-
-    }catch(error){
-
-
-
-        console.error(error);
-
-
-
-        mostrarMensaje(
-
-            error.message ||
-            "Error al iniciar sesión."
-
-        );
-
-
-
-    }finally{
-
-
-        loading(false);
-
-
-    }
+}
 
 
 
