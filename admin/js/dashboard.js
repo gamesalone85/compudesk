@@ -23,26 +23,6 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 // ==========================================
 // Cargar KPIs
 // ==========================================
-import {
-    onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-onAuthStateChanged(auth,(usuario)=>{
-
-console.log(
-"AUTH ACTUAL DASHBOARD:",
-usuario
-);
-
-
-});
-
-
-
-async function cargarKPIs(){
-
 
 async function cargarKPIs(){
 
