@@ -13,7 +13,9 @@ import {
 collection,
 getDocs,
 query,
-orderBy
+orderBy,
+doc,
+deleteDoc
 
 }
 
@@ -248,9 +250,21 @@ ${(usuario.estado || "inactivo").toUpperCase()}
 <td class="acciones">
 
 
-<a href="editar.html?id=${usuario.id}">
+<a href="editar.html?id=${usuario.id}"
+title="Editar usuario">
 
 <i class="fa-solid fa-pen"></i>
+
+</a>
+
+
+
+<a href="#"
+class="eliminarUsuario"
+data-id="${usuario.id}"
+title="Eliminar usuario">
+
+<i class="fa-solid fa-trash"></i>
 
 </a>
 
@@ -272,7 +286,74 @@ tablaUsuarios.appendChild(fila);
 
 }
 
+// ==========================================
+// ELIMINAR USUARIO
+// ==========================================
 
+
+async function eliminarUsuario(id){
+
+
+const confirmar =
+confirm(
+"¿Deseas eliminar este usuario?"
+);
+
+
+
+if(!confirmar){
+
+return;
+
+}
+
+
+
+try{
+
+
+await deleteDoc(
+
+doc(
+db,
+"usuarios",
+id
+)
+
+);
+
+
+
+alert(
+"Usuario eliminado correctamente."
+);
+
+
+
+cargarUsuarios();
+
+
+
+}
+catch(error){
+
+
+console.error(
+"Error eliminando usuario:",
+error
+);
+
+
+alert(
+"No se pudo eliminar el usuario."
+);
+
+
+}
+
+
+
+}
 
 
 
@@ -373,11 +454,36 @@ filtrados
 
 
 
+document.addEventListener(
+"click",
+(e)=>{
 
+
+const boton =
+e.target.closest(
+".eliminarUsuario"
+);
+
+
+
+if(boton){
+
+e.preventDefault();
+
+
+const id =
+boton.dataset.id;
+
+
+eliminarUsuario(id);
+
+}
+
+
+});
 
 // ==========================================
 // INICIO
 // ==========================================
 
-
-cargarUsuarios();
+await cargarUsuarios();
