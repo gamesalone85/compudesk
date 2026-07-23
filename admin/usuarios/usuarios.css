@@ -229,3 +229,37 @@ td{
     color:#c8102e;
 
 }
+.form-grid{
+
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+
+}
+
+
+.form-group{
+
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+
+}
+
+
+.form-group input,
+.form-group select{
+
+    padding:10px;
+    border:1px solid #ccc;
+    border-radius:8px;
+
+}
+
+
+#mensaje{
+
+    margin-top:15px;
+    font-weight:bold;
+
+}
