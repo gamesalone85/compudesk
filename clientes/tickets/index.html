@@ -7,9 +7,17 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Mis Tickets | Compu Desk</title>
 
-<meta name="robots" content="noindex,nofollow">
+<title>
+Mis Tickets | Compu Desk
+</title>
+
+
+<link rel="icon" href="/img/logo.png">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
 <link rel="stylesheet" href="../css/portal.css">
@@ -19,11 +27,8 @@
 <link rel="stylesheet" href="../css/tickets.css">
 
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
 </head>
+
 
 
 <body>
@@ -33,120 +38,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-<!-- SIDEBAR -->
-
-
-<aside class="cd-sidebar">
-
-
-<div class="cd-sidebar-header">
-
-<div class="cd-sidebar-logo">
-
-<img src="../../img/logo.png">
-
-</div>
-
-
-<div class="cd-sidebar-brand">
-
-<h2>Compu Desk</h2>
-
-<span>Support Center</span>
-
-</div>
-
-
-</div>
-
-
-
-<nav class="cd-menu">
-
-<ul>
-
-
-<li>
-
-<a href="../dashboard.html">
-
-<i class="fa-solid fa-house"></i>
-
-Dashboard
-
-</a>
-
-</li>
-
-
-<li>
-
-<a href="index.html" class="active">
-
-<i class="fa-solid fa-ticket"></i>
-
-Mis Tickets
-
-</a>
-
-</li>
-
-
-<li>
-
-<a href="nuevo.html">
-
-<i class="fa-solid fa-circle-plus"></i>
-
-Nuevo Ticket
-
-</a>
-
-</li>
-
-
-<li>
-
-<a href="../ayuda/index.html">
-
-<i class="fa-solid fa-book"></i>
-
-Centro de Ayuda
-
-</a>
-
-</li>
-
-
-<li>
-
-<a href="../perfil/index.html">
-
-<i class="fa-solid fa-user"></i>
-
-Mi Perfil
-
-</a>
-
-</li>
-
-
-</ul>
-
-</nav>
-
-
-</aside>
-
-
-
-
-
-<!-- CONTENIDO -->
-
-
-<div class="cd-main">
-
+<main class="cd-main">
 
 
 <header class="cd-topbar">
@@ -160,16 +52,14 @@ Mis Tickets
 
 </h1>
 
-
 <p>
 
-Consulta el estado de tus solicitudes.
+Historial de solicitudes
 
 </p>
 
 
 </div>
-
 
 
 </header>
@@ -188,25 +78,13 @@ Consulta el estado de tus solicitudes.
 <section class="cd-card">
 
 
-
 <div class="cd-card-header">
-
 
 <div class="cd-card-title">
 
-Mis solicitudes
+Tickets registrados
 
 </div>
-
-
-<a href="nuevo.html"
-class="ticket-button">
-
-<i class="fa-solid fa-plus"></i>
-
-Nuevo Ticket
-
-</a>
 
 
 </div>
@@ -215,28 +93,10 @@ Nuevo Ticket
 
 
 
-<div class="ticket-tools">
+<div class="cd-card-body">
 
 
-<input 
-type="text"
-id="buscarTicket"
-placeholder="Buscar ticket...">
-
-
-
-</div>
-
-
-
-
-
-
-
-<div class="ticket-table">
-
-
-<table>
+<table class="ticket-table">
 
 
 <thead>
@@ -244,35 +104,27 @@ placeholder="Buscar ticket...">
 <tr>
 
 <th>
-
-Ticket
-
+Título
 </th>
 
-
 <th>
-
-Asunto
-
+Categoría
 </th>
 
+<th>
+Prioridad
+</th>
 
 <th>
-
 Estado
-
 </th>
 
-
 <th>
-
 Fecha
-
 </th>
 
 
 </tr>
-
 
 </thead>
 
@@ -283,15 +135,14 @@ Fecha
 
 <tr>
 
-<td colspan="4">
+<td colspan="5">
 
-No existen tickets registrados.
+Cargando tickets...
 
 </td>
 
 
 </tr>
-
 
 
 </tbody>
@@ -300,14 +151,10 @@ No existen tickets registrados.
 </table>
 
 
-
 </div>
 
 
-
-
 </section>
-
 
 
 </div>
@@ -316,16 +163,15 @@ No existen tickets registrados.
 </main>
 
 
-
-</div>
-
+</main>
 
 
 </div>
 
 
 
-<script src="../js/tickets.js"></script>
+
+<script type="module" src="../js/tickets.js"></script>
 
 
 </body>
