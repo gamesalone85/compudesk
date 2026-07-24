@@ -9,7 +9,7 @@
 
 
 <title>
-Portal Cliente | Compu Desk
+Dashboard Cliente | Compu Desk
 </title>
 
 
@@ -33,10 +33,8 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 </head>
 
 
+
 <body>
-
-
-<div class="cliente-layout">
 
 
 
@@ -55,28 +53,23 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 Compu Desk
 </h2>
 
+
 <span>
-Portal Clientes
+Portal Cliente
 </span>
 
-</div>
-
 
 </div>
 
 
+</div>
 
 
 
-<div class="usuario-header">
+<div class="cliente-actions">
 
 
-<strong id="nombreUsuario">
-Cargando...
-</strong>
-
-
-<button id="cerrarSesion">
+<button id="logout">
 
 <i class="fa-solid fa-right-from-bracket"></i>
 
@@ -88,8 +81,8 @@ Salir
 </div>
 
 
-
 </header>
+
 
 
 
@@ -99,108 +92,27 @@ Salir
 
 
 
-
-
-<section class="welcome">
+<section class="welcome-card">
 
 
 <h1>
 
 Bienvenido,
-<span id="clienteNombre">
+
+<span id="nombreCliente">
+Cliente
 </span>
+
 
 </h1>
 
 
-<p>
+<p id="empresaCliente">
 
-Administra tus solicitudes de soporte técnico.
+Cargando información...
 
 </p>
 
-
-</section>
-
-
-
-
-
-
-
-
-<section class="empresa-card">
-
-
-<h2>
-
-Información empresarial
-
-</h2>
-
-
-
-<div class="empresa-grid">
-
-
-<div>
-
-<label>
-Empresa
-</label>
-
-<strong id="empresa">
--
-</strong>
-
-</div>
-
-
-
-<div>
-
-<label>
-Plan
-</label>
-
-<strong id="plan">
--
-</strong>
-
-</div>
-
-
-
-
-<div>
-
-<label>
-RFC
-</label>
-
-<strong id="rfc">
--
-</strong>
-
-</div>
-
-
-
-
-<div>
-
-<label>
-Estado
-</label>
-
-<strong id="estado">
--
-</strong>
-
-</div>
-
-
-</div>
 
 
 </section>
@@ -246,42 +158,13 @@ Tickets abiertos
 <div class="kpi-card">
 
 
-<i class="fa-solid fa-spinner"></i>
-
-
-<div>
-
-<span>
-En proceso
-</span>
-
-
-<strong id="ticketsProceso">
-0
-</strong>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div class="kpi-card">
-
-
 <i class="fa-solid fa-circle-check"></i>
 
 
 <div>
 
 <span>
-Cerrados
+Tickets cerrados
 </span>
 
 
@@ -298,6 +181,32 @@ Cerrados
 
 
 
+
+<div class="kpi-card">
+
+
+<i class="fa-solid fa-building"></i>
+
+
+<div>
+
+<span>
+Plan contratado
+</span>
+
+
+<strong id="planCliente">
+-
+</strong>
+
+
+</div>
+
+
+</div>
+
+
+
 </section>
 
 
@@ -305,7 +214,63 @@ Cerrados
 
 
 
-<section class="acciones">
+
+
+
+<section class="empresa-card">
+
+
+<div class="section-header">
+
+
+<h2>
+
+Información empresarial
+
+</h2>
+
+
+</div>
+
+
+
+<div id="datosEmpresa">
+
+
+Cargando...
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+
+<section class="empresa-card">
+
+
+<div class="section-header">
+
+
+<h2>
+
+Acciones rápidas
+
+</h2>
+
+
+</div>
+
+
+
+<div class="quick-actions">
 
 
 <a href="tickets/nuevo.html">
@@ -322,19 +287,12 @@ Crear ticket
 
 <i class="fa-solid fa-list"></i>
 
-Mis tickets
+Ver tickets
 
 </a>
 
 
-
-<a href="perfil/index.html">
-
-<i class="fa-solid fa-user"></i>
-
-Mi perfil
-
-</a>
+</div>
 
 
 </section>
@@ -349,6 +307,7 @@ Mi perfil
 <script type="module" src="js/auth-guard.js"></script>
 
 <script type="module" src="js/dashboard.js"></script>
+
 
 
 </body>
