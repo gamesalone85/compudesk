@@ -1,691 +1,189 @@
 // ==========================================
 // COMPU DESK
-// Login Firebase Authentication
-// Admin + Usuarios
+// ADMIN LOGIN
+// Producción v1.0
 // ==========================================
 
+import { auth, db } from "../../assets/firebase/firebase-config.js";
 
 import {
-
-auth,
-db
-
-}
-
-from "../../assets/firebase/firebase-config.js";
-
-
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
-
-signInWithEmailAndPassword,
-signOut
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-
-import {
-
-doc,
-getDoc
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-
-
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 // ==========================================
 // ELEMENTOS
 // ==========================================
 
+const form = document.getElementById("loginForm");
+const email = document.getElementById("email");
+const password = document.getElementById("password");
+const remember = document.getElementById("rememberSession");
+const message = document.getElementById("loginMessage");
+const togglePassword = document.getElementById("togglePassword");
 
-const formulario =
-
-document.getElementById(
-"loginForm"
-);
-
-
-
-const mensaje =
-
-document.getElementById(
-"loginMessage"
-);
-
-
-
-const togglePassword =
-
-document.getElementById(
-"togglePassword"
-);
-
-
-
-const passwordInput =
-
-document.getElementById(
-"password"
-);
-
-
-
-
+const btnLogin = document.getElementById("btnLogin");
+const btnText = document.getElementById("btnText");
+const spinner = document.getElementById("loadingSpinner");
 
 // ==========================================
-// MOSTRAR / OCULTAR PASSWORD
+// PASSWORD
 // ==========================================
 
+togglePassword?.addEventListener("click", () => {
 
-if(
-togglePassword &&
-passwordInput
-){
+    const visible = password.type === "text";
 
+    password.type = visible ? "password" : "text";
 
-togglePassword.addEventListener(
-"click",
-()=>{
-
-
-const visible =
-
-passwordInput.type === "text";
-
-
-
-passwordInput.type =
-
-visible
-?
-"password"
-:
-"text";
-
-
-
-togglePassword.innerHTML =
-
-visible
-
-?
-
-'<i class="fa-solid fa-eye"></i>'
-
-:
-
-'<i class="fa-solid fa-eye-slash"></i>';
-
-
+    togglePassword.innerHTML = visible
+        ? '<i class="fa-solid fa-eye"></i>'
+        : '<i class="fa-solid fa-eye-slash"></i>';
 
 });
-
-
-}
-
-
-
-
-
-
-
 
 // ==========================================
 // LOGIN
 // ==========================================
 
+form?.addEventListener("submit", async (e) => {
 
-if(formulario){
+    e.preventDefault();
 
+    clearMessage();
 
-formulario.addEventListener(
-"submit",
-async(e)=>{
+    const correo = email.value.trim();
+    const clave = password.value;
 
+    if (!correo || !clave) {
+        showMessage("Completa todos los campos.", "error");
+        return;
+    }
 
-e.preventDefault();
+    setLoading(true);
 
+    try {
 
+        await setPersistence(
+            auth,
+            remember.checked
+                ? browserLocalPersistence
+                : browserSessionPersistence
+        );
 
+        const credential = await signInWithEmailAndPassword(
+            auth,
+            correo,
+            clave
+        );
 
+        const uid = credential.user.uid;
 
-const correoInput =
+        const adminRef = doc(db, "admins", uid);
 
-document.getElementById(
-"email"
-);
+        const adminSnap = await getDoc(adminRef);
 
+        if (!adminSnap.exists()) {
 
+            await signOut(auth);
 
-const passwordInput =
+            showMessage(
+                "No tienes permisos para acceder al portal de administración.",
+                "error"
+            );
 
-document.getElementById(
-"password"
-);
+            return;
+        }
 
+        const admin = adminSnap.data();
 
+        if (admin.activo !== true) {
 
+            await signOut(auth);
 
+            showMessage(
+                "Tu cuenta se encuentra deshabilitada.",
+                "error"
+            );
 
-if(
-!correoInput ||
-!passwordInput
-){
+            return;
+        }
 
+        showMessage(
+            "Autenticación correcta.",
+            "success"
+        );
 
-console.error(
-"No se encontraron los campos de login"
-);
+        window.location.replace("index.html");
 
+    } catch (error) {
 
-return;
+        console.error(error);
 
+        let texto = "No fue posible iniciar sesión.";
 
-}
+        switch (error.code) {
 
+            case "auth/invalid-credential":
+            case "auth/user-not-found":
+            case "auth/wrong-password":
+                texto = "Correo o contraseña incorrectos.";
+                break;
 
+            case "auth/too-many-requests":
+                texto = "Demasiados intentos. Intenta nuevamente más tarde.";
+                break;
 
+            case "auth/network-request-failed":
+                texto = "No hay conexión con Internet.";
+                break;
 
+        }
 
-const correo =
+        showMessage(texto, "error");
 
-correoInput
-.value
-.trim();
+    } finally {
 
+        setLoading(false);
 
-
-
-const password =
-
-passwordInput
-.value;
-
-
-
-
-
-
-
-if(
-correo === "" ||
-password === ""
-){
-
-
-mostrarMensaje(
-"Completa todos los campos",
-"error"
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-try{
-
-
-
-mostrarMensaje(
-"Iniciando sesión...",
-""
-);
-
-
-
-
-
-// ==========================================
-// FIREBASE AUTH
-// ==========================================
-
-
-const resultado =
-
-await signInWithEmailAndPassword(
-
-auth,
-
-correo,
-
-password
-
-);
-
-
-
-
-
-const usuarioAuth =
-
-resultado.user;
-
-
-
-
-
-console.log(
-"Firebase Auth:",
-usuarioAuth.uid
-);
-
-
-
-
-
-
-
-
-
-// ==========================================
-// VALIDAR ADMIN
-// ==========================================
-
-
-const adminRef =
-
-doc(
-
-db,
-
-"admins",
-
-usuarioAuth.uid
-
-);
-
-
-
-const adminSnap =
-
-await getDoc(
-adminRef
-);
-
-
-
-
-
-if(
-adminSnap.exists()
-){
-
-
-
-const datosAdmin = {
-
-
-uid:
-
-usuarioAuth.uid,
-
-
-...adminSnap.data()
-
-
-};
-
-
-
-
-
-localStorage.setItem(
-
-"compudeskAdmin",
-
-JSON.stringify(
-datosAdmin
-)
-
-);
-
-
-
-
-
-
-mostrarMensaje(
-"Acceso correcto",
-"success"
-);
-
-
-
-
-
-setTimeout(
-()=>{
-
-
-window.location.href =
-
-"dashboard.html";
-
-
-},
-800
-);
-
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==========================================
-// VALIDAR USUARIO CLIENTE
-// ==========================================
-
-
-const usuarioRef =
-
-doc(
-
-db,
-
-"usuarios",
-
-usuarioAuth.uid
-
-);
-
-
-
-
-const usuarioSnap =
-
-await getDoc(
-usuarioRef
-);
-
-
-
-
-
-
-
-if(
-!usuarioSnap.exists()
-){
-
-
-
-mostrarMensaje(
-
-"Usuario no registrado en el sistema.",
-
-"error"
-
-);
-
-
-
-await signOut(auth);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-
-const usuario =
-
-usuarioSnap.data();
-
-
-
-
-
-
-
-// ==========================================
-// ESTADO
-// ==========================================
-
-
-if(
-usuario.estado !== "activo"
-){
-
-
-
-mostrarMensaje(
-
-"Usuario desactivado. Contacta a soporte.",
-
-"error"
-
-);
-
-
-
-await signOut(auth);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-
-// ==========================================
-// GUARDAR SESION CLIENTE
-// ==========================================
-
-
-localStorage.setItem(
-
-"clienteCompudesk",
-
-JSON.stringify({
-
-uid:
-
-usuarioAuth.uid,
-
-
-...usuario
-
-
-})
-
-);
-
-
-
-
-
-
-
-mostrarMensaje(
-"Acceso correcto",
-"success"
-);
-
-
-
-
-
-setTimeout(
-()=>{
-
-
-window.location.href =
-
-"../clientes/dashboard.html";
-
-
-},
-800
-);
-
-
-
-
-
-
-
-}
-
-catch(error){
-
-
-
-console.error(
-
-"Error login Firebase:",
-
-error
-
-);
-
-
-
-
-let texto =
-
-"Error al iniciar sesión.";
-
-
-
-
-
-
-switch(error.code){
-
-
-
-case "auth/invalid-credential":
-
-texto =
-"Correo o contraseña incorrectos.";
-
-break;
-
-
-
-case "auth/user-not-found":
-
-texto =
-"Usuario no encontrado.";
-
-break;
-
-
-
-case "auth/wrong-password":
-
-texto =
-"Contraseña incorrecta.";
-
-break;
-
-
-
-case "auth/too-many-requests":
-
-texto =
-"Demasiados intentos. Intenta más tarde.";
-
-break;
-
-
-
-}
-
-
-
-
-
-mostrarMensaje(
-texto,
-"error"
-);
-
-
-
-}
-
-
+    }
 
 });
 
+// ==========================================
+// UI
+// ==========================================
+
+function showMessage(text, type) {
+
+    message.textContent = text;
+    message.className = `login-message ${type}`;
 
 }
 
+function clearMessage() {
 
+    message.textContent = "";
+    message.className = "login-message";
 
+}
 
+function setLoading(status) {
 
+    btnLogin.disabled = status;
 
+    spinner.classList.toggle("hidden", !status);
 
-
-// ==========================================
-// MENSAJES
-// ==========================================
-
-
-function mostrarMensaje(
-texto,
-tipo
-){
-
-
-
-if(!mensaje)
-return;
-
-
-
-
-
-mensaje.textContent =
-
-texto;
-
-
-
-mensaje.className =
-
-"login-message " + tipo;
-
-
-
+    btnText.textContent = status
+        ? "Validando..."
+        : "Iniciar sesión";
 
 }
