@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Nuevo Usuario | Compu Desk
+</title>
+
+
+<link
+rel="stylesheet"
+href="/admin/css/dashboard.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+<div id="sidebar-container"></div>
+
+
+
+<section class="admin-main">
+
+
+<div id="header-container"></div>
+
+
+
+
+<main class="dashboard-container">
+
+
+
+<div class="dashboard-title">
+
+
+<h1>
+Nuevo Usuario
+</h1>
+
+
+<p>
+Crear acceso para cliente
+</p>
+
+
+</div>
+
+
+
+
+
+<div class="portal-card">
+
+
+
+<form id="usuarioForm">
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+<label>
+Nombre completo *
+</label>
+
+<input
+id="nombre"
+required>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Correo *
+</label>
+
+<input
+type="email"
+id="correo"
+required>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Teléfono
+</label>
+
+<input
+id="telefono">
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Empresa *
+</label>
+
+
+<select
+id="clienteId"
+required>
+
+<option value="">
+Seleccione empresa
+</option>
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Rol
+</label>
+
+
+<select id="rol">
+
+
+<option value="cliente">
+Cliente
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+Estado
+</label>
+
+
+<select id="estado">
+
+
+<option value="pendiente">
+Pendiente
+</option>
+
+
+<option value="activo">
+Activo
+</option>
+
+
+<option value="inactivo">
+Inactivo
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div
+id="mensaje"
+class="login-message">
+</div>
+
+
+
+
+
+<br>
+
+
+<button
+class="btn-logout"
+type="submit">
+
+
+<i class="fa-solid fa-save"></i>
+
+Guardar Usuario
+
+
+</button>
+
+
+
+<a
+href="index.html"
+class="menu-item"
+style="display:inline-flex;margin-left:15px;">
+
+
+Cancelar
+
+
+</a>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</main>
+
+
+
+</section>
+
+
+
+</div>
+
+
+
+
+
+<script
+type="module"
+src="../js/auth-guard.js">
+</script>
+
+
+<script
+type="module"
+src="../js/layout.js">
+</script>
+
+
+<script
+type="module"
+src="../js/nuevo-usuario.js">
+</script>
+
+
+
+</body>
+
+</html>
