@@ -1,58 +1,79 @@
 // ==========================================
 // COMPU DESK
 // CONFIGURACIÓN GLOBAL
-// Producción
+// Producción v1.0
 // ==========================================
 
-const BASE_URL = window.location.origin;
+/**
+ * URL base del sitio.
+ * Funciona en:
+ * - GitHub Pages
+ * - Dominio propio
+ * - Cloudflare
+ * - localhost
+ */
+export const BASE_URL = window.location.origin;
 
-export const APP = {
+/**
+ * Configuración general de la aplicación.
+ */
+export const APP = Object.freeze({
 
-    nombre: "Compu Desk",
+    NAME: "Compu Desk",
 
-    version: "1.0.0",
+    VERSION: "1.0.0",
 
-    entorno: "production"
+    ENVIRONMENT: "production"
 
-};
+});
 
-export const PATHS = {
+/**
+ * Rutas del portal administrativo.
+ */
+export const ROUTES = Object.freeze({
 
-    base: BASE_URL,
+    LOGIN: `${BASE_URL}/admin/login.html`,
 
-    admin: `${BASE_URL}/admin`,
+    DASHBOARD: `${BASE_URL}/admin/index.html`,
 
-    components: `${BASE_URL}/admin/components`
+    CLIENTES: `${BASE_URL}/admin/clientes/index.html`,
 
-};
+    USUARIOS: `${BASE_URL}/admin/usuarios/index.html`,
 
-export const ROUTES = {
+    TICKETS: `${BASE_URL}/admin/tickets/index.html`
 
-    login: `${PATHS.admin}/login.html`,
+});
 
-    dashboard: `${PATHS.admin}/index.html`,
+/**
+ * Componentes reutilizables.
+ */
+export const COMPONENTS = Object.freeze({
 
-    clientes: `${PATHS.admin}/clientes/index.html`,
+    HEADER: `${BASE_URL}/admin/components/header.html`,
 
-    usuarios: `${PATHS.admin}/usuarios/index.html`,
+    SIDEBAR: `${BASE_URL}/admin/components/sidebar.html`
 
-    tickets: `${PATHS.admin}/tickets/index.html`
+});
 
-};
+/**
+ * Colecciones Firestore.
+ */
+export const COLLECTIONS = Object.freeze({
 
-export const COLLECTIONS = {
+    ADMINS: "admins",
 
-    admins: "admins",
+    CLIENTES: "clientes",
 
-    clientes: "clientes",
+    USUARIOS: "usuarios",
 
-    usuarios: "usuarios",
+    TICKETS: "tickets"
 
-    tickets: "tickets"
+});
 
-};
-
-export const ROLES = {
+/**
+ * Roles oficiales.
+ */
+export const ROLES = Object.freeze({
 
     SUPERADMIN: "superadmin",
 
@@ -62,15 +83,51 @@ export const ROLES = {
 
     TECNICO: "tecnico"
 
-};
+});
 
-export const STATUS = {
+/**
+ * Estados de usuario.
+ */
+export const USER_STATUS = Object.freeze({
 
-    ACTIVO: true,
+    ACTIVE: true,
 
-    INACTIVO: false
+    INACTIVE: false
 
-};
-    INACTIVO: false
+});
 
-};
+/**
+ * Estados oficiales de tickets.
+ */
+export const TICKET_STATUS = Object.freeze({
+
+    NUEVO: "Nuevo",
+
+    ASIGNADO: "Asignado",
+
+    EN_PROCESO: "En proceso",
+
+    PENDIENTE_CLIENTE: "Pendiente de cliente",
+
+    RESUELTO: "Resuelto",
+
+    CERRADO: "Cerrado",
+
+    CANCELADO: "Cancelado"
+
+});
+
+/**
+ * Prioridades oficiales.
+ */
+export const PRIORITY = Object.freeze({
+
+    CRITICA: "Crítica",
+
+    ALTA: "Alta",
+
+    MEDIA: "Media",
+
+    BAJA: "Baja"
+
+});
