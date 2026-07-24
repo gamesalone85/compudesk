@@ -1,11 +1,9 @@
-/*
-========================================
-COMPU DESK
-Portal Clientes Login
-Firebase Authentication + Firestore
-Versión 3.0
-========================================
-*/
+// ==========================================
+// COMPU DESK
+// PORTAL CLIENTES
+// LOGIN PRODUCCIÓN v4.0
+// Firebase Authentication + Firestore
+// ==========================================
 
 
 import { auth, db } 
@@ -14,7 +12,11 @@ from "../../assets/firebase/firebase-config.js";
 
 import {
 
-signInWithEmailAndPassword
+signInWithEmailAndPassword,
+setPersistence,
+browserLocalPersistence,
+browserSessionPersistence,
+signOut
 
 }
 
@@ -23,10 +25,8 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 
-collection,
-query,
-where,
-getDocs
+doc,
+getDoc
 
 }
 
@@ -36,103 +36,84 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-console.log(
-"Login Firebase Compu Desk cargado"
-);
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
 
+const form =
+document.getElementById("loginForm");
 
 
-
-/*
-========================================
-MOSTRAR / OCULTAR PASSWORD
-========================================
-*/
+const emailInput =
+document.getElementById("email");
 
 
 const passwordInput =
-document.getElementById(
-"password"
-);
+document.getElementById("password");
+
+
+const remember =
+document.getElementById("remember");
 
 
 const togglePassword =
-document.getElementById(
-"togglePassword"
-);
+document.getElementById("togglePassword");
 
 
 
-if(
-togglePassword &&
-passwordInput
-){
 
 
-togglePassword.addEventListener(
+// ==========================================
+// MOSTRAR PASSWORD
+// ==========================================
+
+
+togglePassword?.addEventListener(
 "click",
 ()=>{
 
 
-const tipo =
+const visible =
+passwordInput.type === "text";
 
-passwordInput.type === "password"
 
+passwordInput.type =
+visible
 ?
-"text"
-
+"password"
 :
-"password";
-
-
-
-passwordInput.type = tipo;
-
+"text";
 
 
 togglePassword.innerHTML =
-
-tipo === "text"
+visible
 
 ?
-
-'<i class="fa-solid fa-eye-slash"></i>'
+'<i class="fa-solid fa-eye"></i>'
 
 :
 
-'<i class="fa-solid fa-eye"></i>';
+'<i class="fa-solid fa-eye-slash"></i>';
 
 
 
 });
 
 
-}
 
 
 
 
-
-/*
-========================================
-LOGIN
-========================================
-*/
+// ==========================================
+// LOGIN
+// ==========================================
 
 
-const formulario =
+form?.addEventListener(
 
-document.getElementById(
-"loginForm"
-);
-
-
-
-
-
-formulario.addEventListener(
 "submit",
+
 async(e)=>{
 
 
@@ -142,42 +123,25 @@ e.preventDefault();
 
 
 
-const email =
-
-document
-.getElementById("email")
-.value
-.trim();
-
+const correo =
+emailInput.value.trim();
 
 
 const password =
-
-document
-.getElementById("password")
-.value
-.trim();
+passwordInput.value;
 
 
 
 
 
-
-
-if(
-email === "" ||
-password === ""
-){
-
+if(!correo || !password){
 
 mostrarMensaje(
 "Completa todos los campos",
 "error"
 );
 
-
 return;
-
 
 }
 
@@ -188,11 +152,27 @@ return;
 try{
 
 
-/*
-================================
-AUTENTICAR FIREBASE
-================================
-*/
+
+await setPersistence(
+
+auth,
+
+remember.checked
+
+?
+
+browserLocalPersistence
+
+:
+
+browserSessionPersistence
+
+);
+
+
+
+
+
 
 
 const credencial =
@@ -201,7 +181,7 @@ await signInWithEmailAndPassword(
 
 auth,
 
-email,
+correo,
 
 password
 
@@ -211,7 +191,8 @@ password
 
 
 
-const usuarioAuth =
+
+const user =
 
 credencial.user;
 
@@ -221,8 +202,11 @@ credencial.user;
 
 
 console.log(
-"Usuario autenticado:",
-usuarioAuth.uid
+
+"UID Firebase:",
+
+user.uid
+
 );
 
 
@@ -232,29 +216,32 @@ usuarioAuth.uid
 
 
 
-/*
-================================
-BUSCAR PERFIL FIRESTORE
-================================
-*/
+// ==========================================
+// BUSCAR PERFIL USUARIO
+// ==========================================
 
 
-const consulta =
+const usuarioRef =
 
-query(
+doc(
 
-collection(
 db,
-"usuarios"
-),
+
+"usuarios",
+
+user.uid
+
+);
 
 
-where(
-"correo",
-"==",
-email
-)
 
+
+
+const usuarioSnap =
+
+await getDoc(
+
+usuarioRef
 
 );
 
@@ -263,25 +250,90 @@ email
 
 
 
-const resultado =
 
-await getDocs(
-consulta
-);
+if(!usuarioSnap.exists()){
 
 
-
-
-
-
-if(
-resultado.empty
-){
+await signOut(auth);
 
 
 mostrarMensaje(
-"Usuario sin perfil registrado",
+
+"Usuario sin perfil registrado.",
+
 "error"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+const usuario =
+
+usuarioSnap.data();
+
+
+
+
+
+
+
+// ==========================================
+// VALIDAR ESTADO
+// ==========================================
+
+
+if(usuario.estado !== "activo"){
+
+
+
+await signOut(auth);
+
+
+mostrarMensaje(
+
+"Usuario desactivado.",
+
+"error"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// VALIDAR CLIENTE ASIGNADO
+// ==========================================
+
+
+if(!usuario.clienteId){
+
+
+
+await signOut(auth);
+
+
+mostrarMensaje(
+
+"Usuario sin empresa asignada.",
+
+"error"
+
 );
 
 
@@ -296,51 +348,53 @@ return;
 
 
 
-
-let perfil = null;
-
-
-
+// ==========================================
+// OBTENER EMPRESA
+// ==========================================
 
 
+const clienteRef =
 
-resultado.forEach(
-(documento)=>{
+doc(
 
+db,
 
-perfil = {
+"clientes",
 
+usuario.clienteId
 
-id:
-documento.id,
-
-
-...documento.data(),
-
-
-uidAuth:
-usuarioAuth.uid
-
-
-};
-
-
-
-});
-
-
-}
+);
 
 
 
 
 
-if(!perfil){
+const clienteSnap =
+
+await getDoc(
+
+clienteRef
+
+);
+
+
+
+
+
+
+
+if(!clienteSnap.exists()){
+
+
+await signOut(auth);
 
 
 mostrarMensaje(
-"No se encontró información del usuario",
+
+"No existe la empresa asociada.",
+
 "error"
+
 );
 
 
@@ -354,23 +408,9 @@ return;
 
 
 
+const cliente =
 
-if(
-perfil.estado &&
-perfil.estado !== "activo"
-){
-
-
-mostrarMensaje(
-"Usuario desactivado",
-"error"
-);
-
-
-return;
-
-
-}
+clienteSnap.data();
 
 
 
@@ -379,74 +419,42 @@ return;
 
 
 
-
-/*
-================================
-CREAR SESIÓN CLIENTE
-================================
-*/
+// ==========================================
+// CREAR SESIÓN
+// ==========================================
 
 
-const datosSesion = {
+const sesion = {
 
 
-id:
-
-perfil.id,
+uid:user.uid,
 
 
-
-uidAuth:
-
-usuarioAuth.uid,
+clienteId:usuario.clienteId,
 
 
-
-nombre:
-
-perfil.nombre || "",
+nombre:usuario.nombre || "",
 
 
-
-correo:
-
-perfil.correo || email,
+correo:usuario.correo || correo,
 
 
-
-empresa:
-
-perfil.empresa || "",
+telefono:usuario.telefono || "",
 
 
-
-rol:
-
-perfil.rol || "cliente",
+rol:usuario.rol || "cliente",
 
 
-
-telefono:
-
-perfil.telefono || "",
+empresa:cliente.empresa || "",
 
 
-
-plan:
-
-perfil.plan || "",
+plan:cliente.plan || "",
 
 
-
-horario:
-
-perfil.horario || "",
+rfc:cliente.rfc || "",
 
 
-
-contacto:
-
-perfil.contacto || ""
+estado:usuario.estado
 
 
 };
@@ -461,9 +469,7 @@ localStorage.setItem(
 
 "clienteCompudesk",
 
-JSON.stringify(
-datosSesion
-)
+JSON.stringify(sesion)
 
 );
 
@@ -475,12 +481,11 @@ datosSesion
 
 console.log(
 
-"Sesión creada:",
+"Sesión cliente:",
 
-datosSesion
+sesion
 
 );
-
 
 
 
@@ -501,8 +506,8 @@ mostrarMensaje(
 
 
 
-setTimeout(
-()=>{
+
+setTimeout(()=>{
 
 
 window.location.href =
@@ -510,11 +515,8 @@ window.location.href =
 "dashboard.html";
 
 
-},
+},1000);
 
-1000
-
-);
 
 
 
@@ -528,49 +530,25 @@ catch(error){
 
 
 console.error(
-"Error login:",
-error
-);
 
+"Error login:",
+
+error
+
+);
 
 
 
 
 let mensaje =
 
-"Correo o contraseña incorrectos";
+"Correo o contraseña incorrectos.";
+
 
 
 
 
 switch(error.code){
-
-
-case "auth/user-not-found":
-
-mensaje =
-"Usuario no encontrado";
-
-break;
-
-
-
-case "auth/wrong-password":
-
-mensaje =
-"Contraseña incorrecta";
-
-break;
-
-
-
-case "auth/invalid-credential":
-
-mensaje =
-"Credenciales inválidas";
-
-break;
-
 
 
 case "auth/too-many-requests":
@@ -581,21 +559,33 @@ mensaje =
 break;
 
 
-}
 
+case "auth/network-request-failed":
+
+mensaje =
+"Error de conexión.";
+
+break;
+
+
+
+}
 
 
 
 
 mostrarMensaje(
+
 mensaje,
+
 "error"
+
 );
 
 
 
-
 }
+
 
 
 
@@ -608,17 +598,17 @@ mensaje,
 
 
 
-
-/*
-========================================
-MENSAJES
-========================================
-*/
+// ==========================================
+// MENSAJES
+// ==========================================
 
 
 function mostrarMensaje(
+
 texto,
+
 tipo
+
 ){
 
 
@@ -626,7 +616,9 @@ tipo
 let alerta =
 
 document.querySelector(
+
 ".login-alert"
+
 );
 
 
@@ -636,11 +628,12 @@ document.querySelector(
 if(!alerta){
 
 
-
 alerta =
 
 document.createElement(
+
 "div"
+
 );
 
 
@@ -650,28 +643,12 @@ alerta.className =
 
 
 
-const card =
-
-document.querySelector(
-".login-card"
-);
-
-
-
-if(card){
-
-card.insertBefore(
-alerta,
-card.firstChild
-);
+document
+.querySelector(".login-card")
+.prepend(alerta);
 
 
 }
-
-
-
-}
-
 
 
 
@@ -686,25 +663,6 @@ alerta.className =
 
 "login-alert " + tipo;
 
-
-
-
-
-
-setTimeout(
-()=>{
-
-
-if(alerta){
-
-alerta.remove();
-
-}
-
-
-},
-3000
-);
 
 
 
