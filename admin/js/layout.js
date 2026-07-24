@@ -1,85 +1,58 @@
 // ==========================================
 // COMPU DESK
-// LAYOUT MANAGER
+// ADMIN LAYOUT MANAGER
 // Producción v1.0
 // ==========================================
 
-import { COMPONENTS } from "./config.js";
-
-import { getAdmin } from "./session.js";
 
 import {
-    logout
-} from "../../assets/firebase/services/auth.service.js";
+    auth
+} from "../../assets/firebase/firebase-config.js";
 
 
-// ==========================================
-// ESPERAR AUTENTICACIÓN
-// ==========================================
+import {
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-document.addEventListener(
-    "compudesk-auth-ready",
-    async () => {
-
-        await loadComponents();
-
-        loadAdminData();
-
-        activateMenu();
-
-        configureLogout();
-
-    }
-);
 
 
 // ==========================================
-// COMPONENTES
+// CARGAR COMPONENTES
 // ==========================================
 
-async function loadComponents(){
 
-    await loadHTML(
-        "header-container",
-        COMPONENTS.HEADER
-    );
-
-
-    await loadHTML(
-        "sidebar-container",
-        COMPONENTS.SIDEBAR
-    );
-
-}
-
-
-// ==========================================
-// CARGAR HTML
-// ==========================================
-
-async function loadHTML(
-    elementId,
-    url
+async function loadComponent(
+    id,
+    file
 ){
 
     const container =
-        document.getElementById(elementId);
+        document.getElementById(id);
 
 
-    if(!container)
+    if(!container){
+
+        console.warn(
+            "No existe contenedor:",
+            id
+        );
+
         return;
+
+    }
 
 
     try{
 
+
         const response =
-            await fetch(url);
+            await fetch(file);
 
 
         if(!response.ok){
 
             throw new Error(
-                `Error cargando ${url}`
+                `Error cargando ${file}`
             );
 
         }
@@ -101,45 +74,118 @@ async function loadHTML(
 }
 
 
+
+
+
+// ==========================================
+// INICIALIZAR LAYOUT
+// ==========================================
+
+
+async function initLayout(){
+
+
+    await loadComponent(
+
+        "header-container",
+
+        "components/header.html"
+
+    );
+
+
+
+    await loadComponent(
+
+        "sidebar-container",
+
+        "components/sidebar.html"
+
+    );
+
+
+
+    loadAdminData();
+
+
+    activateMenu();
+
+
+    initLogout();
+
+
+}
+
+
+
+
 // ==========================================
 // DATOS ADMIN
 // ==========================================
 
+
 function loadAdminData(){
 
-    const admin =
-        getAdmin();
+
+    const adminStorage =
+
+        localStorage.getItem(
+            "compudeskAdmin"
+        );
 
 
-    if(!admin)
+
+    if(!adminStorage)
+
         return;
 
 
 
+    const admin =
+
+        JSON.parse(
+            adminStorage
+        );
+
+
+
     const nombre =
+
         document.getElementById(
             "adminNombre"
         );
 
 
+
     const rol =
+
         document.getElementById(
             "adminRol"
         );
 
 
+
     if(nombre){
 
         nombre.textContent =
-            admin.nombre || "Administrador";
+
+            admin.nombre ||
+
+            admin.correo ||
+
+            "Administrador";
 
     }
+
 
 
     if(rol){
 
         rol.textContent =
-            admin.rol || "";
+
+            admin.rol ||
+
+            "Admin";
 
     }
 
@@ -147,30 +193,37 @@ function loadAdminData(){
 }
 
 
+
+
+
 // ==========================================
 // MENU ACTIVO
 // ==========================================
 
+
 function activateMenu(){
 
-    const path =
+
+    const current =
+
         window.location.pathname;
+
 
 
     document
     .querySelectorAll(
-        "[data-route]"
+        ".menu-item"
     )
-    .forEach(item=>{
+    .forEach(link=>{
 
 
         if(
-            path.includes(
-                item.dataset.route
+            current.includes(
+                link.getAttribute("href")
             )
         ){
 
-            item.classList.add(
+            link.classList.add(
                 "active"
             );
 
@@ -179,47 +232,90 @@ function activateMenu(){
 
     });
 
+
 }
+
+
+
 
 
 // ==========================================
 // LOGOUT
 // ==========================================
 
-function configureLogout(){
+
+function initLogout(){
+
 
     const button =
+
         document.getElementById(
             "btnLogout"
         );
 
 
+
     if(!button)
+
         return;
 
 
 
     button.addEventListener(
+
         "click",
+
         async()=>{
 
 
             const confirmar =
+
                 confirm(
-                    "¿Deseas cerrar sesión?"
+                    "¿Cerrar sesión?"
                 );
 
 
+
             if(!confirmar)
+
                 return;
 
 
 
-            await logout();
+            await signOut(auth);
+
+
+
+            localStorage.removeItem(
+                "compudeskAdmin"
+            );
+
+
+
+            window.location.href =
+
+                "/admin/login.html";
 
 
         }
+
     );
 
 
 }
+
+
+
+
+// ==========================================
+// EJECUTAR
+// ==========================================
+
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    initLayout
+
+);
