@@ -1,11 +1,302 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-MX">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=login.html">
-    <title>Compu Desk Admin</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Dashboard | Compu Desk
+    </title>
+
+
+    <meta name="robots" content="noindex,nofollow">
+
+
+    <link rel="icon" href="/img/logo.png">
+
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+
+    <!-- Font Awesome -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+    <!-- CSS Global -->
+
+    <link rel="stylesheet" href="/css/styles.css">
+
+
+    <!-- CSS Admin -->
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+
 </head>
+
+
 <body>
 
+
+<div class="admin-layout">
+
+
+    <!-- SIDEBAR -->
+
+    <div id="sidebar-container"></div>
+
+
+
+    <section class="admin-main">
+
+
+
+        <!-- HEADER -->
+
+        <div id="header-container"></div>
+
+
+
+        <!-- CONTENIDO -->
+
+        <main class="dashboard-container">
+
+
+
+            <div class="dashboard-title">
+
+                <h1>
+                    Dashboard
+                </h1>
+
+                <p>
+                    Resumen general de Compu Desk
+                </p>
+
+            </div>
+
+
+
+
+            <!-- KPIs -->
+
+
+            <section class="kpi-grid">
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-building"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Clientes
+                        </span>
+
+
+                        <strong id="totalClientes">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-users"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Usuarios
+                        </span>
+
+
+                        <strong id="totalUsuarios">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-ticket"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Tickets abiertos
+                        </span>
+
+
+                        <strong id="ticketsAbiertos">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            Tickets cerrados
+                        </span>
+
+
+                        <strong id="ticketsCerrados">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+            </section>
+
+
+
+
+
+            <!-- ACTIVIDAD -->
+
+
+            <section class="dashboard-panel">
+
+
+                <h2>
+
+                    Actividad reciente
+
+                </h2>
+
+
+                <div id="actividadReciente">
+
+
+                    <p>
+                        Cargando información...
+                    </p>
+
+
+                </div>
+
+
+            </section>
+
+
+
+        </main>
+
+
+
+    </section>
+
+
+
+</div>
+
+
+
+
+
+<!-- Seguridad -->
+
+<script
+    type="module"
+    src="js/auth-guard.js">
+</script>
+
+
+
+<!-- Layout -->
+
+<script
+    type="module"
+    src="js/layout.js">
+</script>
+
+
+
+<!-- Dashboard -->
+
+<script
+    type="module"
+    src="js/dashboard.js">
+</script>
+
+
+
 </body>
+
 </html>
