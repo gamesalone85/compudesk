@@ -1,8 +1,10 @@
 // ==========================================
 // COMPU DESK
-// CONFIGURACIÓN GENERAL
-// Producción v1.0
+// CONFIGURACIÓN GLOBAL
+// Producción
 // ==========================================
+
+const BASE_URL = window.location.origin;
 
 export const APP = {
 
@@ -14,27 +16,29 @@ export const APP = {
 
 };
 
-// ==========================================
-// RUTAS
-// ==========================================
+export const PATHS = {
 
-export const ROUTES = {
+    base: BASE_URL,
 
-    login: "/admin/login.html",
+    admin: `${BASE_URL}/admin`,
 
-    dashboard: "/admin/index.html",
-
-    clientes: "/admin/clientes/index.html",
-
-    usuarios: "/admin/usuarios/index.html",
-
-    tickets: "/admin/tickets/index.html"
+    components: `${BASE_URL}/admin/components`
 
 };
 
-// ==========================================
-// COLECCIONES FIRESTORE
-// ==========================================
+export const ROUTES = {
+
+    login: `${PATHS.admin}/login.html`,
+
+    dashboard: `${PATHS.admin}/index.html`,
+
+    clientes: `${PATHS.admin}/clientes/index.html`,
+
+    usuarios: `${PATHS.admin}/usuarios/index.html`,
+
+    tickets: `${PATHS.admin}/tickets/index.html`
+
+};
 
 export const COLLECTIONS = {
 
@@ -48,10 +52,6 @@ export const COLLECTIONS = {
 
 };
 
-// ==========================================
-// ROLES
-// ==========================================
-
 export const ROLES = {
 
     SUPERADMIN: "superadmin",
@@ -64,14 +64,13 @@ export const ROLES = {
 
 };
 
-// ==========================================
-// ESTADOS
-// ==========================================
-
 export const STATUS = {
 
     ACTIVO: true,
 
+    INACTIVO: false
+
+};
     INACTIVO: false
 
 };
