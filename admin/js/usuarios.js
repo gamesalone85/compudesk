@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // ADMIN USUARIOS
-// Producción v1.0
+// Producción v1.1
 // ==========================================
 
 
@@ -12,7 +12,6 @@ db
 }
 
 from "../../assets/firebase/firebase-config.js";
-
 
 
 import {
@@ -31,13 +30,20 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+
 const tabla =
+
 document.getElementById(
 "usuariosTabla"
 );
 
 
 
+
+
+// ==========================================
+// CARGAR USUARIOS
+// ==========================================
 
 
 async function cargarUsuarios(){
@@ -68,6 +74,8 @@ consulta
 
 
 
+
+
 if(snapshot.empty){
 
 
@@ -79,11 +87,11 @@ No existen usuarios registrados.
 </p>
 `;
 
-
 return;
 
 
 }
+
 
 
 
@@ -124,6 +132,11 @@ Estado
 
 
 <th>
+Fecha alta
+</th>
+
+
+<th>
 Acción
 </th>
 
@@ -136,31 +149,36 @@ Acción
 
 <tbody>
 
-
 `;
 
 
 
 
 
-for(const item of snapshot.docs){
+
+
+for(const usuarioDoc of snapshot.docs){
 
 
 
-const usuario =
-item.data();
+const usuario = usuarioDoc.data();
 
 
 
-let empresa =
-"--";
+
+
+let empresa = "Sin empresa";
+
+
 
 
 
 if(usuario.clienteId){
 
 
+
 const clienteRef =
+
 doc(
 db,
 "clientes",
@@ -170,9 +188,11 @@ usuario.clienteId
 
 
 const clienteSnap =
+
 await getDoc(
 clienteRef
 );
+
 
 
 
@@ -180,6 +200,7 @@ if(clienteSnap.exists()){
 
 
 empresa =
+
 clienteSnap.data().empresa;
 
 
@@ -188,6 +209,30 @@ clienteSnap.data().empresa;
 
 
 }
+
+
+
+
+
+
+let fecha = "--";
+
+
+
+if(usuario.fechaAlta){
+
+
+fecha =
+
+usuario.fechaAlta
+.toDate()
+.toLocaleDateString(
+"es-MX"
+);
+
+
+}
+
 
 
 
@@ -206,11 +251,15 @@ ${usuario.nombre || "--"}
 </td>
 
 
+
+
 <td>
 
 ${usuario.correo || "--"}
 
 </td>
+
+
 
 
 <td>
@@ -220,11 +269,15 @@ ${empresa}
 </td>
 
 
+
+
 <td>
 
 ${usuario.rol || "--"}
 
 </td>
+
+
 
 
 <td>
@@ -240,12 +293,23 @@ ${usuario.estado}
 </td>
 
 
+
+
+<td>
+
+${fecha}
+
+</td>
+
+
+
+
 <td>
 
 
 <a
 
-href="editar.html?id=${item.id}"
+href="editar.html?id=${usuarioDoc.id}"
 
 class="btn-action">
 
@@ -257,6 +321,8 @@ class="btn-action">
 
 
 </td>
+
+
 
 
 </tr>
@@ -272,13 +338,19 @@ class="btn-action">
 
 
 
+
+
 html += `
+
 
 </tbody>
 
+
 </table>
 
+
 `;
+
 
 
 
@@ -289,18 +361,28 @@ html;
 
 
 }
+
 catch(error){
 
 
 console.error(
-"Error usuarios:",
+
+"Error cargando usuarios:",
+
 error
+
 );
 
 
 
 tabla.innerHTML =
-"No fue posible cargar usuarios";
+
+`
+<p>
+Error al cargar usuarios.
+</p>
+`;
+
 
 
 }
@@ -308,6 +390,7 @@ tabla.innerHTML =
 
 
 }
+
 
 
 
