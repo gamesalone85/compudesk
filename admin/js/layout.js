@@ -1,137 +1,225 @@
 // ==========================================
 // COMPU DESK
-// LAYOUT
+// LAYOUT MANAGER
 // Producción v1.0
 // ==========================================
 
-import { auth } from "../../assets/firebase/firebase-config.js";
+import { COMPONENTS } from "./config.js";
 
-import { signOut } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+import { getAdmin } from "./session.js";
 
-import { ROUTES } from "./config.js";
+import {
+    logout
+} from "../../assets/firebase/services/auth.service.js";
+
 
 // ==========================================
-// INICIO
+// ESPERAR AUTENTICACIÓN
 // ==========================================
 
 document.addEventListener(
-
     "compudesk-auth-ready",
-
     async () => {
 
-        await cargarSidebar();
+        await loadComponents();
 
-        await cargarHeader();
+        loadAdminData();
 
-        activarMenu();
+        activateMenu();
 
-        configurarLogout();
+        configureLogout();
 
-        cargarDatosAdministrador();
+    }
+);
+
+
+// ==========================================
+// COMPONENTES
+// ==========================================
+
+async function loadComponents(){
+
+    await loadHTML(
+        "header-container",
+        COMPONENTS.HEADER
+    );
+
+
+    await loadHTML(
+        "sidebar-container",
+        COMPONENTS.SIDEBAR
+    );
+
+}
+
+
+// ==========================================
+// CARGAR HTML
+// ==========================================
+
+async function loadHTML(
+    elementId,
+    url
+){
+
+    const container =
+        document.getElementById(elementId);
+
+
+    if(!container)
+        return;
+
+
+    try{
+
+        const response =
+            await fetch(url);
+
+
+        if(!response.ok){
+
+            throw new Error(
+                `Error cargando ${url}`
+            );
+
+        }
+
+
+        container.innerHTML =
+            await response.text();
+
+
+    }
+    catch(error){
+
+        console.error(
+            error
+        );
 
     }
 
-);
+}
+
 
 // ==========================================
-// CARGAR HEADER
+// DATOS ADMIN
 // ==========================================
 
-async function cargarHeader() {
+function loadAdminData(){
 
-    const contenedor = document.getElementById("header-container");
+    const admin =
+        getAdmin();
 
-    if (!contenedor) return;
 
-    const respuesta = await fetch("components/header.html");
+    if(!admin)
+        return;
 
-    contenedor.innerHTML = await respuesta.text();
+
+
+    const nombre =
+        document.getElementById(
+            "adminNombre"
+        );
+
+
+    const rol =
+        document.getElementById(
+            "adminRol"
+        );
+
+
+    if(nombre){
+
+        nombre.textContent =
+            admin.nombre || "Administrador";
+
+    }
+
+
+    if(rol){
+
+        rol.textContent =
+            admin.rol || "";
+
+    }
+
 
 }
 
-// ==========================================
-// CARGAR SIDEBAR
-// ==========================================
-
-async function cargarSidebar() {
-
-    const contenedor = document.getElementById("sidebar-container");
-
-    if (!contenedor) return;
-
-    const respuesta = await fetch("components/sidebar.html");
-
-    contenedor.innerHTML = await respuesta.text();
-
-}
-
-// ==========================================
-// DATOS DEL ADMIN
-// ==========================================
-
-function cargarDatosAdministrador() {
-
-    if (!window.compudeskAdmin) return;
-
-    const nombre = document.getElementById("adminNombre");
-
-    const correo = document.getElementById("adminCorreo");
-
-    const rol = document.getElementById("adminRol");
-
-    if (nombre)
-        nombre.textContent = window.compudeskAdmin.nombre;
-
-    if (correo)
-        correo.textContent = window.compudeskAdmin.correo;
-
-    if (rol)
-        rol.textContent = window.compudeskAdmin.rol;
-
-}
 
 // ==========================================
 // MENU ACTIVO
 // ==========================================
 
-function activarMenu() {
+function activateMenu(){
 
-    const pagina = window.location.pathname;
+    const path =
+        window.location.pathname;
+
 
     document
-        .querySelectorAll("[data-route]")
-        .forEach(item => {
+    .querySelectorAll(
+        "[data-route]"
+    )
+    .forEach(item=>{
 
-            if (pagina.endsWith(item.dataset.route)) {
 
-                item.classList.add("active");
+        if(
+            path.includes(
+                item.dataset.route
+            )
+        ){
 
-            }
+            item.classList.add(
+                "active"
+            );
 
-        });
+        }
+
+
+    });
 
 }
+
 
 // ==========================================
 // LOGOUT
 // ==========================================
 
-function configurarLogout() {
+function configureLogout(){
 
-    const boton = document.getElementById("btnLogout");
+    const button =
+        document.getElementById(
+            "btnLogout"
+        );
 
-    if (!boton) return;
 
-    boton.addEventListener("click", async () => {
+    if(!button)
+        return;
 
-        if (!confirm("¿Deseas cerrar sesión?"))
-            return;
 
-        await signOut(auth);
 
-        window.location.replace(ROUTES.login);
+    button.addEventListener(
+        "click",
+        async()=>{
 
-    });
+
+            const confirmar =
+                confirm(
+                    "¿Deseas cerrar sesión?"
+                );
+
+
+            if(!confirmar)
+                return;
+
+
+
+            await logout();
+
+
+        }
+    );
+
 
 }
