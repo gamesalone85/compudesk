@@ -89,7 +89,7 @@ async function initLayout(){
 
         "header-container",
 
-        "components/header.html"
+        "/admin/components/header.html"
 
     );
 
@@ -99,7 +99,7 @@ async function initLayout(){
 
         "sidebar-container",
 
-        "components/sidebar.html"
+        "/admin/components/sidebar.html"
 
     );
 
