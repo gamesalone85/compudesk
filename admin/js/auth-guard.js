@@ -16,77 +16,163 @@ import {
     getDoc
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-// Evita ejecutar la validación dos veces
-let validando = false;
+import {
+    COLLECTIONS,
+    ROUTES,
+    USER_STATUS
+} from "./config.js";
+
+import {
+    setAdmin,
+    clearAdmin
+} from "./session.js";
+
+// ==========================================
+// INICIALIZACIÓN
+// ==========================================
+
+let initialized = false;
 
 onAuthStateChanged(auth, async (user) => {
 
-    if (validando) return;
-    validando = true;
+    // Evita múltiples ejecuciones
+    if (initialized) return;
+
+    initialized = true;
 
     try {
 
+        // ----------------------------------
         // No existe sesión
+        // ----------------------------------
+
         if (!user) {
-            redirigirLogin();
+
+            redirectToLogin();
+
             return;
+
         }
 
+        // ----------------------------------
         // Buscar administrador
-        const adminRef = doc(db, COLLECTIONS.admins, user.uid);
+        // ----------------------------------
+
+        const adminRef = doc(
+            db,
+            COLLECTIONS.ADMINS,
+            user.uid
+        );
+
         const adminSnap = await getDoc(adminRef);
 
-        // No existe documento
         if (!adminSnap.exists()) {
 
-            await signOut(auth);
+            console.warn("Administrador no registrado.");
 
-            redirigirLogin();
+            await logout();
 
             return;
+
         }
 
         const admin = adminSnap.data();
 
+        // ----------------------------------
         // Cuenta deshabilitada
-        if (admin.activo !== true) {
+        // ----------------------------------
 
-            await signOut(auth);
+        if (admin.activo !== USER_STATUS.ACTIVE) {
 
-            redirigirLogin();
+            console.warn("Administrador inactivo.");
+
+            await logout();
 
             return;
+
         }
 
-        // Guardamos la información del administrador
-        // para reutilizarla en dashboard y layout.
-        window.compudeskAdmin = {
-            uid: user.uid,
-            ...admin
-        };
+        // ----------------------------------
+        // Guardar sesión
+        // ----------------------------------
 
-        // Avisamos al resto del sistema
+        setAdmin({
+
+            uid: user.uid,
+
+            ...admin
+
+        });
+
+        // ----------------------------------
+        // Notificar al resto del sistema
+        // ----------------------------------
+
         document.dispatchEvent(
+
             new CustomEvent("compudesk-auth-ready")
+
         );
 
-    } catch (error) {
+    }
 
-        console.error("Auth Guard:", error);
+    catch (error) {
 
-        await signOut(auth);
+        console.error(
 
-        redirigirLogin();
+            "Error Auth Guard:",
+
+            error
+
+        );
+
+        await logout();
 
     }
 
 });
 
-function redirigirLogin() {
+// ==========================================
+// CERRAR SESIÓN
+// ==========================================
 
-    if (!window.location.pathname.endsWith("/login.html")) {
+export async function logout() {
 
-        redirect(ROUTES.login);
+    try {
+
+        clearAdmin();
+
+        await signOut(auth);
+
+    }
+
+    finally {
+
+        redirectToLogin();
+
+    }
+
+}
+
+// ==========================================
+// REDIRECCIÓN
+// ==========================================
+
+function redirectToLogin() {
+
+    if (
+
+        window.location.pathname !==
+
+        "/admin/login.html"
+
+    ) {
+
+        window.location.replace(
+
+            ROUTES.LOGIN
+
+        );
 
     }
 
