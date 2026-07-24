@@ -1,0 +1,599 @@
+/* ==========================================
+   COMPU DESK
+   PORTAL CLIENTE CSS
+   Producción v1.0
+========================================== */
+
+
+:root{
+
+    --primary:#0057FF;
+    --primary-dark:#003DB8;
+    --dark:#081120;
+    --text:#1E293B;
+    --gray:#64748B;
+    --background:#F5F7FA;
+    --white:#ffffff;
+    --border:#E2E8F0;
+    --success:#16A34A;
+
+}
+
+
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:var(--background);
+
+    color:var(--text);
+
+    min-height:100vh;
+
+}
+
+
+
+/* ==========================================
+ HEADER
+========================================== */
+
+
+.cliente-header{
+
+
+    height:85px;
+
+    background:white;
+
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:0 40px;
+
+
+}
+
+
+
+.brand{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+
+}
+
+
+.brand img{
+
+
+    width:55px;
+
+
+}
+
+
+
+.brand h2{
+
+
+    font-size:20px;
+
+    color:var(--dark);
+
+
+}
+
+
+
+.brand span{
+
+
+    color:var(--gray);
+
+    font-size:13px;
+
+
+}
+
+
+
+
+.usuario-header{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+
+}
+
+
+
+.usuario-header strong{
+
+
+    color:var(--dark);
+
+
+}
+
+
+
+.usuario-header button{
+
+
+    background:#DC2626;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    display:flex;
+
+    gap:8px;
+
+    align-items:center;
+
+
+}
+
+
+
+
+
+/* ==========================================
+ CONTENEDOR
+========================================== */
+
+
+.cliente-container{
+
+
+    max-width:1200px;
+
+    margin:auto;
+
+    padding:40px;
+
+
+}
+
+
+
+
+
+/* ==========================================
+ BIENVENIDA
+========================================== */
+
+
+.welcome h1{
+
+
+    font-size:32px;
+
+    color:var(--dark);
+
+
+}
+
+
+
+.welcome span{
+
+
+    color:var(--primary);
+
+
+}
+
+
+
+.welcome p{
+
+
+    margin-top:10px;
+
+    color:var(--gray);
+
+
+}
+
+
+
+
+
+/* ==========================================
+ EMPRESA
+========================================== */
+
+
+.empresa-card{
+
+
+    background:white;
+
+    margin-top:35px;
+
+    padding:30px;
+
+    border-radius:18px;
+
+    border:1px solid var(--border);
+
+
+}
+
+
+
+.empresa-card h2{
+
+
+    margin-bottom:25px;
+
+    font-size:20px;
+
+
+}
+
+
+
+
+.empresa-grid{
+
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(4,1fr);
+
+    gap:25px;
+
+
+}
+
+
+
+.empresa-grid div{
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+
+}
+
+
+
+.empresa-grid label{
+
+
+    color:var(--gray);
+
+    font-size:14px;
+
+
+}
+
+
+
+.empresa-grid strong{
+
+
+    color:var(--dark);
+
+}
+
+
+
+
+
+
+
+/* ==========================================
+ KPI
+========================================== */
+
+
+.kpi-grid{
+
+
+    margin-top:35px;
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+    repeat(3,1fr);
+
+
+    gap:25px;
+
+
+}
+
+
+
+.kpi-card{
+
+
+    background:white;
+
+    border:1px solid var(--border);
+
+    border-radius:18px;
+
+    padding:25px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:20px;
+
+
+}
+
+
+
+.kpi-card i{
+
+
+    width:55px;
+
+    height:55px;
+
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+
+    border-radius:15px;
+
+
+    background:#E8F0FF;
+
+
+    color:var(--primary);
+
+    font-size:22px;
+
+
+}
+
+
+
+
+.kpi-card span{
+
+
+    display:block;
+
+    color:var(--gray);
+
+    font-size:14px;
+
+
+}
+
+
+
+.kpi-card strong{
+
+
+    font-size:28px;
+
+
+}
+
+
+
+
+/* ==========================================
+ ACCIONES
+========================================== */
+
+
+.acciones{
+
+
+    margin-top:35px;
+
+
+    display:flex;
+
+
+    gap:20px;
+
+
+}
+
+
+
+.acciones a{
+
+
+    background:var(--primary);
+
+
+    color:white;
+
+
+    padding:15px 25px;
+
+
+    border-radius:12px;
+
+
+    text-decoration:none;
+
+
+    font-weight:600;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:10px;
+
+
+    transition:.25s;
+
+
+}
+
+
+
+
+.acciones a:hover{
+
+
+    background:var(--primary-dark);
+
+
+    transform:translateY(-2px);
+
+
+}
+
+
+
+
+
+
+
+/* ==========================================
+ RESPONSIVE
+========================================== */
+
+
+@media(max-width:900px){
+
+
+.cliente-header{
+
+
+    padding:20px;
+
+    height:auto;
+
+    flex-direction:column;
+
+    gap:20px;
+
+
+}
+
+
+
+.cliente-container{
+
+
+    padding:25px;
+
+
+}
+
+
+
+.empresa-grid{
+
+
+    grid-template-columns:1fr 1fr;
+
+
+}
+
+
+
+.kpi-grid{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.acciones{
+
+
+    flex-direction:column;
+
+
+}
+
+
+}
+
+
+
+@media(max-width:500px){
+
+
+.empresa-grid{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+
+.welcome h1{
+
+
+    font-size:26px;
+
+
+}
+
+
+
+}
