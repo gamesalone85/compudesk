@@ -67,15 +67,18 @@ e.preventDefault();
 try{
 
 
-const admin =
-
-JSON.parse(
-
-localStorage.getItem(
-"compudeskAdmin"
-)
-
+const admin = JSON.parse(
+    localStorage.getItem("compudeskAdmin")
 );
+
+
+if(!admin){
+
+    throw new Error(
+        "Sesión administrativa no encontrada"
+    );
+
+}
 
 
 
@@ -163,7 +166,12 @@ serverTimestamp(),
 
 creadoPor:
 
-admin?.uid || null
+admin.uid,
+
+
+creadoPorCorreo:
+
+admin.correo
 
 
 }
