@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Portal Cliente | Compu Desk
+</title>
+
+
+<meta name="robots" content="noindex,nofollow">
+
+
+<link rel="icon" href="../img/logo.png">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<link rel="stylesheet" href="css/cliente.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="cliente-layout">
+
+
+
+<header class="cliente-header">
+
+
+<div class="brand">
+
+
+<img src="../img/logo.png">
+
+
+<div>
+
+<h2>
+Compu Desk
+</h2>
+
+<span>
+Portal Clientes
+</span>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="usuario-header">
+
+
+<strong id="nombreUsuario">
+Cargando...
+</strong>
+
+
+<button id="cerrarSesion">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Salir
+
+</button>
+
+
+</div>
+
+
+
+</header>
+
+
+
+
+
+<main class="cliente-container">
+
+
+
+
+
+<section class="welcome">
+
+
+<h1>
+
+Bienvenido,
+<span id="clienteNombre">
+</span>
+
+</h1>
+
+
+<p>
+
+Administra tus solicitudes de soporte técnico.
+
+</p>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section class="empresa-card">
+
+
+<h2>
+
+Información empresarial
+
+</h2>
+
+
+
+<div class="empresa-grid">
+
+
+<div>
+
+<label>
+Empresa
+</label>
+
+<strong id="empresa">
+-
+</strong>
+
+</div>
+
+
+
+<div>
+
+<label>
+Plan
+</label>
+
+<strong id="plan">
+-
+</strong>
+
+</div>
+
+
+
+
+<div>
+
+<label>
+RFC
+</label>
+
+<strong id="rfc">
+-
+</strong>
+
+</div>
+
+
+
+
+<div>
+
+<label>
+Estado
+</label>
+
+<strong id="estado">
+-
+</strong>
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section class="kpi-grid">
+
+
+
+<div class="kpi-card">
+
+
+<i class="fa-solid fa-ticket"></i>
+
+
+<div>
+
+<span>
+Tickets abiertos
+</span>
+
+
+<strong id="ticketsAbiertos">
+0
+</strong>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="kpi-card">
+
+
+<i class="fa-solid fa-spinner"></i>
+
+
+<div>
+
+<span>
+En proceso
+</span>
+
+
+<strong id="ticketsProceso">
+0
+</strong>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+<div class="kpi-card">
+
+
+<i class="fa-solid fa-circle-check"></i>
+
+
+<div>
+
+<span>
+Cerrados
+</span>
+
+
+<strong id="ticketsCerrados">
+0
+</strong>
+
+
+</div>
+
+
+</div>
+
+
+
+
+</section>
+
+
+
+
+
+
+<section class="acciones">
+
+
+<a href="tickets/nuevo.html">
+
+<i class="fa-solid fa-plus"></i>
+
+Crear ticket
+
+</a>
+
+
+
+<a href="tickets/index.html">
+
+<i class="fa-solid fa-list"></i>
+
+Mis tickets
+
+</a>
+
+
+
+<a href="perfil/index.html">
+
+<i class="fa-solid fa-user"></i>
+
+Mi perfil
+
+</a>
+
+
+</section>
+
+
+
+</main>
+
+
+
+
+<script type="module" src="js/auth-guard.js"></script>
+
+<script type="module" src="js/dashboard.js"></script>
+
+
+</body>
+
+</html>
