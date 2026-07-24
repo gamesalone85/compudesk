@@ -576,3 +576,79 @@
 
 
 }
+/* ==========================================
+   FORMULARIOS
+========================================== */
+
+
+.form-grid {
+
+display:grid;
+
+grid-template-columns:
+repeat(2,1fr);
+
+gap:20px;
+
+}
+
+
+.form-group {
+
+display:flex;
+
+flex-direction:column;
+
+gap:8px;
+
+}
+
+
+.form-group label {
+
+font-size:14px;
+
+font-weight:600;
+
+color:#54565a;
+
+}
+
+
+.form-group input,
+.form-group select {
+
+
+height:45px;
+
+padding:0 14px;
+
+border:1px solid #e5e7eb;
+
+border-radius:10px;
+
+font-size:14px;
+
+}
+
+
+.form-group input:focus,
+.form-group select:focus {
+
+outline:none;
+
+border-color:#c8102e;
+
+}
+
+
+
+@media(max-width:768px){
+
+.form-grid{
+
+grid-template-columns:1fr;
+
+}
+
+}
