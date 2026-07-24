@@ -1,37 +1,39 @@
 // ==========================================
 // COMPU DESK
-// PORTAL CLIENTES
-// LOGIN PRODUCCIÓN v4.0
+// PORTAL CLIENTES LOGIN
+// Producción v1.0
 // Firebase Authentication + Firestore
 // ==========================================
 
 
-import { auth, db } 
+import {
+    auth,
+    db
+}
 from "../../assets/firebase/firebase-config.js";
 
 
+
 import {
 
-signInWithEmailAndPassword,
-setPersistence,
-browserLocalPersistence,
-browserSessionPersistence,
-signOut
+    signInWithEmailAndPassword,
+    setPersistence,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    signOut
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
+
 import {
 
-doc,
-getDoc
+    doc,
+    getDoc
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
 
 
 
@@ -45,11 +47,11 @@ const form =
 document.getElementById("loginForm");
 
 
-const emailInput =
+const email =
 document.getElementById("email");
 
 
-const passwordInput =
+const password =
 document.getElementById("password");
 
 
@@ -59,7 +61,6 @@ document.getElementById("remember");
 
 const togglePassword =
 document.getElementById("togglePassword");
-
 
 
 
@@ -75,15 +76,16 @@ togglePassword?.addEventListener(
 
 
 const visible =
-passwordInput.type === "text";
+password.type === "text";
 
 
-passwordInput.type =
+password.type =
 visible
 ?
 "password"
 :
 "text";
+
 
 
 togglePassword.innerHTML =
@@ -104,16 +106,13 @@ visible
 
 
 
-
 // ==========================================
 // LOGIN
 // ==========================================
 
 
 form?.addEventListener(
-
 "submit",
-
 async(e)=>{
 
 
@@ -121,30 +120,32 @@ e.preventDefault();
 
 
 
-
-
 const correo =
-emailInput.value.trim();
-
-
-const password =
-passwordInput.value;
+email.value.trim();
 
 
 
+const clave =
+password.value;
 
 
-if(!correo || !password){
+
+if(
+!correo ||
+!clave
+){
+
 
 mostrarMensaje(
-"Completa todos los campos",
+"Completa todos los campos.",
 "error"
 );
 
+
 return;
 
-}
 
+}
 
 
 
@@ -153,11 +154,16 @@ try{
 
 
 
+// ==========================================
+// PERSISTENCIA
+// ==========================================
+
+
 await setPersistence(
 
 auth,
 
-remember.checked
+remember?.checked
 
 ?
 
@@ -173,6 +179,9 @@ browserSessionPersistence
 
 
 
+// ==========================================
+// FIREBASE AUTH
+// ==========================================
 
 
 const credencial =
@@ -183,7 +192,7 @@ auth,
 
 correo,
 
-password
+clave
 
 );
 
@@ -191,25 +200,24 @@ password
 
 
 
-
-const user =
+const usuarioAuth =
 
 credencial.user;
 
+
+
+const uid =
+
+usuarioAuth.uid;
 
 
 
 
 
 console.log(
-
 "UID Firebase:",
-
-user.uid
-
+uid
 );
-
-
 
 
 
@@ -217,7 +225,8 @@ user.uid
 
 
 // ==========================================
-// BUSCAR PERFIL USUARIO
+// BUSCAR USUARIO
+// usuarios/{UID}
 // ==========================================
 
 
@@ -229,20 +238,16 @@ db,
 
 "usuarios",
 
-user.uid
+uid
 
 );
-
-
 
 
 
 const usuarioSnap =
 
 await getDoc(
-
 usuarioRef
-
 );
 
 
@@ -250,8 +255,9 @@ usuarioRef
 
 
 
-
-if(!usuarioSnap.exists()){
+if(
+!usuarioSnap.exists()
+){
 
 
 await signOut(auth);
@@ -259,7 +265,7 @@ await signOut(auth);
 
 mostrarMensaje(
 
-"Usuario sin perfil registrado.",
+"Usuario sin perfil registrado en Compu Desk.",
 
 "error"
 
@@ -270,6 +276,7 @@ return;
 
 
 }
+
 
 
 
@@ -284,14 +291,45 @@ usuarioSnap.data();
 
 
 
+// ==========================================
+// VALIDAR ROL
+// ==========================================
+
+
+if(
+usuario.rol !== "cliente"
+){
+
+
+await signOut(auth);
+
+
+mostrarMensaje(
+
+"Esta cuenta no pertenece al portal clientes.",
+
+"error"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
 
 // ==========================================
 // VALIDAR ESTADO
 // ==========================================
 
 
-if(usuario.estado !== "activo"){
-
+if(
+usuario.estado !== "activo"
+){
 
 
 await signOut(auth);
@@ -299,7 +337,7 @@ await signOut(auth);
 
 mostrarMensaje(
 
-"Usuario desactivado.",
+"Usuario desactivado. Contacta soporte.",
 
 "error"
 
@@ -317,40 +355,16 @@ return;
 
 
 // ==========================================
-// VALIDAR CLIENTE ASIGNADO
+// BUSCAR EMPRESA
 // ==========================================
 
 
-if(!usuario.clienteId){
+let empresa = {};
 
 
 
-await signOut(auth);
+if(usuario.clienteId){
 
-
-mostrarMensaje(
-
-"Usuario sin empresa asignada.",
-
-"error"
-
-);
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-// ==========================================
-// OBTENER EMPRESA
-// ==========================================
 
 
 const clienteRef =
@@ -367,51 +381,25 @@ usuario.clienteId
 
 
 
-
-
 const clienteSnap =
 
 await getDoc(
-
 clienteRef
-
 );
 
 
 
+if(
+clienteSnap.exists()
+){
 
-
-
-
-if(!clienteSnap.exists()){
-
-
-await signOut(auth);
-
-
-mostrarMensaje(
-
-"No existe la empresa asociada.",
-
-"error"
-
-);
-
-
-return;
-
+empresa =
+clienteSnap.data();
 
 }
 
 
-
-
-
-
-const cliente =
-
-clienteSnap.data();
-
+}
 
 
 
@@ -427,38 +415,60 @@ clienteSnap.data();
 const sesion = {
 
 
-uid:user.uid,
+uid:
+
+uid,
 
 
-clienteId:usuario.clienteId,
+nombre:
+
+usuario.nombre || "",
 
 
-nombre:usuario.nombre || "",
+
+correo:
+
+usuario.correo || correo,
 
 
-correo:usuario.correo || correo,
+
+telefono:
+
+usuario.telefono || "",
 
 
-telefono:usuario.telefono || "",
+
+rol:
+
+usuario.rol,
 
 
-rol:usuario.rol || "cliente",
+
+clienteId:
+
+usuario.clienteId || "",
 
 
-empresa:cliente.empresa || "",
+
+empresa:
+
+empresa.empresa || "",
 
 
-plan:cliente.plan || "",
+
+plan:
+
+empresa.plan || "",
 
 
-rfc:cliente.rfc || "",
 
+estado:
 
-estado:usuario.estado
+usuario.estado
+
 
 
 };
-
 
 
 
@@ -469,21 +479,9 @@ localStorage.setItem(
 
 "clienteCompudesk",
 
-JSON.stringify(sesion)
-
-);
-
-
-
-
-
-
-
-console.log(
-
-"Sesión cliente:",
-
+JSON.stringify(
 sesion
+)
 
 );
 
@@ -495,7 +493,7 @@ sesion
 
 mostrarMensaje(
 
-"Acceso correcto",
+"Acceso correcto.",
 
 "success"
 
@@ -506,17 +504,14 @@ mostrarMensaje(
 
 
 
-
 setTimeout(()=>{
 
 
 window.location.href =
-
 "dashboard.html";
 
 
-},1000);
-
+},800);
 
 
 
@@ -530,18 +525,13 @@ catch(error){
 
 
 console.error(
-
-"Error login:",
-
+"Error login cliente:",
 error
-
 );
 
 
 
-
-let mensaje =
-
+let texto =
 "Correo o contraseña incorrectos.";
 
 
@@ -553,7 +543,7 @@ switch(error.code){
 
 case "auth/too-many-requests":
 
-mensaje =
+texto =
 "Demasiados intentos. Intenta más tarde.";
 
 break;
@@ -562,8 +552,17 @@ break;
 
 case "auth/network-request-failed":
 
-mensaje =
+texto =
 "Error de conexión.";
+
+break;
+
+
+
+case "auth/user-disabled":
+
+texto =
+"Usuario bloqueado.";
 
 break;
 
@@ -573,13 +572,9 @@ break;
 
 
 
-
 mostrarMensaje(
-
-mensaje,
-
+texto,
 "error"
-
 );
 
 
@@ -588,10 +583,7 @@ mensaje,
 
 
 
-
 });
-
-
 
 
 
@@ -604,11 +596,8 @@ mensaje,
 
 
 function mostrarMensaje(
-
 texto,
-
 tipo
-
 ){
 
 
@@ -616,12 +605,8 @@ tipo
 let alerta =
 
 document.querySelector(
-
 ".login-alert"
-
 );
-
-
 
 
 
@@ -629,11 +614,8 @@ if(!alerta){
 
 
 alerta =
-
 document.createElement(
-
 "div"
-
 );
 
 
@@ -643,14 +625,22 @@ alerta.className =
 
 
 
-document
-.querySelector(".login-card")
-.prepend(alerta);
+const card =
 
+document.querySelector(
+".login-card"
+);
+
+
+
+if(card){
+
+card.prepend(alerta);
 
 }
 
 
+}
 
 
 
@@ -660,9 +650,7 @@ texto;
 
 
 alerta.className =
-
 "login-alert " + tipo;
-
 
 
 
