@@ -33,7 +33,7 @@ onAuthStateChanged(auth, async (user) => {
         }
 
         // Buscar administrador
-        const adminRef = doc(db, "admins", user.uid);
+        const adminRef = doc(db, COLLECTIONS.admins, user.uid);
         const adminSnap = await getDoc(adminRef);
 
         // No existe documento
@@ -86,7 +86,7 @@ function redirigirLogin() {
 
     if (!window.location.pathname.endsWith("/login.html")) {
 
-        window.location.replace("../login.html");
+        redirect(ROUTES.login);
 
     }
 
