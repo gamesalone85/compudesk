@@ -1,37 +1,23 @@
 // ==========================================
 // COMPU DESK ADMIN
 // Nuevo Usuario
-// Firebase Authentication + Firestore
+// Firestore preparado para Firebase Auth + Blaze
 // ==========================================
 
 
-import { 
-    db,
-    auth
-} from "../../assets/firebase/firebase-config.js";
-
+import { db } from "../../assets/firebase/firebase-config.js";
 
 
 import {
 
     collection,
     addDoc,
-    serverTimestamp
+    serverTimestamp,
+    getDocs
 
 }
 
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-
-import {
-
-    createUserWithEmailAndPassword
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 
 
 
@@ -47,12 +33,16 @@ document.getElementById(
 );
 
 
-
 const mensaje =
 document.getElementById(
     "mensaje"
 );
 
+
+const clienteSelect =
+document.getElementById(
+    "clienteId"
+);
 
 
 
@@ -64,12 +54,103 @@ document.getElementById(
 
 
 const admin =
+
 JSON.parse(
-    localStorage.getItem(
-        "compudeskAdmin"
-    )
+
+localStorage.getItem(
+    "compudeskAdmin"
+)
+
 );
 
+
+
+
+
+
+// ==========================================
+// CARGAR CLIENTES
+// ==========================================
+
+
+async function cargarClientes(){
+
+
+    if(!clienteSelect){
+
+        return;
+
+    }
+
+
+
+    try{
+
+
+        const resultado =
+
+        await getDocs(
+
+            collection(
+                db,
+                "clientes"
+            )
+
+        );
+
+
+
+        resultado.forEach((doc)=>{
+
+
+            const cliente =
+            doc.data();
+
+
+
+            const opcion =
+            document.createElement(
+                "option"
+            );
+
+
+
+            opcion.value =
+            doc.id;
+
+
+
+            opcion.textContent =
+
+            cliente.empresa || 
+            "Empresa sin nombre";
+
+
+
+            clienteSelect.appendChild(
+                opcion
+            );
+
+
+
+        });
+
+
+
+    }
+    catch(error){
+
+
+        console.error(
+            "Error cargando clientes:",
+            error
+        );
+
+
+    }
+
+
+}
 
 
 
@@ -81,8 +162,13 @@ JSON.parse(
 // ==========================================
 
 
+if(formulario){
+
+
 formulario.addEventListener(
+
 "submit",
+
 async(e)=>{
 
 
@@ -90,23 +176,21 @@ e.preventDefault();
 
 
 
+
 try{
 
 
-
-mensaje.textContent =
-"Creando usuario...";
-
-
-
+mostrarMensaje(
+"Guardando usuario...",
+""
+);
 
 
-// ==========================================
-// DATOS FORMULARIO
-// ==========================================
+
 
 
 const nombre =
+
 document
 .getElementById("nombre")
 .value
@@ -114,7 +198,9 @@ document
 
 
 
+
 const correo =
+
 document
 .getElementById("correo")
 .value
@@ -122,38 +208,63 @@ document
 
 
 
-const password =
+
+const telefono =
+
 document
-.getElementById("password")
+.getElementById("telefono")
+.value
+.trim();
+
+
+
+
+const clienteId =
+
+document
+.getElementById("clienteId")
+.value;
+
+
+
+
+const rol =
+
+document
+.getElementById("rol")
+.value;
+
+
+
+
+const estado =
+
+document
+.getElementById("estado")
 .value;
 
 
 
 
 
-// ==========================================
-// CREAR CUENTA AUTH
-// ==========================================
+
+if(
+nombre === "" ||
+correo === "" ||
+clienteId === ""
+){
 
 
-const credencial =
-
-await createUserWithEmailAndPassword(
-
-    auth,
-
-    correo,
-
-    password
-
+mostrarMensaje(
+"Completa los campos obligatorios.",
+"error"
 );
 
 
+return;
 
 
-
-const uid =
-credencial.user.uid;
+}
 
 
 
@@ -162,73 +273,43 @@ credencial.user.uid;
 
 
 // ==========================================
-// DATOS FIRESTORE
+// PERFIL FIRESTORE
 // ==========================================
 
 
-const usuario = {
-
-
-uid:
-
-
-
-uid,
-
-
-
-nombre:
-
+const nuevoUsuario = {
 
 
 nombre,
 
 
-
-correo:
-
-
-
 correo,
 
 
+telefono,
 
-telefono:
 
-document
-.getElementById("telefono")
-.value
-.trim(),
+clienteId,
 
 
 
-empresa:
-
-document
-.getElementById("empresa")
-.value
-.trim(),
+rol,
 
 
 
-rol:
-
-document
-.getElementById("rol")
-.value,
+estado,
 
 
 
-estado:
+authPendiente:true,
 
-document
-.getElementById("estado")
-.value,
+
+
+uid:null,
 
 
 
 fechaAlta:
-
 serverTimestamp(),
 
 
@@ -236,12 +317,9 @@ serverTimestamp(),
 creadoPor:
 
 admin
-
 ?
 admin.nombre
-
 :
-
 "Administrador"
 
 
@@ -253,21 +331,17 @@ admin.nombre
 
 
 
-
-
-// ==========================================
-// GUARDAR PERFIL
-// ==========================================
-
-
 await addDoc(
+
 
 collection(
 db,
 "usuarios"
 ),
 
-usuario
+
+nuevoUsuario
+
 
 );
 
@@ -277,15 +351,13 @@ usuario
 
 
 
-mensaje.textContent =
+mostrarMensaje(
 
-"Usuario creado correctamente.";
+"Usuario registrado correctamente. Pendiente de activación.",
 
+"success"
 
-
-mensaje.style.color =
-
-"green";
+);
 
 
 
@@ -298,12 +370,10 @@ formulario.reset();
 
 
 
-
 setTimeout(()=>{
 
 
 window.location.href =
-
 "index.html";
 
 
@@ -313,10 +383,9 @@ window.location.href =
 
 
 
-
 }
-catch(error){
 
+catch(error){
 
 
 console.error(
@@ -329,49 +398,13 @@ error
 
 
 
+mostrarMensaje(
 
+"Error al guardar usuario.",
 
-if(error.code === "auth/email-already-in-use"){
+"error"
 
-
-
-mensaje.textContent =
-
-"El correo ya está registrado.";
-
-
-
-}
-
-else if(error.code === "auth/weak-password"){
-
-
-
-mensaje.textContent =
-
-"La contraseña debe tener mínimo 6 caracteres.";
-
-
-
-}
-
-else{
-
-
-
-mensaje.textContent =
-
-"Error al crear usuario.";
-
-
-
-}
-
-
-
-mensaje.style.color =
-
-"red";
+);
 
 
 
@@ -380,3 +413,56 @@ mensaje.style.color =
 
 
 });
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================================
+// MENSAJES
+// ==========================================
+
+
+function mostrarMensaje(
+texto,
+tipo
+){
+
+
+
+if(!mensaje){
+
+return;
+
+}
+
+
+
+mensaje.textContent =
+texto;
+
+
+
+mensaje.className =
+tipo;
+
+
+
+}
+
+
+
+
+
+// ==========================================
+// INICIO
+// ==========================================
+
+
+cargarClientes();
