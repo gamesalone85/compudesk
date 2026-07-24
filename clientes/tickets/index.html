@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Mis Tickets | Compu Desk
+</title>
+
+
+<link rel="icon" href="../../img/logo.png">
+
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<link rel="stylesheet" href="../css/cliente.css">
+
+
+</head>
+
+
+<body>
+
+
+<header class="cliente-header">
+
+
+<div class="brand">
+
+
+<img src="../../img/logo.png">
+
+
+<div>
+
+<h2>
+Compu Desk
+</h2>
+
+
+<span>
+Mis Tickets
+</span>
+
+
+</div>
+
+
+</div>
+
+
+
+<a href="../dashboard.html" class="btn-back">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Dashboard
+
+</a>
+
+
+
+</header>
+
+
+
+
+
+<main class="cliente-container">
+
+
+
+<section class="empresa-card">
+
+
+<div class="section-header">
+
+
+<div>
+
+<h1>
+Mis solicitudes
+</h1>
+
+
+<p>
+Consulta el estado de tus tickets de soporte.
+</p>
+
+
+</div>
+
+
+
+<a href="nuevo.html" class="login-button">
+
+<i class="fa-solid fa-plus"></i>
+
+Nuevo ticket
+
+</a>
+
+
+
+</div>
+
+
+
+
+
+
+
+<div class="table-container">
+
+
+<table>
+
+
+<thead>
+
+<tr>
+
+<th>
+Folio
+</th>
+
+
+<th>
+Título
+</th>
+
+
+<th>
+Prioridad
+</th>
+
+
+<th>
+Estado
+</th>
+
+
+<th>
+Fecha
+</th>
+
+
+</tr>
+
+
+</thead>
+
+
+
+<tbody id="ticketsLista">
+
+
+<tr>
+
+<td colspan="5">
+
+Cargando tickets...
+
+</td>
+
+
+</tr>
+
+
+</tbody>
+
+
+</table>
+
+
+
+</div>
+
+
+
+
+</section>
+
+
+</main>
+
+
+
+
+
+<script type="module" src="../js/auth-guard.js"></script>
+
+<script type="module" src="../js/tickets.js"></script>
+
+
+
+</body>
+
+</html>
