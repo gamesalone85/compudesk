@@ -3,38 +3,51 @@
      Header
 ====================================== -->
 
-
 <header class="topbar">
 
     <div class="topbar-left">
 
-        <img src="../img/logo.png">
+        <a href="/admin/index.html" class="brand">
 
-        <div>
+            <img
+                src="/img/logo.png"
+                alt="Compu Desk"
+                class="brand-logo">
 
-            <h2>Compu Desk</h2>
+            <div>
 
-            <small>Panel de Administración</small>
+                <h2>Compu Desk</h2>
 
-        </div>
+                <small>Panel de Administración</small>
+
+            </div>
+
+        </a>
 
     </div>
 
     <div class="topbar-right">
 
-        <div>
+        <div class="admin-info">
 
-            <strong id="adminNombre"></strong>
+            <span class="admin-name" id="adminNombre">
+                Cargando...
+            </span>
 
-            <small id="adminCorreo"></small>
-
-            <small id="adminRol"></small>
+            <span class="admin-role" id="adminRol">
+                ...
+            </span>
 
         </div>
 
-        <button id="btnLogout">
+        <button
+            id="btnLogout"
+            class="btn-logout"
+            type="button">
 
-            Cerrar sesión
+            <i class="fa-solid fa-right-from-bracket"></i>
+
+            <span>Cerrar sesión</span>
 
         </button>
 
