@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Editar Usuario | Compu Desk
+</title>
+
+
+<meta name="robots" content="noindex,nofollow">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link
+rel="stylesheet"
+href="/css/portal.css">
+  
+<link
+rel="stylesheet"
+href="/admin/css/dashboard.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+<div id="sidebar-container"></div>
+
+
+
+<section class="admin-main">
+
+
+<div id="header-container"></div>
+
+
+
+<main class="dashboard-container">
+
+
+<div class="dashboard-title">
+
+<h1>
+Editar Usuario
+</h1>
+
+
+<p>
+Actualizar información y permisos
+</p>
+
+
+</div>
+
+
+
+
+<div class="portal-card">
+
+
+
+<form id="editarUsuarioForm">
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+<label>
+Nombre *
+</label>
+
+
+<input
+id="nombre"
+required>
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Correo *
+</label>
+
+
+<input
+id="correo"
+type="email"
+required>
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Teléfono
+</label>
+
+
+<input
+id="telefono">
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Empresa asociada *
+</label>
+
+
+<select
+id="clienteId"
+required>
+
+
+</select>
+
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Rol
+</label>
+
+
+<select id="rol">
+
+
+<option value="cliente">
+Cliente
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+<div class="form-group">
+
+<label>
+Estado
+</label>
+
+
+<select id="estado">
+
+
+<option value="activo">
+Activo
+</option>
+
+
+<option value="pendiente">
+Pendiente
+</option>
+
+
+<option value="inactivo">
+Inactivo
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+<div
+id="mensaje"
+class="login-message">
+</div>
+
+
+
+
+<br>
+
+
+<button
+type="submit"
+class="btn-logout">
+
+
+<i class="fa-solid fa-save"></i>
+
+Guardar cambios
+
+
+</button>
+
+
+
+<a
+href="index.html"
+class="menu-item"
+style="display:inline-flex;margin-left:15px;">
+
+Cancelar
+
+</a>
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</main>
+
+
+
+</section>
+
+
+
+</div>
+
+
+
+
+<script
+type="module"
+src="../js/auth-guard.js">
+</script>
+
+
+<script
+type="module"
+src="../js/layout.js">
+</script>
+
+
+<script
+type="module"
+src="../js/editar-usuario.js">
+</script>
+
+
+
+</body>
+
+</html>
