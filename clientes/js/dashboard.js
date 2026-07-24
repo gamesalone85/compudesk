@@ -1,6 +1,6 @@
 // ==========================================
 // COMPU DESK
-// DASHBOARD CLIENTE
+// CLIENTE DASHBOARD
 // Producción v1.0
 // ==========================================
 
@@ -17,15 +17,8 @@ from "../../assets/firebase/firebase-config.js";
 
 import {
 
-signOut
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-import {
-
+doc,
+getDoc,
 collection,
 query,
 where,
@@ -37,152 +30,263 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+const nombre =
+document.getElementById("nombreCliente");
 
 
-const sesion =
-
-JSON.parse(
-
-localStorage.getItem(
-"clienteCompudesk"
-)
-
-);
+const empresa =
+document.getElementById("empresaCliente");
 
 
+const plan =
+document.getElementById("planCliente");
 
+
+const datosEmpresa =
+document.getElementById("datosEmpresa");
 
 
 
-if(!sesion){
+const abiertos =
+document.getElementById("ticketsAbiertos");
+
+
+const cerrados =
+document.getElementById("ticketsCerrados");
+
+
+
+
+async function cargarDashboard(){
+
+
+
+try{
+
+
+const user = auth.currentUser;
+
+
+
+if(!user){
 
 window.location.href="login.html";
+
+return;
 
 }
 
 
 
 
-document.getElementById(
-"clienteNombre"
-).textContent = sesion.nombre;
 
 
-
-document.getElementById(
-"nombreUsuario"
-).textContent = sesion.nombre;
-
+// ===============================
+// USUARIO
+// ===============================
 
 
-document.getElementById(
-"empresa"
-).textContent = sesion.empresa;
+const usuarioRef =
 
+doc(
 
-
-document.getElementById(
-"plan"
-).textContent = sesion.plan;
-
-
-
-document.getElementById(
-"rfc"
-).textContent = sesion.rfc || "No registrado";
-
-
-
-document.getElementById(
-"estado"
-).textContent = sesion.estado;
-
-
-
-
-
-
-// ==========================================
-// CONTADORES TICKETS
-// ==========================================
-
-
-const ticketsRef =
-
-collection(
 db,
-"tickets"
+
+"usuarios",
+
+user.uid
+
 );
 
 
 
-const consulta =
+const usuarioSnap =
+
+await getDoc(usuarioRef);
+
+
+
+if(!usuarioSnap.exists()){
+
+throw new Error(
+"Usuario no encontrado"
+);
+
+}
+
+
+
+const usuario =
+usuarioSnap.data();
+
+
+
+
+
+
+// ===============================
+// CLIENTE
+// ===============================
+
+
+const clienteRef =
+
+doc(
+
+db,
+
+"clientes",
+
+usuario.clienteId
+
+);
+
+
+
+const clienteSnap =
+
+await getDoc(clienteRef);
+
+
+
+if(!clienteSnap.exists()){
+
+throw new Error(
+"Cliente no encontrado"
+);
+
+}
+
+
+
+const cliente =
+clienteSnap.data();
+
+
+
+
+
+
+
+nombre.textContent =
+usuario.nombre;
+
+
+
+empresa.textContent =
+cliente.empresa;
+
+
+
+plan.textContent =
+cliente.plan;
+
+
+
+
+
+
+
+
+datosEmpresa.innerHTML=`
+
+<p><b>Empresa:</b> ${cliente.empresa}</p>
+
+<p><b>Contacto:</b> ${cliente.contacto}</p>
+
+<p><b>Correo:</b> ${cliente.correo}</p>
+
+<p><b>Teléfono:</b> ${cliente.telefono}</p>
+
+<p><b>RFC:</b> ${cliente.rfc || "No registrado"}</p>
+
+`;
+
+
+
+
+
+
+
+
+// ===============================
+// TICKETS
+// ===============================
+
+
+const ticketsQuery =
 
 query(
 
-ticketsRef,
+collection(db,"tickets"),
 
 where(
 "clienteId",
 "==",
-sesion.clienteId
-
+usuario.clienteId
 )
 
 );
 
 
 
-const resultado =
+const tickets =
+await getDocs(ticketsQuery);
 
-await getDocs(
-consulta
+
+
+
+let abiertosCount=0;
+let cerradosCount=0;
+
+
+
+
+tickets.forEach(t=>{
+
+
+const estado =
+t.data().estado;
+
+
+
+if(
+estado==="cerrado"
+){
+
+cerradosCount++;
+
+}else{
+
+abiertosCount++;
+
+}
+
+
+
+});
+
+
+
+
+abiertos.textContent =
+abiertosCount;
+
+
+cerrados.textContent =
+cerradosCount;
+
+
+
+}
+
+
+
+catch(error){
+
+console.error(
+error
 );
-
-
-
-
-let abiertos=0;
-let proceso=0;
-let cerrados=0;
-
-
-
-
-resultado.forEach(
-
-(doc)=>{
-
-
-const ticket = doc.data();
-
-
-
-switch(ticket.estado){
-
-
-case "abierto":
-
-abiertos++;
-
-break;
-
-
-
-case "proceso":
-
-proceso++;
-
-break;
-
-
-
-case "cerrado":
-
-cerrados++;
-
-break;
-
 
 }
 
@@ -190,48 +294,34 @@ break;
 
 }
 
-);
-
-
-
-
-
-document.getElementById(
-"ticketsAbiertos"
-).textContent=abiertos;
-
-
-document.getElementById(
-"ticketsProceso"
-).textContent=proceso;
-
-
-document.getElementById(
-"ticketsCerrados"
-).textContent=cerrados;
 
 
 
 
 
 
-// ==========================================
-// LOGOUT
-// ==========================================
+auth.onAuthStateChanged(()=>{
+
+cargarDashboard();
+
+});
+
+
+
+
+
+
+
 
 
 document
-.getElementById(
-"cerrarSesion"
-)
-.addEventListener(
-
+.getElementById("logout")
+?.addEventListener(
 "click",
-
 async()=>{
 
 
-await signOut(auth);
+await auth.signOut();
 
 
 localStorage.removeItem(
@@ -243,5 +333,4 @@ window.location.href="login.html";
 
 
 }
-
 );
