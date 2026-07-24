@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Nuevo Cliente | Compu Desk
+</title>
+
+
+<meta name="robots" content="noindex,nofollow">
+
+
+<link rel="icon" href="/img/logo.png">
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+<link
+rel="stylesheet"
+href="/assets/css/portal.css">
+
+
+<link
+rel="stylesheet"
+href="/admin/css/dashboard.css">
+
+
+</head>
+
+
+<body>
+
+
+<div class="admin-layout">
+
+
+
+<div id="sidebar-container"></div>
+
+
+
+<section class="admin-main">
+
+
+
+<div id="header-container"></div>
+
+
+
+
+<main class="dashboard-container">
+
+
+
+<div class="dashboard-title">
+
+
+<h1>
+
+Nuevo Cliente
+
+</h1>
+
+
+<p>
+
+Registrar empresa en Compu Desk
+
+</p>
+
+
+</div>
+
+
+
+
+
+
+<div class="portal-card">
+
+
+
+<form id="clienteForm">
+
+
+
+<div class="form-grid">
+
+
+
+<div class="form-group">
+
+<label>
+
+Empresa *
+
+</label>
+
+<input
+type="text"
+id="empresa"
+required>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+RFC
+
+</label>
+
+<input
+
+type="text"
+
+id="rfc"
+
+maxlength="13"
+
+placeholder="XAXX010101000"
+
+>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Contacto *
+
+</label>
+
+<input
+
+type="text"
+
+id="contacto"
+
+required
+
+>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Correo *
+
+</label>
+
+<input
+
+type="email"
+
+id="correo"
+
+required
+
+>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Teléfono
+
+</label>
+
+<input
+
+type="tel"
+
+id="telefono"
+
+>
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Plan *
+
+</label>
+
+
+<select id="plan">
+
+
+<option value="Básico">
+Básico
+</option>
+
+
+<option value="Profesional">
+Profesional
+</option>
+
+
+<option value="Enterprise">
+Enterprise
+</option>
+
+
+<option value="Personalizado">
+Personalizado
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Tipo
+
+</label>
+
+
+<select id="tipo">
+
+
+<option value="empresa">
+Empresa
+</option>
+
+
+<option value="sucursal">
+Sucursal
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+
+
+<div class="form-group">
+
+<label>
+
+Estado
+
+</label>
+
+
+<select id="estado">
+
+
+<option value="activo">
+Activo
+</option>
+
+
+<option value="inactivo">
+Inactivo
+</option>
+
+
+</select>
+
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+<div
+id="mensaje"
+class="login-message">
+
+</div>
+
+
+
+
+
+<div style="margin-top:25px;">
+
+
+
+<button
+
+class="btn-logout"
+
+type="submit"
+
+>
+
+<i class="fa-solid fa-save"></i>
+
+Guardar Cliente
+
+</button>
+
+
+
+<a
+
+href="index.html"
+
+class="menu-item"
+
+style="display:inline-flex;margin-left:10px;">
+
+Cancelar
+
+</a>
+
+
+
+</div>
+
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</main>
+
+
+
+</section>
+
+
+
+</div>
+
+
+
+
+
+<script
+type="module"
+src="../js/auth-guard.js">
+</script>
+
+
+<script
+type="module"
+src="../js/layout.js">
+</script>
+
+
+<script
+type="module"
+src="../js/nuevo-cliente.js">
+</script>
+
+
+
+</body>
+
+</html>
