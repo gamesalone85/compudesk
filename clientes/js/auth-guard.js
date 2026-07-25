@@ -1,153 +1,113 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE AUTH GUARD
-// Producción v1.0
+// Producción v2.0
+// Compatible Firebase Free
 // ==========================================
 
+import {
+
+    auth,
+    db
+
+} from "../../assets/firebase/firebase-config.js";
 
 import {
 
-auth,
-db
+    onAuthStateChanged,
+    signOut
 
-}
-
-from "../../assets/firebase/firebase-config.js";
-
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 
-onAuthStateChanged,
-signOut
+    collection,
+    query,
+    where,
+    getDocs
 
-}
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+onAuthStateChanged(auth, async (user) => {
 
+    if (!user) {
 
-import {
+        window.location.replace("login.html");
 
-doc,
-getDoc
+        return;
 
-}
+    }
 
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+    try {
 
+        const correo = user.email.toLowerCase();
 
+        const consulta = query(
 
+            collection(db, "usuarios"),
 
+            where("correo", "==", correo)
 
-onAuthStateChanged(
+        );
 
-auth,
+        const resultado = await getDocs(consulta);
 
-async(user)=>{
+        if (resultado.empty) {
 
+            await signOut(auth);
 
-if(!user){
+            localStorage.removeItem("clienteCompudesk");
 
+            window.location.replace("login.html");
 
-window.location.href =
-"login.html";
+            return;
 
+        }
 
-return;
+        const documento = resultado.docs[0];
 
+        const datos = documento.data();
 
-}
+        if (datos.estado !== "activo") {
 
+            await signOut(auth);
 
+            localStorage.removeItem("clienteCompudesk");
 
+            window.location.replace("login.html");
 
-const usuarioRef =
+            return;
 
-doc(
+        }
 
-db,
+        localStorage.setItem(
 
-"usuarios",
+            "clienteCompudesk",
 
-user.uid
+            JSON.stringify({
 
-);
+                uid: user.uid,
 
+                usuarioId: documento.id,
 
+                ...datos
 
-const usuarioSnap =
+            })
 
-await getDoc(
-usuarioRef
-);
+        );
 
+    }
 
+    catch (error) {
 
+        console.error(error);
 
+        await signOut(auth);
 
-if(!usuarioSnap.exists()){
+        localStorage.removeItem("clienteCompudesk");
 
+        window.location.replace("login.html");
 
-await signOut(auth);
-
-
-window.location.href =
-"login.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-const usuario =
-
-usuarioSnap.data();
-
-
-
-
-
-if(usuario.estado !== "activo"){
-
-
-await signOut(auth);
-
-
-window.location.href =
-"login.html";
-
-
-return;
-
-
-}
-
-
-
-
-
-
-
-localStorage.setItem(
-
-"clienteCompudesk",
-
-JSON.stringify({
-
-uid:user.uid,
-
-...usuario
-
-})
-
-);
-
-
-
-
+    }
 
 });
