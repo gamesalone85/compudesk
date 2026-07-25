@@ -28,13 +28,15 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
-
     doc,
-    getDoc
-
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    updateDoc
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
 
 
 
@@ -225,66 +227,44 @@ uid
 
 
 // ==========================================
-// BUSCAR USUARIO
-// usuarios/{UID}
+// BUSCAR USUARIO POR CORREO
 // ==========================================
 
-
-const usuarioRef =
-
-doc(
-
-db,
-
-"usuarios",
-
-uid
-
+const consulta = query(
+    collection(db, "usuarios"),
+    where("correo", "==", correo)
 );
 
+const resultado = await getDocs(consulta);
 
+if (resultado.empty) {
 
-const usuarioSnap =
+    await signOut(auth);
 
-await getDoc(
-usuarioRef
-);
+    mostrarMensaje(
+        "Usuario sin perfil registrado en Compu Desk.",
+        "error"
+    );
 
-
-
-
-
-
-if(
-!usuarioSnap.exists()
-){
-
-
-await signOut(auth);
-
-
-mostrarMensaje(
-
-"Usuario sin perfil registrado en Compu Desk.",
-
-"error"
-
-);
-
-
-return;
-
-
+    return;
 }
 
+const documento = resultado.docs[0];
 
+const usuario = documento.data();
 
+const usuarioRef = doc(db, "usuarios", documento.id);
 
+// Guardar UID automáticamente si aún no existe
+if (!usuario.uid) {
 
+    await updateDoc(usuarioRef, {
+        uid: uid
+    });
 
-const usuario =
+    usuario.uid = uid;
 
-usuarioSnap.data();
+}
 
 
 
