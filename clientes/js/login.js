@@ -1,348 +1,428 @@
 // ==========================================
 // COMPU DESK
-// PORTAL CLIENTES
-// LOGIN PRODUCCIÓN 2.0
+// PORTAL CLIENTES LOGIN
+// Producción
 // Firebase Authentication
-// Compatible Firebase Free
 // ==========================================
 
-import {
-    auth,
-    db
-} from "../../assets/firebase/firebase-config.js";
 
 import {
+auth,
+db
+}
+from "../../assets/firebase/firebase-config.js";
 
-    signInWithEmailAndPassword,
-    browserLocalPersistence,
-    browserSessionPersistence,
-    setPersistence,
-    signOut
-
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 import {
 
-    collection,
-    query,
-    where,
-    getDocs,
-    doc,
-    getDoc
+signInWithEmailAndPassword,
+setPersistence,
+browserLocalPersistence,
+browserSessionPersistence,
+signOut
 
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
-// ==========================================
+
+import {
+
+collection,
+query,
+where,
+getDocs
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+
+
 // ELEMENTOS
-// ==========================================
-
-const form = document.getElementById("loginForm");
-
-const txtCorreo = document.getElementById("email");
-
-const txtPassword = document.getElementById("password");
-
-const remember = document.getElementById("remember");
-
-const togglePassword = document.getElementById("togglePassword");
 
 
-// ==========================================
+const form =
+document.getElementById("loginForm");
+
+
+const email =
+document.getElementById("email");
+
+
+const password =
+document.getElementById("password");
+
+
+const remember =
+document.getElementById("remember");
+
+
+const togglePassword =
+document.getElementById("togglePassword");
+
+
+
+
+
 // PASSWORD
-// ==========================================
 
-togglePassword?.addEventListener("click", () => {
+togglePassword?.addEventListener(
+"click",
+()=>{
 
-    const visible = txtPassword.type === "text";
 
-    txtPassword.type = visible ? "password" : "text";
+const visible =
+password.type === "text";
 
-    togglePassword.innerHTML = visible
-        ? '<i class="fa-solid fa-eye"></i>'
-        : '<i class="fa-solid fa-eye-slash"></i>';
+
+password.type =
+visible
+?
+"password"
+:
+"text";
+
+
+togglePassword.innerHTML =
+visible
+
+?
+'<i class="fa-solid fa-eye"></i>'
+
+:
+
+'<i class="fa-solid fa-eye-slash"></i>';
+
+
 
 });
 
 
-// ==========================================
-// LOGIN
-// ==========================================
 
-form?.addEventListener("submit", async (e) => {
 
-    e.preventDefault();
 
-    mostrarMensaje("Validando acceso...", "success");
 
-    const correo = txtCorreo.value.trim().toLowerCase();
 
-    const password = txtPassword.value;
 
-    if (!correo || !password) {
+form.addEventListener(
+"submit",
+async(e)=>{
 
-        mostrarMensaje(
-            "Completa todos los campos.",
-            "error"
-        );
 
-        return;
+e.preventDefault();
 
-    }
 
-    try {
 
-        //-------------------------------------------------
-        // Persistencia
-        //-------------------------------------------------
+const correo =
+email.value.trim().toLowerCase();
 
-        await setPersistence(
 
-            auth,
+const clave =
+password.value;
 
-            remember.checked
-                ? browserLocalPersistence
-                : browserSessionPersistence
 
-        );
 
-        //-------------------------------------------------
-        // Firebase Authentication
-        //-------------------------------------------------
 
-        const credencial = await signInWithEmailAndPassword(
+if(!correo || !clave){
 
-            auth,
-            correo,
-            password
+mostrarMensaje(
+"Completa todos los campos",
+"error"
+);
 
-        );
+return;
 
-        console.log("Auth OK");
+}
 
-        //-------------------------------------------------
-        // Buscar usuario por correo
-        //-------------------------------------------------
 
-        const consulta = query(
 
-            collection(db, "usuarios"),
 
-            where("correo", "==", correo)
 
-        );
+try{
 
-        const resultado = await getDocs(consulta);
 
-        if (resultado.empty) {
+await setPersistence(
 
-            await signOut(auth);
+auth,
 
-            mostrarMensaje(
+remember.checked
 
-                "No existe un perfil asociado a este usuario.",
+?
+browserLocalPersistence
 
-                "error"
+:
+browserSessionPersistence
 
-            );
+);
 
-            return;
 
-        }
 
-        //-------------------------------------------------
-        // Perfil
-        //-------------------------------------------------
 
-        const documento = resultado.docs[0];
 
-        const usuario = documento.data();
+// LOGIN FIREBASE
 
-        //-------------------------------------------------
-        // Estado
-        //-------------------------------------------------
 
-        if (usuario.estado !== "activo") {
+const credencial =
 
-            await signOut(auth);
+await signInWithEmailAndPassword(
 
-            mostrarMensaje(
+auth,
 
-                "Tu cuenta está deshabilitada.",
+correo,
 
-                "error"
+clave
 
-            );
+);
 
-            return;
 
-        }
 
-        //-------------------------------------------------
-        // Rol
-        //-------------------------------------------------
+const uid =
+credencial.user.uid;
 
-        if (usuario.rol !== "cliente") {
 
-            await signOut(auth);
 
-            mostrarMensaje(
 
-                "Esta cuenta no pertenece al Portal Clientes.",
 
-                "error"
 
-            );
+// BUSCAR PERFIL POR CORREO
 
-            return;
 
-        }
+const q = query(
 
-        //-------------------------------------------------
-        // Empresa
-        //-------------------------------------------------
+collection(db,"usuarios"),
 
-        let empresa = {};
+where(
+"correo",
+"==",
+correo
+)
 
-        if (usuario.clienteId) {
+);
 
-            const clienteDoc = await getDoc(
 
-                doc(
-                    db,
-                    "clientes",
-                    usuario.clienteId
-                )
 
-            );
+const snap =
+await getDocs(q);
 
-            if (clienteDoc.exists()) {
 
-                empresa = clienteDoc.data();
 
-            }
 
-        }
 
-        //-------------------------------------------------
-        // Crear sesión
-        //-------------------------------------------------
+if(snap.empty){
 
-        const sesion = {
 
-            uid: credencial.user.uid,
+await signOut(auth);
 
-            usuarioId: documento.id,
 
-            nombre: usuario.nombre,
+mostrarMensaje(
+"No existe perfil registrado",
+"error"
+);
 
-            correo: usuario.correo,
 
-            telefono: usuario.telefono || "",
+return;
 
-            rol: usuario.rol,
 
-            estado: usuario.estado,
+}
 
-            clienteId: usuario.clienteId,
 
-            empresa: empresa.empresa || "",
 
-            plan: empresa.plan || "",
 
-            rfc: empresa.rfc || "",
 
-            contacto: empresa.contacto || "",
+const documento =
+snap.docs[0];
 
-            empresaCorreo: empresa.correo || "",
 
-            empresaTelefono: empresa.telefono || ""
+const usuario =
+documento.data();
 
-        };
 
-        localStorage.setItem(
 
-            "clienteCompudesk",
 
-            JSON.stringify(sesion)
 
-        );
 
-        mostrarMensaje(
 
-            "Acceso correcto.",
+if(usuario.rol !== "cliente"){
 
-            "success"
 
-        );
+await signOut(auth);
 
-        setTimeout(() => {
 
-            location.href = "dashboard.html";
+mostrarMensaje(
+"Usuario no pertenece al portal clientes",
+"error"
+);
 
-        }, 600);
 
-    }
+return;
 
-    catch (error) {
 
-        console.error(error);
+}
 
-        let mensaje = "Correo o contraseña incorrectos.";
 
-        switch (error.code) {
 
-            case "auth/invalid-credential":
-                mensaje = "Correo o contraseña incorrectos.";
-                break;
 
-            case "auth/user-not-found":
-                mensaje = "Usuario no encontrado.";
-                break;
 
-            case "auth/wrong-password":
-                mensaje = "Contraseña incorrecta.";
-                break;
+if(usuario.estado !== "activo"){
 
-            case "auth/network-request-failed":
-                mensaje = "Sin conexión a Internet.";
-                break;
 
-            case "auth/too-many-requests":
-                mensaje = "Demasiados intentos. Intenta más tarde.";
-                break;
+await signOut(auth);
 
-        }
 
-        mostrarMensaje(mensaje, "error");
+mostrarMensaje(
+"Usuario desactivado",
+"error"
+);
 
-    }
+
+return;
+
+
+}
+
+
+
+
+
+
+
+// GUARDAR SESION
+
+
+const sesion = {
+
+
+uid:uid,
+
+
+usuarioId:documento.id,
+
+
+nombre:usuario.nombre || "",
+
+
+correo:usuario.correo,
+
+
+telefono:usuario.telefono || "",
+
+
+clienteId:usuario.clienteId || "",
+
+
+rol:usuario.rol,
+
+
+estado:usuario.estado
+
+
+};
+
+
+
+
+
+localStorage.setItem(
+
+"clienteCompudesk",
+
+JSON.stringify(sesion)
+
+);
+
+
+
+
+
+mostrarMensaje(
+"Acceso correcto",
+"success"
+);
+
+
+
+
+setTimeout(()=>{
+
+
+window.location.href="dashboard.html";
+
+
+},800);
+
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(error);
+
+
+mostrarMensaje(
+
+"Correo o contraseña incorrectos",
+
+"error"
+
+);
+
+
+
+}
+
+
 
 });
 
 
-// ==========================================
-// MENSAJES
-// ==========================================
 
-function mostrarMensaje(texto, tipo) {
 
-    let alerta = document.querySelector(".login-alert");
 
-    if (!alerta) {
 
-        alerta = document.createElement("div");
+function mostrarMensaje(
+texto,
+tipo
+){
 
-        alerta.className = "login-alert";
 
-        document
-            .querySelector(".login-card")
-            .prepend(alerta);
 
-    }
+let alerta =
+document.querySelector(".login-alert");
 
-    alerta.className = "login-alert " + tipo;
 
-    alerta.textContent = texto;
+
+if(!alerta){
+
+
+alerta=document.createElement("div");
+
+
+alerta.className="login-alert";
+
+
+document
+.querySelector(".login-card")
+.prepend(alerta);
+
+
+}
+
+
+
+alerta.textContent=texto;
+
+
+alerta.className=
+"login-alert "+tipo;
+
+
 
 }
