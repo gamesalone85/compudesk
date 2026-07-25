@@ -1,7 +1,6 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE DASHBOARD
-// Producción v1.0
 // ==========================================
 
 
@@ -15,10 +14,9 @@ db
 from "../../assets/firebase/firebase-config.js";
 
 
+
 import {
 
-doc,
-getDoc,
 collection,
 query,
 where,
@@ -27,6 +25,8 @@ getDocs
 }
 
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
 
 
 
@@ -42,9 +42,8 @@ const plan =
 document.getElementById("planCliente");
 
 
-const datosEmpresa =
+const datos =
 document.getElementById("datosEmpresa");
-
 
 
 const abiertos =
@@ -57,148 +56,67 @@ document.getElementById("ticketsCerrados");
 
 
 
-async function cargarDashboard(){
+
+
+async function cargar(){
 
 
 
-try{
+const sesion =
+
+JSON.parse(
+
+localStorage.getItem(
+"clienteCompudesk"
+)
+
+);
 
 
-const user = auth.currentUser;
 
 
 
-if(!user){
+if(!sesion){
 
-window.location.href="login.html";
+
+location.href="login.html";
 
 return;
 
-}
-
-
-
-
-
-
-// ===============================
-// USUARIO
-// ===============================
-
-
-const usuarioRef =
-
-doc(
-
-db,
-
-"usuarios",
-
-user.uid
-
-);
-
-
-
-const usuarioSnap =
-
-await getDoc(usuarioRef);
-
-
-
-if(!usuarioSnap.exists()){
-
-throw new Error(
-"Usuario no encontrado"
-);
 
 }
-
-
-
-const usuario =
-usuarioSnap.data();
-
-
-
-
-
-
-// ===============================
-// CLIENTE
-// ===============================
-
-
-const clienteRef =
-
-doc(
-
-db,
-
-"clientes",
-
-usuario.clienteId
-
-);
-
-
-
-const clienteSnap =
-
-await getDoc(clienteRef);
-
-
-
-if(!clienteSnap.exists()){
-
-throw new Error(
-"Cliente no encontrado"
-);
-
-}
-
-
-
-const cliente =
-clienteSnap.data();
-
-
 
 
 
 
 
 nombre.textContent =
-usuario.nombre;
+sesion.nombre;
 
 
 
 empresa.textContent =
-cliente.empresa;
+"Portal de "+sesion.empresa;
 
 
 
 plan.textContent =
-cliente.plan;
+sesion.plan || "Cliente";
 
 
 
 
 
 
+datos.innerHTML = `
 
+<p><b>Usuario:</b> ${sesion.nombre}</p>
 
-datosEmpresa.innerHTML=`
+<p><b>Correo:</b> ${sesion.correo}</p>
 
-<p><b>Empresa:</b> ${cliente.empresa}</p>
+<p><b>Teléfono:</b> ${sesion.telefono}</p>
 
-<p><b>Contacto:</b> ${cliente.contacto}</p>
-
-<p><b>Correo:</b> ${cliente.correo}</p>
-
-<p><b>Teléfono:</b> ${cliente.telefono}</p>
-
-<p><b>RFC:</b> ${cliente.rfc || "No registrado"}</p>
+<p><b>Empresa ID:</b> ${sesion.clienteId}</p>
 
 `;
 
@@ -208,87 +126,56 @@ datosEmpresa.innerHTML=`
 
 
 
-
-// ===============================
 // TICKETS
-// ===============================
 
 
-const ticketsQuery =
-
-query(
+const q = query(
 
 collection(db,"tickets"),
 
 where(
 "clienteId",
 "==",
-usuario.clienteId
+sesion.clienteId
 )
 
 );
 
 
 
-const tickets =
-await getDocs(ticketsQuery);
+const snap =
+await getDocs(q);
 
 
 
 
-let abiertosCount=0;
-let cerradosCount=0;
+let a=0;
+let c=0;
 
 
 
-
-tickets.forEach(t=>{
-
-
-const estado =
-t.data().estado;
+snap.forEach(t=>{
 
 
+if(t.data().estado==="cerrado"){
 
-if(
-estado==="cerrado"
-){
-
-cerradosCount++;
+c++;
 
 }else{
 
-abiertosCount++;
+a++;
 
 }
-
 
 
 });
 
 
 
-
-abiertos.textContent =
-abiertosCount;
+abiertos.textContent=a;
 
 
-cerrados.textContent =
-cerradosCount;
-
-
-
-}
-
-
-
-catch(error){
-
-console.error(
-error
-);
-
-}
+cerrados.textContent=c;
 
 
 
@@ -297,18 +184,7 @@ error
 
 
 
-
-
-
-auth.onAuthStateChanged(()=>{
-
-cargarDashboard();
-
-});
-
-
-
-
+cargar();
 
 
 
@@ -329,8 +205,7 @@ localStorage.removeItem(
 );
 
 
-window.location.href="login.html";
+location.href="login.html";
 
 
-}
-);
+});
