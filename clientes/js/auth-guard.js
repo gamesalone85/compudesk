@@ -1,35 +1,78 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE AUTH GUARD
-// Producción v3.0
 // ==========================================
 
-import { auth } from "../../assets/firebase/firebase-config.js";
 
 import {
 
-    onAuthStateChanged
+auth
 
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+}
 
-onAuthStateChanged(auth, (user) => {
+from "../../assets/firebase/firebase-config.js";
 
-    if (!user) {
 
-        localStorage.removeItem("clienteCompudesk");
 
-        window.location.replace("login.html");
+import {
 
-        return;
+onAuthStateChanged
 
-    }
+}
 
-    const sesion = localStorage.getItem("clienteCompudesk");
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-    if (!sesion) {
 
-        window.location.replace("login.html");
 
-    }
+
+
+onAuthStateChanged(
+
+auth,
+
+(user)=>{
+
+
+
+if(!user){
+
+
+localStorage.removeItem(
+"clienteCompudesk"
+);
+
+
+window.location.replace(
+"login.html"
+);
+
+
+return;
+
+
+}
+
+
+
+
+const sesion =
+
+localStorage.getItem(
+"clienteCompudesk"
+);
+
+
+
+if(!sesion){
+
+
+window.location.replace(
+"login.html"
+);
+
+
+}
+
+
 
 });
