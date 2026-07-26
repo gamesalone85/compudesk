@@ -2,8 +2,9 @@
    COMPU DESK
    PORTAL CLIENTES
    cliente.css
-   Versión 2.0
+   Versión 2.1
 ========================================================== */
+
 
 /* ==========================================================
    VARIABLES
@@ -15,27 +16,27 @@
     --primary-dark:#0045CC;
 
     --success:#16A34A;
-    --warning:#F59E0B;
     --danger:#DC2626;
 
     --text:#1F2937;
-    --text-light:#6B7280;
+    --text-light:#64748B;
 
-    --background:#F4F6F9;
+    --background:#F5F7FB;
+
     --white:#FFFFFF;
 
     --border:#E5E7EB;
 
-    --radius:18px;
-
-    --shadow:
-        0 10px 30px rgba(15,23,42,.06);
+    --radius:16px;
 
 }
+
+
 
 /* ==========================================================
    RESET
 ========================================================== */
+
 
 *{
 
@@ -45,11 +46,6 @@
 
 }
 
-html{
-
-    scroll-behavior:smooth;
-
-}
 
 body{
 
@@ -61,21 +57,17 @@ body{
 
     min-height:100vh;
 
-    line-height:1.5;
-
 }
 
-/* ==========================================================
-   LINKS
-========================================================== */
 
 a{
 
-    color:inherit;
-
     text-decoration:none;
 
+    color:inherit;
+
 }
+
 
 button{
 
@@ -83,17 +75,16 @@ button{
 
 }
 
+
+
 /* ==========================================================
    HEADER
 ========================================================== */
 
+
 .cliente-header{
 
-    position:sticky;
-
-    top:0;
-
-    z-index:999;
+    height:78px;
 
     background:#fff;
 
@@ -101,13 +92,15 @@ button{
 
     display:flex;
 
-    justify-content:space-between;
-
     align-items:center;
 
-    padding:18px 40px;
+    justify-content:space-between;
+
+    padding:0 35px;
 
 }
+
+
 
 .brand{
 
@@ -115,19 +108,23 @@ button{
 
     align-items:center;
 
-    gap:16px;
+    gap:14px;
 
 }
 
+
+
 .brand img{
 
-    width:56px;
+    width:48px;
 
-    height:56px;
+    height:48px;
 
     object-fit:contain;
 
 }
+
+
 
 .brand h2{
 
@@ -135,310 +132,233 @@ button{
 
     font-weight:700;
 
-    color:var(--text);
-
 }
+
+
 
 .brand span{
 
     display:block;
 
-    margin-top:2px;
-
     font-size:13px;
 
     color:var(--text-light);
 
 }
 
+
+
+
+
+.cliente-actions button,
 .logout-btn{
+
 
     display:flex;
 
     align-items:center;
 
-    gap:10px;
+    gap:8px;
 
-    border:none;
 
-    background:#DC2626;
+    background:white;
 
-    color:#fff;
+    border:1px solid var(--border);
 
-    padding:12px 18px;
 
-    border-radius:12px;
+    color:var(--text);
+
+
+    padding:10px 16px;
+
+
+    border-radius:10px;
+
 
     cursor:pointer;
 
-    font-weight:600;
 
-    transition:.25s;
+    font-size:14px;
+
+
+    font-weight:500;
+
+
+    transition:.2s;
+
 
 }
 
+
+
+.cliente-actions button:hover,
 .logout-btn:hover{
 
-    background:#B91C1C;
+
+    background:#F8FAFC;
+
+    border-color:#CBD5E1;
+
 
 }
+
+
 
 /* ==========================================================
    CONTENEDOR
 ========================================================== */
 
+
 .cliente-container{
 
-    width:min(1320px,95%);
 
-    margin:35px auto;
+    width:min(1200px,92%);
+
+    margin:35px auto 60px;
+
 
 }
 
+
+
 /* ==========================================================
-   WELCOME
+   BIENVENIDA
 ========================================================== */
+
 
 .welcome-card{
 
-    background:#fff;
+
+    background:white;
 
     border:1px solid var(--border);
 
     border-radius:var(--radius);
 
-    box-shadow:var(--shadow);
+    padding:30px;
 
-    padding:35px;
+    margin-bottom:25px;
 
-    margin-bottom:30px;
 
 }
+
+
 
 .welcome-card h1{
 
-    font-size:34px;
 
-    font-weight:700;
+    font-size:30px;
+
+    font-weight:600;
+
 
 }
+
+
 
 .welcome-card span{
 
+
     color:var(--primary);
+
 
 }
 
+
+
 .welcome-card p{
 
-    margin-top:10px;
+
+    margin-top:8px;
 
     color:var(--text-light);
 
     font-size:16px;
 
+
 }
+
+
+
+
 /* ==========================================================
    KPI
 ========================================================== */
 
+
 .kpi-grid{
+
 
     display:grid;
 
     grid-template-columns:repeat(3,1fr);
 
-    gap:24px;
+    gap:20px;
 
-    margin-bottom:30px;
+    margin-bottom:25px;
+
 
 }
+
+
 
 .kpi-card{
 
-    background:var(--white);
 
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    padding:28px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:18px;
-
-    box-shadow:var(--shadow);
-
-    transition:.20s ease;
-
-}
-
-.kpi-card:hover{
-
-    transform:translateY(-3px);
-
-}
-
-.kpi-icon{
-
-    width:58px;
-
-    height:58px;
-
-    border-radius:16px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    background:#EAF2FF;
-
-    color:var(--primary);
-
-    font-size:22px;
-
-    flex-shrink:0;
-
-}
-
-.kpi-icon.success{
-
-    background:#ECFDF3;
-
-    color:var(--success);
-
-}
-
-.kpi-icon.info{
-
-    background:#EEF4FF;
-
-    color:var(--primary);
-
-}
-
-.kpi-card span{
-
-    display:block;
-
-    font-size:14px;
-
-    color:var(--text-light);
-
-    margin-bottom:6px;
-
-}
-
-.kpi-card strong{
-
-    font-size:30px;
-
-    font-weight:700;
-
-    color:var(--text);
-
-}
-
-/* ==========================================================
-   GRID PRINCIPAL
-========================================================== */
-
-.content-grid{
-
-    display:grid;
-
-    grid-template-columns:2fr 1fr;
-
-    gap:24px;
-
-    margin-bottom:30px;
-
-}
-
-/* ==========================================================
-   TARJETAS
-========================================================== */
-
-.empresa-card{
-
-    background:var(--white);
-
-    border:1px solid var(--border);
-
-    border-radius:var(--radius);
-
-    padding:28px;
-
-    box-shadow:var(--shadow);
-
-}
-
-.section-header{
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    margin-bottom:24px;
-
-}
-
-.section-header h2{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    font-size:20px;
-
-    font-weight:700;
-
-    color:var(--text);
-
-}
-
-.section-header i{
-
-    color:var(--primary);
-
-}
-
-/* ==========================================================
-   INFORMACIÓN EMPRESA
-========================================================== */
-
-.empresa-grid{
-
-    display:grid;
-
-    grid-template-columns:repeat(2,1fr);
-
-    gap:20px;
-
-}
-
-.empresa-grid div{
-
-    background:#FAFBFC;
+    background:white;
 
     border:1px solid var(--border);
 
     border-radius:14px;
 
-    padding:18px;
+
+    padding:22px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
 
 }
 
-.empresa-grid label{
+
+
+.kpi-card i{
+
+
+    width:46px;
+
+    height:46px;
+
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+
+    border-radius:12px;
+
+
+    background:#EEF4FF;
+
+
+    color:var(--primary);
+
+
+    font-size:20px;
+
+
+}
+
+
+
+.kpi-card span{
+
 
     display:block;
 
@@ -446,162 +366,244 @@ button{
 
     color:var(--text-light);
 
-    margin-bottom:8px;
 
 }
 
-.empresa-grid strong{
+
+
+.kpi-card strong{
+
 
     display:block;
 
-    font-size:16px;
+    font-size:25px;
 
-    font-weight:600;
+    margin-top:3px;
 
-    color:var(--text);
-
-    word-break:break-word;
 
 }
+
+
 
 /* ==========================================================
-   ACCIONES RÁPIDAS
+   TARJETAS GENERALES
 ========================================================== */
 
-.quick-actions{
 
-    display:flex;
+.empresa-card{
 
-    flex-direction:column;
 
-    gap:16px;
+    background:white;
 
-}
-
-.quick-actions a{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:14px;
-
-    padding:16px 18px;
-
-    border-radius:14px;
 
     border:1px solid var(--border);
 
-    background:#fff;
 
-    transition:.20s ease;
+    border-radius:var(--radius);
+
+
+    padding:28px;
+
+
+    margin-bottom:25px;
+
+
+}
+
+
+
+.section-header{
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.section-header h2{
+
+
+    font-size:19px;
 
     font-weight:600;
 
-}
-
-.quick-actions a i{
-
-    width:40px;
-
-    height:40px;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    border-radius:10px;
-
-    background:#EEF4FF;
-
-    color:var(--primary);
-
-    font-size:18px;
 
 }
 
-.quick-actions a:hover{
 
-    border-color:var(--primary);
-
-    background:#F8FAFF;
-
-}
 
 /* ==========================================================
-   EMPTY STATE
+   INFORMACION EMPRESA
 ========================================================== */
 
-.empty-state{
 
-    padding:40px 20px;
+.empresa-grid{
 
-    text-align:center;
 
-}
+    display:grid;
 
-.empty-state i{
+    grid-template-columns:repeat(3,1fr);
 
-    font-size:46px;
+    gap:20px;
 
-    color:#CBD5E1;
-
-    margin-bottom:18px;
 
 }
 
-.empty-state h3{
 
-    font-size:20px;
 
-    margin-bottom:10px;
+.empresa-grid div{
 
-    color:var(--text);
+
+    padding:14px 0;
 
 }
 
-.empty-state p{
 
-    max-width:500px;
 
-    margin:auto;
+.empresa-grid label{
+
+
+    display:block;
 
     color:var(--text-light);
 
-    font-size:15px;
+    font-size:13px;
 
-    line-height:1.6;
+    margin-bottom:5px;
+
 
 }
+
+
+
+.empresa-grid strong{
+
+
+    font-size:15px;
+
+    font-weight:600;
+
+    word-break:break-word;
+
+
+}
+
+
+
 /* ==========================================================
-   RESPONSIVE DESIGN
+   ACCIONES
 ========================================================== */
 
 
-/* Tablets */
-
-@media(max-width:1100px){
+.quick-actions{
 
 
-    .cliente-container{
+    display:flex;
 
-        width:92%;
+    gap:15px;
 
-    }
+
+}
+
+
+
+.quick-actions a{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+
+    padding:13px 20px;
+
+
+    background:#F8FAFF;
+
+
+    border:1px solid #DCE7FF;
+
+
+    color:var(--primary);
+
+
+    border-radius:12px;
+
+
+    font-weight:600;
+
+
+    transition:.2s;
+
+
+}
+
+
+
+.quick-actions a:hover{
+
+
+    background:#EEF4FF;
+
+
+}
+
+
+
+/* ==========================================================
+   ESTADOS VACIOS
+========================================================== */
+
+
+.empty-state{
+
+
+    text-align:center;
+
+    padding:30px;
+
+
+}
+
+
+.empty-state i{
+
+
+    font-size:35px;
+
+    color:#CBD5E1;
+
+}
+
+
+
+/* ==========================================================
+   RESPONSIVE
+========================================================== */
+
+
+@media(max-width:1000px){
 
 
     .kpi-grid{
 
-        grid-template-columns:repeat(2,1fr);
+
+        grid-template-columns:1fr;
+
 
     }
 
 
-    .content-grid{
 
-        grid-template-columns:1fr;
+    .empresa-grid{
+
+
+        grid-template-columns:repeat(2,1fr);
+
 
     }
 
@@ -610,49 +612,16 @@ button{
 
 
 
-/* Tablets pequeñas */
-
-@media(max-width:768px){
+@media(max-width:700px){
 
 
     .cliente-header{
 
 
-        padding:16px 20px;
-
-
-    }
-
-
-    .brand img{
-
-
-        width:48px;
-
-        height:48px;
-
+        padding:15px 20px;
 
     }
 
-
-    .brand h2{
-
-
-        font-size:18px;
-
-
-    }
-
-
-    .logout-btn{
-
-
-        padding:10px 14px;
-
-        font-size:14px;
-
-
-    }
 
 
     .cliente-container{
@@ -660,37 +629,29 @@ button{
 
         width:94%;
 
-        margin:25px auto;
-
 
     }
+
 
 
     .welcome-card{
 
 
-        padding:25px;
+        padding:22px;
 
 
     }
+
 
 
     .welcome-card h1{
 
 
-        font-size:26px;
+        font-size:24px;
 
 
     }
 
-
-    .kpi-grid{
-
-
-        grid-template-columns:1fr;
-
-
-    }
 
 
     .empresa-grid{
@@ -702,10 +663,21 @@ button{
     }
 
 
-    .empresa-card{
+
+    .quick-actions{
 
 
-        padding:22px;
+        flex-direction:column;
+
+
+    }
+
+
+
+    .quick-actions a{
+
+
+        justify-content:center;
 
 
     }
@@ -715,25 +687,36 @@ button{
 
 
 
-/* Móviles */
-
 @media(max-width:480px){
 
 
     .cliente-header{
 
 
+        height:auto;
+
         flex-direction:column;
 
         gap:15px;
 
-        align-items:flex-start;
+        padding:20px;
 
 
     }
 
 
-    .logout-btn{
+
+    .cliente-actions{
+
+
+        width:100%;
+
+
+    }
+
+
+
+    .cliente-actions button{
 
 
         width:100%;
@@ -743,126 +726,6 @@ button{
 
     }
 
-
-    .kpi-card{
-
-
-        padding:22px;
-
-
-    }
-
-
-    .kpi-card strong{
-
-
-        font-size:26px;
-
-
-    }
-
-
-    .welcome-card h1{
-
-
-        font-size:23px;
-
-
-    }
-
-
-    .section-header h2{
-
-
-        font-size:17px;
-
-
-    }
-
-
-    .quick-actions a{
-
-
-        padding:14px;
-
-
-    }
-
-
-}
-
-
-/* ==========================================================
-   DETALLES VISUALES
-========================================================== */
-
-
-.kpi-card,
-.empresa-card,
-.welcome-card{
-
-
-    animation:fadeUp .25s ease;
-
-
-}
-
-
-
-@keyframes fadeUp{
-
-
-    from{
-
-
-        opacity:0;
-
-        transform:translateY(8px);
-
-
-    }
-
-
-    to{
-
-
-        opacity:1;
-
-        transform:translateY(0);
-
-
-    }
-
-
-}
-
-
-
-/* ==========================================================
-   ESTADOS
-========================================================== */
-
-
-.text-success{
-
-
-    color:var(--success);
-
-}
-
-
-.text-danger{
-
-
-    color:var(--danger);
-
-}
-
-
-.text-muted{
-
-
-    color:var(--text-light);
 
 }
 
@@ -875,18 +738,7 @@ button{
 
 ::-webkit-scrollbar{
 
-
-    width:10px;
-
-
-}
-
-
-::-webkit-scrollbar-track{
-
-
-    background:#F1F5F9;
-
+    width:8px;
 
 }
 
@@ -897,15 +749,6 @@ button{
     background:#CBD5E1;
 
     border-radius:10px;
-
-
-}
-
-
-::-webkit-scrollbar-thumb:hover{
-
-
-    background:#94A3B8;
 
 
 }
