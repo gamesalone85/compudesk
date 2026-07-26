@@ -173,8 +173,8 @@ function render(listaTickets){
 
                     <label>Fecha</label>
 
-                    <strong>${ticket.fechaCreacion || "-"}</strong>
-
+                    <strong>${formatearFecha(ticket.fechaCreacion)}</strong>
+                    
                 </div>
 
             </div>
@@ -291,3 +291,27 @@ async function cargarTickets(){
 }
 
 cargarTickets();
+
+
+//========================================
+//FECHA
+//========================================
+function formatearFecha(fecha){
+
+    if(!fecha) return "-";
+
+    if(typeof fecha.toDate==="function"){
+        fecha=fecha.toDate();
+    }
+
+    return fecha.toLocaleString("es-MX",{
+
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+
+    });
+
+}
