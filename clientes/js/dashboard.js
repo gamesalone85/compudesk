@@ -1,27 +1,22 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE DASHBOARD
-// Producción v2.0
+// Producción 3.0
+// Firebase UID + Perfil UID
 // ==========================================
 
 
 import {
-
 auth,
 db
-
 }
-
 from "../../assets/firebase/firebase-config.js";
 
 
 import {
-
 onAuthStateChanged,
 signOut
-
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
@@ -30,13 +25,12 @@ import {
 collection,
 query,
 where,
-getDocs
+getDocs,
+doc,
+getDoc
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
 
 
 
@@ -67,106 +61,119 @@ document.getElementById("ticketsCerrados");
 
 
 
-
-onAuthStateChanged(
-
-auth,
-
-async(user)=>{
+onAuthStateChanged(auth, async(user)=>{
 
 
 if(!user){
 
-
-location.href="login.html";
+window.location.href="login.html";
 
 return;
 
-
 }
-
-
-
-cargarDashboard();
-
-
-
-});
-
-
-
-
-
-
-
-
-async function cargarDashboard(){
 
 
 
 try{
 
 
+// =================================
+// BUSCAR PERFIL POR UID
+// =================================
 
-const sesion =
 
-JSON.parse(
+const usuariosQuery = query(
 
-localStorage.getItem(
-"clienteCompudesk"
+collection(db,"usuarios"),
+
+where(
+"uid",
+"==",
+user.uid
 )
 
 );
 
 
 
+const usuariosSnap =
+await getDocs(usuariosQuery);
 
 
-if(!sesion){
 
+if(usuariosSnap.empty){
 
-location.href="login.html";
-
-return;
-
+throw new Error(
+"No existe perfil asociado"
+);
 
 }
 
 
 
+const usuario =
+usuariosSnap.docs[0].data();
 
 
-// ===========================
-// INFORMACION LOCAL
-// ===========================
 
+
+
+// =================================
+// BUSCAR EMPRESA
+// =================================
+
+
+const clienteSnap =
+await getDoc(
+
+doc(
+
+db,
+
+"clientes",
+
+usuario.clienteId
+
+)
+
+);
+
+
+
+if(!clienteSnap.exists()){
+
+throw new Error(
+"Empresa no encontrada"
+);
+
+}
+
+
+
+const cliente =
+clienteSnap.data();
+
+
+
+
+
+// =================================
+// MOSTRAR INFORMACION
+// =================================
 
 
 nombre.textContent =
-sesion.nombre || "Cliente";
+usuario.nombre;
 
 
 
 empresa.textContent =
-
-sesion.empresa
-
-?
-
-sesion.empresa
-
-:
-
-"Empresa registrada";
-
+cliente.empresa;
 
 
 
 plan.textContent =
-
-sesion.plan || "Sin plan";
-
-
+cliente.plan || "Sin plan";
 
 
 
@@ -174,41 +181,75 @@ sesion.plan || "Sin plan";
 
 datos.innerHTML = `
 
+
 <div class="empresa-grid">
 
 
 <div>
 
-<label>Contacto</label>
+<label>
+Empresa
+</label>
 
-<strong>${sesion.nombre}</strong>
-
-</div>
-
-
-<div>
-
-<label>Correo</label>
-
-<strong>${sesion.correo}</strong>
+<strong>
+${cliente.empresa || "-"}
+</strong>
 
 </div>
 
 
+
 <div>
 
-<label>Teléfono</label>
+<label>
+Contacto
+</label>
 
-<strong>${sesion.telefono || "No registrado"}</strong>
+<strong>
+${cliente.contacto || "-"}
+</strong>
 
 </div>
 
 
+
 <div>
 
-<label>RFC</label>
+<label>
+Correo
+</label>
 
-<strong>${sesion.rfc || "No registrado"}</strong>
+<strong>
+${cliente.correo || "-"}
+</strong>
+
+</div>
+
+
+
+<div>
+
+<label>
+Teléfono
+</label>
+
+<strong>
+${cliente.telefono || "-"}
+</strong>
+
+</div>
+
+
+
+<div>
+
+<label>
+RFC
+</label>
+
+<strong>
+${cliente.rfc || "No registrado"}
+</strong>
 
 </div>
 
@@ -220,14 +261,9 @@ datos.innerHTML = `
 
 
 
-
-
-
-
-
-// ===========================
+// =================================
 // TICKETS
-// ===========================
+// =================================
 
 
 const ticketsQuery = query(
@@ -243,7 +279,7 @@ where(
 
 "==",
 
-sesion.clienteId
+usuario.clienteId
 
 )
 
@@ -251,13 +287,8 @@ sesion.clienteId
 
 
 
-
 const ticketsSnap =
-
-await getDocs(
-ticketsQuery
-);
-
+await getDocs(ticketsQuery);
 
 
 
@@ -267,39 +298,26 @@ let cerradosTotal=0;
 
 
 
+ticketsSnap.forEach(ticket=>{
 
 
-ticketsSnap.forEach((ticket)=>{
-
-
-const estado =
-ticket.data().estado;
+const data =
+ticket.data();
 
 
 
-if(
-estado==="cerrado"
-){
-
+if(data.estado==="cerrado"){
 
 cerradosTotal++;
 
-
-}
-
-else{
-
+}else{
 
 abiertosTotal++;
 
-
 }
 
 
-
 });
-
-
 
 
 
@@ -313,32 +331,37 @@ cerradosTotal;
 
 
 
-
 }
 
 catch(error){
 
 
 console.error(
-
-"Error dashboard:",
-
+"Error Dashboard:",
 error
-
 );
 
 
+datos.innerHTML =
+
+`
+<p>
+No fue posible cargar información.
+</p>
+`;
 
 }
 
 
-
-}
-
+});
 
 
 
 
+
+
+
+// LOGOUT
 
 
 document
@@ -356,7 +379,7 @@ localStorage.removeItem(
 );
 
 
-location.href="login.html";
+window.location.href="login.html";
 
 
 });
