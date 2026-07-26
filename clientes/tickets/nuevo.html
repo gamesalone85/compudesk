@@ -3,14 +3,20 @@
 
 <head>
 
+
 <meta charset="UTF-8">
 
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 
 
 <title>
 Nuevo Ticket | Compu Desk
 </title>
+
+
+<meta name="robots" content="noindex,nofollow">
 
 
 <link rel="icon" href="../../img/logo.png">
@@ -26,18 +32,26 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <link rel="stylesheet" href="../css/cliente.css">
 
+
 </head>
+
+
 
 
 <body>
 
 
+
+
 <header class="cliente-header">
+
 
 
 <div class="brand">
 
+
 <img src="../../img/logo.png">
+
 
 <div>
 
@@ -45,11 +59,36 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 Compu Desk
 </h2>
 
+
 <span>
-Nuevo Ticket
+Crear solicitud
 </span>
 
+
 </div>
+
+
+</div>
+
+
+
+
+
+
+<div class="header-actions">
+
+
+<a href="index.html" class="secondary-btn">
+
+
+<i class="fa-solid fa-arrow-left"></i>
+
+
+Mis tickets
+
+
+</a>
+
 
 </div>
 
@@ -61,17 +100,54 @@ Nuevo Ticket
 
 
 
+
+
+
+
 <main class="cliente-container">
 
 
-<section class="empresa-card">
+
+
+
+<section class="empresa-card form-card">
+
+
+
+
+
+<div class="section-header">
+
+
+<div>
 
 
 <h2>
 
-Crear solicitud de soporte
+<i class="fa-solid fa-circle-plus"></i>
+
+Nueva solicitud
 
 </h2>
+
+
+<p class="text-muted">
+
+Describe el problema para que nuestro equipo pueda ayudarte.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
 
 
 
@@ -79,34 +155,53 @@ Crear solicitud de soporte
 
 
 
-<div class="input-group">
+
+
+
+
+<div class="form-grid">
+
+
+
+
+
+<div class="form-control">
+
 
 <label>
+
 Categoría
+
 </label>
 
 
 <select id="categoria" required>
 
+
 <option value="">
-Seleccione
+Seleccione una opción
 </option>
+
 
 <option>
 Hardware
 </option>
 
+
 <option>
 Software
 </option>
+
 
 <option>
 Redes
 </option>
 
+
 <option>
 Sistemas
 </option>
+
 
 <option>
 Otro
@@ -116,16 +211,22 @@ Otro
 </select>
 
 
+
 </div>
 
 
 
 
 
-<div class="input-group">
+
+
+<div class="form-control">
+
 
 <label>
+
 Prioridad
+
 </label>
 
 
@@ -133,26 +234,39 @@ Prioridad
 
 
 <option value="baja">
+
 Baja
+
 </option>
 
 
 <option value="media" selected>
+
 Media
+
 </option>
 
 
 <option value="alta">
+
 Alta
+
 </option>
 
 
 <option value="critica">
+
 Crítica
+
 </option>
 
 
 </select>
+
+
+
+</div>
+
 
 
 </div>
@@ -161,18 +275,25 @@ Crítica
 
 
 
-<div class="input-group">
+
+
+
+
+
+<div class="form-control">
 
 
 <label>
+
 Título del problema
+
 </label>
 
 
 <input
 id="titulo"
 type="text"
-placeholder="Ejemplo: Equipo no enciende"
+placeholder="Ejemplo: Equipo no inicia sesión"
 required>
 
 
@@ -183,20 +304,30 @@ required>
 
 
 
-<div class="input-group">
+
+
+
+
+<div class="form-control">
 
 
 <label>
+
 Descripción
 
 </label>
 
 
 <textarea
+
 id="descripcion"
-rows="6"
-placeholder="Describe detalladamente el problema..."
+
+rows="7"
+
+placeholder="Describe lo que sucede, equipo afectado, mensajes de error, etc."
+
 required></textarea>
+
 
 
 </div>
@@ -207,13 +338,20 @@ required></textarea>
 
 
 
+
+
+
 <button
-class="login-button"
-type="submit">
+
+type="submit"
+
+class="primary-btn submit-btn">
+
 
 <i class="fa-solid fa-paper-plane"></i>
 
-Enviar ticket
+
+Enviar solicitud
 
 
 </button>
@@ -231,10 +369,20 @@ Enviar ticket
 
 
 
+
+
+
+
 </section>
 
 
+
+
+
+
 </main>
+
+
 
 
 
@@ -245,6 +393,9 @@ Enviar ticket
 <script type="module" src="../js/nuevo-ticket.js"></script>
 
 
+
+
 </body>
+
 
 </html>
