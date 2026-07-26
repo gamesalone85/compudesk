@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE MIS TICKETS
-// Producción v1.0
+// Producción 2.0
 // ==========================================
 
 
@@ -18,8 +18,6 @@ from "../../assets/firebase/firebase-config.js";
 
 import {
 
-doc,
-getDoc,
 collection,
 query,
 where,
@@ -33,12 +31,8 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-
 const tabla =
-
-document.getElementById(
-"ticketsLista"
-);
+document.getElementById("ticketsLista");
 
 
 
@@ -47,104 +41,80 @@ document.getElementById(
 async function cargarTickets(){
 
 
-
 try{
 
 
-
-const usuarioAuth = auth.currentUser;
-
+const user = auth.currentUser;
 
 
-if(!usuarioAuth){
-
+if(!user){
 
 window.location.href="../login.html";
 
-
 return;
-
 
 }
 
 
 
+// =====================================
+// BUSCAR PERFIL CLIENTE
+// =====================================
 
 
+const usuarioQuery = query(
 
-// ===============================
-// OBTENER USUARIO
-// ===============================
+collection(db,"usuarios"),
 
-
-const usuarioRef =
-
-doc(
-
-db,
-
-"usuarios",
-
-usuarioAuth.uid
+where(
+"uid",
+"==",
+user.uid
+)
 
 );
 
 
 
 const usuarioSnap =
-
-await getDoc(usuarioRef);
-
+await getDocs(usuarioQuery);
 
 
 
-if(!usuarioSnap.exists()){
+if(usuarioSnap.empty){
 
 throw new Error(
-"Perfil no encontrado"
+"Usuario no encontrado"
 );
 
 }
 
 
 
-
-const usuario = usuarioSnap.data();
-
-
+const usuario =
+usuarioSnap.docs[0].data();
 
 
 
 
-// ===============================
-// CONSULTAR TICKETS
-// ===============================
+// =====================================
+// BUSCAR TICKETS EMPRESA
+// =====================================
 
 
-const ticketsQuery =
-
-query(
+const ticketsQuery = query(
 
 collection(db,"tickets"),
 
-
 where(
-
 "clienteId",
-
 "==",
-
 usuario.clienteId
-
 ),
 
-
 orderBy(
-
 "fechaCreacion",
-
 "desc"
-
 )
 
 );
@@ -152,14 +122,8 @@ orderBy(
 
 
 
-
-const resultado =
-
-await getDocs(
-ticketsQuery
-);
-
-
+const ticketsSnap =
+await getDocs(ticketsQuery);
 
 
 
@@ -169,18 +133,32 @@ tabla.innerHTML="";
 
 
 
-
-if(resultado.empty){
-
+if(ticketsSnap.empty){
 
 
 tabla.innerHTML=`
 
 <tr>
 
-<td colspan="5">
+<td colspan="6">
 
-No tienes tickets registrados.
+<div class="empty-state">
+
+
+<i class="fa-solid fa-ticket"></i>
+
+
+<h3>
+No tienes tickets registrados
+</h3>
+
+
+<p>
+Cuando generes una solicitud aparecerá aquí.
+</p>
+
+
+</div>
 
 </td>
 
@@ -190,6 +168,34 @@ No tienes tickets registrados.
 
 return;
 
+}
+
+
+
+
+
+
+ticketsSnap.forEach(doc=>{
+
+
+const ticket =
+doc.data();
+
+
+
+let fecha="";
+
+
+if(ticket.fechaCreacion){
+
+
+fecha =
+ticket.fechaCreacion
+.toDate()
+.toLocaleDateString(
+"es-MX"
+);
+
 
 }
 
@@ -197,39 +203,17 @@ return;
 
 
 
-resultado.forEach(ticketDoc=>{
-
-
-const ticket = ticketDoc.data();
-
-
-
-const fecha =
-
-ticket.fechaCreacion
-
-?
-
-ticket.fechaCreacion
-.toDate()
-.toLocaleDateString("es-MX")
-
-:
-
-"Procesando";
-
-
-
-
-
 tabla.innerHTML += `
+
 
 <tr>
 
 
 <td>
 
-#${ticketDoc.id.substring(0,8)}
+<strong>
+#${doc.id.substring(0,8).toUpperCase()}
+</strong>
 
 </td>
 
@@ -237,7 +221,7 @@ tabla.innerHTML += `
 
 <td>
 
-${ticket.titulo}
+${ticket.titulo || "-"}
 
 </td>
 
@@ -245,7 +229,16 @@ ${ticket.titulo}
 
 <td>
 
-<span class="badge ${ticket.prioridad}">
+${ticket.categoria || "-"}
+
+</td>
+
+
+
+
+<td>
+
+<span class="ticket-priority ${ticket.prioridad}">
 
 ${ticket.prioridad}
 
@@ -255,9 +248,14 @@ ${ticket.prioridad}
 
 
 
+
 <td>
 
+<span class="ticket-status ${ticket.estado}">
+
 ${ticket.estado}
+
+</span>
 
 </td>
 
@@ -270,7 +268,9 @@ ${fecha}
 </td>
 
 
+
 </tr>
+
 
 
 `;
@@ -282,15 +282,13 @@ ${fecha}
 
 
 
-
-
 }
 
 catch(error){
 
 
 console.error(
-"Error cargando tickets:",
+"Error tickets:",
 error
 );
 
@@ -300,11 +298,12 @@ tabla.innerHTML=`
 
 <tr>
 
-<td colspan="5">
+<td colspan="6">
 
-Error cargando información.
+Error cargando tickets.
 
 </td>
+
 
 </tr>
 
@@ -315,17 +314,15 @@ Error cargando información.
 
 
 
-
 }
 
 
 
 
-
-// Firebase tarda un instante en recuperar sesión
-
 auth.onAuthStateChanged(()=>{
 
+
 cargarTickets();
+
 
 });
