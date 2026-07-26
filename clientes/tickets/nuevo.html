@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es-MX">
 
+
 <head>
 
 
@@ -10,13 +11,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 
-
 <title>
 Nuevo Ticket | Compu Desk
 </title>
 
-
-<meta name="robots" content="noindex,nofollow">
 
 
 <link rel="icon" href="../../img/logo.png">
@@ -37,14 +35,12 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 
-
 <body>
 
 
 
 
 <header class="cliente-header">
-
 
 
 <div class="brand">
@@ -54,6 +50,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 
 <div>
+
 
 <h2>
 Compu Desk
@@ -72,13 +69,10 @@ Crear solicitud
 
 
 
-
-
-
 <div class="header-actions">
 
 
-<a href="index.html" class="secondary-btn">
+<a href="index.html" class="secondary-button">
 
 
 <i class="fa-solid fa-arrow-left"></i>
@@ -102,18 +96,11 @@ Mis tickets
 
 
 
-
-
 <main class="cliente-container">
 
 
 
-
-
 <section class="empresa-card form-card">
-
-
-
 
 
 <div class="section-header">
@@ -124,16 +111,19 @@ Mis tickets
 
 <h2>
 
-<i class="fa-solid fa-circle-plus"></i>
 
-Nueva solicitud
+<i class="fa-solid fa-headset"></i>
+
+
+Nueva solicitud de soporte
+
 
 </h2>
 
 
-<p class="text-muted">
+<p class="section-description">
 
-Describe el problema para que nuestro equipo pueda ayudarte.
+Describe el problema para que nuestro equipo pueda atenderlo.
 
 </p>
 
@@ -149,10 +139,7 @@ Describe el problema para que nuestro equipo pueda ayudarte.
 
 
 
-
-
 <form id="ticketForm">
-
 
 
 
@@ -163,9 +150,7 @@ Describe el problema para que nuestro equipo pueda ayudarte.
 
 
 
-
-
-<div class="form-control">
+<div class="form-group">
 
 
 <label>
@@ -179,32 +164,44 @@ Categoría
 
 
 <option value="">
-Seleccione una opción
+
+Seleccione categoría
+
 </option>
 
 
 <option>
+
 Hardware
+
 </option>
 
 
 <option>
+
 Software
+
 </option>
 
 
 <option>
+
 Redes
+
 </option>
 
 
 <option>
+
 Sistemas
+
 </option>
 
 
 <option>
+
 Otro
+
 </option>
 
 
@@ -220,7 +217,7 @@ Otro
 
 
 
-<div class="form-control">
+<div class="form-group">
 
 
 <label>
@@ -230,7 +227,9 @@ Prioridad
 </label>
 
 
+
 <select id="prioridad" required>
+
 
 
 <option value="baja">
@@ -240,11 +239,13 @@ Baja
 </option>
 
 
+
 <option value="media" selected>
 
 Media
 
 </option>
+
 
 
 <option value="alta">
@@ -254,11 +255,13 @@ Alta
 </option>
 
 
+
 <option value="critica">
 
 Crítica
 
 </option>
+
 
 
 </select>
@@ -278,9 +281,7 @@ Crítica
 
 
 
-
-
-<div class="form-control">
+<div class="form-group">
 
 
 <label>
@@ -291,9 +292,13 @@ Título del problema
 
 
 <input
+
 id="titulo"
+
 type="text"
-placeholder="Ejemplo: Equipo no inicia sesión"
+
+placeholder="Ejemplo: Equipo no enciende"
+
 required>
 
 
@@ -306,9 +311,7 @@ required>
 
 
 
-
-
-<div class="form-control">
+<div class="form-group">
 
 
 <label>
@@ -324,10 +327,11 @@ id="descripcion"
 
 rows="7"
 
-placeholder="Describe lo que sucede, equipo afectado, mensajes de error, etc."
+placeholder="Explica qué sucede, equipo afectado, mensajes de error, etc."
 
-required></textarea>
+required>
 
+</textarea>
 
 
 </div>
@@ -338,14 +342,11 @@ required></textarea>
 
 
 
-
-
-
 <button
 
-type="submit"
+class="primary-button submit-button"
 
-class="primary-btn submit-btn">
+type="submit">
 
 
 <i class="fa-solid fa-paper-plane"></i>
@@ -360,7 +361,11 @@ Enviar solicitud
 
 
 
+
+
 <div id="mensaje"></div>
+
+
 
 
 
@@ -369,14 +374,7 @@ Enviar solicitud
 
 
 
-
-
-
-
 </section>
-
-
-
 
 
 
@@ -387,11 +385,10 @@ Enviar solicitud
 
 
 
-
 <script type="module" src="../js/auth-guard.js"></script>
 
-<script type="module" src="../js/nuevo-ticket.js"></script>
 
+<script type="module" src="../js/nuevo-ticket.js"></script>
 
 
 
