@@ -29,7 +29,6 @@ addDoc,
 serverTimestamp
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
@@ -297,9 +296,24 @@ return;
 // ==========================================
 
 
-const ticketRef =
+console.log("AUTH UID:", user.uid);
+console.log("DATOS TICKET:", {
 
-await addDoc(
+clienteId: usuario.clienteId,
+
+usuarioId: user.uid,
+uidValidacion: user.uid,
+
+nombreUsuario: usuario.nombre,
+
+correoUsuario: usuario.correo,
+
+empresa: cliente.empresa
+
+});
+
+
+const ticketRef = await addDoc(
 
 collection(db,"tickets"),
 
