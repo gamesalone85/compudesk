@@ -4,311 +4,273 @@
 <head>
 
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-Dashboard Cliente | Compu Desk
-</title>
-
+<title>Portal Clientes | Compu Desk</title>
 
 <meta name="robots" content="noindex,nofollow">
 
-
 <link rel="icon" href="../img/logo.png">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
-
 
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
 <link rel="stylesheet" href="css/cliente.css">
-
 
 </head>
 
-
-
 <body>
-
-
 
 <header class="cliente-header">
 
+    <div class="brand">
 
-<div class="brand">
+        <img src="../img/logo.png" alt="Compu Desk">
 
+        <div>
 
-<img src="../img/logo.png">
+            <h2>Compu Desk</h2>
 
+            <span>Portal Clientes</span>
 
-<div>
+        </div>
 
-<h2>
-Compu Desk
-</h2>
+    </div>
 
+    <button id="logout" class="logout-btn">
 
-<span>
-Portal Cliente
-</span>
+        <i class="fa-solid fa-right-from-bracket"></i>
 
+        Cerrar sesión
 
-</div>
-
-
-</div>
-
-
-
-<div class="cliente-actions">
-
-
-<button id="logout">
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-Salir
-
-</button>
-
-
-</div>
-
+    </button>
 
 </header>
 
-
-
-
-
-
 <main class="cliente-container">
 
+    <!-- ========================= -->
+    <!-- BIENVENIDA -->
+    <!-- ========================= -->
 
+    <section class="welcome-card">
 
-<section class="welcome-card">
+        <div>
 
+            <h1>
 
-<h1>
+                Bienvenido,
 
-Bienvenido,
+                <span id="nombreCliente">
 
-<span id="nombreCliente">
-Cliente
-</span>
+                    Cliente
 
+                </span>
 
-</h1>
+            </h1>
 
+            <p id="empresaCliente">
 
-<p id="empresaCliente">
+                Cargando información de la empresa...
 
-Cargando información...
+            </p>
 
-</p>
+        </div>
 
+    </section>
 
+    <!-- ========================= -->
+    <!-- KPIs -->
+    <!-- ========================= -->
 
-</section>
+    <section class="kpi-grid">
 
+        <article class="kpi-card">
 
+            <div class="kpi-icon">
 
+                <i class="fa-solid fa-ticket"></i>
 
+            </div>
 
+            <div>
 
+                <span>Tickets abiertos</span>
 
+                <strong id="ticketsAbiertos">
 
-<section class="kpi-grid">
+                    0
 
+                </strong>
 
+            </div>
 
-<div class="kpi-card">
+        </article>
 
+        <article class="kpi-card">
 
-<i class="fa-solid fa-ticket"></i>
+            <div class="kpi-icon success">
 
+                <i class="fa-solid fa-circle-check"></i>
 
-<div>
+            </div>
 
-<span>
-Tickets abiertos
-</span>
+            <div>
 
+                <span>Tickets cerrados</span>
 
-<strong id="ticketsAbiertos">
-0
-</strong>
+                <strong id="ticketsCerrados">
 
+                    0
 
-</div>
+                </strong>
 
+            </div>
 
-</div>
+        </article>
 
+        <article class="kpi-card">
 
+            <div class="kpi-icon info">
 
+                <i class="fa-solid fa-building"></i>
 
+            </div>
 
-<div class="kpi-card">
+            <div>
 
+                <span>Plan contratado</span>
 
-<i class="fa-solid fa-circle-check"></i>
+                <strong id="planCliente">
 
+                    -
 
-<div>
+                </strong>
 
-<span>
-Tickets cerrados
-</span>
+            </div>
 
+        </article>
 
-<strong id="ticketsCerrados">
-0
-</strong>
+    </section>
 
+    <!-- ========================= -->
+    <!-- CONTENIDO -->
+    <!-- ========================= -->
 
-</div>
+    <section class="content-grid">
 
+        <!-- Empresa -->
 
-</div>
+        <article class="empresa-card">
 
+            <div class="section-header">
 
+                <h2>
 
+                    <i class="fa-solid fa-building"></i>
 
+                    Información empresarial
 
-<div class="kpi-card">
+                </h2>
 
+            </div>
 
-<i class="fa-solid fa-building"></i>
+            <div id="datosEmpresa">
 
+                Cargando información...
 
-<div>
+            </div>
 
-<span>
-Plan contratado
-</span>
+        </article>
 
+        <!-- Acciones -->
 
-<strong id="planCliente">
--
-</strong>
+        <article class="empresa-card">
 
+            <div class="section-header">
 
-</div>
+                <h2>
 
+                    <i class="fa-solid fa-bolt"></i>
 
-</div>
+                    Acciones rápidas
 
+                </h2>
 
+            </div>
 
-</section>
+            <div class="quick-actions">
 
+                <a href="tickets/nuevo.html">
 
+                    <i class="fa-solid fa-plus"></i>
 
+                    Crear ticket
 
+                </a>
 
+                <a href="tickets/index.html">
 
+                    <i class="fa-solid fa-list"></i>
 
+                    Mis tickets
 
+                </a>
 
-<section class="empresa-card">
+            </div>
 
+        </article>
 
-<div class="section-header">
+    </section>
 
+    <!-- ========================= -->
+    <!-- ACTIVIDAD -->
+    <!-- ========================= -->
 
-<h2>
+    <section class="empresa-card">
 
-Información empresarial
+        <div class="section-header">
 
-</h2>
+            <h2>
 
+                <i class="fa-solid fa-clock-rotate-left"></i>
 
-</div>
+                Actividad reciente
 
+            </h2>
 
+        </div>
 
-<div id="datosEmpresa">
+        <div class="empty-state">
 
+            <i class="fa-regular fa-folder-open"></i>
 
-Cargando...
+            <h3>
 
-</div>
+                Sin actividad reciente
 
+            </h3>
 
+            <p>
 
-</section>
+                Aquí aparecerán los últimos movimientos relacionados con tus tickets de soporte.
 
+            </p>
 
+        </div>
 
-
-
-
-
-
-
-<section class="empresa-card">
-
-
-<div class="section-header">
-
-
-<h2>
-
-Acciones rápidas
-
-</h2>
-
-
-</div>
-
-
-
-<div class="quick-actions">
-
-
-<a href="tickets/nuevo.html">
-
-<i class="fa-solid fa-plus"></i>
-
-Crear ticket
-
-</a>
-
-
-
-<a href="tickets/index.html">
-
-<i class="fa-solid fa-list"></i>
-
-Ver tickets
-
-</a>
-
-
-</div>
-
-
-</section>
-
-
+    </section>
 
 </main>
 
-
-
-
 <script type="module" src="js/auth-guard.js"></script>
-
 <script type="module" src="js/dashboard.js"></script>
-
-
 
 </body>
 
