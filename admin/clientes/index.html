@@ -7,25 +7,37 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+
 <title>
 Clientes | Compu Desk
 </title>
 
+
 <meta name="robots" content="noindex,nofollow">
+
 
 <link rel="icon" href="/img/logo.png">
 
+
 <link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
 rel="stylesheet">
+
 
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
+
 <link
 rel="stylesheet"
 href="/css/portal.css">
+
+
+<link
+rel="stylesheet"
+href="/admin/css/dashboard.css">
+
 
 </head>
 
@@ -33,51 +45,45 @@ href="/css/portal.css">
 <body>
 
 
-<div class="cd-app">
+<div class="admin-layout">
 
 
 <div id="sidebar-container"></div>
 
 
 
-<div class="cd-main">
+<section class="admin-main">
+
 
 
 <div id="header-container"></div>
 
 
 
-<main class="cd-content">
-
-
-<div class="cd-container">
+<main class="dashboard-container clientes-page">
 
 
 
-<div class="cd-card">
-
-
-
-<div class="cd-card-header">
+<div class="clientes-header">
 
 
 <div>
 
-<h2 class="cd-card-title">
-Empresas registradas
-</h2>
+<h1>
+Clientes
+</h1>
 
 <p>
-Administración de clientes Compu Desk
+Administración de empresas registradas
 </p>
 
 </div>
 
 
 
-<a 
+<a
 href="nuevo.html"
-class="btn btn-primary">
+class="btn-nuevo">
 
 
 <i class="fa-solid fa-plus"></i>
@@ -91,12 +97,41 @@ Nuevo cliente
 
 
 
-<div class="cd-card-body">
+
+
+<div class="clientes-card">
+
+
+<div class="clientes-card-header">
+
+
+<h2>
+Empresas registradas
+</h2>
+
+
+
+<div class="clientes-search">
+
+<i class="fa-solid fa-search"></i>
+
+<input 
+type="text"
+placeholder="Buscar cliente...">
+
+</div>
+
+
+</div>
+
+
+
+<div class="clientes-table-wrapper">
 
 
 <div id="clientesTabla">
 
-<p>
+<p class="loading">
 Cargando clientes...
 </p>
 
@@ -107,17 +142,17 @@ Cargando clientes...
 </div>
 
 
+
 </div>
 
 
-</div>
 
 
 </main>
 
 
+</section>
 
-</div>
 
 
 </div>
@@ -131,16 +166,19 @@ src="../js/auth-guard.js">
 </script>
 
 
+
 <script
 type="module"
 src="../js/layout.js">
 </script>
 
 
+
 <script
 type="module"
 src="../js/clientes.js">
 </script>
+
 
 
 </body>
