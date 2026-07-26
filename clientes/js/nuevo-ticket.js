@@ -1,7 +1,8 @@
 // ==========================================
 // COMPU DESK
 // NUEVO TICKET CLIENTE
-// Producción v1.0
+// Producción 2.0
+// Firebase Auth + Firestore
 // ==========================================
 
 
@@ -18,9 +19,12 @@ from "../../assets/firebase/firebase-config.js";
 
 import {
 
+collection,
+query,
+where,
+getDocs,
 doc,
 getDoc,
-collection,
 addDoc,
 serverTimestamp
 
@@ -31,13 +35,26 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
-const form =
 
-document.getElementById(
-"ticketForm"
-);
+const form = 
+document.getElementById("ticketForm");
 
+
+
+const mensaje =
+document.getElementById("mensaje");
+
+
+
+
+
+// ==========================================
+// EVENTO CREAR TICKET
+// ==========================================
 
 
 form?.addEventListener(
@@ -53,17 +70,22 @@ e.preventDefault();
 
 
 
-const user = auth.currentUser;
+const user =
+auth.currentUser;
 
 
 
 if(!user){
 
+
 window.location.href="../login.html";
+
 
 return;
 
+
 }
+
 
 
 
@@ -73,20 +95,27 @@ try{
 
 
 
-// ================================
-// DATOS USUARIO
-// ================================
+// ==========================================
+// BUSCAR USUARIO POR UID
+// ==========================================
 
 
-const usuarioRef =
+const usuarioQuery = query(
 
-doc(
 
-db,
+collection(db,"usuarios"),
 
-"usuarios",
+
+where(
+
+"uid",
+
+"==",
 
 user.uid
+
+)
+
 
 );
 
@@ -94,15 +123,17 @@ user.uid
 
 const usuarioSnap =
 
-await getDoc(usuarioRef);
+await getDocs(usuarioQuery);
 
 
 
-if(!usuarioSnap.exists()){
+
+
+if(usuarioSnap.empty){
 
 
 throw new Error(
-"Usuario no encontrado"
+"No existe perfil de usuario"
 );
 
 
@@ -110,9 +141,28 @@ throw new Error(
 
 
 
+
+
 const usuario =
 
-usuarioSnap.data();
+usuarioSnap.docs[0].data();
+
+
+
+
+
+
+if(
+!usuario.clienteId
+){
+
+
+throw new Error(
+"Usuario sin empresa asociada"
+);
+
+
+}
 
 
 
@@ -120,9 +170,9 @@ usuarioSnap.data();
 
 
 
-// ================================
-// DATOS CLIENTE
-// ================================
+// ==========================================
+// BUSCAR EMPRESA
+// ==========================================
 
 
 const clienteRef =
@@ -145,11 +195,15 @@ await getDoc(clienteRef);
 
 
 
-if(!clienteSnap.exists()){
+
+
+if(
+!clienteSnap.exists()
+){
 
 
 throw new Error(
-"Cliente no encontrado"
+"No existe empresa registrada"
 );
 
 
@@ -167,90 +221,149 @@ clienteSnap.data();
 
 
 
+// ==========================================
+// CAPTURAR FORMULARIO
+// ==========================================
 
-// ================================
+
+const categoria =
+
+document
+.getElementById("categoria")
+.value
+.trim();
+
+
+
+const prioridad =
+
+document
+.getElementById("prioridad")
+.value
+.trim();
+
+
+
+const titulo =
+
+document
+.getElementById("titulo")
+.value
+.trim();
+
+
+
+const descripcion =
+
+document
+.getElementById("descripcion")
+.value
+.trim();
+
+
+
+
+
+
+if(
+!categoria ||
+!prioridad ||
+!titulo ||
+!descripcion
+){
+
+
+mostrar(
+
+"Completa todos los campos.",
+
+"error"
+
+);
+
+
+return;
+
+
+}
+
+
+
+
+
+
+// ==========================================
 // CREAR TICKET
-// ================================
+// ==========================================
 
 
+const ticketRef =
 
 await addDoc(
 
-collection(
-db,
-"tickets"
-),
+collection(db,"tickets"),
 
 {
 
 
-clienteId:
+// Identificación empresa
 
+clienteId:
 usuario.clienteId,
 
 
-usuarioId:
+empresa:
+cliente.empresa || "",
 
+
+
+
+// Usuario creador
+
+usuarioId:
 user.uid,
 
 
-empresa:
-
-cliente.empresa,
-
-
 nombreUsuario:
-
-usuario.nombre,
-
+usuario.nombre || "",
 
 
-categoria:
-
-document.getElementById(
-"categoria"
-).value,
+correoUsuario:
+usuario.correo || "",
 
 
 
-prioridad:
 
-document.getElementById(
-"prioridad"
-).value,
+// Información ticket
 
+categoria,
 
 
-titulo:
-
-document.getElementById(
-"titulo"
-).value.trim(),
+prioridad,
 
 
-
-descripcion:
-
-document.getElementById(
-"descripcion"
-).value.trim(),
+titulo,
 
 
+descripcion,
+
+
+
+// Estado inicial
 
 estado:
-
 "abierto",
 
 
 
-fechaCreacion:
 
+// Fechas
+
+fechaCreacion:
 serverTimestamp(),
 
 
-
 fechaActualizacion:
-
 serverTimestamp()
 
 
@@ -263,13 +376,30 @@ serverTimestamp()
 
 
 
+
+
+
+console.log(
+
+"Ticket creado:",
+
+ticketRef.id
+
+);
+
+
+
+
+
+
 mostrar(
 
-"Ticket creado correctamente",
+"Ticket creado correctamente.",
 
 "success"
 
 );
+
 
 
 
@@ -296,14 +426,19 @@ catch(error){
 
 
 console.error(
+
+"Error creando ticket:",
+
 error
+
 );
+
 
 
 
 mostrar(
 
-"No fue posible crear el ticket",
+"No fue posible crear el ticket.",
 
 "error"
 
@@ -324,21 +459,29 @@ mostrar(
 
 
 
+// ==========================================
+// MENSAJES
+// ==========================================
+
+
 function mostrar(texto,tipo){
 
 
-const div =
 
-document.getElementById(
-"mensaje"
-);
+if(!mensaje){
 
+return;
 
-
-div.textContent=texto;
+}
 
 
-div.className=
+
+mensaje.textContent = texto;
+
+
+
+mensaje.className =
+
 "login-alert "+tipo;
 
 
