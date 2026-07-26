@@ -87,148 +87,140 @@ Dashboard
 
 <main class="cliente-container">
 
+    <!-- CABECERA -->
 
+    <section class="tickets-hero">
 
-<section class="empresa-card">
+        <div>
 
+            <h1>Mis Tickets</h1>
 
+            <p>
+                Consulta el estado de todas tus solicitudes de soporte.
+            </p>
 
-<div class="section-header ticket-header">
+        </div>
 
+        <a href="nuevo.html" class="primary-button">
 
-<div>
+            <i class="fa-solid fa-plus"></i>
 
+            Nuevo Ticket
 
-<h2>
+        </a>
 
-<i class="fa-solid fa-ticket"></i>
+    </section>
 
-Mis solicitudes
 
-</h2>
 
+    <!-- KPIs -->
 
-<p class="section-description">
+    <section class="tickets-kpis">
 
-Consulta el historial y estado de tus solicitudes de soporte.
+        <div class="ticket-kpi">
 
-</p>
+            <i class="fa-solid fa-ticket"></i>
 
+            <div>
 
-</div>
+                <span>Total</span>
 
+                <strong id="kpiTotal">0</strong>
 
+            </div>
 
+        </div>
 
-<a href="nuevo.html" class="primary-button">
+        <div class="ticket-kpi">
 
+            <i class="fa-solid fa-folder-open"></i>
 
-<i class="fa-solid fa-plus"></i>
+            <div>
 
-Nuevo ticket
+                <span>Abiertos</span>
 
+                <strong id="kpiAbiertos">0</strong>
 
-</a>
+            </div>
 
+        </div>
 
+        <div class="ticket-kpi">
 
-</div>
+            <i class="fa-solid fa-spinner"></i>
 
+            <div>
 
+                <span>En proceso</span>
 
+                <strong id="kpiProceso">0</strong>
 
+            </div>
 
+        </div>
 
+        <div class="ticket-kpi">
 
-<div class="table-card">
+            <i class="fa-solid fa-circle-check"></i>
 
+            <div>
 
+                <span>Cerrados</span>
 
-<table class="tickets-table">
+                <strong id="kpiCerrados">0</strong>
 
+            </div>
 
-<thead>
+        </div>
 
+    </section>
 
-<tr>
 
-<th>
-Folio
-</th>
 
-<th>
-Título
-</th>
+    <!-- FILTROS -->
 
-<th>
-Categoría
-</th>
+    <section class="tickets-toolbar">
 
-<th>
-Prioridad
-</th>
+        <div class="search-box">
 
-<th>
-Estado
-</th>
+            <i class="fa-solid fa-search"></i>
 
-<th>
-Fecha
-</th>
+            <input
+                id="buscarTicket"
+                type="text"
+                placeholder="Buscar por folio o título...">
 
+        </div>
 
-</tr>
+        <select id="filtroEstado">
 
+            <option value="">Todos</option>
 
-</thead>
+            <option value="Abierto">Abiertos</option>
 
+            <option value="Proceso">En proceso</option>
 
+            <option value="Cerrado">Cerrados</option>
 
-<tbody id="ticketsLista">
+        </select>
 
+    </section>
 
-<tr>
 
 
-<td colspan="6">
+    <!-- LISTA -->
 
+    <section id="ticketsLista" class="tickets-grid">
 
-<div class="empty-state">
+        <div class="ticket-loading">
 
+            <i class="fa-solid fa-spinner fa-spin"></i>
 
-<i class="fa-solid fa-spinner fa-spin"></i>
+            <h3>Cargando tickets...</h3>
 
+        </div>
 
-<h3>
-Cargando tickets...
-</h3>
-
-
-</div>
-
-
-</td>
-
-
-</tr>
-
-
-
-</tbody>
-
-
-
-</table>
-
-
-
-</div>
-
-
-
-</section>
-
-
+    </section>
 
 </main>
 
