@@ -13,6 +13,9 @@ Mis Tickets | Compu Desk
 </title>
 
 
+<meta name="robots" content="noindex,nofollow">
+
+
 <link rel="icon" href="../../img/logo.png">
 
 
@@ -33,6 +36,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 <body>
 
 
+
 <header class="cliente-header">
 
 
@@ -50,7 +54,7 @@ Compu Desk
 
 
 <span>
-Mis Tickets
+Portal Cliente
 </span>
 
 
@@ -61,13 +65,21 @@ Mis Tickets
 
 
 
-<a href="../dashboard.html" class="btn-back">
+
+
+<div class="header-actions">
+
+
+<a href="../dashboard.html" class="secondary-btn">
 
 <i class="fa-solid fa-arrow-left"></i>
 
 Dashboard
 
 </a>
+
+
+</div>
 
 
 
@@ -77,25 +89,38 @@ Dashboard
 
 
 
+
+
 <main class="cliente-container">
+
+
 
 
 
 <section class="empresa-card">
 
 
-<div class="section-header">
+
+<div class="section-header tickets-header">
+
 
 
 <div>
 
-<h1>
+
+<h2>
+
+<i class="fa-solid fa-ticket"></i>
+
 Mis solicitudes
-</h1>
+
+</h2>
 
 
-<p>
-Consulta el estado de tus tickets de soporte.
+<p class="text-muted">
+
+Consulta el seguimiento de tus solicitudes de soporte.
+
 </p>
 
 
@@ -103,11 +128,17 @@ Consulta el estado de tus tickets de soporte.
 
 
 
-<a href="nuevo.html" class="login-button">
+
+
+
+<a href="nuevo.html" class="primary-btn">
+
 
 <i class="fa-solid fa-plus"></i>
 
+
 Nuevo ticket
+
 
 </a>
 
@@ -121,15 +152,18 @@ Nuevo ticket
 
 
 
-<div class="table-container">
+<div class="table-wrapper">
 
 
-<table>
+
+<table class="tickets-table">
 
 
 <thead>
 
+
 <tr>
+
 
 <th>
 Folio
@@ -138,6 +172,11 @@ Folio
 
 <th>
 Título
+</th>
+
+
+<th>
+Categoría
 </th>
 
 
@@ -163,14 +202,22 @@ Fecha
 
 
 
+
+
 <tbody id="ticketsLista">
 
 
 <tr>
 
-<td colspan="5">
+
+<td colspan="6" class="empty-table">
+
+<i class="fa-solid fa-spinner fa-spin"></i>
+
+<br>
 
 Cargando tickets...
+
 
 </td>
 
@@ -179,6 +226,7 @@ Cargando tickets...
 
 
 </tbody>
+
 
 
 </table>
@@ -190,10 +238,17 @@ Cargando tickets...
 
 
 
+
 </section>
 
 
+
+
+
 </main>
+
+
+
 
 
 
@@ -206,5 +261,6 @@ Cargando tickets...
 
 
 </body>
+
 
 </html>
