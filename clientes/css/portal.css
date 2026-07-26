@@ -1492,3 +1492,333 @@ p{
     font-size:14px;
 
 }
+/*=========================================================
+=            CLIENTES ADMIN
+=========================================================*/
+
+
+.clientes-page{
+
+    padding:40px;
+
+}
+
+
+/* HEADER */
+
+.clientes-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:30px;
+
+}
+
+
+.clientes-header h1{
+
+    font-size:32px;
+
+    font-weight:800;
+
+    color:var(--cd-text);
+
+    margin-bottom:6px;
+
+}
+
+
+.clientes-header p{
+
+    color:var(--cd-text-light);
+
+}
+
+
+
+/* BOTON NUEVO */
+
+
+.btn-nuevo{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:var(--cd-primary);
+
+    color:white;
+
+    padding:13px 22px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+
+.btn-nuevo:hover{
+
+    background:var(--cd-primary-hover);
+
+    transform:translateY(-2px);
+
+}
+
+
+
+
+/* CARD PRINCIPAL */
+
+
+.clientes-card{
+
+
+    background:white;
+
+    border-radius:20px;
+
+    border:1px solid var(--cd-border);
+
+    box-shadow:var(--cd-shadow-sm);
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+.clientes-card-header{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:24px 28px;
+
+    border-bottom:1px solid var(--cd-border);
+
+
+}
+
+
+
+.clientes-card-header h2{
+
+
+    font-size:20px;
+
+    font-weight:700;
+
+
+}
+
+
+
+/* BUSCADOR */
+
+
+.clientes-search{
+
+
+    position:relative;
+
+    width:280px;
+
+
+}
+
+
+
+.clientes-search i{
+
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    color:#94A3B8;
+
+
+}
+
+
+
+.clientes-search input{
+
+
+    width:100%;
+
+    padding:12px 15px 12px 45px;
+
+    border-radius:12px;
+
+    border:1px solid var(--cd-border);
+
+    font-size:14px;
+
+
+}
+
+
+.clientes-search input:focus{
+
+
+    border-color:var(--cd-primary);
+
+    box-shadow:0 0 0 4px rgba(0,87,255,.12);
+
+
+}
+
+
+
+/* TABLA */
+
+
+.clientes-table-wrapper{
+
+
+    padding:25px;
+
+    overflow-x:auto;
+
+
+}
+
+
+
+#clientesTabla table{
+
+
+    width:100%;
+
+    border-collapse:collapse;
+
+
+}
+
+
+
+#clientesTabla th{
+
+
+    text-align:left;
+
+    padding:14px;
+
+    background:#F8FAFC;
+
+    color:#475569;
+
+    font-size:13px;
+
+    text-transform:uppercase;
+
+
+}
+
+
+
+#clientesTabla td{
+
+
+    padding:15px;
+
+    border-bottom:1px solid var(--cd-border);
+
+    color:var(--cd-text);
+
+}
+
+
+
+#clientesTabla tr:hover{
+
+
+    background:#F8FAFC;
+
+
+}
+
+
+
+/* LOADING */
+
+
+.loading{
+
+
+    text-align:center;
+
+    padding:40px;
+
+    color:var(--cd-text-light);
+
+
+}
+
+
+
+/* RESPONSIVE */
+
+
+@media(max-width:768px){
+
+
+.clientes-header{
+
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+
+}
+
+
+
+.clientes-card-header{
+
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:20px;
+
+
+}
+
+
+
+.clientes-search{
+
+
+    width:100%;
+
+
+}
+
+
+}
