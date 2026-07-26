@@ -1,135 +1,104 @@
 // ==========================================
 // COMPU DESK
-// PORTAL CLIENTES LOGIN
-// Producción
-// Firebase Authentication
+// PORTAL CLIENTES
+// LOGIN
+// Producción 4.0
 // ==========================================
 
-
 import {
-auth,
-db
+    auth,
+    db
 }
 from "../../assets/firebase/firebase-config.js";
 
-
 import {
 
-signInWithEmailAndPassword,
-setPersistence,
-browserLocalPersistence,
-browserSessionPersistence,
-signOut
+    signInWithEmailAndPassword,
+    browserLocalPersistence,
+    browserSessionPersistence,
+    setPersistence,
+    signOut
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
+import {
 
+    collection,
+    query,
+    where,
+    getDocs,
+    doc,
+    getDoc
+
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 import {
 
-collection,
-query,
-where,
-getDocs
+    guardarSesion
 
 }
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
+from "./session.js";
 
 
-
+// ==========================================
 // ELEMENTOS
+// ==========================================
 
+const form = document.getElementById("loginForm");
 
-const form =
-document.getElementById("loginForm");
+const txtCorreo = document.getElementById("email");
 
+const txtPassword = document.getElementById("password");
 
-const email =
-document.getElementById("email");
-
-
-const password =
-document.getElementById("password");
-
-
-const remember =
-document.getElementById("remember");
-
+const remember = document.getElementById("remember");
 
 const togglePassword =
 document.getElementById("togglePassword");
 
 
+// ==========================================
+// VER PASSWORD
+// ==========================================
 
+togglePassword?.addEventListener("click",()=>{
 
+    const visible =
+    txtPassword.type==="text";
 
-// PASSWORD
+    txtPassword.type =
+    visible ? "password":"text";
 
-togglePassword?.addEventListener(
-"click",
-()=>{
-
-
-const visible =
-password.type === "text";
-
-
-password.type =
-visible
-?
-"password"
-:
-"text";
-
-
-togglePassword.innerHTML =
-visible
-
-?
-'<i class="fa-solid fa-eye"></i>'
-
-:
-
-'<i class="fa-solid fa-eye-slash"></i>';
-
-
+    togglePassword.innerHTML =
+    visible
+    ?
+    '<i class="fa-solid fa-eye"></i>'
+    :
+    '<i class="fa-solid fa-eye-slash"></i>';
 
 });
 
 
+// ==========================================
+// LOGIN
+// ==========================================
 
-
-
-
-
-
-form.addEventListener(
-"submit",
-async(e)=>{
-
+form.addEventListener("submit",async(e)=>{
 
 e.preventDefault();
 
-
-
 const correo =
-email.value.trim().toLowerCase();
+txtCorreo.value.trim().toLowerCase();
+
+const password =
+txtPassword.value;
 
 
-const clave =
-password.value;
-
-
-
-
-if(!correo || !clave){
+if(!correo || !password){
 
 mostrarMensaje(
-"Completa todos los campos",
+"Completa todos los campos.",
 "error"
 );
 
@@ -138,11 +107,9 @@ return;
 }
 
 
-
-
-
 try{
 
+// Persistencia
 
 await setPersistence(
 
@@ -151,46 +118,37 @@ auth,
 remember.checked
 
 ?
+
 browserLocalPersistence
 
 :
+
 browserSessionPersistence
 
 );
 
 
-
-
-
-// LOGIN FIREBASE
-
+// Login Firebase
 
 const credencial =
-
 await signInWithEmailAndPassword(
 
 auth,
 
 correo,
 
-clave
+password
 
 );
-
-
 
 const uid =
 credencial.user.uid;
 
 
+// Buscar perfil
 
-
-
-
-// BUSCAR PERFIL POR CORREO
-
-
-const q = query(
+const usuariosQuery =
+query(
 
 collection(db,"usuarios"),
 
@@ -202,227 +160,202 @@ correo
 
 );
 
+const usuariosSnap =
+await getDocs(usuariosQuery);
 
 
-const snap =
-await getDocs(q);
-
-
-
-
-
-if(snap.empty){
-
+if(usuariosSnap.empty){
 
 await signOut(auth);
 
-
 mostrarMensaje(
-"No existe perfil registrado",
+"No existe un perfil registrado.",
 "error"
 );
 
-
 return;
-
 
 }
 
 
+const perfilDoc =
+usuariosSnap.docs[0];
+
+const perfil =
+perfilDoc.data();
 
 
+// Validaciones
 
-const documento =
-snap.docs[0];
-
-
-const usuario =
-documento.data();
-
-
-
-
-
-
-
-if(usuario.rol !== "cliente"){
-
+if(perfil.estado!=="activo"){
 
 await signOut(auth);
 
-
 mostrarMensaje(
-"Usuario no pertenece al portal clientes",
+"Tu cuenta está deshabilitada.",
 "error"
 );
 
-
 return;
-
 
 }
 
 
-
-
-
-if(usuario.estado !== "activo"){
-
+if(perfil.rol!=="cliente"){
 
 await signOut(auth);
 
-
 mostrarMensaje(
-"Usuario desactivado",
+"Esta cuenta no pertenece al Portal Clientes.",
 "error"
 );
 
-
 return;
-
 
 }
 
 
+// Buscar empresa
 
+let empresa={};
 
+if(perfil.clienteId){
 
+const empresaSnap =
+await getDoc(
 
+doc(
 
-// GUARDAR SESION
+db,
 
+"clientes",
 
-const sesion = {
+perfil.clienteId
 
-
-uid:uid,
-
-
-usuarioId:documento.id,
-
-
-nombre:usuario.nombre || "",
-
-
-correo:usuario.correo,
-
-
-telefono:usuario.telefono || "",
-
-
-clienteId:usuario.clienteId || "",
-
-
-rol:usuario.rol,
-
-
-estado:usuario.estado
-
-
-};
-
-
-
-
-
-localStorage.setItem(
-
-"clienteCompudesk",
-
-JSON.stringify(sesion)
+)
 
 );
 
+if(empresaSnap.exists()){
+
+empresa =
+empresaSnap.data();
+
+}
+
+}
 
 
+// ==========================================
+// CREAR SESIÓN
+// ==========================================
 
+guardarSesion({
+
+uid,
+
+usuarioId:perfilDoc.id,
+
+nombre:perfil.nombre,
+
+correo:perfil.correo,
+
+telefono:perfil.telefono ?? "",
+
+rol:perfil.rol,
+
+estado:perfil.estado,
+
+clienteId:perfil.clienteId,
+
+empresa:empresa.empresa ?? "",
+
+contacto:empresa.contacto ?? "",
+
+empresaCorreo:empresa.correo ?? "",
+
+empresaTelefono:empresa.telefono ?? "",
+
+rfc:empresa.rfc ?? "",
+
+plan:empresa.plan ?? "",
+
+tipo:empresa.tipo ?? ""
+
+});
 
 mostrarMensaje(
-"Acceso correcto",
+"Bienvenido a Compu Desk.",
 "success"
 );
 
-
-
-
 setTimeout(()=>{
 
+location.href="dashboard.html";
 
-window.location.href="dashboard.html";
-
-
-},800);
-
-
-
-
+},500);
 
 }
 
 catch(error){
 
-
-
 console.error(error);
 
+let mensaje =
+"Correo o contraseña incorrectos.";
 
-mostrarMensaje(
+switch(error.code){
 
-"Correo o contraseña incorrectos",
+case "auth/user-disabled":
+mensaje="Cuenta deshabilitada.";
+break;
 
-"error"
+case "auth/network-request-failed":
+mensaje="Sin conexión a Internet.";
+break;
 
-);
-
-
+case "auth/too-many-requests":
+mensaje="Demasiados intentos.";
+break;
 
 }
 
+mostrarMensaje(
+mensaje,
+"error"
+);
 
+}
 
 });
 
 
+// ==========================================
+// MENSAJES
+// ==========================================
 
-
-
-
-function mostrarMensaje(
-texto,
-tipo
-){
-
-
+function mostrarMensaje(texto,tipo){
 
 let alerta =
 document.querySelector(".login-alert");
 
-
-
 if(!alerta){
 
-
-alerta=document.createElement("div");
-
+alerta =
+document.createElement("div");
 
 alerta.className="login-alert";
-
 
 document
 .querySelector(".login-card")
 .prepend(alerta);
 
-
 }
 
-
-
-alerta.textContent=texto;
-
-
-alerta.className=
+alerta.className =
 "login-alert "+tipo;
 
-
+alerta.textContent =
+texto;
 
 }
