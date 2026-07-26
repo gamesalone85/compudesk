@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es-MX">
 
 <head>
@@ -8,37 +7,25 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
 <title>
 Clientes | Compu Desk
 </title>
 
-
 <meta name="robots" content="noindex,nofollow">
-
 
 <link rel="icon" href="/img/logo.png">
 
-
 <link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
 rel="stylesheet">
-
 
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
 <link
 rel="stylesheet"
 href="/css/portal.css">
-
-
-<link
-rel="stylesheet"
-href="/admin/css/dashboard.css">
-
 
 </head>
 
@@ -46,63 +33,51 @@ href="/admin/css/dashboard.css">
 <body>
 
 
-
-<div class="admin-layout">
-
+<div class="cd-app">
 
 
 <div id="sidebar-container"></div>
 
 
 
-<section class="admin-main">
-
+<div class="cd-main">
 
 
 <div id="header-container"></div>
 
 
 
-
-<main class="dashboard-container">
-
+<main class="cd-content">
 
 
-<div class="dashboard-title">
+<div class="cd-container">
 
 
-<h1>
-Clientes
-</h1>
 
+<div class="cd-card">
+
+
+
+<div class="cd-card-header">
+
+
+<div>
+
+<h2 class="cd-card-title">
+Empresas registradas
+</h2>
 
 <p>
-Administración de empresas registradas
+Administración de clientes Compu Desk
 </p>
-
 
 </div>
 
 
 
-
-
-<div class="portal-card">
-
-
-
-<div style="display:flex;justify-content:space-between;align-items:center;">
-
-
-<h2>
-Empresas
-</h2>
-
-
-
-<a
+<a 
 href="nuevo.html"
-class="btn-logout">
+class="btn btn-primary">
 
 
 <i class="fa-solid fa-plus"></i>
@@ -112,15 +87,14 @@ Nuevo cliente
 </a>
 
 
-
 </div>
 
 
 
+<div class="cd-card-body">
 
 
 <div id="clientesTabla">
-
 
 <p>
 Cargando clientes...
@@ -130,17 +104,20 @@ Cargando clientes...
 </div>
 
 
+</div>
+
 
 </div>
 
+
+</div>
 
 
 </main>
 
 
 
-</section>
-
+</div>
 
 
 </div>
@@ -154,19 +131,16 @@ src="../js/auth-guard.js">
 </script>
 
 
-
 <script
 type="module"
 src="../js/layout.js">
 </script>
 
 
-
 <script
 type="module"
 src="../js/clientes.js">
 </script>
-
 
 
 </body>
