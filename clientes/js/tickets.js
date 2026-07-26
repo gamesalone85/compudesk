@@ -15,7 +15,6 @@ db
 from "../../assets/firebase/firebase-config.js";
 
 
-
 import {
 
 collection,
@@ -29,6 +28,16 @@ orderBy
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
+import {
+
+onAuthStateChanged
+
+}
+
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
+
 
 
 const tabla =
@@ -38,78 +47,31 @@ document.getElementById("ticketsLista");
 
 
 
-async function cargarTickets(){
+async function cargarTickets(user){
 
 
 try{
 
 
-const user = auth.currentUser;
 
-
-if(!user){
-
-window.location.href="../login.html";
-
-return;
-
-}
-
-
-
-// =====================================
-// BUSCAR PERFIL CLIENTE
-// =====================================
-
-
-const usuarioQuery = query(
-
-collection(db,"usuarios"),
-
-where(
-"uid",
-"==",
+console.log(
+"Usuario autenticado:",
 user.uid
-)
-
 );
 
 
 
-const usuarioSnap =
-await getDocs(usuarioQuery);
 
-
-
-if(usuarioSnap.empty){
-
-throw new Error(
-"Usuario no encontrado"
-);
-
-}
-
-
-
-const usuario =
-usuarioSnap.docs[0].data();
-
-
-
-
-// =====================================
-// BUSCAR TICKETS EMPRESA
-// =====================================
-
+// Buscar tickets
 
 const ticketsQuery = query(
 
 collection(db,"tickets"),
 
 where(
-"clienteId",
+"usuarioId",
 "==",
-usuario.clienteId
+user.uid
 ),
 
 orderBy(
@@ -122,7 +84,7 @@ orderBy(
 
 
 
-const ticketsSnap =
+const resultado =
 await getDocs(ticketsQuery);
 
 
@@ -133,38 +95,24 @@ tabla.innerHTML="";
 
 
 
-if(ticketsSnap.empty){
+
+if(resultado.empty){
 
 
 tabla.innerHTML=`
 
 <tr>
 
-<td colspan="6">
+<td colspan="5">
 
-<div class="empty-state">
-
-
-<i class="fa-solid fa-ticket"></i>
-
-
-<h3>
-No tienes tickets registrados
-</h3>
-
-
-<p>
-Cuando generes una solicitud aparecerá aquí.
-</p>
-
-
-</div>
+No tienes tickets registrados.
 
 </td>
 
 </tr>
 
 `;
+
 
 return;
 
@@ -174,16 +122,15 @@ return;
 
 
 
-
-ticketsSnap.forEach(doc=>{
+resultado.forEach(ticketDoc=>{
 
 
 const ticket =
-doc.data();
+ticketDoc.data();
 
 
 
-let fecha="";
+let fecha="Procesando";
 
 
 if(ticket.fechaCreacion){
@@ -192,31 +139,23 @@ if(ticket.fechaCreacion){
 fecha =
 ticket.fechaCreacion
 .toDate()
-.toLocaleDateString(
-"es-MX"
-);
+.toLocaleDateString("es-MX");
 
 
 }
 
 
 
-
-
 tabla.innerHTML += `
-
 
 <tr>
 
 
 <td>
 
-<strong>
-#${doc.id.substring(0,8).toUpperCase()}
-</strong>
+#${ticketDoc.id.substring(0,8)}
 
 </td>
-
 
 
 <td>
@@ -229,33 +168,15 @@ ${ticket.titulo || "-"}
 
 <td>
 
-${ticket.categoria || "-"}
+${ticket.prioridad || "-"}
 
 </td>
 
 
 
-
 <td>
 
-<span class="ticket-priority ${ticket.prioridad}">
-
-${ticket.prioridad}
-
-</span>
-
-</td>
-
-
-
-
-<td>
-
-<span class="ticket-status ${ticket.estado}">
-
-${ticket.estado}
-
-</span>
+${ticket.estado || "-"}
 
 </td>
 
@@ -268,10 +189,7 @@ ${fecha}
 </td>
 
 
-
 </tr>
-
-
 
 `;
 
@@ -298,12 +216,11 @@ tabla.innerHTML=`
 
 <tr>
 
-<td colspan="6">
+<td colspan="5">
 
-Error cargando tickets.
+Error cargando información.
 
 </td>
-
 
 </tr>
 
@@ -319,10 +236,32 @@ Error cargando tickets.
 
 
 
-auth.onAuthStateChanged(()=>{
 
 
-cargarTickets();
+
+onAuthStateChanged(
+
+auth,
+
+(user)=>{
 
 
-});
+if(!user){
+
+
+window.location.href="../login.html";
+
+
+return;
+
+
+}
+
+
+
+cargarTickets(user);
+
+
+}
+
+);
