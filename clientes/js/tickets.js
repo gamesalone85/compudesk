@@ -1,267 +1,293 @@
 // ==========================================
 // COMPU DESK
-// CLIENTE MIS TICKETS
-// Producción 2.0
+// PORTAL CLIENTE
+// TICKETS v2.0
 // ==========================================
 
+import { db, auth } from "../../assets/firebase/firebase-config.js";
 
 import {
+    collection,
+    query,
+    where,
+    getDocs,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-auth,
-db
+const lista = document.getElementById("ticketsLista");
+
+const kpiTotal = document.getElementById("kpiTotal");
+const kpiAbiertos = document.getElementById("kpiAbiertos");
+const kpiProceso = document.getElementById("kpiProceso");
+const kpiCerrados = document.getElementById("kpiCerrados");
+
+const buscador = document.getElementById("buscarTicket");
+const filtroEstado = document.getElementById("filtroEstado");
+
+let tickets = [];
+
+
+//========================================
+// BADGES
+//========================================
+
+function badgeEstado(estado){
+
+    switch((estado || "").toLowerCase()){
+
+        case "abierto":
+
+            return `<span class="ticket-status abierto">
+                <i class="fa-solid fa-folder-open"></i>
+                Abierto
+            </span>`;
+
+        case "proceso":
+        case "en proceso":
+
+            return `<span class="ticket-status proceso">
+                <i class="fa-solid fa-spinner"></i>
+                En proceso
+            </span>`;
+
+        case "cerrado":
+
+            return `<span class="ticket-status cerrado">
+                <i class="fa-solid fa-circle-check"></i>
+                Cerrado
+            </span>`;
+
+        default:
+
+            return `<span class="ticket-status">${estado}</span>`;
+    }
 
 }
 
-from "../../assets/firebase/firebase-config.js";
+function badgePrioridad(prioridad){
 
+    const p=(prioridad||"").toLowerCase();
 
-import {
-
-collection,
-query,
-where,
-getDocs,
-orderBy
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
-
-import {
-
-onAuthStateChanged
-
-}
-
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
-
-
-
-const tabla =
-document.getElementById("ticketsLista");
-
-
-
-
-
-async function cargarTickets(user){
-
-
-try{
-
-
-
-console.log(
-"Usuario autenticado:",
-user.uid
-);
-
-
-
-
-// Buscar tickets
-
-const ticketsQuery = query(
-
-collection(db,"tickets"),
-
-where(
-"usuarioId",
-"==",
-user.uid
-),
-
-orderBy(
-"fechaCreacion",
-"desc"
-)
-
-);
-
-
-
-
-const resultado =
-await getDocs(ticketsQuery);
-
-
-
-
-tabla.innerHTML="";
-
-
-
-
-
-if(resultado.empty){
-
-
-tabla.innerHTML=`
-
-<tr>
-
-<td colspan="5">
-
-No tienes tickets registrados.
-
-</td>
-
-</tr>
-
-`;
-
-
-return;
+    return `
+        <span class="ticket-priority ${p}">
+            ${prioridad || "-"}
+        </span>
+    `;
 
 }
 
 
+//========================================
+// RENDER
+//========================================
 
+function render(listaTickets){
 
+    kpiTotal.textContent=listaTickets.length;
 
-resultado.forEach(ticketDoc=>{
+    kpiAbiertos.textContent=
+        listaTickets.filter(t=>
+            (t.estado||"").toLowerCase()=="abierto").length;
 
+    kpiProceso.textContent=
+        listaTickets.filter(t=>
+            (t.estado||"").toLowerCase().includes("proceso")).length;
 
-const ticket =
-ticketDoc.data();
+    kpiCerrados.textContent=
+        listaTickets.filter(t=>
+            (t.estado||"").toLowerCase()=="cerrado").length;
 
 
 
-let fecha="Procesando";
+    if(listaTickets.length===0){
 
+        lista.innerHTML=`
 
-if(ticket.fechaCreacion){
+            <div class="ticket-loading">
 
+                <i class="fa-solid fa-inbox"></i>
 
-fecha =
-ticket.fechaCreacion
-.toDate()
-.toLocaleDateString("es-MX");
+                <h3>No hay tickets para mostrar.</h3>
 
+            </div>
 
-}
+        `;
 
+        return;
 
+    }
 
-tabla.innerHTML += `
 
-<tr>
 
+    lista.innerHTML="";
 
-<td>
 
-#${ticketDoc.id.substring(0,8)}
 
-</td>
+    listaTickets.forEach(ticket=>{
 
+        lista.innerHTML+=`
 
-<td>
+        <article class="ticket-card">
 
-${ticket.titulo || "-"}
+            <div class="ticket-top">
 
-</td>
+                <div>
 
+                    <div class="ticket-folio">
 
+                        ${ticket.folio || "Sin folio"}
 
-<td>
+                    </div>
 
-${ticket.prioridad || "-"}
+                    <div class="ticket-title">
 
-</td>
+                        ${ticket.titulo}
 
+                    </div>
 
+                </div>
 
-<td>
+                ${badgeEstado(ticket.estado)}
 
-${ticket.estado || "-"}
+            </div>
 
-</td>
+            <div class="ticket-info">
 
+                <div>
 
+                    <label>Categoría</label>
 
-<td>
+                    <strong>${ticket.categoria}</strong>
 
-${fecha}
+                </div>
 
-</td>
+                <div>
 
+                    <label>Prioridad</label>
 
-</tr>
+                    ${badgePrioridad(ticket.prioridad)}
 
-`;
+                </div>
 
+                <div>
 
+                    <label>Fecha</label>
 
-});
+                    <strong>${ticket.fechaCreacion || "-"}</strong>
 
+                </div>
 
+            </div>
 
+            <div class="ticket-footer">
 
-}
+                <a
+                    class="ticket-open"
+                    href="detalle.html?id=${ticket.id}">
 
-catch(error){
+                    Ver detalle
 
+                    <i class="fa-solid fa-arrow-right"></i>
 
-console.error(
-"Error tickets:",
-error
-);
+                </a>
 
+            </div>
 
+        </article>
 
-tabla.innerHTML=`
+        `;
 
-<tr>
-
-<td colspan="5">
-
-Error cargando información.
-
-</td>
-
-</tr>
-
-`;
-
+    });
 
 }
 
 
 
+//========================================
+// FILTROS
+//========================================
+
+function aplicarFiltros(){
+
+    const texto=buscador.value.toLowerCase();
+
+    const estado=filtroEstado.value.toLowerCase();
+
+    const resultado=tickets.filter(ticket=>{
+
+        const coincideTexto=
+
+            (ticket.titulo||"").toLowerCase().includes(texto)
+
+            ||
+
+            (ticket.folio||"").toLowerCase().includes(texto);
+
+
+
+        const coincideEstado=
+
+            estado=="" ||
+
+            (ticket.estado||"").toLowerCase()==estado;
+
+
+
+        return coincideTexto && coincideEstado;
+
+    });
+
+    render(resultado);
+
 }
 
 
 
+buscador.addEventListener("input",aplicarFiltros);
+
+filtroEstado.addEventListener("change",aplicarFiltros);
 
 
+//========================================
+// CARGAR
+//========================================
 
+async function cargarTickets(){
 
-onAuthStateChanged(
+    const usuario=JSON.parse(
 
-auth,
+        localStorage.getItem("clienteCompudesk")
 
-(user)=>{
+    );
 
+    const q=query(
 
-if(!user){
+        collection(db,"tickets"),
 
+        where("usuarioId","==",usuario.uid),
 
-window.location.href="../login.html";
+        orderBy("fechaCreacion","desc")
 
+    );
 
-return;
+    const snapshot=await getDocs(q);
 
+    tickets=[];
+
+    snapshot.forEach(doc=>{
+
+        tickets.push({
+
+            id:doc.id,
+
+            ...doc.data()
+
+        });
+
+    });
+
+    render(tickets);
 
 }
 
-
-
-cargarTickets(user);
-
-
-}
-
-);
+cargarTickets();
