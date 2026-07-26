@@ -1,258 +1,126 @@
 // ==========================================
 // COMPU DESK
 // CLIENTE DASHBOARD
-// Producción 3.0
-// Firebase UID + Perfil UID
+// Producción 4.0
 // ==========================================
 
-
 import {
-auth,
-db
+    auth
 }
 from "../../assets/firebase/firebase-config.js";
 
-
 import {
-onAuthStateChanged,
-signOut
+    signOut
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
-
 import {
 
-collection,
-query,
-where,
-getDocs,
-doc,
-getDoc
+    collection,
+    query,
+    where,
+    getDocs
 
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
+import {
+    db
+}
+from "../../assets/firebase/firebase-config.js";
 
+
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
 const nombre =
 document.getElementById("nombreCliente");
 
-
 const empresa =
 document.getElementById("empresaCliente");
-
 
 const plan =
 document.getElementById("planCliente");
 
-
 const datos =
 document.getElementById("datosEmpresa");
 
-
 const abiertos =
 document.getElementById("ticketsAbiertos");
-
 
 const cerrados =
 document.getElementById("ticketsCerrados");
 
 
+// ==========================================
+// CARGAR DASHBOARD
+// ==========================================
+
+async function cargarDashboard(){
 
 
+const sesion = JSON.parse(
+localStorage.getItem("clienteCompudesk")
+);
 
-onAuthStateChanged(auth, async(user)=>{
 
+if(!sesion){
 
-if(!user){
-
-window.location.href="login.html";
-
+location.replace("login.html");
 return;
 
 }
 
 
-
-try{
-
-
-// =================================
-// BUSCAR PERFIL POR UID
-// =================================
-
-
-const usuariosQuery = query(
-
-collection(db,"usuarios"),
-
-where(
-"uid",
-"==",
-user.uid
-)
-
-);
-
-
-
-const usuariosSnap =
-await getDocs(usuariosQuery);
-
-
-
-if(usuariosSnap.empty){
-
-throw new Error(
-"No existe perfil asociado"
-);
-
-}
-
-
-
-const usuario =
-usuariosSnap.docs[0].data();
-
-
-
-
-
-// =================================
-// BUSCAR EMPRESA
-// =================================
-
-
-const clienteSnap =
-await getDoc(
-
-doc(
-
-db,
-
-"clientes",
-
-usuario.clienteId
-
-)
-
-);
-
-
-
-if(!clienteSnap.exists()){
-
-throw new Error(
-"Empresa no encontrada"
-);
-
-}
-
-
-
-const cliente =
-clienteSnap.data();
-
-
-
-
-
-// =================================
-// MOSTRAR INFORMACION
-// =================================
-
+// ==========================================
+// DATOS DEL USUARIO
+// ==========================================
 
 nombre.textContent =
-usuario.nombre;
-
-
+sesion.nombre;
 
 empresa.textContent =
-cliente.empresa;
-
-
+sesion.empresa;
 
 plan.textContent =
-cliente.plan || "Sin plan";
+sesion.plan || "Sin plan";
 
 
 
 
+// ==========================================
+// INFORMACIÓN EMPRESA
+// ==========================================
 
 datos.innerHTML = `
 
-
 <div class="empresa-grid">
 
-
 <div>
-
-<label>
-Empresa
-</label>
-
-<strong>
-${cliente.empresa || "-"}
-</strong>
-
+<label>Empresa</label>
+<strong>${sesion.empresa}</strong>
 </div>
 
-
-
 <div>
-
-<label>
-Contacto
-</label>
-
-<strong>
-${cliente.contacto || "-"}
-</strong>
-
+<label>Contacto</label>
+<strong>${sesion.contacto}</strong>
 </div>
 
-
-
 <div>
-
-<label>
-Correo
-</label>
-
-<strong>
-${cliente.correo || "-"}
-</strong>
-
+<label>Correo</label>
+<strong>${sesion.empresaCorreo}</strong>
 </div>
 
-
-
 <div>
-
-<label>
-Teléfono
-</label>
-
-<strong>
-${cliente.telefono || "-"}
-</strong>
-
+<label>Teléfono</label>
+<strong>${sesion.empresaTelefono}</strong>
 </div>
 
-
-
 <div>
-
-<label>
-RFC
-</label>
-
-<strong>
-${cliente.rfc || "No registrado"}
-</strong>
-
+<label>RFC</label>
+<strong>${sesion.rfc || "No registrado"}</strong>
 </div>
-
 
 </div>
 
@@ -261,52 +129,35 @@ ${cliente.rfc || "No registrado"}
 
 
 
-// =================================
-// TICKETS
-// =================================
+// ==========================================
+// CONSULTAR TICKETS
+// ==========================================
 
+try{
 
-const ticketsQuery = query(
+const consulta = query(
 
-collection(
-db,
-"tickets"
-),
+collection(db,"tickets"),
 
 where(
-
 "clienteId",
-
 "==",
-
-usuario.clienteId
-
+sesion.clienteId
 )
 
 );
 
+const resultado =
+await getDocs(consulta);
 
+let abiertosTotal = 0;
+let cerradosTotal = 0;
 
-const ticketsSnap =
-await getDocs(ticketsQuery);
+resultado.forEach(doc=>{
 
+const ticket = doc.data();
 
-
-let abiertosTotal=0;
-
-let cerradosTotal=0;
-
-
-
-ticketsSnap.forEach(ticket=>{
-
-
-const data =
-ticket.data();
-
-
-
-if(data.estado==="cerrado"){
+if(ticket.estado==="cerrado"){
 
 cerradosTotal++;
 
@@ -316,70 +167,50 @@ abiertosTotal++;
 
 }
 
-
 });
-
-
-
 
 abiertos.textContent =
 abiertosTotal;
 
-
 cerrados.textContent =
 cerradosTotal;
 
-
-
 }
-
 catch(error){
 
+console.error(error);
 
-console.error(
-"Error Dashboard:",
-error
-);
-
-
-datos.innerHTML =
-
-`
-<p>
-No fue posible cargar información.
-</p>
-`;
+abiertos.textContent = "0";
+cerrados.textContent = "0";
 
 }
 
+}
 
-});
-
-
-
+cargarDashboard();
 
 
 
 
+// ==========================================
 // LOGOUT
-
+// ==========================================
 
 document
 .getElementById("logout")
-?.addEventListener(
+.addEventListener(
 "click",
 async()=>{
 
-
 await signOut(auth);
-
 
 localStorage.removeItem(
 "clienteCompudesk"
 );
 
+location.replace(
+"login.html"
+);
 
-window.location.href="login.html";
-
-
-});
+}
+);
