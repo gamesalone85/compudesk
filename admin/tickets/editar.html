@@ -298,6 +298,164 @@ href="/admin/css/admin.css">
 =========================== -->
 
 <section class="ticket-chat">
+
+    <!-- Encabezado -->
+
+    <div class="ticket-chat-header">
+
+        <div>
+
+            <h2 id="ticketTitulo">
+
+                Cargando ticket...
+
+            </h2>
+
+            <p id="ticketSubtitulo">
+
+                Esperando información...
+
+            </p>
+
+        </div>
+
+        <div class="ticket-chat-status">
+
+            <span
+            id="ticketEstadoBadge"
+            class="badge-ticket abierto">
+
+                Abierto
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Descripción -->
+
+    <div class="ticket-description-card">
+
+        <h3>
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            Descripción del problema
+
+        </h3>
+
+        <p id="ticketDescripcion">
+
+            --
+
+        </p>
+
+    </div>
+
+
+    <!-- Conversación -->
+
+    <div class="ticket-conversation">
+
+        <div class="conversation-header">
+
+            <h3>
+
+                <i class="fa-solid fa-comments"></i>
+
+                Conversación
+
+            </h3>
+
+        </div>
+
+        <div
+        id="conversacion"
+        class="conversation-body">
+
+            <div class="conversation-loading">
+
+                <i class="fa-solid fa-spinner fa-spin"></i>
+
+                Cargando conversación...
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Respuesta -->
+
+    <div class="reply-card">
+
+        <h3>
+
+            <i class="fa-solid fa-reply"></i>
+
+            Responder
+
+        </h3>
+
+        <form id="respuestaForm">
+
+            <textarea
+
+                id="respuesta"
+
+                rows="8"
+
+                placeholder="Escribe una respuesta para el cliente..."
+
+                required>
+
+            </textarea>
+
+            <div class="reply-actions">
+
+                <button
+                type="submit"
+                class="btn-primary">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Enviar respuesta
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+</main>
+
+</section>
+
+</div>
+
+
+<script
+type="module"
+src="../js/auth-guard.js"></script>
+
+<script
+type="module"
+src="../js/layout.js"></script>
+
+<script
+type="module"
+src="../js/editar-ticket.js"></script>
+
+</body>
+
+</html>
 <!-- ===========================
      PANEL DERECHO
 =========================== -->
