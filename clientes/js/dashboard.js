@@ -4,7 +4,6 @@
 // Producción 4.1
 // ==========================================
 
-
 import {
     auth,
     db
@@ -13,24 +12,19 @@ from "../../assets/firebase/firebase-config.js";
 
 
 import {
-
-    onAuthStateChanged,
-    signOut
-
+    signOut,
+    onAuthStateChanged
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
-
     collection,
     query,
     where,
     getDocs
-
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
 
 
 
@@ -38,30 +32,23 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 // ELEMENTOS
 // ==========================================
 
-
 const nombre =
 document.getElementById("nombreCliente");
-
 
 const empresa =
 document.getElementById("empresaCliente");
 
-
 const plan =
 document.getElementById("planCliente");
-
 
 const datos =
 document.getElementById("datosEmpresa");
 
-
 const abiertos =
 document.getElementById("ticketsAbiertos");
 
-
 const cerrados =
 document.getElementById("ticketsCerrados");
-
 
 
 
@@ -69,17 +56,11 @@ document.getElementById("ticketsCerrados");
 // CARGAR DASHBOARD
 // ==========================================
 
-
-async function cargarDashboard(firebaseUser){
-
+async function cargarDashboard(user){
 
 
 const sesion = JSON.parse(
-
-localStorage.getItem(
-"clienteCompudesk"
-)
-
+localStorage.getItem("clienteCompudesk")
 );
 
 
@@ -87,17 +68,11 @@ localStorage.getItem(
 if(!sesion){
 
 location.replace("login.html");
-
 return;
 
 }
 
 
-
-
-// ==========================================
-// DATOS USUARIO
-// ==========================================
 
 
 nombre.textContent =
@@ -115,92 +90,43 @@ sesion.plan || "Sin plan";
 
 
 
-// ==========================================
-// DATOS EMPRESA
-// ==========================================
-
-
 datos.innerHTML = `
-
 
 <div class="empresa-grid">
 
-
 <div>
-
-<label>
-Empresa
-</label>
-
-<strong>
-${sesion.empresa || "-"}
-</strong>
-
+<label>Empresa</label>
+<strong>${sesion.empresa || "-"}</strong>
 </div>
-
 
 
 <div>
-
-<label>
-Contacto
-</label>
-
-<strong>
-${sesion.contacto || "-"}
-</strong>
-
+<label>Contacto</label>
+<strong>${sesion.contacto || "-"}</strong>
 </div>
-
 
 
 <div>
-
-<label>
-Correo
-</label>
-
-<strong>
-${sesion.empresaCorreo || "-"}
-</strong>
-
+<label>Correo</label>
+<strong>${sesion.empresaCorreo || "-"}</strong>
 </div>
-
 
 
 <div>
-
-<label>
-Teléfono
-</label>
-
-<strong>
-${sesion.empresaTelefono || "-"}
-</strong>
-
+<label>Teléfono</label>
+<strong>${sesion.empresaTelefono || "-"}</strong>
 </div>
-
 
 
 <div>
-
-<label>
-RFC
-</label>
-
-<strong>
-${sesion.rfc || "No registrado"}
-</strong>
-
+<label>RFC</label>
+<strong>${sesion.rfc || "No registrado"}</strong>
 </div>
 
 
-
 </div>
-
 
 `;
-
 
 
 
@@ -214,35 +140,22 @@ ${sesion.rfc || "No registrado"}
 try{
 
 
-const consulta = query(
+const q = query(
 
-
-collection(
-db,
-"tickets"
-),
-
+collection(db,"tickets"),
 
 where(
-
 "usuarioId",
-
 "==",
-
-firebaseUser.uid
-
+user.uid
 )
 
-
 );
 
 
 
-const resultado =
-
-await getDocs(
-consulta
-);
+const snapshot =
+await getDocs(q);
 
 
 
@@ -252,7 +165,7 @@ let cerradosTotal = 0;
 
 
 
-resultado.forEach(doc=>{
+snapshot.forEach(doc=>{
 
 
 const ticket =
@@ -260,21 +173,15 @@ doc.data();
 
 
 
-if(
-ticket.estado === "cerrado"
-){
-
+if(ticket.estado === "cerrado"){
 
 cerradosTotal++;
-
 
 }
 
 else{
 
-
 abiertosTotal++;
-
 
 }
 
@@ -287,7 +194,6 @@ abiertos.textContent =
 abiertosTotal;
 
 
-
 cerrados.textContent =
 cerradosTotal;
 
@@ -297,35 +203,27 @@ cerradosTotal;
 
 catch(error){
 
-
 console.error(
-"Error cargando tickets dashboard:",
+"Error dashboard tickets:",
 error
 );
 
 
+abiertos.textContent="0";
 
-abiertos.textContent =
-"0";
-
-
-cerrados.textContent =
-"0";
-
+cerrados.textContent="0";
 
 }
 
 
-
 }
-
 
 
 
 
 
 // ==========================================
-// ESPERAR AUTH FIREBASE
+// ESPERAR FIREBASE AUTH
 // ==========================================
 
 
@@ -336,27 +234,13 @@ auth,
 
 if(user){
 
-
-console.log(
-"Dashboard cliente autenticado:",
-user.email
-);
-
-
-
 cargarDashboard(user);
-
-
 
 }
 
 else{
 
-
-location.replace(
-"login.html"
-);
-
+location.replace("login.html");
 
 }
 
@@ -364,7 +248,6 @@ location.replace(
 }
 
 );
-
 
 
 
@@ -374,18 +257,14 @@ location.replace(
 // LOGOUT
 // ==========================================
 
-
 document
 .getElementById("logout")
-.addEventListener(
-
+?.addEventListener(
 "click",
-
 async()=>{
 
 
 await signOut(auth);
-
 
 
 localStorage.removeItem(
@@ -399,7 +278,4 @@ location.replace(
 );
 
 
-
-}
-
-);
+});
