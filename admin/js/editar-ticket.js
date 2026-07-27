@@ -809,7 +809,82 @@ Error cargando conversación.
 
 }
 
+// ==========================================
+// REGISTRAR HISTORIAL DEL TICKET
+// ==========================================
 
+
+async function registrarHistorial(
+titulo,
+descripcion,
+tipo="actividad"
+){
+
+
+try{
+
+
+await addDoc(
+
+collection(
+
+db,
+
+"tickets",
+
+ticketId,
+
+"historial"
+
+),
+
+{
+
+
+titulo,
+
+descripcion,
+
+
+tipo,
+
+
+usuario:
+
+auth.currentUser?.email || "Administrador",
+
+
+fecha:
+
+serverTimestamp()
+
+
+}
+
+
+);
+
+
+
+}
+
+catch(error){
+
+
+console.error(
+
+"Error registrando historial:",
+
+error
+
+);
+
+
+}
+
+
+
+}
 
 
 
@@ -978,6 +1053,16 @@ doc(
 
 );
 
+    
+await registrarHistorial(
+
+"Respuesta enviada",
+
+"El administrador respondió al cliente",
+
+"mensaje"
+
+);
 
 
 
@@ -1072,7 +1157,7 @@ const nuevo =
 nuevoEstado.value;
 
 
-
+const estadoAnterior = estado.textContent;
 
 
 await updateDoc(
@@ -1112,7 +1197,18 @@ serverTimestamp()
 );
 
 
+await registrarHistorial(
 
+"Cambio de estado",
+
+`
+El estado cambió de ${estadoAnterior}
+a ${nuevoEstado.value}
+`,
+
+"estado"
+
+);
 
 
 
@@ -1685,7 +1781,17 @@ serverTimestamp()
 );
 
 
+await registrarHistorial(
 
+"Cambio de prioridad",
+
+`
+La prioridad fue cambiada a ${nuevaPrioridad}
+`,
+
+"prioridad"
+
+);
 
 
 
@@ -1838,7 +1944,17 @@ serverTimestamp()
 );
 
 
+await registrarHistorial(
 
+"Técnico asignado",
+
+`
+El ticket fue asignado a ${tecnico}
+`,
+
+"tecnico"
+
+);
 
 
 ticketTecnico.textContent =
