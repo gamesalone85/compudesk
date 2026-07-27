@@ -3340,28 +3340,28 @@ align-items:flex-start;
 }
 /* =====================================================
    COMPU DESK
-   EDITAR TICKET
-   Diseño profesional
+   DETALLE DE TICKET
+   UI ADMINISTRATIVA
 ===================================================== */
 
 
-/* ===============================
-   LAYOUT TICKET
-================================ */
+/* ==============================
+   LAYOUT PRINCIPAL
+============================== */
+
 
 .ticket-layout{
 
     display:grid;
 
-    grid-template-columns:
-
-    330px 1fr;
+    grid-template-columns:330px 1fr;
 
     gap:25px;
 
     align-items:start;
 
 }
+
 
 
 .ticket-sidebar{
@@ -3371,6 +3371,7 @@ align-items:flex-start;
     top:20px;
 
 }
+
 
 
 .ticket-chat{
@@ -3387,36 +3388,30 @@ align-items:flex-start;
 
 
 
-/* ===============================
+
+
+/* ==============================
    TARJETAS
-================================ */
-
-.ticket-card,
-.ticket-description-card,
-.ticket-conversation,
-.reply-card{
+============================== */
 
 
-    background:white;
+.ticket-card{
+
+    background:#ffffff;
 
     border-radius:16px;
 
     padding:25px;
 
     box-shadow:
-
     0 8px 25px rgba(0,0,0,.06);
-
 
 }
 
 
 
-.ticket-card h3,
-.ticket-description-card h3,
-.ticket-conversation h3,
-.reply-card h3{
-
+.ticket-card h2,
+.ticket-card h3{
 
     display:flex;
 
@@ -3424,67 +3419,9 @@ align-items:flex-start;
 
     gap:10px;
 
-    margin-bottom:20px;
+    margin-top:0;
 
-    font-size:18px;
-
-}
-
-
-
-
-
-
-/* ===============================
-   HEADER TICKET
-================================ */
-
-
-.ticket-chat-header{
-
-
-    background:white;
-
-    padding:25px;
-
-    border-radius:16px;
-
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-
-    box-shadow:
-
-    0 8px 25px rgba(0,0,0,.06);
-
-
-}
-
-
-
-.ticket-chat-header h2{
-
-
-    margin:0;
-
-    font-size:24px;
-
-
-}
-
-
-
-.ticket-chat-header p{
-
-
-    margin-top:8px;
-
-    color:#6b7280;
-
+    color:#111827;
 
 }
 
@@ -3494,20 +3431,18 @@ align-items:flex-start;
 
 
 
-/* ===============================
+/* ==============================
    INFORMACION LATERAL
-================================ */
+============================== */
 
 
 .ticket-info-list{
-
 
     display:flex;
 
     flex-direction:column;
 
-    gap:15px;
-
+    gap:14px;
 
 }
 
@@ -3515,15 +3450,15 @@ align-items:flex-start;
 
 .ticket-info-item{
 
-
     display:flex;
 
     justify-content:space-between;
 
-    border-bottom:1px solid #eee;
+    gap:15px;
+
+    border-bottom:1px solid #eeeeee;
 
     padding-bottom:10px;
-
 
 }
 
@@ -3531,11 +3466,9 @@ align-items:flex-start;
 
 .ticket-info-item span{
 
-
     color:#6b7280;
 
     font-size:14px;
-
 
 }
 
@@ -3543,8 +3476,9 @@ align-items:flex-start;
 
 .ticket-info-item strong{
 
-
     font-weight:600;
+
+    text-align:right;
 
 }
 
@@ -3554,34 +3488,75 @@ align-items:flex-start;
 
 
 
-/* ===============================
-   BADGES
-================================ */
+
+/* ==============================
+   HEADER TICKET
+============================== */
 
 
-.ticket-chat-status{
+.ticket-chat-header{
 
+    background:white;
+
+    padding:25px;
+
+    border-radius:16px;
 
     display:flex;
 
-    gap:10px;
+    justify-content:space-between;
 
+    align-items:center;
+
+    box-shadow:
+    0 8px 25px rgba(0,0,0,.06);
 
 }
 
+
+
+.ticket-chat-header h2{
+
+    margin:0;
+
+    font-size:24px;
+
+}
+
+
+
+.ticket-chat-header p{
+
+    margin:8px 0 0;
+
+    color:#6b7280;
+
+}
+
+
+
+
+
+
+
+/* ==============================
+   BADGES
+============================== */
 
 
 .badge-ticket{
 
+    display:inline-flex;
+
+    align-items:center;
 
     padding:7px 14px;
 
-    border-radius:30px;
+    border-radius:20px;
 
     font-size:13px;
 
     font-weight:600;
-
 
 }
 
@@ -3619,21 +3594,47 @@ align-items:flex-start;
 
 
 
+.prioridad{
+
+    display:inline-block;
+
+    padding:7px 12px;
+
+    border-radius:20px;
+
+    margin-left:10px;
+
+    font-size:13px;
+
+}
 
 
 
-/* ===============================
-   DESCRIPCION
-================================ */
+.prioridad.alta{
+
+    background:#fee2e2;
+
+    color:#991b1b;
+
+}
 
 
-.ticket-description-card p{
+
+.prioridad.media{
+
+    background:#fef3c7;
+
+    color:#92400e;
+
+}
 
 
-    line-height:1.7;
 
-    color:#374151;
+.prioridad.baja{
 
+    background:#dcfce7;
+
+    color:#166534;
 
 }
 
@@ -3643,22 +3644,42 @@ align-items:flex-start;
 
 
 
-/* ===============================
+/* ==============================
+   DESCRIPCION
+============================== */
+
+
+#ticketDescripcion{
+
+    line-height:1.7;
+
+    color:#374151;
+
+    white-space:pre-line;
+
+}
+
+
+
+
+
+
+
+
+/* ==============================
    CONVERSACION
-================================ */
+============================== */
 
 
 .conversation-body{
 
+    min-height:220px;
 
     display:flex;
 
     flex-direction:column;
 
     gap:15px;
-
-    min-height:200px;
-
 
 }
 
@@ -3667,13 +3688,43 @@ align-items:flex-start;
 .conversation-loading,
 .attachment-empty{
 
-
     padding:30px;
 
     text-align:center;
 
     color:#6b7280;
 
+}
+
+
+
+
+
+.mensaje{
+
+    background:#f9fafb;
+
+    padding:15px;
+
+    border-radius:12px;
+
+}
+
+
+
+.mensaje strong{
+
+    display:block;
+
+    margin-bottom:8px;
+
+}
+
+
+
+.mensaje small{
+
+    color:#6b7280;
 
 }
 
@@ -3683,17 +3734,16 @@ align-items:flex-start;
 
 
 
-/* ===============================
+/* ==============================
    RESPUESTA
-================================ */
+============================== */
 
 
-.reply-card textarea{
-
+#respuesta{
 
     width:100%;
 
-    border:1px solid #ddd;
+    border:1px solid #d1d5db;
 
     border-radius:12px;
 
@@ -3707,15 +3757,9 @@ align-items:flex-start;
 
 
 
-.reply-actions{
+#respuesta:focus{
 
-
-    display:flex;
-
-    justify-content:flex-end;
-
-    margin-top:15px;
-
+    outline:none;
 
 }
 
@@ -3725,13 +3769,13 @@ align-items:flex-start;
 
 
 
-/* ===============================
+
+/* ==============================
    ADJUNTOS
-================================ */
+============================== */
 
 
 .ticket-attachments{
-
 
     display:flex;
 
@@ -3739,29 +3783,27 @@ align-items:flex-start;
 
     gap:15px;
 
-
 }
 
 
 
 
 
-/* ===============================
+
+
+
+/* ==============================
    SLA
-================================ */
+============================== */
 
 
 .sla-grid{
 
-
     display:grid;
 
-    grid-template-columns:
-
-    repeat(2,1fr);
+    grid-template-columns:repeat(2,1fr);
 
     gap:15px;
-
 
 }
 
@@ -3769,20 +3811,17 @@ align-items:flex-start;
 
 .sla-item{
 
-
     background:#f9fafb;
-
-    padding:18px;
 
     border-radius:12px;
 
+    padding:18px;
 
 }
 
 
 
 .sla-item span{
-
 
     display:block;
 
@@ -3792,61 +3831,13 @@ align-items:flex-start;
 
     margin-bottom:8px;
 
-
 }
 
 
 
+.sla-item strong{
 
-
-
-/* ===============================
-   TECNICO
-================================ */
-
-
-.technician-box{
-
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-
-}
-
-
-
-.technician-box small{
-
-
-    display:block;
-
-    color:#6b7280;
-
-
-}
-
-
-
-.technician-avatar{
-
-
-    width:45px;
-
-    height:45px;
-
-    border-radius:50%;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:center;
-
-    background:#eef2ff;
+    font-size:16px;
 
 }
 
@@ -3857,20 +3848,18 @@ align-items:flex-start;
 
 
 
-/* ===============================
+/* ==============================
    TIMELINE
-================================ */
+============================== */
 
 
 .ticket-timeline{
-
 
     display:flex;
 
     flex-direction:column;
 
-    gap:20px;
-
+    gap:15px;
 
 }
 
@@ -3878,18 +3867,15 @@ align-items:flex-start;
 
 .timeline-item{
 
-
     display:flex;
 
     gap:15px;
-
 
 }
 
 
 
 .timeline-dot{
-
 
     width:38px;
 
@@ -3905,13 +3891,11 @@ align-items:flex-start;
 
     background:#eef2ff;
 
-
 }
 
 
 
 .timeline-content{
-
 
     background:#f9fafb;
 
@@ -3921,18 +3905,15 @@ align-items:flex-start;
 
     flex:1;
 
-
 }
 
 
 
 .timeline-content p{
 
-
     margin:5px 0 0;
 
     color:#6b7280;
-
 
 }
 
@@ -3943,37 +3924,83 @@ align-items:flex-start;
 
 
 
-/* ===============================
+/* ==============================
+   BOTONES LATERALES
+============================== */
+
+
+.ticket-sidebar button{
+
+    width:100%;
+
+}
+
+
+
+
+
+.ticket-sidebar select{
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:1px solid #d1d5db;
+
+}
+
+
+
+
+
+
+
+
+/* ==============================
    RESPONSIVE
-================================ */
+============================== */
 
 
-@media(max-width:1000px){
+@media(max-width:1100px){
 
 
 .ticket-layout{
 
-
     grid-template-columns:1fr;
-
 
 }
 
 
 .ticket-sidebar{
 
-
     position:relative;
 
+}
+
+
+}
+
+
+
+@media(max-width:700px){
+
+
+.ticket-chat-header{
+
+    flex-direction:column;
+
+    align-items:flex-start;
+
+    gap:15px;
 
 }
 
 
 .sla-grid{
 
-
     grid-template-columns:1fr;
-
 
 }
 
