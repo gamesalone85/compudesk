@@ -1,10 +1,10 @@
 // ==========================================
 // COMPU DESK
 // PORTAL CLIENTE
-// TICKETS v2.0
+// TICKETS v3.0
 // ==========================================
 
-import { db, auth } from "../../assets/firebase/firebase-config.js";
+import { db } from "../../assets/firebase/firebase-config.js";
 
 import {
     collection,
@@ -13,6 +13,11 @@ import {
     getDocs,
     orderBy
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
 const lista = document.getElementById("ticketsLista");
 
@@ -23,13 +28,20 @@ const kpiCerrados = document.getElementById("kpiCerrados");
 
 const buscador = document.getElementById("buscarTicket");
 const filtroEstado = document.getElementById("filtroEstado");
+const filtroPrioridad = document.getElementById("filtroPrioridad");
+
+
+// ==========================================
+// VARIABLES
+// ==========================================
 
 let tickets = [];
+let ticketsFiltrados = [];
 
 
-//========================================
-// BADGES
-//========================================
+// ==========================================
+// BADGES ESTADO
+// ==========================================
 
 function badgeEstado(estado){
 
@@ -37,39 +49,73 @@ function badgeEstado(estado){
 
         case "abierto":
 
-            return `<span class="ticket-status abierto">
-                <i class="fa-solid fa-folder-open"></i>
-                Abierto
-            </span>`;
+            return `
+                <span class="badge status-abierto">
+                    <i class="fa-solid fa-folder-open"></i>
+                    Abierto
+                </span>
+            `;
 
-        case "proceso":
+        case "asignado":
+
+            return `
+                <span class="badge status-proceso">
+                    <i class="fa-solid fa-user-check"></i>
+                    Asignado
+                </span>
+            `;
+
         case "en proceso":
+        case "proceso":
 
-            return `<span class="ticket-status proceso">
-                <i class="fa-solid fa-spinner"></i>
-                En proceso
-            </span>`;
+            return `
+                <span class="badge status-proceso">
+                    <i class="fa-solid fa-gears"></i>
+                    En proceso
+                </span>
+            `;
+
+        case "resuelto":
+
+            return `
+                <span class="badge status-cerrado">
+                    <i class="fa-solid fa-circle-check"></i>
+                    Resuelto
+                </span>
+            `;
 
         case "cerrado":
 
-            return `<span class="ticket-status cerrado">
-                <i class="fa-solid fa-circle-check"></i>
-                Cerrado
-            </span>`;
+            return `
+                <span class="badge status-cerrado">
+                    <i class="fa-solid fa-lock"></i>
+                    Cerrado
+                </span>
+            `;
 
         default:
 
-            return `<span class="ticket-status">${estado}</span>`;
+            return `
+                <span class="badge">
+                    ${estado || "-"}
+                </span>
+            `;
+
     }
 
 }
 
+
+// ==========================================
+// BADGES PRIORIDAD
+// ==========================================
+
 function badgePrioridad(prioridad){
 
-    const p=(prioridad||"").toLowerCase();
+    const p = (prioridad || "").toLowerCase();
 
     return `
-        <span class="ticket-priority ${p}">
+        <span class="badge priority-${p}">
             ${prioridad || "-"}
         </span>
     `;
@@ -77,55 +123,152 @@ function badgePrioridad(prioridad){
 }
 
 
-//========================================
-// RENDER
-//========================================
+// ==========================================
+// FECHA
+// ==========================================
 
-function render(listaTickets){
+function formatearFecha(fecha){
 
-    kpiTotal.textContent=listaTickets.length;
+    if(!fecha) return "-";
 
-    kpiAbiertos.textContent=
-        listaTickets.filter(t=>
-            (t.estado||"").toLowerCase()=="abierto").length;
+    if(typeof fecha.toDate === "function"){
 
-    kpiProceso.textContent=
-        listaTickets.filter(t=>
-            (t.estado||"").toLowerCase().includes("proceso")).length;
+        fecha = fecha.toDate();
 
-    kpiCerrados.textContent=
-        listaTickets.filter(t=>
-            (t.estado||"").toLowerCase()=="cerrado").length;
+    }
+
+    return fecha.toLocaleString("es-MX",{
+
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+
+    });
+
+}
 
 
+// ==========================================
+// KPIs
+// ==========================================
 
-    if(listaTickets.length===0){
+function actualizarKPIs(listaTickets){
 
-        lista.innerHTML=`
+    kpiTotal.textContent = listaTickets.length;
 
-            <div class="ticket-loading">
+    kpiAbiertos.textContent =
+        listaTickets.filter(t =>
+            (t.estado || "").toLowerCase() === "abierto"
+        ).length;
 
-                <i class="fa-solid fa-inbox"></i>
+    kpiProceso.textContent =
+        listaTickets.filter(t => {
 
-                <h3>No hay tickets para mostrar.</h3>
+            const e = (t.estado || "").toLowerCase();
+
+            return e === "proceso" ||
+                   e === "en proceso" ||
+                   e === "asignado";
+
+        }).length;
+
+    kpiCerrados.textContent =
+        listaTickets.filter(t => {
+
+            const e = (t.estado || "").toLowerCase();
+
+            return e === "cerrado" ||
+                   e === "resuelto";
+
+        }).length;
+
+}
+
+
+// ==========================================
+// LOADING
+// ==========================================
+
+function mostrarCarga(){
+
+    lista.innerHTML = `
+
+        <div class="ticket-card">
+
+            <div style="text-align:center;padding:50px;">
+
+                <i class="fa-solid fa-spinner fa-spin fa-2x"></i>
+
+                <p style="margin-top:20px;">
+
+                    Cargando tickets...
+
+                </p>
 
             </div>
 
-        `;
+        </div>
 
+    `;
+
+}
+
+
+// ==========================================
+// SIN TICKETS
+// ==========================================
+
+function mostrarVacio(){
+
+    lista.innerHTML = `
+
+        <div class="ticket-card">
+
+            <div style="text-align:center;padding:50px;">
+
+                <i class="fa-solid fa-inbox fa-3x"></i>
+
+                <h3 style="margin-top:20px;">
+
+                    No existen tickets
+
+                </h3>
+
+                <p>
+
+                    Cuando generes uno aparecerá aquí.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+}
+// ==========================================
+// RENDER TICKETS
+// ==========================================
+
+function renderTickets(listaTickets){
+
+    actualizarKPIs(listaTickets);
+
+    if(listaTickets.length === 0){
+
+        mostrarVacio();
         return;
 
     }
 
+    let html = "";
 
+    listaTickets.forEach(ticket => {
 
-    lista.innerHTML="";
-
-
-
-    listaTickets.forEach(ticket=>{
-
-        lista.innerHTML+=`
+        html += `
 
         <article class="ticket-card">
 
@@ -135,15 +278,15 @@ function render(listaTickets){
 
                     <div class="ticket-folio">
 
-                        ${ticket.folio || "Sin folio"}
+                        ${ticket.folio || ticket.id}
 
                     </div>
 
-                    <div class="ticket-title">
+                    <h3 class="ticket-title">
 
-                        ${ticket.titulo}
+                        ${ticket.titulo || "-"}
 
-                    </div>
+                    </h3>
 
                 </div>
 
@@ -157,7 +300,11 @@ function render(listaTickets){
 
                     <label>Categoría</label>
 
-                    <strong>${ticket.categoria}</strong>
+                    <strong>
+
+                        ${ticket.categoria || "-"}
+
+                    </strong>
 
                 </div>
 
@@ -173,8 +320,12 @@ function render(listaTickets){
 
                     <label>Fecha</label>
 
-                    <strong>${formatearFecha(ticket.fechaCreacion)}</strong>
-                    
+                    <strong>
+
+                        ${formatearFecha(ticket.fechaCreacion)}
+
+                    </strong>
+
                 </div>
 
             </div>
@@ -182,8 +333,8 @@ function render(listaTickets){
             <div class="ticket-footer">
 
                 <a
-                    class="ticket-open"
-                    href="detalle.html?id=${ticket.id}">
+                    class="ticket-link"
+                    href="detalle.html?id=${encodeURIComponent(ticket.folio || ticket.id)}">
 
                     Ver detalle
 
@@ -199,119 +350,236 @@ function render(listaTickets){
 
     });
 
+    lista.innerHTML = html;
+
 }
 
 
-
-//========================================
+// ==========================================
 // FILTROS
-//========================================
+// ==========================================
 
 function aplicarFiltros(){
 
-    const texto=buscador.value.toLowerCase();
+    const texto =
+        buscador.value
+        .trim()
+        .toLowerCase();
 
-    const estado=filtroEstado.value.toLowerCase();
+    const estado =
+        filtroEstado.value
+        .toLowerCase();
 
-    const resultado=tickets.filter(ticket=>{
+    const prioridad =
+        filtroPrioridad.value
+        .toLowerCase();
 
-        const coincideTexto=
+    ticketsFiltrados = tickets.filter(ticket => {
 
-            (ticket.titulo||"").toLowerCase().includes(texto)
+        const coincideTexto =
+
+            (ticket.titulo || "")
+            .toLowerCase()
+            .includes(texto)
 
             ||
 
-            (ticket.folio||"").toLowerCase().includes(texto);
+            (ticket.folio || ticket.id || "")
+            .toLowerCase()
+            .includes(texto);
 
+        const coincideEstado =
 
+            estado === ""
 
-        const coincideEstado=
+            ||
 
-            estado=="" ||
+            (ticket.estado || "")
+            .toLowerCase() === estado;
 
-            (ticket.estado||"").toLowerCase()==estado;
+        const coincidePrioridad =
 
+            prioridad === ""
 
+            ||
 
-        return coincideTexto && coincideEstado;
+            (ticket.prioridad || "")
+            .toLowerCase() === prioridad;
+
+        return (
+            coincideTexto &&
+            coincideEstado &&
+            coincidePrioridad
+        );
 
     });
 
-    render(resultado);
+    renderTickets(ticketsFiltrados);
 
 }
 
 
-
-buscador.addEventListener("input",aplicarFiltros);
-
-filtroEstado.addEventListener("change",aplicarFiltros);
-
-
-//========================================
-// CARGAR
-//========================================
+// ==========================================
+// CARGAR TICKETS
+// ==========================================
 
 async function cargarTickets(){
 
-    const usuario=JSON.parse(
+    mostrarCarga();
 
-        localStorage.getItem("clienteCompudesk")
+    try{
 
-    );
+        const usuario = JSON.parse(
 
-    const q=query(
+            localStorage.getItem(
+                "clienteCompudesk"
+            )
 
-        collection(db,"tickets"),
+        );
 
-        where("usuarioId","==",usuario.uid),
+        if(!usuario){
 
-        orderBy("fechaCreacion","desc")
+            throw new Error(
+                "Sesión inválida."
+            );
 
-    );
+        }
 
-    const snapshot=await getDocs(q);
+        const q = query(
 
-    tickets=[];
+            collection(db,"tickets"),
 
-    snapshot.forEach(doc=>{
+            where(
+                "usuarioId",
+                "==",
+                usuario.uid
+            ),
 
-        tickets.push({
+            orderBy(
+                "fechaCreacion",
+                "desc"
+            )
 
-            id:doc.id,
+        );
 
-            ...doc.data()
+        const snapshot =
+            await getDocs(q);
+
+        tickets = [];
+
+        snapshot.forEach(doc => {
+
+            tickets.push({
+
+                id: doc.id,
+
+                ...doc.data()
+
+            });
 
         });
 
-    });
+        ticketsFiltrados = [...tickets];
 
-    render(tickets);
+        renderTickets(ticketsFiltrados);
 
-}
-
-cargarTickets();
-
-
-//========================================
-//FECHA
-//========================================
-function formatearFecha(fecha){
-
-    if(!fecha) return "-";
-
-    if(typeof fecha.toDate==="function"){
-        fecha=fecha.toDate();
     }
 
-    return fecha.toLocaleString("es-MX",{
+    catch(error){
 
-        day:"2-digit",
-        month:"short",
-        year:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
+        console.error(
+            "Error cargando tickets:",
+            error
+        );
 
-    });
+        lista.innerHTML = `
+
+            <div class="ticket-card">
+
+                <div
+                    style="
+                        text-align:center;
+                        padding:50px;
+                    ">
+
+                    <i
+                        class="
+                        fa-solid
+                        fa-circle-exclamation
+                        fa-3x
+                        ">
+
+                    </i>
+
+                    <h3
+                        style="
+                        margin-top:20px;
+                        ">
+
+                        Error al cargar los tickets
+
+                    </h3>
+
+                    <p>
+
+                        ${error.message}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        `;
+
+    }
 
 }
+
+
+// ==========================================
+// EVENTOS
+// ==========================================
+
+buscador.addEventListener(
+
+    "input",
+
+    aplicarFiltros
+
+);
+
+filtroEstado.addEventListener(
+
+    "change",
+
+    aplicarFiltros
+
+);
+
+filtroPrioridad.addEventListener(
+
+    "change",
+
+    aplicarFiltros
+
+);
+
+
+// ==========================================
+// INIT
+// ==========================================
+
+async function init(){
+
+    await cargarTickets();
+
+}
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    init
+
+);
