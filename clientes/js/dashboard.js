@@ -2,7 +2,6 @@
 // COMPU DESK
 // CLIENTE DASHBOARD
 // Producción 4.1
-// Firebase Auth + Firestore
 // ==========================================
 
 
@@ -14,17 +13,21 @@ from "../../assets/firebase/firebase-config.js";
 
 
 import {
+
     onAuthStateChanged,
     signOut
+
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
+
     collection,
     query,
     where,
     getDocs
+
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
@@ -67,259 +70,251 @@ document.getElementById("ticketsCerrados");
 // ==========================================
 
 
-async function cargarDashboard(user){
+async function cargarDashboard(firebaseUser){
 
 
-    const sesion = JSON.parse(
 
-        localStorage.getItem(
-            "clienteCompudesk"
-        )
+const sesion = JSON.parse(
 
-    );
+localStorage.getItem(
+"clienteCompudesk"
+)
 
+);
 
 
-    if(!sesion){
 
+if(!sesion){
 
-        location.replace(
-            "login.html"
-        );
+location.replace("login.html");
 
+return;
 
-        return;
+}
 
 
-    }
 
 
+// ==========================================
+// DATOS USUARIO
+// ==========================================
 
 
-    // ======================================
-    // DATOS DEL CLIENTE
-    // ======================================
+nombre.textContent =
+sesion.nombre || "-";
 
 
-    nombre.textContent =
-        sesion.nombre || "-";
+empresa.textContent =
+sesion.empresa || "-";
 
 
-    empresa.textContent =
-        sesion.empresa || "-";
+plan.textContent =
+sesion.plan || "Sin plan";
 
 
-    plan.textContent =
-        sesion.plan || "Sin plan";
 
 
 
+// ==========================================
+// DATOS EMPRESA
+// ==========================================
 
 
+datos.innerHTML = `
 
 
-    // ======================================
-    // INFORMACIÓN EMPRESA
-    // ======================================
+<div class="empresa-grid">
 
 
-    datos.innerHTML = `
+<div>
 
-    <div class="empresa-grid">
+<label>
+Empresa
+</label>
 
+<strong>
+${sesion.empresa || "-"}
+</strong>
 
-        <div>
-            <label>Empresa</label>
-            <strong>
-                ${sesion.empresa || "-"}
-            </strong>
-        </div>
+</div>
 
 
 
-        <div>
-            <label>Contacto</label>
-            <strong>
-                ${sesion.contacto || "-"}
-            </strong>
-        </div>
+<div>
 
+<label>
+Contacto
+</label>
 
+<strong>
+${sesion.contacto || "-"}
+</strong>
 
-        <div>
-            <label>Correo</label>
-            <strong>
-                ${sesion.empresaCorreo || "-"}
-            </strong>
-        </div>
+</div>
 
 
 
-        <div>
-            <label>Teléfono</label>
-            <strong>
-                ${sesion.empresaTelefono || "-"}
-            </strong>
-        </div>
+<div>
 
+<label>
+Correo
+</label>
 
+<strong>
+${sesion.empresaCorreo || "-"}
+</strong>
 
-        <div>
-            <label>RFC</label>
-            <strong>
-                ${sesion.rfc || "No registrado"}
-            </strong>
-        </div>
+</div>
 
 
-    </div>
 
-    `;
+<div>
 
+<label>
+Teléfono
+</label>
 
+<strong>
+${sesion.empresaTelefono || "-"}
+</strong>
 
+</div>
 
 
 
+<div>
 
-    // ======================================
-    // CONSULTAR TICKETS CLIENTE
-    // ======================================
+<label>
+RFC
+</label>
 
+<strong>
+${sesion.rfc || "No registrado"}
+</strong>
 
-    try{
+</div>
 
 
-        const consulta = query(
 
+</div>
 
-            collection(
-                db,
-                "tickets"
-            ),
 
+`;
 
 
-            where(
 
-                "correoUsuario",
 
-                "==",
 
-                user.email
 
-            )
+// ==========================================
+// CONSULTAR TICKETS
+// ==========================================
 
 
-        );
+try{
 
 
+const consulta = query(
 
 
+collection(
+db,
+"tickets"
+),
 
-        const resultado =
 
-            await getDocs(
-                consulta
-            );
+where(
 
+"usuarioId",
 
+"==",
 
+firebaseUser.uid
 
+)
 
-        let abiertosTotal = 0;
 
-        let cerradosTotal = 0;
+);
 
 
 
+const resultado =
 
+await getDocs(
+consulta
+);
 
-        resultado.forEach(
 
-            documento=>{
 
+let abiertosTotal = 0;
 
-                const ticket =
-                    documento.data();
+let cerradosTotal = 0;
 
 
 
+resultado.forEach(doc=>{
 
-                const estado =
 
-                    (
-                        ticket.estado || ""
-                    )
-                    .toLowerCase();
+const ticket =
+doc.data();
 
 
 
+if(
+ticket.estado === "cerrado"
+){
 
 
-                if(
-                    estado === "cerrado"
-                ){
+cerradosTotal++;
 
 
-                    cerradosTotal++;
+}
 
+else{
 
-                }
-                else{
 
+abiertosTotal++;
 
-                    abiertosTotal++;
 
+}
 
-                }
 
+});
 
 
-            }
 
-        );
+abiertos.textContent =
+abiertosTotal;
 
 
 
+cerrados.textContent =
+cerradosTotal;
 
 
 
+}
 
-        abiertos.textContent =
-            abiertosTotal;
+catch(error){
 
 
+console.error(
+"Error cargando tickets dashboard:",
+error
+);
 
-        cerrados.textContent =
-            cerradosTotal;
 
 
+abiertos.textContent =
+"0";
 
-    }
 
-    catch(error){
+cerrados.textContent =
+"0";
 
 
-        console.error(
+}
 
-            "Error cargando tickets:",
-
-            error
-
-        );
-
-
-
-        abiertos.textContent =
-            "0";
-
-
-        cerrados.textContent =
-            "0";
-
-
-    }
 
 
 }
@@ -329,45 +324,46 @@ async function cargarDashboard(user){
 
 
 
-
-
 // ==========================================
-// VALIDAR SESIÓN FIREBASE
+// ESPERAR AUTH FIREBASE
 // ==========================================
 
 
 onAuthStateChanged(
-
-    auth,
-
-
-    (user)=>{
+auth,
+(user)=>{
 
 
-        if(!user){
+if(user){
 
 
-            location.replace(
-                "login.html"
-            );
-
-
-            return;
-
-
-        }
-
-
-
-        cargarDashboard(
-            user
-        );
-
-
-    }
-
+console.log(
+"Dashboard cliente autenticado:",
+user.email
 );
 
+
+
+cargarDashboard(user);
+
+
+
+}
+
+else{
+
+
+location.replace(
+"login.html"
+);
+
+
+}
+
+
+}
+
+);
 
 
 
@@ -379,47 +375,31 @@ onAuthStateChanged(
 // ==========================================
 
 
-const botonLogout =
+document
+.getElementById("logout")
+.addEventListener(
 
-document.getElementById(
-    "logout"
+"click",
+
+async()=>{
+
+
+await signOut(auth);
+
+
+
+localStorage.removeItem(
+"clienteCompudesk"
 );
 
 
 
-if(botonLogout){
+location.replace(
+"login.html"
+);
 
-
-    botonLogout.addEventListener(
-
-        "click",
-
-
-        async()=>{
-
-
-            await signOut(
-                auth
-            );
-
-
-
-            localStorage.removeItem(
-                "clienteCompudesk"
-            );
-
-
-
-            location.replace(
-                "login.html"
-            );
-
-
-
-        }
-
-
-    );
 
 
 }
+
+);
