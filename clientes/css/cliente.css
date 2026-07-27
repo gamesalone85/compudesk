@@ -1552,3 +1552,83 @@ grid-template-columns:1fr;
 }
 
 }
+/*=====================================
+DETALLE TICKET
+======================================*/
+
+.ticket-detail-card{
+
+    background:#fff;
+    border-radius:20px;
+    padding:30px;
+    border:1px solid #e5e7eb;
+    box-shadow:0 10px 25px rgba(0,0,0,.05);
+
+}
+
+.ticket-detail-header{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:30px;
+
+}
+
+.ticket-detail-folio{
+
+    color:#2563eb;
+    font-weight:700;
+    font-size:15px;
+    margin-bottom:8px;
+
+}
+
+.ticket-detail-grid{
+
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+
+}
+
+.ticket-detail-grid label{
+
+    display:block;
+    font-size:13px;
+    color:#64748b;
+    margin-bottom:6px;
+
+}
+
+.ticket-detail-grid strong{
+
+    color:#0f172a;
+
+}
+
+.ticket-error{
+
+    background:#fff;
+    padding:50px;
+    border-radius:20px;
+    text-align:center;
+
+}
+
+@media(max-width:900px){
+
+    .ticket-detail-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .ticket-detail-header{
+
+        flex-direction:column;
+        gap:20px;
+
+    }
+
+}
