@@ -386,7 +386,24 @@ async function guardarTicketCompleto(ticket){
     // GUARDAR TODO
     // ==========================
 
+  try {
+
     await batch.commit();
+
+}
+catch(error){
+
+    console.error(
+        "ERROR GUARDANDO TICKET:",
+        error
+    );
+
+    console.log(
+        "TICKET ENVIADO:",
+        ticket
+    );
+
+    throw error;
 
 }
 // ==========================================
