@@ -17,18 +17,28 @@ Tickets | Compu Desk
 
 
 
+<!-- Google Fonts -->
+
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
 rel="stylesheet">
 
 
 
+<!-- Font Awesome -->
+
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<!-- CSS Admin -->
-<link rel="stylesheet" href="/admin/css/admin.css">
+
+
+<!-- CSS ADMIN -->
+
+<link
+rel="stylesheet"
+href="/admin/css/admin.css">
+
 
 
 </head>
@@ -37,33 +47,336 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 <body>
 
+
 <div class="admin-layout">
 
+
+
+    <!-- SIDEBAR -->
 
     <aside id="sidebar-container"></aside>
 
 
+
+
+    <!-- CONTENIDO -->
+
     <section class="admin-main">
 
 
+
+        <!-- HEADER -->
+
         <div id="header-container"></div>
+
+
+
 
 
         <main class="admin-content">
 
 
 
-<div class="dashboard-title">
 
 
-<h1>
-Tickets
-</h1>
+            <!-- TITULO -->
+
+            <div class="dashboard-title">
 
 
-<p>
-Gestión de incidencias y solicitudes
-</p>
+                <h1>
+                    Tickets
+                </h1>
+
+
+                <p>
+                    Gestión de incidencias y solicitudes
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+
+            <!-- KPI TICKETS -->
+
+            <section class="kpi-grid">
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-envelope-open"></i>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            Abiertos
+                        </span>
+
+
+                        <strong id="ticketsAbiertos">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-spinner"></i>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            En proceso
+                        </span>
+
+
+                        <strong id="ticketsProceso">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-clock"></i>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            Pendientes
+                        </span>
+
+
+                        <strong id="ticketsPendientes">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+
+
+
+
+                <article class="kpi-card">
+
+
+                    <div class="kpi-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+
+
+                    <div>
+
+                        <span>
+                            Cerrados
+                        </span>
+
+
+                        <strong id="ticketsCerrados">
+                            0
+                        </strong>
+
+
+                    </div>
+
+
+                </article>
+
+
+
+
+            </section>
+
+
+
+
+
+
+
+
+
+            <!-- TABLA TICKETS -->
+
+
+            <section class="admin-card">
+
+
+
+                <div class="admin-card-header">
+
+
+
+                    <h2>
+                        Listado de tickets
+                    </h2>
+
+
+
+
+                    <div class="ticket-tools">
+
+
+                        <input
+
+                        type="text"
+
+                        id="buscarTicket"
+
+                        placeholder="Buscar ticket...">
+
+
+
+
+
+
+                        <select id="filtroEstado">
+
+
+                            <option value="">
+                                Todos
+                            </option>
+
+
+                            <option value="abierto">
+                                Abiertos
+                            </option>
+
+
+                            <option value="en_proceso">
+                                En proceso
+                            </option>
+
+
+                            <option value="pendiente_cliente">
+                                Pendientes
+                            </option>
+
+
+                            <option value="cerrado">
+                                Cerrados
+                            </option>
+
+
+
+                        </select>
+
+
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="admin-card-body">
+
+
+
+                    <div id="tablaTickets">
+
+
+                        Cargando tickets...
+
+
+
+                    </div>
+
+
+
+
+                </div>
+
+
+
+
+
+            </section>
+
+
+
+
+
+
+
+        </main>
+
+
+
+
+    </section>
+
+
+
 
 
 </div>
@@ -72,179 +385,11 @@ Gestión de incidencias y solicitudes
 
 
 
-<!-- KPIs -->
 
-<section class="kpi-grid">
 
 
 
-<article class="kpi-card">
-
-
-<div class="kpi-icon">
-
-<i class="fa-solid fa-envelope-open"></i>
-
-</div>
-
-
-<div>
-
-<span>
-Abiertos
-</span>
-
-
-<strong id="ticketsAbiertos">
-0
-</strong>
-
-
-</div>
-
-
-</article>
-
-
-
-
-
-<article class="kpi-card">
-
-
-<div class="kpi-icon">
-
-<i class="fa-solid fa-spinner"></i>
-
-</div>
-
-
-<div>
-
-<span>
-En proceso
-</span>
-
-
-<strong id="ticketsProceso">
-0
-</strong>
-
-
-</div>
-
-
-</article>
-
-
-
-
-
-<article class="kpi-card">
-
-
-<div class="kpi-icon">
-
-<i class="fa-solid fa-clock"></i>
-
-</div>
-
-
-<div>
-
-<span>
-Pendientes
-</span>
-
-
-<strong id="ticketsPendientes">
-0
-</strong>
-
-
-</div>
-
-
-</article>
-
-
-
-
-
-<article class="kpi-card">
-
-
-<div class="kpi-icon">
-
-<i class="fa-solid fa-circle-check"></i>
-
-</div>
-
-
-<div>
-
-<span>
-Cerrados
-</span>
-
-
-<strong id="ticketsCerrados">
-0
-</strong>
-
-
-</div>
-
-
-</article>
-
-
-
-</section>
-
-
-
-
-
-
-<section class="admin-card">
-
-
-<div class="admin-card-header">
-
-
-<h2>
-Listado de tickets
-</h2>
-
-
-</div>
-
-
-
-
-<div class="admin-card-body">
-
-
-<div id="tablaTickets">
-
-Cargando tickets...
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-</div>
-
-
-
-
+<!-- SEGURIDAD -->
 
 <script
 type="module"
@@ -252,16 +397,30 @@ src="../js/auth-guard.js">
 </script>
 
 
+
+
+
+<!-- LAYOUT -->
+
 <script
 type="module"
 src="../js/layout.js">
 </script>
 
 
+
+
+
+
+<!-- TICKETS -->
+
 <script
 type="module"
 src="../js/tickets.js">
 </script>
+
+
+
 
 
 
