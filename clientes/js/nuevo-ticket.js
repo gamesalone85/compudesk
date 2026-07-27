@@ -273,8 +273,7 @@ function construirTicket(
         tecnicoId:
             "",
 
-        tecnicoNombre:
-            "",
+       tecnicoNombre: "Sin asignar",
 
                 // Estadísticas
 
