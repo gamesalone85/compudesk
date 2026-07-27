@@ -1287,7 +1287,7 @@ mostrarMensaje(
 
 );
 // ==========================================
-// TIMELINE / HISTORIAL
+// CARGAR TIMELINE DEL TICKET
 // ==========================================
 
 
@@ -1304,8 +1304,7 @@ document.getElementById(
 
 if(!timeline)
 
-    return;
-
+return;
 
 
 
@@ -1316,15 +1315,16 @@ const historialRef =
 
 collection(
 
-    db,
+db,
 
-    "tickets",
+"tickets",
 
-    ticketId,
+ticketId,
 
-    "historial"
+"historial"
 
 );
+
 
 
 
@@ -1333,15 +1333,15 @@ const consulta =
 
 query(
 
-    historialRef,
+historialRef,
 
-    orderBy(
+orderBy(
 
-        "fecha",
+"fecha",
 
-        "asc"
+"asc"
 
-    )
+)
 
 );
 
@@ -1353,7 +1353,7 @@ const snapshot =
 
 await getDocs(
 
-    consulta
+consulta
 
 );
 
@@ -1361,7 +1361,7 @@ await getDocs(
 
 
 
-timeline.innerHTML="";
+timeline.innerHTML = "";
 
 
 
@@ -1376,23 +1376,9 @@ timeline.innerHTML =
 
 `
 
-<div class="timeline-item">
+<div class="timeline-empty">
 
-<div class="timeline-dot">
-
-<i class="fa-solid fa-plus"></i>
-
-</div>
-
-
-<div class="timeline-content">
-
-<strong>
-
-Ticket creado
-
-</strong>
-
+<i class="fa-solid fa-clock"></i>
 
 <p>
 
@@ -1400,12 +1386,7 @@ Sin movimientos registrados.
 
 </p>
 
-
 </div>
-
-
-</div>
-
 
 `;
 
@@ -1436,9 +1417,11 @@ timeline.innerHTML +=
 <div class="timeline-item">
 
 
-<div class="timeline-dot">
+<div class="timeline-icon">
 
-<i class="fa-solid fa-clock"></i>
+
+${iconoTimeline(evento.tipo)}
+
 
 </div>
 
@@ -1454,11 +1437,13 @@ ${evento.titulo || "Actividad"}
 </strong>
 
 
+
 <p>
 
 ${evento.descripcion || ""}
 
 </p>
+
 
 
 <small>
@@ -1491,20 +1476,22 @@ catch(error){
 
 console.error(
 
-"Error timeline:",
+"Error cargando timeline:",
 
 error
 
 );
 
 
+
 timeline.innerHTML =
+
 
 `
 
 <p>
 
-No se pudo cargar historial.
+Error cargando historial.
 
 </p>
 
@@ -1517,12 +1504,71 @@ No se pudo cargar historial.
 
 }
 
+// ==========================================
+// ICONOS TIMELINE
+// ==========================================
+
+
+function iconoTimeline(tipo){
+
+
+switch(tipo){
+
+
+case "mensaje":
+
+return `
+
+<i class="fa-solid fa-comment"></i>
+
+`;
 
 
 
+case "estado":
+
+return `
+
+<i class="fa-solid fa-arrows-rotate"></i>
+
+`;
 
 
 
+case "prioridad":
+
+return `
+
+<i class="fa-solid fa-flag"></i>
+
+`;
+
+
+
+case "tecnico":
+
+return `
+
+<i class="fa-solid fa-user-gear"></i>
+
+`;
+
+
+
+default:
+
+return `
+
+<i class="fa-solid fa-clock"></i>
+
+`;
+
+
+
+}
+
+
+}
 
 // ==========================================
 // CARGAR ADJUNTOS
@@ -2069,19 +2115,19 @@ if(user){
     if(ticketId){
 
 
-        cargarTicket();
+    cargarTicket();
 
 
-        cargarTimeline();
+    cargarTimeline();
 
 
-        cargarAdjuntos();
+    cargarAdjuntos();
 
 
-        calcularSLA();
+    calcularSLA();
 
 
-    }
+}
 
 
 
