@@ -3338,3 +3338,644 @@ align-items:flex-start;
 
 
 }
+/* =====================================================
+   COMPU DESK
+   EDITAR TICKET
+   Diseño profesional
+===================================================== */
+
+
+/* ===============================
+   LAYOUT TICKET
+================================ */
+
+.ticket-layout{
+
+    display:grid;
+
+    grid-template-columns:
+
+    330px 1fr;
+
+    gap:25px;
+
+    align-items:start;
+
+}
+
+
+.ticket-sidebar{
+
+    position:sticky;
+
+    top:20px;
+
+}
+
+
+.ticket-chat{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+
+
+
+/* ===============================
+   TARJETAS
+================================ */
+
+.ticket-card,
+.ticket-description-card,
+.ticket-conversation,
+.reply-card{
+
+
+    background:white;
+
+    border-radius:16px;
+
+    padding:25px;
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.06);
+
+
+}
+
+
+
+.ticket-card h3,
+.ticket-description-card h3,
+.ticket-conversation h3,
+.reply-card h3{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+    font-size:18px;
+
+}
+
+
+
+
+
+
+/* ===============================
+   HEADER TICKET
+================================ */
+
+
+.ticket-chat-header{
+
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:16px;
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+
+    box-shadow:
+
+    0 8px 25px rgba(0,0,0,.06);
+
+
+}
+
+
+
+.ticket-chat-header h2{
+
+
+    margin:0;
+
+    font-size:24px;
+
+
+}
+
+
+
+.ticket-chat-header p{
+
+
+    margin-top:8px;
+
+    color:#6b7280;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   INFORMACION LATERAL
+================================ */
+
+
+.ticket-info-list{
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+
+}
+
+
+
+.ticket-info-item{
+
+
+    display:flex;
+
+    justify-content:space-between;
+
+    border-bottom:1px solid #eee;
+
+    padding-bottom:10px;
+
+
+}
+
+
+
+.ticket-info-item span{
+
+
+    color:#6b7280;
+
+    font-size:14px;
+
+
+}
+
+
+
+.ticket-info-item strong{
+
+
+    font-weight:600;
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   BADGES
+================================ */
+
+
+.ticket-chat-status{
+
+
+    display:flex;
+
+    gap:10px;
+
+
+}
+
+
+
+.badge-ticket{
+
+
+    padding:7px 14px;
+
+    border-radius:30px;
+
+    font-size:13px;
+
+    font-weight:600;
+
+
+}
+
+
+
+.badge-ticket.abierto{
+
+    background:#dcfce7;
+
+    color:#166534;
+
+}
+
+
+
+.badge-ticket.en_proceso{
+
+    background:#dbeafe;
+
+    color:#1d4ed8;
+
+}
+
+
+
+.badge-ticket.cerrado{
+
+    background:#e5e7eb;
+
+    color:#374151;
+
+}
+
+
+
+
+
+
+
+
+/* ===============================
+   DESCRIPCION
+================================ */
+
+
+.ticket-description-card p{
+
+
+    line-height:1.7;
+
+    color:#374151;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   CONVERSACION
+================================ */
+
+
+.conversation-body{
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+    min-height:200px;
+
+
+}
+
+
+
+.conversation-loading,
+.attachment-empty{
+
+
+    padding:30px;
+
+    text-align:center;
+
+    color:#6b7280;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   RESPUESTA
+================================ */
+
+
+.reply-card textarea{
+
+
+    width:100%;
+
+    border:1px solid #ddd;
+
+    border-radius:12px;
+
+    padding:15px;
+
+    resize:vertical;
+
+    font-family:inherit;
+
+}
+
+
+
+.reply-actions{
+
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    margin-top:15px;
+
+
+}
+
+
+
+
+
+
+
+/* ===============================
+   ADJUNTOS
+================================ */
+
+
+.ticket-attachments{
+
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+
+}
+
+
+
+
+
+/* ===============================
+   SLA
+================================ */
+
+
+.sla-grid{
+
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+    gap:15px;
+
+
+}
+
+
+
+.sla-item{
+
+
+    background:#f9fafb;
+
+    padding:18px;
+
+    border-radius:12px;
+
+
+}
+
+
+
+.sla-item span{
+
+
+    display:block;
+
+    color:#6b7280;
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+
+}
+
+
+
+
+
+
+/* ===============================
+   TECNICO
+================================ */
+
+
+.technician-box{
+
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+
+}
+
+
+
+.technician-box small{
+
+
+    display:block;
+
+    color:#6b7280;
+
+
+}
+
+
+
+.technician-avatar{
+
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#eef2ff;
+
+}
+
+
+
+
+
+
+
+
+/* ===============================
+   TIMELINE
+================================ */
+
+
+.ticket-timeline{
+
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+
+}
+
+
+
+.timeline-item{
+
+
+    display:flex;
+
+    gap:15px;
+
+
+}
+
+
+
+.timeline-dot{
+
+
+    width:38px;
+
+    height:38px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:#eef2ff;
+
+
+}
+
+
+
+.timeline-content{
+
+
+    background:#f9fafb;
+
+    padding:15px;
+
+    border-radius:12px;
+
+    flex:1;
+
+
+}
+
+
+
+.timeline-content p{
+
+
+    margin:5px 0 0;
+
+    color:#6b7280;
+
+
+}
+
+
+
+
+
+
+
+
+/* ===============================
+   RESPONSIVE
+================================ */
+
+
+@media(max-width:1000px){
+
+
+.ticket-layout{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+.ticket-sidebar{
+
+
+    position:relative;
+
+
+}
+
+
+.sla-grid{
+
+
+    grid-template-columns:1fr;
+
+
+}
+
+
+}
