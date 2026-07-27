@@ -16,52 +16,391 @@ Editar Usuario | Compu Desk
 <meta name="robots" content="noindex,nofollow">
 
 
+<link rel="icon" href="/img/logo.png">
+
+
+<!-- Google Fonts -->
+
 <link
 href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
 rel="stylesheet">
 
+
+<!-- Font Awesome -->
 
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 
-  
-<link rel="stylesheet" href="/admin/css/admin.css">
+<!-- CSS ADMIN -->
+
+<link
+rel="stylesheet"
+href="/admin/css/admin.css">
 
 
 </head>
 
+
+
 <body>
+
+
 <div class="admin-layout">
+
+
+
+    <!-- SIDEBAR -->
 
     <aside id="sidebar-container"></aside>
 
+
+
+
+
     <section class="admin-main">
+
+
+
+
+
+        <!-- HEADER -->
 
         <div id="header-container"></div>
 
+
+
+
+
+
+
         <main class="admin-content">
 
-            contenido
+
+
+
+
+
+            <!-- TITULO -->
+
+            <div class="dashboard-title">
+
+
+                <h1>
+                    Editar Usuario
+                </h1>
+
+
+                <p>
+                    Actualizar información y permisos del usuario
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+
+
+            <!-- FORMULARIO -->
+
+            <div class="admin-card">
+
+
+
+
+
+                <form id="editarUsuarioForm">
+
+
+
+
+
+                    <div class="form-grid">
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Nombre *
+                            </label>
+
+
+                            <input
+                            id="nombre"
+                            type="text"
+                            placeholder="Nombre completo"
+                            required>
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Correo *
+                            </label>
+
+
+                            <input
+                            id="correo"
+                            type="email"
+                            placeholder="correo@empresa.com"
+                            required>
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Teléfono
+                            </label>
+
+
+                            <input
+                            id="telefono"
+                            type="text"
+                            placeholder="Número telefónico">
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Empresa asociada *
+                            </label>
+
+
+                            <select
+                            id="clienteId"
+                            required>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Rol
+                            </label>
+
+
+                            <select
+                            id="rol">
+
+
+                                <option value="cliente">
+                                    Cliente
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="form-group">
+
+
+                            <label>
+                                Estado
+                            </label>
+
+
+                            <select
+                            id="estado">
+
+
+                                <option value="activo">
+                                    Activo
+                                </option>
+
+
+                                <option value="pendiente">
+                                    Pendiente
+                                </option>
+
+
+                                <option value="inactivo">
+                                    Inactivo
+                                </option>
+
+
+                            </select>
+
+
+                        </div>
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- MENSAJES -->
+
+                    <div
+                    id="mensaje"
+                    class="form-message">
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <!-- ACCIONES -->
+
+
+                    <div class="form-actions">
+
+
+
+
+
+
+                        <button
+                        type="submit"
+                        class="btn-primary">
+
+
+                            <i class="fa-solid fa-floppy-disk"></i>
+
+
+                            Guardar cambios
+
+
+                        </button>
+
+
+
+
+
+
+
+                        <a
+                        href="index.html"
+                        class="btn-secondary">
+
+
+                            <i class="fa-solid fa-arrow-left"></i>
+
+
+                            Cancelar
+
+
+                        </a>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+                </form>
+
+
+
+
+
+
+
+            </div>
+
+
+
+
+
+
+
 
         </main>
 
+
+
+
+
+
+
     </section>
 
-</div>
 
 
-<div class="dashboard-title">
-
-<h1>
-Editar Usuario
-</h1>
 
 
-<p>
-Actualizar información y permisos
-</p>
 
 
 </div>
@@ -69,203 +408,11 @@ Actualizar información y permisos
 
 
 
-<div class="portal-card">
 
 
 
-<form id="editarUsuarioForm">
 
-
-
-<div class="form-grid">
-
-
-
-<div class="form-group">
-
-<label>
-Nombre *
-</label>
-
-
-<input
-id="nombre"
-required>
-
-</div>
-
-
-
-
-<div class="form-group">
-
-<label>
-Correo *
-</label>
-
-
-<input
-id="correo"
-type="email"
-required>
-
-</div>
-
-
-
-
-<div class="form-group">
-
-<label>
-Teléfono
-</label>
-
-
-<input
-id="telefono">
-
-</div>
-
-
-
-
-<div class="form-group">
-
-<label>
-Empresa asociada *
-</label>
-
-
-<select
-id="clienteId"
-required>
-
-
-</select>
-
-
-</div>
-
-
-
-
-<div class="form-group">
-
-<label>
-Rol
-</label>
-
-
-<select id="rol">
-
-
-<option value="cliente">
-Cliente
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-
-<div class="form-group">
-
-<label>
-Estado
-</label>
-
-
-<select id="estado">
-
-
-<option value="activo">
-Activo
-</option>
-
-
-<option value="pendiente">
-Pendiente
-</option>
-
-
-<option value="inactivo">
-Inactivo
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-<div
-id="mensaje"
-class="login-message">
-</div>
-
-
-
-
-<br>
-
-
-<button
-type="submit"
-class="btn-logout">
-
-
-<i class="fa-solid fa-save"></i>
-
-Guardar cambios
-
-
-</button>
-
-
-
-<a
-href="index.html"
-class="menu-item"
-style="display:inline-flex;margin-left:15px;">
-
-Cancelar
-
-</a>
-
-
-
-</form>
-
-
-
-</div>
-
-
-
-</main>
-
-
-
-</section>
-
-
-
-</div>
-
-
-
+<!-- SEGURIDAD -->
 
 <script
 type="module"
@@ -273,16 +420,28 @@ src="../js/auth-guard.js">
 </script>
 
 
+
+
+
+<!-- LAYOUT -->
+
 <script
 type="module"
 src="../js/layout.js">
 </script>
 
 
+
+
+
+<!-- EDITAR USUARIO -->
+
 <script
 type="module"
 src="../js/editar-usuario.js">
 </script>
+
+
 
 
 
