@@ -1,13 +1,13 @@
 // ==========================================
 // COMPU DESK
 // ADMIN EDITAR TICKET
-// Producción v1.0
+// Producción v1.1
 // ==========================================
 
 
 import {
 
-    db
+db
 
 }
 
@@ -17,10 +17,10 @@ from "../../assets/firebase/firebase-config.js";
 
 import {
 
-    doc,
-    getDoc,
-    updateDoc,
-    serverTimestamp
+doc,
+getDoc,
+updateDoc,
+serverTimestamp
 
 }
 
@@ -29,27 +29,26 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-
 // ==========================================
-// OBTENER ID TICKET
+// ID TICKET
 // ==========================================
 
 
-const parametros =
-
+const params =
 new URLSearchParams(
     window.location.search
 );
 
 
-
 const ticketId =
+params.get("id");
 
-parametros.get(
-    "id"
+
+
+console.log(
+    "Ticket:",
+    ticketId
 );
-
-
 
 
 
@@ -65,12 +64,10 @@ document.getElementById(
 );
 
 
-
 const empresa =
 document.getElementById(
     "ticketEmpresa"
 );
-
 
 
 const usuario =
@@ -79,12 +76,10 @@ document.getElementById(
 );
 
 
-
 const prioridad =
 document.getElementById(
     "ticketPrioridad"
 );
-
 
 
 const estado =
@@ -93,12 +88,10 @@ document.getElementById(
 );
 
 
-
 const descripcion =
 document.getElementById(
     "ticketDescripcion"
 );
-
 
 
 const nuevoEstado =
@@ -107,12 +100,10 @@ document.getElementById(
 );
 
 
-
 const btnGuardar =
 document.getElementById(
     "btnGuardarEstado"
 );
-
 
 
 const mensaje =
@@ -120,6 +111,39 @@ document.getElementById(
     "mensajeTicket"
 );
 
+
+
+
+
+// ==========================================
+// MENSAJES
+// ==========================================
+
+
+function mostrarMensaje(
+texto,
+tipo="success"
+){
+
+
+if(!mensaje)
+return;
+
+
+
+mensaje.innerHTML = `
+
+<div class="alert ${tipo}">
+
+${texto}
+
+</div>
+
+`;
+
+
+
+}
 
 
 
@@ -134,169 +158,136 @@ document.getElementById(
 async function cargarTicket(){
 
 
-    if(!ticketId){
+try{
 
 
-        mostrarMensaje(
-            "Ticket no encontrado",
-            "error"
-        );
+if(!ticketId){
 
 
-        return;
+mostrarMensaje(
+"ID de ticket inválido",
+"error"
+);
 
-    }
 
+return;
 
+}
 
 
-    try{
 
 
-        const referencia =
+const referencia =
+doc(
+db,
+"tickets",
+ticketId
+);
 
-        doc(
-            db,
-            "tickets",
-            ticketId
-        );
 
 
+const snap =
+await getDoc(
+referencia
+);
 
-        const snapshot =
 
-        await getDoc(
-            referencia
-        );
 
 
+if(!snap.exists()){
 
 
+mostrarMensaje(
+"El ticket no existe",
+"error"
+);
 
-        if(!snapshot.exists()){
 
+return;
 
-            mostrarMensaje(
-                "El ticket no existe",
-                "error"
-            );
+}
 
 
-            return;
 
-        }
 
 
+const ticket =
+snap.data();
 
 
 
-        const ticket =
 
-        snapshot.data();
+titulo.textContent =
+ticket.titulo ||
+"Ticket sin título";
 
 
 
+empresa.textContent =
+ticket.empresa ||
+"--";
 
 
 
-        titulo.textContent =
+usuario.textContent =
+ticket.nombreUsuario ||
+"--";
 
-        ticket.titulo ||
-        "Ticket sin título";
 
 
+prioridad.textContent =
+ticket.prioridad ||
+"Media";
 
 
 
-        empresa.textContent =
+estado.textContent =
+ticket.estado ||
+"abierto";
 
-        ticket.empresa ||
-        "--";
 
 
+descripcion.textContent =
+ticket.descripcion ||
+"Sin descripción";
 
 
 
-        usuario.textContent =
 
-        ticket.nombreUsuario ||
-        "--";
+if(nuevoEstado){
 
+nuevoEstado.value =
+ticket.estado ||
+"abierto";
 
-
-
-
-        prioridad.textContent =
-
-        ticket.prioridad ||
-        "Media";
-
-
-
-
-
-        estado.textContent =
-
-        ticket.estado ||
-        "abierto";
-
-
-
-
-
-        descripcion.textContent =
-
-        ticket.descripcion ||
-        "Sin descripción";
-
-
-
-
-
-
-
-        if(nuevoEstado){
-
-
-            nuevoEstado.value =
-
-            ticket.estado ||
-            "abierto";
-
-
-        }
-
-
-
-
-
-
-    }
-
-
-    catch(error){
-
-
-        console.error(
-            "Error cargando ticket:",
-            error
-        );
-
-
-
-        mostrarMensaje(
-            "Error cargando ticket",
-            "error"
-        );
-
-
-    }
+}
 
 
 
 }
 
 
+catch(error){
+
+
+console.error(
+"Cargar ticket:",
+error
+);
+
+
+
+mostrarMensaje(
+error.message,
+"error"
+);
+
+
+}
+
+
+
+}
 
 
 
@@ -312,87 +303,95 @@ async function actualizarEstado(){
 
 
 
-    const estadoNuevo =
-
-    nuevoEstado.value;
-
+if(!ticketId)
+return;
 
 
 
-
-    try{
-
-
-        const referencia =
-
-        doc(
-            db,
-            "tickets",
-            ticketId
-        );
+if(!nuevoEstado)
+return;
 
 
 
 
-
-        await updateDoc(
-
-            referencia,
-
-            {
-
-                estado:
-                estadoNuevo,
+try{
 
 
-                ultimaActualizacion:
-                serverTimestamp()
-
-
-            }
-
-        );
+btnGuardar.disabled=true;
 
 
 
+await updateDoc(
+
+doc(
+db,
+"tickets",
+ticketId
+),
+
+{
+
+
+estado:
+nuevoEstado.value,
+
+
+ultimaActualizacion:
+serverTimestamp()
+
+
+}
+
+);
 
 
 
-        estado.textContent =
 
-        estadoNuevo;
-
-
+estado.textContent =
+nuevoEstado.value;
 
 
 
-        mostrarMensaje(
-            "Estado actualizado correctamente",
-            "success"
-        );
+
+mostrarMensaje(
+"Ticket actualizado correctamente"
+);
 
 
 
-    }
 
-
-    catch(error){
-
-
-        console.error(
-            "Error actualizando:",
-            error
-        );
+}
 
 
 
-        mostrarMensaje(
-            "No se pudo actualizar el ticket",
-            "error"
-        );
+catch(error){
 
 
-    }
+console.error(
+"Actualizar ticket:",
+error
+);
+
+
+
+mostrarMensaje(
+error.message,
+"error"
+);
+
+
+
+}
+
+
+
+finally{
+
+
+btnGuardar.disabled=false;
+
+
+}
 
 
 
@@ -403,74 +402,24 @@ async function actualizarEstado(){
 
 
 
-
-
 // ==========================================
-// MENSAJES
-// ==========================================
-
-
-function mostrarMensaje(
-    texto,
-    tipo
-){
-
-
-
-    if(!mensaje)
-
-        return;
-
-
-
-
-    mensaje.innerHTML =
-
-
-    `
-
-    <div class="alert ${tipo}">
-
-        ${texto}
-
-    </div>
-
-    `;
-
-
-
-}
-
-
-
-
-
-
-
-
-
-// ==========================================
-// EVENTOS
+// EVENTO
 // ==========================================
 
 
 if(btnGuardar){
 
 
-    btnGuardar.addEventListener(
+btnGuardar.addEventListener(
 
-        "click",
+"click",
 
-        actualizarEstado
+actualizarEstado
 
-    );
+);
 
 
 }
-
-
-
-
 
 
 
