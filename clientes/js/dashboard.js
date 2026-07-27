@@ -140,9 +140,9 @@ const consulta = query(
 collection(db,"tickets"),
 
 where(
-"clienteId",
+"correoUsuario",
 "==",
-sesion.clienteId
+auth.currentUser.email
 )
 
 );
