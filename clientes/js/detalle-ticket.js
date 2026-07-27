@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // DETALLE TICKET CLIENTE
-// Producción 2.0
+// Producción 2.1
 // Firebase Auth + Firestore
 // ==========================================
 
@@ -11,6 +11,12 @@ import {
     db
 }
 from "../../assets/firebase/firebase-config.js";
+
+
+import {
+    onAuthStateChanged
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
 
 import {
@@ -24,6 +30,7 @@ import {
     serverTimestamp
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
 
 
 
@@ -45,6 +52,7 @@ document.getElementById("respuestaForm");
 
 const respuesta =
 document.getElementById("respuesta");
+
 
 
 
@@ -71,6 +79,7 @@ let ticketActual = null;
 
 
 
+
 // ==========================================
 // FECHA
 // ==========================================
@@ -78,14 +87,14 @@ let ticketActual = null;
 
 function fecha(valor){
 
+
     if(!valor)
         return "-";
 
 
-    if(valor.toDate){
+    if(typeof valor.toDate === "function"){
 
-        valor =
-        valor.toDate();
+        valor = valor.toDate();
 
     }
 
@@ -94,7 +103,9 @@ function fecha(valor){
         "es-MX"
     );
 
+
 }
+
 
 
 
@@ -106,39 +117,38 @@ function fecha(valor){
 // ==========================================
 
 
-async function cargarTicket(){
+async function cargarTicket(user){
 
 
-try{
-
-
-const usuario =
-auth.currentUser;
-
-
-
-if(!usuario){
-
-location.replace("../login.html");
-
-return;
-
-}
-
-
-
-
-const ref =
-doc(
-db,
-"tickets",
+console.log(
+"Buscando ticket:",
 ticketId
 );
 
 
 
+try{
+
+
+const ticketRef =
+doc(
+    db,
+    "tickets",
+    ticketId
+);
+
+
+
 const snap =
-await getDoc(ref);
+await getDoc(ticketRef);
+
+
+
+console.log(
+"Respuesta Firestore:",
+snap
+);
+
 
 
 
@@ -163,23 +173,43 @@ return;
 
 
 
-ticketActual =
-{
+
+ticketActual = {
+
 id:snap.id,
+
 ...snap.data()
+
 };
 
 
 
 
+console.log(
+"Ticket encontrado:",
+ticketActual
+);
 
+
+
+
+// ==========================================
 // SEGURIDAD CLIENTE
+// ==========================================
+
 
 if(
-ticketActual.usuarioId !== usuario.uid
+ticketActual.usuarioId !== user.uid
 ){
 
-ticketInfo.innerHTML=`
+
+console.warn(
+"Usuario no propietario del ticket"
+);
+
+
+
+ticketInfo.innerHTML = `
 
 <div class="ticket-error">
 
@@ -191,10 +221,11 @@ No tienes permiso para ver este ticket.
 
 `;
 
+
 return;
 
-}
 
+}
 
 
 
@@ -202,28 +233,31 @@ return;
 renderTicket();
 
 
-cargarMensajes();
+await cargarMensajes();
 
 
 
 }
 
+
 catch(error){
 
 
 console.error(
-"Error detalle ticket:",
+"ERROR DETALLE TICKET:",
 error
 );
 
 
-ticketInfo.innerHTML=`
+
+ticketInfo.innerHTML = `
 
 <div class="ticket-error">
 
 <h3>
-Error cargando ticket.
+Error cargando ticket
 </h3>
+
 
 <p>
 ${error.message}
@@ -236,7 +270,10 @@ ${error.message}
 }
 
 
+
 }
+
+
 
 
 
@@ -251,6 +288,7 @@ ${error.message}
 function renderTicket(){
 
 
+
 ticketInfo.innerHTML = `
 
 
@@ -262,11 +300,13 @@ ticketInfo.innerHTML = `
 
 <div>
 
+
 <div class="ticket-detail-folio">
 
 ${ticketActual.folio}
 
 </div>
+
 
 
 <h2>
@@ -287,6 +327,7 @@ ${ticketActual.estado}
 </span>
 
 
+
 </div>
 
 
@@ -296,6 +337,7 @@ ${ticketActual.estado}
 <div class="ticket-detail-grid">
 
 
+
 <div>
 
 <label>
@@ -303,10 +345,13 @@ Empresa
 </label>
 
 <strong>
-${ticketActual.empresa}
+
+${ticketActual.empresa || "-"}
+
 </strong>
 
 </div>
+
 
 
 
@@ -317,10 +362,13 @@ Solicitante
 </label>
 
 <strong>
-${ticketActual.nombreUsuario}
+
+${ticketActual.nombreUsuario || "-"}
+
 </strong>
 
 </div>
+
 
 
 
@@ -331,7 +379,9 @@ Categoría
 </label>
 
 <strong>
-${ticketActual.categoria}
+
+${ticketActual.categoria || "-"}
+
 </strong>
 
 </div>
@@ -346,7 +396,9 @@ Prioridad
 </label>
 
 <strong>
-${ticketActual.prioridad}
+
+${ticketActual.prioridad || "-"}
+
 </strong>
 
 </div>
@@ -362,7 +414,7 @@ Técnico
 
 <strong>
 
-${ticketActual.tecnicoNombre}
+${ticketActual.tecnicoNombre || "Sin asignar"}
 
 </strong>
 
@@ -374,7 +426,7 @@ ${ticketActual.tecnicoNombre}
 <div>
 
 <label>
-Creado
+Fecha creación
 </label>
 
 <strong>
@@ -386,7 +438,9 @@ ${fecha(ticketActual.fechaCreacion)}
 </div>
 
 
+
 </div>
+
 
 
 
@@ -395,15 +449,13 @@ ${fecha(ticketActual.fechaCreacion)}
 
 
 <h3>
-
 Descripción
-
 </h3>
 
 
 <p>
 
-${ticketActual.descripcion}
+${ticketActual.descripcion || ""}
 
 </p>
 
@@ -421,19 +473,26 @@ ${ticketActual.descripcion}
 
 
 
+
 // ==========================================
-// CARGAR MENSAJES
+// MENSAJES
 // ==========================================
 
 
 async function cargarMensajes(){
 
 
-conversacion.innerHTML="";
+
+console.log(
+"Cargando mensajes..."
+);
 
 
 
-const ref =
+try{
+
+
+const mensajesRef =
 collection(
 db,
 "tickets",
@@ -445,7 +504,7 @@ ticketId,
 
 const q =
 query(
-ref,
+mensajesRef,
 orderBy(
 "fecha",
 "asc"
@@ -459,10 +518,24 @@ await getDocs(q);
 
 
 
-if(snap.empty){
+console.log(
+"Mensajes:",
+snap.size
+);
 
 
-conversacion.innerHTML=`
+
+
+conversacion.innerHTML="";
+
+
+
+if(
+snap.empty
+){
+
+
+conversacion.innerHTML = `
 
 <p>
 Sin mensajes todavía.
@@ -472,8 +545,8 @@ Sin mensajes todavía.
 
 return;
 
-
 }
+
 
 
 
@@ -487,37 +560,53 @@ doc.data();
 
 conversacion.innerHTML += `
 
-
 <div class="mensaje">
 
 
 <strong>
-
-${msg.autor}
-
+${msg.autor || "Usuario"}
 </strong>
 
 
 <p>
-
 ${msg.mensaje}
-
 </p>
 
 
 <small>
-
 ${fecha(msg.fecha)}
-
 </small>
 
 
 </div>
 
-
 `;
 
 });
+
+
+
+}
+
+catch(error){
+
+
+console.error(
+"Error mensajes:",
+error
+);
+
+
+
+conversacion.innerHTML = `
+
+<p>
+Error cargando conversación.
+</p>
+
+`;
+
+}
 
 
 }
@@ -534,7 +623,7 @@ ${fecha(msg.fecha)}
 // ==========================================
 
 
-respuestaForm.addEventListener(
+respuestaForm?.addEventListener(
 "submit",
 async(e)=>{
 
@@ -558,6 +647,12 @@ auth.currentUser;
 
 
 
+if(!user)
+return;
+
+
+
+
 await addDoc(
 
 collection(
@@ -569,26 +664,19 @@ ticketId,
 
 {
 
-
 autor:"cliente",
 
-
 uid:user.uid,
-
 
 nombre:
 ticketActual.nombreUsuario,
 
-
 mensaje:texto,
-
 
 tipo:"texto",
 
-
 fecha:
 serverTimestamp()
-
 
 }
 
@@ -613,27 +701,50 @@ await cargarMensajes();
 
 
 
+
 // ==========================================
-// INIT
+// INICIO
 // ==========================================
 
 
-auth.onAuthStateChanged(
+onAuthStateChanged(
+
 auth,
+
 (user)=>{
+
+
+console.log(
+"Estado auth detalle:",
+user
+);
+
 
 
 if(user){
 
-cargarTicket();
+
+cargarTicket(user);
+
 
 }
-
 else{
 
-location.replace("../login.html");
+
+console.warn(
+"No hay sesión Firebase"
+);
+
+
+
+location.replace(
+"../login.html"
+);
+
 
 }
 
 
-});
+}
+
+);
