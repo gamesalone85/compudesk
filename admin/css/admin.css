@@ -138,367 +138,287 @@ select{
 
 
 
-/* =====================================================
-   SIDEBAR
-===================================================== */
+/* ==========================================
+   SIDEBAR ADMIN NUEVO
+========================================== */
 
 
-.sidebar{
+.admin-sidebar{
 
-
-    width:var(--sidebar-width);
-
+    width:270px;
 
     height:100vh;
 
-
     position:fixed;
-
 
     left:0;
 
     top:0;
 
-
-    background:var(--admin-dark);
-
+    background:#081120;
 
     display:flex;
 
     flex-direction:column;
 
-
     z-index:1000;
-
 
 }
 
 
 
+/* LOGO */
 
-.sidebar-header{
-
+.admin-sidebar-header{
 
     height:110px;
 
+    padding:20px;
 
     display:flex;
 
-    justify-content:center;
-
     align-items:center;
-
-
-    border-bottom:
-
-    1px solid rgba(255,255,255,.08);
-
-
-}
-
-
-
-
-.sidebar-logo{
-
-
-    width:75px;
-
-}
-
-
-
-
-.sidebar-menu{
-
-
-    padding:30px 18px;
-
-    flex:1;
-
-
-}
-
-
-
-
-.menu-item{
-
-
-    height:55px;
-
-
-    display:flex;
-
-
-    align-items:center;
-
 
     gap:15px;
 
-
-    padding:0 20px;
-
-
-    margin-bottom:12px;
-
-
-    border-radius:14px;
-
-
-    color:#D6E1F0;
-
-
-    font-size:15px;
-
-
-    font-weight:500;
-
-
-    transition:.25s;
-
+    border-bottom:1px solid rgba(255,255,255,.08);
 
 }
 
 
 
-.menu-item i{
+.admin-logo{
 
+    width:55px;
+
+    height:55px;
+
+    object-fit:contain;
+
+    background:white;
+
+    padding:8px;
+
+    border-radius:14px;
+
+}
+
+
+
+.admin-brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+.admin-brand-text strong{
+
+    color:white;
+
+    font-size:18px;
+
+}
+
+
+.admin-brand-text span{
+
+    color:#94A3B8;
+
+    font-size:13px;
+
+}
+
+
+
+
+
+/* MENU */
+
+.admin-menu{
+
+    flex:1;
+
+    padding:25px 15px;
+
+}
+
+
+
+.admin-menu-item{
+
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:0 18px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    color:#D6E1F0;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+
+
+.admin-menu-item i{
 
     width:22px;
 
     text-align:center;
 
-    font-size:18px;
+}
 
+
+
+.admin-menu-item:hover{
+
+    background:#0E1A2D;
 
 }
 
 
 
+.admin-menu-item.active{
 
-.menu-item:hover{
-
-
-    background:
-
-    var(--admin-dark-hover);
-
-
-    transform:translateX(5px);
-
-
-}
-
-
-
-.menu-item.active{
-
-
-    background:
-
-    var(--admin-primary);
-
+    background:#0057FF;
 
     color:white;
 
-
-    box-shadow:
-
-    0 10px 25px rgba(0,87,255,.35);
-
-
 }
 
 
 
-/* FOOTER SIDEBAR */
 
+/* FOOTER */
 
-.sidebar-footer{
+.admin-sidebar-footer{
 
+    padding:20px;
 
-    padding:25px;
+    text-align:center;
 
-
-    display:flex;
-
-    flex-direction:column;
-
-    align-items:center;
-
-
-    gap:5px;
-
+    border-top:1px solid rgba(255,255,255,.08);
 
     color:#94A3B8;
 
-
-    font-size:12px;
-
-
-    border-top:
-
-    1px solid rgba(255,255,255,.08);
-
-
-}
-
-
-
-/* =====================================================
-   HEADER / TOPBAR
-===================================================== */
-
-
-.topbar{
-
-
-    height:90px;
-
-
-    background:white;
-
-
-    border-bottom:
-
-    1px solid var(--admin-border);
-
-
     display:flex;
-
-
-    justify-content:space-between;
-
-
-    align-items:center;
-
-
-    padding:
-
-    0 40px;
-
-
-    position:sticky;
-
-
-    top:0;
-
-
-    z-index:500;
-
-
-}
-
-
-
-
-.brand{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:15px;
-
-
-}
-
-
-
-.brand-logo{
-
-
-    width:45px;
-
-
-}
-
-
-
-.brand h2{
-
-
-    font-size:21px;
-
-    font-weight:700;
-
-
-}
-
-
-
-.brand small{
-
-
-    color:var(--admin-muted);
-
-
-    font-size:13px;
-
-
-}
-
-
-
-
-.topbar-right{
-
-
-    display:flex;
-
-
-    align-items:center;
-
-
-    gap:25px;
-
-
-}
-
-
-
-
-.admin-info{
-
-
-    display:flex;
-
 
     flex-direction:column;
 
+}
 
-    text-align:right;
+
+
+/* ==========================================
+   HEADER
+========================================== */
+
+
+.admin-header{
+
+
+    height:85px;
+
+    background:white;
+
+    border-bottom:1px solid #E2E8F0;
+
+    margin-left:270px;
+
+    padding:0 40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:900;
 
 
 }
 
 
 
-.admin-name{
+.admin-header-title h1{
 
+    font-size:22px;
 
-    font-size:15px;
-
-    font-weight:700;
-
+    margin:0;
 
 }
 
 
 
-.admin-role{
-
+.admin-header-title p{
 
     font-size:13px;
 
-    color:var(--admin-muted);
-
+    color:#64748B;
 
 }
+
+
+
+
+
+.admin-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+
+
+.admin-user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    text-align:right;
+
+}
+
+
+
+.admin-user-info strong{
+
+    font-size:15px;
+
+}
+
+
+
+.admin-user-info span{
+
+    color:#64748B;
+
+    font-size:13px;
+
+}
+
 
 
 
@@ -506,50 +426,43 @@ select{
 .btn-logout{
 
 
-    background:var(--admin-danger);
-
+    background:#DC2626;
 
     color:white;
 
-
     border:none;
 
-
-    padding:
-
-    12px 22px;
-
+    padding:12px 22px;
 
     border-radius:12px;
 
-
     display:flex;
-
 
     align-items:center;
 
-
     gap:10px;
-
 
     cursor:pointer;
 
-
     font-weight:600;
-
-
-    transition:.25s;
-
 
 }
 
 
 
-.btn-logout:hover{
+/* CONTENIDO */
+
+.admin-main{
+
+    margin-left:270px;
+
+}
 
 
-    opacity:.85;
 
+.admin-content{
+
+    padding:40px;
 
 }
 
@@ -2021,330 +1934,3 @@ select{
 
 }
 
-/* ==========================================
-   SIDEBAR ADMIN NUEVO
-========================================== */
-
-
-.admin-sidebar{
-
-    width:270px;
-
-    height:100vh;
-
-    position:fixed;
-
-    left:0;
-
-    top:0;
-
-    background:#081120;
-
-    display:flex;
-
-    flex-direction:column;
-
-    z-index:1000;
-
-}
-
-
-
-/* LOGO */
-
-.admin-sidebar-header{
-
-    height:110px;
-
-    padding:20px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-    border-bottom:1px solid rgba(255,255,255,.08);
-
-}
-
-
-
-.admin-logo{
-
-    width:55px;
-
-    height:55px;
-
-    object-fit:contain;
-
-    background:white;
-
-    padding:8px;
-
-    border-radius:14px;
-
-}
-
-
-
-.admin-brand-text{
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-
-.admin-brand-text strong{
-
-    color:white;
-
-    font-size:18px;
-
-}
-
-
-.admin-brand-text span{
-
-    color:#94A3B8;
-
-    font-size:13px;
-
-}
-
-
-
-
-
-/* MENU */
-
-.admin-menu{
-
-    flex:1;
-
-    padding:25px 15px;
-
-}
-
-
-
-.admin-menu-item{
-
-    height:52px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:15px;
-
-    padding:0 18px;
-
-    margin-bottom:10px;
-
-    border-radius:12px;
-
-    color:#D6E1F0;
-
-    font-size:15px;
-
-    transition:.25s;
-
-}
-
-
-
-.admin-menu-item i{
-
-    width:22px;
-
-    text-align:center;
-
-}
-
-
-
-.admin-menu-item:hover{
-
-    background:#0E1A2D;
-
-}
-
-
-
-.admin-menu-item.active{
-
-    background:#0057FF;
-
-    color:white;
-
-}
-
-
-
-
-/* FOOTER */
-
-.admin-sidebar-footer{
-
-    padding:20px;
-
-    text-align:center;
-
-    border-top:1px solid rgba(255,255,255,.08);
-
-    color:#94A3B8;
-
-    display:flex;
-
-    flex-direction:column;
-
-}
-
-
-
-/* ==========================================
-   HEADER
-========================================== */
-
-
-.admin-header{
-
-
-    height:85px;
-
-    background:white;
-
-    border-bottom:1px solid #E2E8F0;
-
-    margin-left:270px;
-
-    padding:0 40px;
-
-    display:flex;
-
-    align-items:center;
-
-    justify-content:space-between;
-
-    position:sticky;
-
-    top:0;
-
-    z-index:900;
-
-
-}
-
-
-
-.admin-header-title h1{
-
-    font-size:22px;
-
-    margin:0;
-
-}
-
-
-
-.admin-header-title p{
-
-    font-size:13px;
-
-    color:#64748B;
-
-}
-
-
-
-
-
-.admin-user{
-
-    display:flex;
-
-    align-items:center;
-
-    gap:25px;
-
-}
-
-
-
-.admin-user-info{
-
-    display:flex;
-
-    flex-direction:column;
-
-    text-align:right;
-
-}
-
-
-
-.admin-user-info strong{
-
-    font-size:15px;
-
-}
-
-
-
-.admin-user-info span{
-
-    color:#64748B;
-
-    font-size:13px;
-
-}
-
-
-
-
-
-.btn-logout{
-
-
-    background:#DC2626;
-
-    color:white;
-
-    border:none;
-
-    padding:12px 22px;
-
-    border-radius:12px;
-
-    display:flex;
-
-    align-items:center;
-
-    gap:10px;
-
-    cursor:pointer;
-
-    font-weight:600;
-
-}
-
-
-
-/* CONTENIDO */
-
-.admin-main{
-
-    margin-left:270px;
-
-}
-
-
-
-.admin-content{
-
-    padding:40px;
-
-}
