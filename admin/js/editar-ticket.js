@@ -14,9 +14,7 @@ from "../../assets/firebase/firebase-config.js";
 
 
 import {
-
     onAuthStateChanged
-
 }
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
 
@@ -39,11 +37,9 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
-
 // ==========================================
 // ID TICKET
 // ==========================================
-
 
 const params =
 new URLSearchParams(
@@ -56,10 +52,18 @@ params.get("id");
 
 
 
-let ticketActual = null;
+if(!ticketId){
+
+console.error(
+"No existe ID de ticket"
+);
+
+}
 
 
 
+
+let ticketActual=null;
 
 
 
@@ -67,125 +71,86 @@ let ticketActual = null;
 // ELEMENTOS
 // ==========================================
 
-
 const titulo =
-document.getElementById(
-"ticketTitulo"
-);
+document.getElementById("ticketTitulo");
 
 
 const folio =
-document.getElementById(
-"ticketFolio"
-);
+document.getElementById("ticketFolio");
 
 
 const empresa =
-document.getElementById(
-"ticketEmpresa"
-);
+document.getElementById("ticketEmpresa");
 
 
 const usuario =
-document.getElementById(
-"ticketUsuario"
-);
+document.getElementById("ticketUsuario");
 
 
 const categoria =
-document.getElementById(
-"ticketCategoria"
-);
+document.getElementById("ticketCategoria");
 
 
 const prioridad =
-document.getElementById(
-"ticketPrioridad"
-);
+document.getElementById("ticketPrioridad");
 
 
 const estado =
-document.getElementById(
-"ticketEstado"
-);
+document.getElementById("ticketEstado");
 
 
 const descripcion =
-document.getElementById(
-"ticketDescripcion"
-);
+document.getElementById("ticketDescripcion");
 
 
 const conversacion =
-document.getElementById(
-"conversacion"
-);
+document.getElementById("conversacion");
 
 
 const respuestaForm =
-document.getElementById(
-"respuestaForm"
-);
+document.getElementById("respuestaForm");
 
 
 const respuesta =
-document.getElementById(
-"respuesta"
-);
+document.getElementById("respuesta");
 
 
 const nuevoEstado =
-document.getElementById(
-"nuevoEstado"
-);
+document.getElementById("nuevoEstado");
 
 
 const btnGuardarEstado =
-document.getElementById(
-"btnGuardarEstado"
-);
+document.getElementById("btnGuardarEstado");
 
 
-const mensajeTicket =
-document.getElementById(
-"mensajeTicket"
-);
-
-
+const mensaje =
+document.getElementById("mensajeTicket");
 
 
 
 
 // ==========================================
-// FECHAS
+// FECHA
 // ==========================================
-
 
 function fecha(valor){
 
 
-    if(!valor)
-        return "--";
+if(!valor)
+return "--";
 
 
-    if(typeof valor.toDate === "function"){
+if(typeof valor.toDate==="function"){
 
-        valor =
-        valor.toDate();
-
-    }
-
-
-    return valor.toLocaleString(
-        "es-MX"
-    );
-
+valor=valor.toDate();
 
 }
 
 
+return valor.toLocaleString("es-MX");
 
 
+}
 
 
 
@@ -194,11 +159,17 @@ function fecha(valor){
 // CARGAR TICKET
 // ==========================================
 
-
 async function cargarTicket(){
 
 
 try{
+
+
+console.log(
+"Cargando ticket:",
+ticketId
+);
+
 
 
 const ref =
@@ -212,8 +183,6 @@ ticketId
 
 const snap =
 await getDoc(ref);
-
-
 
 
 
@@ -232,15 +201,13 @@ return;
 
 
 
-ticketActual = {
+ticketActual={
 
 id:snap.id,
 
 ...snap.data()
 
 };
-
-
 
 
 
@@ -277,15 +244,12 @@ ticketActual.descripcion || "--";
 
 
 
-
 if(nuevoEstado){
 
 nuevoEstado.value =
 ticketActual.estado || "abierto";
 
 }
-
-
 
 
 
@@ -299,13 +263,13 @@ catch(error){
 
 
 console.error(
-"Error cargando ticket",
+"ERROR TICKET:",
 error
 );
 
 
 mostrarMensaje(
-"Error cargando ticket",
+error.message,
 "error"
 );
 
@@ -321,11 +285,8 @@ mostrarMensaje(
 
 
 
-
-
-
 // ==========================================
-// CARGAR MENSAJES
+// MENSAJES
 // ==========================================
 
 
@@ -335,23 +296,39 @@ async function cargarMensajes(){
 try{
 
 
+console.log(
+"Cargando mensajes"
+);
+
+
+
 const ref =
+
 collection(
+
 db,
+
 "tickets",
+
 ticketId,
+
 "mensajes"
+
 );
 
 
 
 const q =
+
 query(
+
 ref,
+
 orderBy(
 "fecha",
 "asc"
 )
+
 );
 
 
@@ -361,16 +338,14 @@ await getDocs(q);
 
 
 
-
 conversacion.innerHTML="";
-
 
 
 
 if(snap.empty){
 
 
-conversacion.innerHTML =
+conversacion.innerHTML=
 
 `
 
@@ -383,8 +358,8 @@ Sin mensajes todavía.
 
 return;
 
-}
 
+}
 
 
 
@@ -403,32 +378,24 @@ conversacion.innerHTML +=
 
 <div class="mensaje">
 
-
 <strong>
-
 ${msg.autor || "Usuario"}
-
 </strong>
 
 
 <p>
-
 ${msg.mensaje || ""}
-
 </p>
 
 
 <small>
-
 ${fecha(msg.fecha)}
-
 </small>
 
 
 </div>
 
 `;
-
 
 
 });
@@ -441,30 +408,27 @@ catch(error){
 
 
 console.error(
-"Error cargando mensajes",
+"ERROR MENSAJES:",
 error
 );
 
 
-
-conversacion.innerHTML =
+conversacion.innerHTML=
 
 `
 
 <p>
-Error cargando conversación.
+No se pudieron cargar mensajes
 </p>
 
 `;
 
 
-
 }
 
 
+
 }
-
-
 
 
 
@@ -473,12 +437,11 @@ Error cargando conversación.
 
 
 // ==========================================
-// RESPONDER AL CLIENTE
+// RESPONDER CLIENTE
 // ==========================================
 
 
 respuestaForm?.addEventListener(
-
 "submit",
 
 async(e)=>{
@@ -487,10 +450,8 @@ async(e)=>{
 e.preventDefault();
 
 
-
 const texto =
 respuesta.value.trim();
-
 
 
 if(!texto)
@@ -501,15 +462,8 @@ return;
 try{
 
 
-const admin =
+const user =
 auth.currentUser;
-
-
-
-if(!admin)
-return;
-
-
 
 
 
@@ -534,27 +488,13 @@ ticketId,
 
 autor:"admin",
 
+uid:user.uid,
 
-uid:
-admin.uid,
-
-
-nombre:
-"Administrador",
-
+nombre:"Administrador",
 
 mensaje:texto,
 
-
-tipo:"respuesta",
-
-
-ticketId:ticketId,
-
-
-folio:
-ticketActual.folio,
-
+tipo:"texto",
 
 fecha:
 serverTimestamp()
@@ -565,10 +505,6 @@ serverTimestamp()
 
 
 );
-
-
-
-
 
 
 
@@ -585,24 +521,13 @@ ticketId
 {
 
 
-ultimaRespuesta:
-"admin",
-
+ultimaRespuesta:"admin",
 
 ultimaActividad:
 serverTimestamp(),
 
-
 ultimaActualizacion:
-serverTimestamp(),
-
-
-totalComentarios:
-(
-ticketActual.totalComentarios || 0
-)
-+
-1
+serverTimestamp()
 
 
 }
@@ -613,24 +538,10 @@ ticketActual.totalComentarios || 0
 
 
 
-
-
 respuesta.value="";
 
 
-
-ticketActual.totalComentarios++;
-
-
-
 await cargarMensajes();
-
-
-
-mostrarMensaje(
-"Respuesta enviada correctamente",
-"success"
-);
 
 
 
@@ -640,10 +551,9 @@ catch(error){
 
 
 console.error(
-"Error enviando respuesta",
+"ERROR RESPUESTA:",
 error
 );
-
 
 
 mostrarMensaje(
@@ -652,12 +562,11 @@ error.message,
 );
 
 
-
 }
 
 
-}
 
+}
 
 );
 
@@ -667,15 +576,12 @@ error.message,
 
 
 
-
-
 // ==========================================
-// ACTUALIZAR ESTADO
+// CAMBIAR ESTADO
 // ==========================================
 
 
 btnGuardarEstado?.addEventListener(
-
 "click",
 
 async()=>{
@@ -685,6 +591,7 @@ try{
 
 
 await updateDoc(
+
 
 doc(
 db,
@@ -704,13 +611,10 @@ ultimaActualizacion:
 serverTimestamp()
 
 
-
 }
 
 
 );
-
-
 
 
 
@@ -720,7 +624,7 @@ nuevoEstado.value;
 
 
 mostrarMensaje(
-"Estado actualizado correctamente",
+"Estado actualizado",
 "success"
 );
 
@@ -737,7 +641,7 @@ error
 
 
 mostrarMensaje(
-"No se pudo actualizar",
+error.message,
 "error"
 );
 
@@ -756,52 +660,32 @@ mostrarMensaje(
 
 
 
-
-
 // ==========================================
-// ALERTAS
+// MENSAJE UI
 // ==========================================
 
 
-function mostrarMensaje(
-texto,
-tipo
-){
+function mostrarMensaje(texto,tipo){
 
 
-if(!mensajeTicket)
+if(!mensaje)
 return;
 
 
 
-mensajeTicket.innerHTML =
-
+mensaje.innerHTML=
 
 `
 
 <div class="alert ${tipo}">
-
 ${texto}
-
 </div>
 
 `;
 
 
 
-setTimeout(()=>{
-
-
-mensajeTicket.innerHTML="";
-
-
-},4000);
-
-
-
 }
-
-
 
 
 
@@ -814,34 +698,17 @@ mensajeTicket.innerHTML="";
 // ==========================================
 
 
-onAuthStateChanged(
+document.addEventListener(
+"compudesk-auth-ready",
+()=>{
 
-auth,
-
-(user)=>{
-
-
-if(user){
+console.log(
+"Admin autorizado"
+);
 
 
 cargarTicket();
 
 
-
 }
-
-else{
-
-
-location.replace(
-"../login.html"
-);
-
-
-
-}
-
-
-}
-
 );
