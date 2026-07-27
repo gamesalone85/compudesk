@@ -18,12 +18,10 @@ import {
     doc,
     getDoc,
     setDoc,
-    writeBatch,
     runTransaction,
-    serverTimestamp
-}
-from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
+    serverTimestamp,
+    writeBatch
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 // ==========================================
 // ELEMENTOS
@@ -307,68 +305,127 @@ function construirTicket(
 
 
 // ==========================================
-// GUARDAR TICKET + PRIMER MENSAJE
+// GUARDAR TICKET COMPLETO
 // ==========================================
 
-async function guardarTicket(ticket){
+async function guardarTicketCompleto(ticket){
 
     const batch = writeBatch(db);
 
-    // Documento principal del ticket
+    // Documento principal
 
     const ticketRef = doc(
-
         db,
         "tickets",
         ticket.folio
-
     );
 
     batch.set(
-
         ticketRef,
-
         ticket
-
     );
 
-    // Primer mensaje del historial
+
+
+    // ==========================
+    // PRIMER MENSAJE
+    // ==========================
 
     const mensajeRef = doc(
-
         collection(
             ticketRef,
             "mensajes"
         )
-
     );
 
     batch.set(
-
         mensajeRef,
-
         {
 
-            autor: "cliente",
+            autor:"cliente",
 
-            usuarioId: ticket.usuarioId,
+            uid:ticket.usuarioId,
 
-            nombre: ticket.nombreUsuario,
+            nombre:ticket.nombreUsuario,
 
-            mensaje: ticket.descripcion,
+            mensaje:ticket.descripcion,
 
-            fecha: serverTimestamp(),
+            tipo:"texto",
 
-            tipo: "mensaje"
+            fecha:serverTimestamp()
 
         }
-
     );
+
+
+
+    // ==========================
+    // HISTORIAL
+    // ==========================
+
+    const historialRef = doc(
+        collection(
+            ticketRef,
+            "historial"
+        )
+    );
+
+    batch.set(
+        historialRef,
+        {
+
+            accion:"Ticket creado",
+
+            descripcion:
+                "El cliente creó el ticket.",
+
+            usuario:
+                ticket.nombreUsuario,
+
+            fecha:
+                serverTimestamp()
+
+        }
+    );
+
+
+
+    // ==========================
+    // ACTIVIDAD
+    // ==========================
+
+    const actividadRef = doc(
+        collection(
+            ticketRef,
+            "actividades"
+        )
+    );
+
+    batch.set(
+        actividadRef,
+        {
+
+            icono:"ticket",
+
+            titulo:"Nuevo ticket",
+
+            detalle:ticket.folio,
+
+            fecha:
+                serverTimestamp()
+
+        }
+    );
+
+
+
+    // ==========================
+    // GUARDAR TODO
+    // ==========================
 
     await batch.commit();
 
 }
-
 // ==========================================
 // CREAR TICKET
 // ==========================================
@@ -426,7 +483,7 @@ async function crearTicket() {
 
     // Guardar
 
-    await guardarTicket(ticket);
+    await guardarTicketCompleto(ticket);
 
     return folio;
 
