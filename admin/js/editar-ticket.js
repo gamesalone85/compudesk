@@ -1,15 +1,18 @@
 // ==========================================
 // COMPU DESK
 // ADMIN EDITAR TICKET
-// Producción v2.0
+// Producción v3.0
 // Firebase Auth + Firestore
 // ==========================================
 
 
 import {
+
     auth,
     db
+
 }
+
 from "../../assets/firebase/firebase-config.js";
 
 
@@ -21,7 +24,6 @@ import {
 }
 
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
 
 
 
@@ -47,25 +49,35 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 // ==========================================
-// ID TICKET
+// OBTENER ID TICKET
 // ==========================================
 
 
-const params =
+const parametros =
+
 new URLSearchParams(
-window.location.search
+    window.location.search
 );
 
 
 
 const ticketId =
-params.get("id");
+
+parametros.get("id");
 
 
 
 
+if(!ticketId){
 
-let ticketActual = null;
+
+    console.error(
+        "No existe ID de ticket"
+    );
+
+
+}
+
 
 
 
@@ -73,104 +85,139 @@ let ticketActual = null;
 
 
 // ==========================================
-// ELEMENTOS
+// ELEMENTOS HTML
 // ==========================================
 
 
-const titulo =
+const ticketTitulo =
 document.getElementById(
-"ticketTitulo"
+    "ticketTitulo"
 );
 
 
 
-const folio =
+const ticketFolio =
 document.getElementById(
-"ticketFolio"
+    "ticketFolio"
 );
 
 
 
-const empresa =
+const ticketEmpresa =
 document.getElementById(
-"ticketEmpresa"
+    "ticketEmpresa"
 );
 
 
 
-const usuario =
+const ticketUsuario =
 document.getElementById(
-"ticketUsuario"
+    "ticketUsuario"
 );
 
 
 
-const categoria =
+const ticketCategoria =
 document.getElementById(
-"ticketCategoria"
+    "ticketCategoria"
 );
 
 
 
-const prioridad =
+const ticketPrioridad =
 document.getElementById(
-"ticketPrioridad"
+    "ticketPrioridad"
 );
 
 
 
-const estado =
+const ticketEstado =
 document.getElementById(
-"ticketEstado"
+    "ticketEstado"
 );
 
 
 
-const descripcion =
+const ticketTecnico =
 document.getElementById(
-"ticketDescripcion"
+    "ticketTecnico"
+);
+
+
+
+const ticketFecha =
+document.getElementById(
+    "ticketFecha"
+);
+
+
+
+const ticketUltimaActividad =
+document.getElementById(
+    "ticketUltimaActividad"
+);
+
+
+
+const ticketDescripcion =
+document.getElementById(
+    "ticketDescripcion"
+);
+
+
+
+const ticketEstadoBadge =
+document.getElementById(
+    "ticketEstadoBadge"
+);
+
+
+
+const ticketPrioridadBadge =
+document.getElementById(
+    "ticketPrioridadBadge"
 );
 
 
 
 const conversacion =
 document.getElementById(
-"conversacion"
+    "conversacion"
 );
 
 
 
 const respuestaForm =
 document.getElementById(
-"respuestaForm"
+    "respuestaForm"
 );
 
 
 
 const respuesta =
 document.getElementById(
-"respuesta"
+    "respuesta"
 );
 
 
 
 const nuevoEstado =
 document.getElementById(
-"nuevoEstado"
+    "nuevoEstado"
 );
 
 
 
 const btnGuardarEstado =
 document.getElementById(
-"btnGuardarEstado"
+    "btnGuardarEstado"
 );
 
 
 
-const mensaje =
+const mensajeTicket =
 document.getElementById(
-"mensajeTicket"
+    "mensajeTicket"
 );
 
 
@@ -179,38 +226,84 @@ document.getElementById(
 
 
 
+// ==========================================
+// FORMATO FECHA
+// ==========================================
+
+
+function formatoFecha(valor){
+
+
+    if(!valor)
+
+        return "--";
+
+
+
+    if(
+        typeof valor.toDate === "function"
+    ){
+
+        valor =
+        valor.toDate();
+
+    }
+
+
+
+    return valor.toLocaleString(
+        "es-MX"
+    );
+
+
+}
+
+
+
+
+
+
 
 // ==========================================
-// FECHA
+// MENSAJE SISTEMA
 // ==========================================
 
 
-function fecha(valor){
-
-
-if(!valor)
-return "--";
-
-
-
-if(
-typeof valor.toDate === "function"
+function mostrarMensaje(
+texto,
+tipo="success"
 ){
 
-valor =
-valor.toDate();
+
+    if(!mensajeTicket)
+
+        return;
+
+
+
+    mensajeTicket.innerHTML =
+
+
+    `
+
+    <div class="alert ${tipo}">
+
+        ${texto}
+
+    </div>
+
+    `;
+
+
+
+    setTimeout(()=>{
+
+        mensajeTicket.innerHTML="";
+
+    },4000);
+
 
 }
-
-
-
-return valor.toLocaleString(
-"es-MX"
-);
-
-
-}
-
 
 
 
@@ -226,131 +319,206 @@ return valor.toLocaleString(
 async function cargarTicket(){
 
 
+
 try{
 
 
-const referencia =
 
-doc(
-db,
-"tickets",
-ticketId
-);
+    const referencia =
 
-
-
-const snap =
-
-await getDoc(
-referencia
-);
+    doc(
+        db,
+        "tickets",
+        ticketId
+    );
 
 
 
 
+    const snapshot =
 
-if(!snap.exists()){
-
-
-mostrarMensaje(
-"Ticket no encontrado",
-"error"
-);
+    await getDoc(
+        referencia
+    );
 
 
-return;
+
+
+
+    if(!snapshot.exists()){
+
+
+        mostrarMensaje(
+            "El ticket no existe",
+            "error"
+        );
+
+
+        return;
+
+
+    }
+
+
+
+
+
+    const ticket = snapshot.data();
+
+
+
+
+
+
+
+    ticketTitulo.textContent =
+
+        ticket.titulo || "Sin título";
+
+
+
+
+
+    ticketFolio.textContent =
+
+        ticket.folio || ticketId;
+
+
+
+
+
+    ticketEmpresa.textContent =
+
+        ticket.empresa || "--";
+
+
+
+
+
+    ticketUsuario.textContent =
+
+        ticket.nombreUsuario || "--";
+
+
+
+
+
+    ticketCategoria.textContent =
+
+        ticket.categoria || "--";
+
+
+
+
+
+    ticketPrioridad.textContent =
+
+        ticket.prioridad || "--";
+
+
+
+
+
+    ticketEstado.textContent =
+
+        ticket.estado || "--";
+
+
+
+
+
+    ticketDescripcion.textContent =
+
+        ticket.descripcion || "--";
+
+
+
+
+
+    ticketFecha.textContent =
+
+        formatoFecha(
+            ticket.fechaCreacion
+        );
+
+
+
+
+
+    ticketUltimaActividad.textContent =
+
+        formatoFecha(
+            ticket.ultimaActividad
+        );
+
+
+
+
+
+    ticketTecnico.textContent =
+
+        ticket.tecnicoNombre ||
+
+        "Sin asignar";
+
+
+
+
+
+
+
+    if(nuevoEstado){
+
+
+        nuevoEstado.value =
+
+        ticket.estado ||
+
+        "abierto";
+
+
+    }
+
+
+
+
+
+
+    actualizarBadge(
+        ticket
+    );
+
+
+
+
+
+    await cargarMensajes();
+
+
 
 
 }
-
-
-
-ticketActual = {
-
-id:snap.id,
-
-...snap.data()
-
-};
-
-
-
-
-
-
-titulo.textContent =
-ticketActual.titulo || "--";
-
-
-
-folio.textContent =
-ticketActual.folio || "--";
-
-
-
-empresa.textContent =
-ticketActual.empresa || "--";
-
-
-
-usuario.textContent =
-ticketActual.nombreUsuario || "--";
-
-
-
-categoria.textContent =
-ticketActual.categoria || "--";
-
-
-
-prioridad.textContent =
-ticketActual.prioridad || "--";
-
-
-
-estado.textContent =
-ticketActual.estado || "--";
-
-
-
-descripcion.textContent =
-ticketActual.descripcion || "--";
-
-
-
-
-
-if(nuevoEstado){
-
-nuevoEstado.value =
-ticketActual.estado || "abierto";
-
-}
-
-
-
-
-await cargarMensajes();
-
-
-
-}
-
-
 
 catch(error){
 
 
+
 console.error(
+
 "Error cargando ticket:",
+
 error
+
 );
 
 
 
 mostrarMensaje(
+
 "Error cargando ticket",
+
 "error"
+
 );
 
 
@@ -360,7 +528,6 @@ mostrarMensaje(
 
 
 }
-
 
 
 
@@ -369,134 +536,266 @@ mostrarMensaje(
 
 
 // ==========================================
-// CARGAR MENSAJES
+// BADGES
+// ==========================================
+
+
+function actualizarBadge(ticket){
+
+
+
+if(ticketEstadoBadge){
+
+
+ticketEstadoBadge.className =
+
+"badge-ticket " +
+
+(ticket.estado || "abierto");
+
+
+
+ticketEstadoBadge.textContent =
+
+ticket.estado || "abierto";
+
+
+}
+
+
+
+
+
+if(ticketPrioridadBadge){
+
+
+ticketPrioridadBadge.className =
+
+"prioridad " +
+
+(ticket.prioridad || "media");
+
+
+
+ticketPrioridadBadge.textContent =
+
+ticket.prioridad || "media";
+
+
+}
+
+
+
+}
+// ==========================================
+// CARGAR CONVERSACIÓN
 // ==========================================
 
 
 async function cargarMensajes(){
 
 
-
 try{
 
 
-const mensajesRef =
+    if(!conversacion)
 
-collection(
-
-db,
-
-"tickets",
-
-ticketId,
-
-"mensajes"
-
-);
+        return;
 
 
 
+    const mensajesRef =
 
+    collection(
 
-const consulta =
+        db,
 
-query(
+        "tickets",
 
-mensajesRef,
+        ticketId,
 
-orderBy(
-"fecha",
-"asc"
-)
+        "mensajes"
 
-);
+    );
 
 
 
 
+    const consulta =
 
-const snap =
+    query(
 
-await getDocs(
-consulta
-);
+        mensajesRef,
+
+        orderBy(
+
+            "fecha",
+
+            "asc"
+
+        )
+
+    );
 
 
 
 
 
+    const snapshot =
 
-conversacion.innerHTML="";
+    await getDocs(
 
+        consulta
 
-
-
-
-
-if(snap.empty){
+    );
 
 
-conversacion.innerHTML =
 
-`
 
-<p>
-Sin mensajes todavía.
-</p>
 
-`;
+    conversacion.innerHTML = "";
 
-return;
+
+
+
+
+
+    if(snapshot.empty){
+
+
+        conversacion.innerHTML =
+
+
+        `
+
+        <div class="conversation-empty">
+
+            <i class="fa-solid fa-comments"></i>
+
+            <p>
+
+            No hay mensajes todavía.
+
+            </p>
+
+        </div>
+
+        `;
+
+
+        return;
+
+
+    }
+
+
+
+
+
+
+
+    snapshot.forEach((doc)=>{
+
+
+
+        const mensaje =
+
+        doc.data();
+
+
+
+
+
+        const fechaMensaje =
+
+        formatoFecha(
+
+            mensaje.fecha
+
+        );
+
+
+
+
+
+
+        conversacion.innerHTML +=
+
+
+
+        `
+
+        <div class="mensaje">
+
+
+            <div class="mensaje-header">
+
+
+                <strong>
+
+                ${mensaje.nombre || mensaje.autor || "Usuario"}
+
+                </strong>
+
+
+
+                <small>
+
+                ${fechaMensaje}
+
+                </small>
+
+
+            </div>
+
+
+
+
+            <p>
+
+            ${mensaje.mensaje || ""}
+
+            </p>
+
+
+
+        </div>
+
+
+        `;
+
+
+
+    });
+
+
+
 
 
 }
 
+catch(error){
 
 
 
+console.error(
+
+"Error cargando mensajes:",
+
+error
+
+);
 
 
-snap.forEach(doc=>{
 
-
-const msg =
-doc.data();
-
-
-
-
-conversacion.innerHTML +=
+conversacion.innerHTML =
 
 
 `
 
-<div class="mensaje">
+<div class="conversation-empty">
 
-
-<strong>
-
-${msg.autor || "Usuario"}
-
-</strong>
-
-
-
-<p>
-
-${msg.mensaje}
-
-</p>
-
-
-
-
-<small>
-
-${fecha(msg.fecha)}
-
-</small>
-
-
+Error cargando conversación.
 
 </div>
 
@@ -504,40 +803,13 @@ ${fecha(msg.fecha)}
 
 
 
-});
-
-
-
-
-}
-
-catch(error){
-
-
-console.error(
-"Error mensajes:",
-error
-);
-
-
-
-conversacion.innerHTML =
-
-`
-
-<p>
-Error cargando conversación.
-</p>
-
-`;
-
-
-
 }
 
 
 
 }
+
+
 
 
 
@@ -547,7 +819,7 @@ Error cargando conversación.
 
 
 // ==========================================
-// RESPONDER AL CLIENTE
+// RESPONDER CLIENTE
 // ==========================================
 
 
@@ -562,13 +834,20 @@ e.preventDefault();
 
 
 
+
+
 const texto =
+
 respuesta.value.trim();
 
 
 
+
+
 if(!texto)
-return;
+
+    return;
+
 
 
 
@@ -578,8 +857,34 @@ try{
 
 
 
-const admin =
+const usuarioActual =
+
 auth.currentUser;
+
+
+
+
+
+if(!usuarioActual){
+
+
+    mostrarMensaje(
+
+        "Sesión administrativa inválida",
+
+        "error"
+
+    );
+
+
+    return;
+
+
+}
+
+
+
+
 
 
 
@@ -589,13 +894,13 @@ await addDoc(
 
 collection(
 
-db,
+    db,
 
-"tickets",
+    "tickets",
 
-ticketId,
+    ticketId,
 
-"mensajes"
+    "mensajes"
 
 ),
 
@@ -603,30 +908,30 @@ ticketId,
 {
 
 
-autor:"admin",
+    autor:"admin",
 
 
-uid:
-admin.uid,
+    nombre:"Administrador",
 
 
-nombre:
+    uid:
 
-"Administrador",
-
-
-mensaje:texto,
+    usuarioActual.uid,
 
 
-tipo:"texto",
+    mensaje:texto,
 
 
-fecha:
-serverTimestamp()
+    tipo:"respuesta",
+
+
+    fecha:
+
+    serverTimestamp()
+
 
 
 }
-
 
 
 );
@@ -641,25 +946,30 @@ await updateDoc(
 
 
 doc(
-db,
-"tickets",
-ticketId
+
+    db,
+
+    "tickets",
+
+    ticketId
+
 ),
 
 
 {
 
 
-ultimaRespuesta:
-"admin",
+    ultimaRespuesta:"admin",
 
 
-ultimaActividad:
-serverTimestamp(),
+    ultimaActividad:
+
+    serverTimestamp(),
 
 
-ultimaActualizacion:
-serverTimestamp()
+    ultimaActualizacion:
+
+    serverTimestamp()
 
 
 }
@@ -678,6 +988,21 @@ respuesta.value="";
 
 
 
+
+
+mostrarMensaje(
+
+"Respuesta enviada correctamente",
+
+"success"
+
+);
+
+
+
+
+
+
 await cargarMensajes();
 
 
@@ -689,14 +1014,21 @@ catch(error){
 
 
 console.error(
+
 "Error enviando respuesta:",
+
 error
+
 );
+
 
 
 mostrarMensaje(
-"Error enviando mensaje",
+
+"No se pudo enviar la respuesta",
+
 "error"
+
 );
 
 
@@ -708,6 +1040,7 @@ mostrarMensaje(
 }
 
 );
+
 
 
 
@@ -718,7 +1051,7 @@ mostrarMensaje(
 
 
 // ==========================================
-// CAMBIO ESTADO
+// CAMBIO DE ESTADO
 // ==========================================
 
 
@@ -729,7 +1062,16 @@ btnGuardarEstado?.addEventListener(
 async()=>{
 
 
+
 try{
+
+
+
+const nuevo =
+
+nuevoEstado.value;
+
+
 
 
 
@@ -737,22 +1079,30 @@ await updateDoc(
 
 
 doc(
+
 db,
+
 "tickets",
+
 ticketId
+
 ),
 
 
 {
 
 
-estado:
-nuevoEstado.value,
+estado:nuevo,
+
+
+ultimaActividad:
+
+serverTimestamp(),
 
 
 ultimaActualizacion:
-serverTimestamp()
 
+serverTimestamp()
 
 
 }
@@ -765,8 +1115,33 @@ serverTimestamp()
 
 
 
-estado.textContent =
-nuevoEstado.value;
+
+
+ticketEstado.textContent =
+
+nuevo;
+
+
+
+
+
+if(ticketEstadoBadge){
+
+
+ticketEstadoBadge.className =
+
+"badge-ticket " + nuevo;
+
+
+ticketEstadoBadge.textContent =
+
+nuevo;
+
+
+}
+
+
+
 
 
 
@@ -780,72 +1155,270 @@ mostrarMensaje(
 
 
 
+
+
+}
+
+catch(error){
+
+
+
+console.error(
+
+"Error actualizando estado:",
+
+error
+
+);
+
+
+
+mostrarMensaje(
+
+"No se pudo actualizar el estado",
+
+"error"
+
+);
+
+
+
+}
+
+
+
+}
+
+);
+// ==========================================
+// TIMELINE / HISTORIAL
+// ==========================================
+
+
+async function cargarTimeline(){
+
+
+const timeline =
+
+document.getElementById(
+    "ticketTimeline"
+);
+
+
+
+if(!timeline)
+
+    return;
+
+
+
+
+try{
+
+
+const historialRef =
+
+collection(
+
+    db,
+
+    "tickets",
+
+    ticketId,
+
+    "historial"
+
+);
+
+
+
+
+const consulta =
+
+query(
+
+    historialRef,
+
+    orderBy(
+
+        "fecha",
+
+        "asc"
+
+    )
+
+);
+
+
+
+
+
+const snapshot =
+
+await getDocs(
+
+    consulta
+
+);
+
+
+
+
+
+timeline.innerHTML="";
+
+
+
+
+
+
+if(snapshot.empty){
+
+
+timeline.innerHTML =
+
+
+`
+
+<div class="timeline-item">
+
+<div class="timeline-dot">
+
+<i class="fa-solid fa-plus"></i>
+
+</div>
+
+
+<div class="timeline-content">
+
+<strong>
+
+Ticket creado
+
+</strong>
+
+
+<p>
+
+Sin movimientos registrados.
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+return;
+
+
+}
+
+
+
+
+
+
+snapshot.forEach((doc)=>{
+
+
+const evento = doc.data();
+
+
+
+
+
+timeline.innerHTML +=
+
+
+`
+
+<div class="timeline-item">
+
+
+<div class="timeline-dot">
+
+<i class="fa-solid fa-clock"></i>
+
+</div>
+
+
+
+<div class="timeline-content">
+
+
+<strong>
+
+${evento.titulo || "Actividad"}
+
+</strong>
+
+
+<p>
+
+${evento.descripcion || ""}
+
+</p>
+
+
+<small>
+
+${formatoFecha(evento.fecha)}
+
+</small>
+
+
+</div>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+
 }
 
 catch(error){
 
 
 console.error(
-"Error estado:",
+
+"Error timeline:",
+
 error
-);
-
-
-
-mostrarMensaje(
-"No se pudo actualizar",
-"error"
-);
-
-
-
-}
-
-
-
-}
 
 );
 
 
-
-
-
-
-
-
-
-
-// ==========================================
-// MENSAJES UI
-// ==========================================
-
-
-function mostrarMensaje(
-texto,
-tipo
-){
-
-
-if(!mensaje)
-return;
-
-
-
-mensaje.innerHTML =
-
+timeline.innerHTML =
 
 `
 
-<div class="alert ${tipo}">
+<p>
 
-${texto}
+No se pudo cargar historial.
 
-</div>
+</p>
 
 `;
 
 
+
+}
+
+
 }
 
 
@@ -856,7 +1429,512 @@ ${texto}
 
 
 // ==========================================
-// INICIO
+// CARGAR ADJUNTOS
+// ==========================================
+
+
+async function cargarAdjuntos(){
+
+
+
+const contenedor =
+
+document.getElementById(
+
+    "ticketAdjuntos"
+
+);
+
+
+
+if(!contenedor)
+
+    return;
+
+
+
+
+
+try{
+
+
+
+const ticketRef =
+
+doc(
+
+db,
+
+"tickets",
+
+ticketId
+
+);
+
+
+
+const snap =
+
+await getDoc(
+
+ticketRef
+
+);
+
+
+
+
+
+const ticket =
+
+snap.data();
+
+
+
+
+
+const archivos =
+
+ticket.adjuntos || [];
+
+
+
+
+
+if(!archivos.length){
+
+
+return;
+
+
+}
+
+
+
+
+
+contenedor.innerHTML="";
+
+
+
+
+
+archivos.forEach(archivo=>{
+
+
+contenedor.innerHTML +=
+
+
+`
+
+<div class="attachment-item">
+
+
+<i class="fa-solid fa-file"></i>
+
+
+<a
+
+href="${archivo.url}"
+
+target="_blank">
+
+${archivo.nombre}
+
+</a>
+
+
+</div>
+
+
+`;
+
+
+
+});
+
+
+
+
+
+}
+
+catch(error){
+
+
+console.error(
+
+"Error adjuntos:",
+
+error
+
+);
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// CAMBIAR PRIORIDAD
+// ==========================================
+
+
+const btnCambiarPrioridad =
+
+document.getElementById(
+
+    "btnCambiarPrioridad"
+
+);
+
+
+
+
+
+btnCambiarPrioridad?.addEventListener(
+
+"click",
+
+async()=>{
+
+
+
+const nuevaPrioridad =
+
+prompt(
+
+"Escribe prioridad: alta, media o baja"
+
+);
+
+
+
+
+
+if(
+
+!nuevaPrioridad ||
+
+![
+
+"alta",
+
+"media",
+
+"baja"
+
+].includes(
+
+nuevaPrioridad
+
+)
+
+)
+
+return;
+
+
+
+
+
+
+try{
+
+
+
+await updateDoc(
+
+
+doc(
+
+db,
+
+"tickets",
+
+ticketId
+
+),
+
+
+{
+
+
+prioridad:nuevaPrioridad,
+
+
+ultimaActividad:
+
+serverTimestamp()
+
+
+}
+
+
+
+);
+
+
+
+
+
+
+
+ticketPrioridad.textContent =
+
+nuevaPrioridad;
+
+
+
+
+
+if(ticketPrioridadBadge){
+
+
+ticketPrioridadBadge.className =
+
+"prioridad " + nuevaPrioridad;
+
+
+ticketPrioridadBadge.textContent =
+
+nuevaPrioridad;
+
+
+}
+
+
+
+
+
+mostrarMensaje(
+
+"Prioridad actualizada",
+
+"success"
+
+);
+
+
+
+
+}
+
+catch(error){
+
+
+
+console.error(
+
+"Error prioridad:",
+
+error
+
+);
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+// ==========================================
+// ASIGNAR TECNICO
+// ==========================================
+
+
+const btnAsignarTecnico =
+
+document.getElementById(
+
+"btnAsignarTecnico"
+
+);
+
+
+
+
+
+btnAsignarTecnico?.addEventListener(
+
+"click",
+
+async()=>{
+
+
+
+const tecnico =
+
+prompt(
+
+"Nombre del técnico asignado"
+
+);
+
+
+
+
+
+if(!tecnico)
+
+return;
+
+
+
+
+
+try{
+
+
+await updateDoc(
+
+
+doc(
+
+db,
+
+"tickets",
+
+ticketId
+
+),
+
+
+{
+
+
+tecnicoNombre:tecnico,
+
+
+ultimaActividad:
+
+serverTimestamp()
+
+
+}
+
+
+);
+
+
+
+
+
+ticketTecnico.textContent =
+
+tecnico;
+
+
+
+
+
+mostrarMensaje(
+
+"Técnico asignado correctamente",
+
+"success"
+
+);
+
+
+
+}
+
+catch(error){
+
+
+console.error(
+
+"Error técnico:",
+
+error
+
+);
+
+
+
+}
+
+
+
+}
+
+);
+
+
+
+
+
+
+
+
+
+
+// ==========================================
+// SLA
+// ==========================================
+
+
+function calcularSLA(){
+
+
+
+const estadoSLA =
+
+document.getElementById(
+
+"slaEstado"
+
+);
+
+
+
+if(!estadoSLA)
+
+return;
+
+
+
+
+estadoSLA.textContent =
+
+"En tiempo";
+
+
+
+}
+
+
+
+
+
+
+
+
+
+// ==========================================
+// INICIALIZACIÓN
 // ==========================================
 
 
@@ -867,22 +1945,42 @@ auth,
 (user)=>{
 
 
+
 if(user){
 
 
-cargarTicket();
+
+    if(ticketId){
+
+
+        cargarTicket();
+
+
+        cargarTimeline();
+
+
+        cargarAdjuntos();
+
+
+        calcularSLA();
+
+
+    }
+
 
 
 }
+
 else{
 
 
-location.replace(
-"../login.html"
-);
+window.location.href =
+
+"../login.html";
 
 
 }
+
 
 
 }
