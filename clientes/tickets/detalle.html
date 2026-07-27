@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Detalle del Ticket | Compu Desk</title>
+
+<link rel="icon" href="../../img/logo.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<link rel="stylesheet"
+href="../css/cliente.css">
+
+</head>
+
+<body>
+
+<header class="cliente-header">
+
+<div class="brand">
+
+<img src="../../img/logo.png">
+
+<div>
+
+<h2>Compu Desk</h2>
+
+<span>Detalle del Ticket</span>
+
+</div>
+
+</div>
+
+<div class="header-actions">
+
+<a href="index.html" class="secondary-button">
+
+<i class="fa-solid fa-arrow-left"></i>
+
+Volver
+
+</a>
+
+</div>
+
+</header>
+
+
+
+<main class="cliente-container">
+
+<section class="empresa-card">
+
+<div id="ticketInfo">
+
+<div class="ticket-loading">
+
+<i class="fa-solid fa-spinner fa-spin"></i>
+
+<h3>Cargando ticket...</h3>
+
+</div>
+
+</div>
+
+
+
+<hr style="margin:40px 0;">
+
+
+
+<h2>
+
+<i class="fa-solid fa-comments"></i>
+
+Conversación
+
+</h2>
+
+<div id="conversacion"></div>
+
+
+
+<form id="respuestaForm">
+
+<div class="form-group">
+
+<label>Responder</label>
+
+<textarea
+
+id="respuesta"
+
+rows="5"
+
+placeholder="Escribe una respuesta..."
+
+required>
+
+</textarea>
+
+</div>
+
+<button
+class="primary-button"
+type="submit">
+
+<i class="fa-solid fa-paper-plane"></i>
+
+Enviar respuesta
+
+</button>
+
+</form>
+
+</section>
+
+</main>
+
+<script type="module"
+src="../js/auth-guard.js"></script>
+
+<script type="module"
+src="../js/detalle-ticket.js"></script>
+
+</body>
+
+</html>
