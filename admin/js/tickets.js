@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // ADMIN TICKETS
-// Producción v1.0
+// Producción v2.0
 // ==========================================
 
 
@@ -29,49 +29,278 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+// ==========================================
+// ELEMENTOS
+// ==========================================
 
-const tabla =
 
-document.getElementById(
-"tablaTickets"
+const tabla = document.getElementById(
+    "tablaTickets"
+);
+
+
+
+const abiertos = document.getElementById(
+    "ticketsAbiertos"
+);
+
+
+const proceso = document.getElementById(
+    "ticketsProceso"
+);
+
+
+const pendientes = document.getElementById(
+    "ticketsPendientes"
+);
+
+
+const cerrados = document.getElementById(
+    "ticketsCerrados"
 );
 
 
 
 
+// ==========================================
+// BADGE ESTADO
+// ==========================================
 
-const abiertos =
-document.getElementById(
-"ticketsAbiertos"
+
+function estadoBadge(estado){
+
+
+    switch(estado){
+
+
+        case "abierto":
+
+            return `
+
+            <span class="badge-warning">
+
+            <i class="fa-solid fa-envelope-open"></i>
+
+            Abierto
+
+            </span>
+
+            `;
+
+
+
+        case "en_proceso":
+
+            return `
+
+            <span class="badge-info">
+
+            <i class="fa-solid fa-spinner"></i>
+
+            En proceso
+
+            </span>
+
+            `;
+
+
+
+
+        case "pendiente_cliente":
+
+            return `
+
+            <span class="badge-warning">
+
+            <i class="fa-solid fa-clock"></i>
+
+            Pendiente cliente
+
+            </span>
+
+            `;
+
+
+
+
+        case "cerrado":
+
+            return `
+
+            <span class="badge-success">
+
+            <i class="fa-solid fa-circle-check"></i>
+
+            Cerrado
+
+            </span>
+
+            `;
+
+
+
+
+        default:
+
+            return `
+
+            <span class="badge-danger">
+
+            Sin estado
+
+            </span>
+
+            `;
+
+
+    }
+
+
+}
+
+
+
+
+// ==========================================
+// BADGE PRIORIDAD
+// ==========================================
+
+
+function prioridadBadge(prioridad){
+
+
+
+switch(
+    prioridad?.toLowerCase()
+){
+
+
+case "alta":
+
+return `
+
+<span class="badge-danger">
+
+Alta
+
+</span>
+
+`;
+
+
+
+case "media":
+
+return `
+
+<span class="badge-warning">
+
+Media
+
+</span>
+
+`;
+
+
+
+case "baja":
+
+return `
+
+<span class="badge-success">
+
+Baja
+
+</span>
+
+`;
+
+
+
+case "critica":
+
+return `
+
+<span class="badge-danger">
+
+Crítica
+
+</span>
+
+`;
+
+
+
+default:
+
+return `
+
+<span class="badge-info">
+
+${prioridad || "Normal"}
+
+</span>
+
+`;
+
+
+}
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// FORMATO FECHA
+// ==========================================
+
+
+function formatoFecha(timestamp){
+
+
+if(!timestamp)
+
+return "--";
+
+
+
+return timestamp
+.toDate()
+.toLocaleString(
+"es-MX",
+{
+
+dateStyle:"short",
+
+timeStyle:"short"
+
+}
+
 );
 
 
-const proceso =
-document.getElementById(
-"ticketsProceso"
-);
-
-
-const pendientes =
-document.getElementById(
-"ticketsPendientes"
-);
-
-
-const cerrados =
-document.getElementById(
-"ticketsCerrados"
-);
+}
 
 
 
 
+
+
+// ==========================================
+// CARGAR TICKETS
+// ==========================================
 
 
 async function cargarTickets(){
 
 
+
 try{
+
 
 
 const consulta = query(
@@ -90,10 +319,10 @@ orderBy(
 
 
 
-const snapshot =
 
-await getDocs(
-consulta
+
+const snapshot = await getDocs(
+    consulta
 );
 
 
@@ -102,15 +331,22 @@ consulta
 
 let contador = {
 
+
 abierto:0,
+
 
 en_proceso:0,
 
+
 pendiente_cliente:0,
+
 
 cerrado:0
 
+
 };
+
+
 
 
 
@@ -119,13 +355,32 @@ cerrado:0
 if(snapshot.empty){
 
 
-tabla.innerHTML =
 
-`
+tabla.innerHTML = `
+
+
+<div class="empty-state">
+
+
+<i class="fa-solid fa-ticket"></i>
+
+
 <p>
+
 No existen tickets registrados.
+
 </p>
+
+
+</div>
+
+
 `;
+
+
+
+actualizarContadores(contador);
+
 
 return;
 
@@ -137,18 +392,24 @@ return;
 
 
 
+
+
 let html = `
 
 
-<table class="clientes-table">
+
+<table class="admin-table">
+
 
 
 <thead>
 
+
 <tr>
 
+
 <th>
-Título
+Ticket
 </th>
 
 
@@ -188,7 +449,9 @@ Acción
 </thead>
 
 
+
 <tbody>
+
 
 `;
 
@@ -198,7 +461,8 @@ Acción
 
 
 
-snapshot.forEach((ticketDoc)=>{
+snapshot.forEach(
+(ticketDoc)=>{
 
 
 const ticket =
@@ -206,31 +470,22 @@ ticketDoc.data();
 
 
 
-if(contador[ticket.estado] !== undefined){
 
-contador[ticket.estado]++;
-
-}
+const estado =
+ticket.estado || "abierto";
 
 
 
 
+if(
+contador[estado] !== undefined
+){
 
-let fecha="--";
-
-
-if(ticket.fechaCreacion){
-
-
-fecha =
-
-ticket.fechaCreacion
-.toDate()
-.toLocaleDateString(
-"es-MX"
-);
+contador[estado]++;
 
 }
+
+
 
 
 
@@ -241,11 +496,37 @@ html += `
 <tr>
 
 
+
 <td>
 
-${ticket.titulo || "--"}
+
+<div class="ticket-title">
+
+
+<strong>
+
+${ticket.titulo || "Sin título"}
+
+</strong>
+
+
+
+<small>
+
+ID:
+${ticketDoc.id.substring(0,8)}
+
+</small>
+
+
+</div>
+
 
 </td>
+
+
+
+
 
 
 
@@ -257,6 +538,10 @@ ${ticket.empresa || "--"}
 
 
 
+
+
+
+
 <td>
 
 ${ticket.nombreUsuario || "--"}
@@ -265,27 +550,49 @@ ${ticket.nombreUsuario || "--"}
 
 
 
-<td>
 
-${ticket.prioridad || "--"}
-
-</td>
 
 
 
 <td>
 
-${ticket.estado || "--"}
+${prioridadBadge(
+ticket.prioridad
+)}
 
 </td>
+
+
+
+
 
 
 
 <td>
 
-${fecha}
+${estadoBadge(
+estado
+)}
 
 </td>
+
+
+
+
+
+
+
+<td>
+
+${formatoFecha(
+ticket.fechaCreacion
+)}
+
+</td>
+
+
+
+
 
 
 
@@ -293,18 +600,31 @@ ${fecha}
 
 
 <a
+
 href="editar.html?id=${ticketDoc.id}"
-class="btn-action">
+
+class="btn-action"
+
+title="Ver ticket"
+
+
+>
+
 
 <i class="fa-solid fa-eye"></i>
 
+
 </a>
+
 
 
 </td>
 
 
+
+
 </tr>
+
 
 
 `;
@@ -318,13 +638,20 @@ class="btn-action">
 
 
 
+
+
 html += `
+
 
 </tbody>
 
+
 </table>
 
+
 `;
+
+
 
 
 
@@ -336,48 +663,114 @@ html;
 
 
 
+actualizarContadores(
+contador
+);
+
+
+
+}
+
+
+
+catch(error){
+
+
+
+console.error(
+
+"Error tickets:",
+
+error
+
+);
+
+
+
+
+tabla.innerHTML = `
+
+
+<div class="empty-state">
+
+
+<i class="fa-solid fa-triangle-exclamation"></i>
+
+
+<p>
+
+Error cargando tickets.
+
+</p>
+
+
+</div>
+
+
+`;
+
+
+
+}
+
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// ACTUALIZAR KPI
+// ==========================================
+
+
+function actualizarContadores(
+contador
+){
+
+
+
+if(abiertos)
+
 abiertos.textContent =
 contador.abierto;
 
+
+
+if(proceso)
 
 proceso.textContent =
 contador.en_proceso;
 
 
+
+if(pendientes)
+
 pendientes.textContent =
 contador.pendiente_cliente;
 
+
+
+if(cerrados)
 
 cerrados.textContent =
 contador.cerrado;
 
 
 
-
-}
-
-catch(error){
-
-
-console.error(
-"Error tickets:",
-error
-);
-
-
-
-tabla.innerHTML =
-"Error cargando tickets";
-
-
 }
 
 
 
-}
 
 
 
+// ==========================================
+// INICIO
+// ==========================================
 
 
 cargarTickets();
