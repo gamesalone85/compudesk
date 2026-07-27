@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // ADMIN EDITAR TICKET
-// Producción v1.1
+// Producción v2.0
 // ==========================================
 
 
@@ -29,6 +29,7 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 
 
+
 // ==========================================
 // ID TICKET
 // ==========================================
@@ -36,19 +37,13 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const params =
 new URLSearchParams(
-    window.location.search
+window.location.search
 );
 
 
 const ticketId =
 params.get("id");
 
-
-
-console.log(
-    "Ticket:",
-    ticketId
-);
 
 
 
@@ -58,58 +53,138 @@ console.log(
 // ==========================================
 
 
-const titulo =
+const ticketTitulo =
 document.getElementById(
-    "ticketTitulo"
+"ticketTitulo"
 );
 
 
-const empresa =
+const ticketFolio =
 document.getElementById(
-    "ticketEmpresa"
+"ticketFolio"
 );
 
 
-const usuario =
+const ticketEmpresa =
 document.getElementById(
-    "ticketUsuario"
+"ticketEmpresa"
 );
 
 
-const prioridad =
+const ticketUsuario =
 document.getElementById(
-    "ticketPrioridad"
+"ticketUsuario"
 );
 
 
-const estado =
+const ticketCorreo =
 document.getElementById(
-    "ticketEstado"
+"ticketCorreo"
 );
 
 
-const descripcion =
+const ticketCategoria =
 document.getElementById(
-    "ticketDescripcion"
+"ticketCategoria"
+);
+
+
+const ticketPrioridad =
+document.getElementById(
+"ticketPrioridad"
+);
+
+
+const ticketEstado =
+document.getElementById(
+"ticketEstado"
+);
+
+
+const ticketTecnico =
+document.getElementById(
+"ticketTecnico"
+);
+
+
+const ticketComentarios =
+document.getElementById(
+"ticketComentarios"
+);
+
+
+const ticketDescripcion =
+document.getElementById(
+"ticketDescripcion"
 );
 
 
 const nuevoEstado =
 document.getElementById(
-    "nuevoEstado"
+"nuevoEstado"
 );
 
 
 const btnGuardar =
 document.getElementById(
-    "btnGuardarEstado"
+"btnGuardarEstado"
 );
 
 
 const mensaje =
 document.getElementById(
-    "mensajeTicket"
+"mensajeTicket"
 );
+
+
+const fechaCreacion =
+document.getElementById(
+"fechaCreacion"
+);
+
+
+const fechaActualizacion =
+document.getElementById(
+"fechaActualizacion"
+);
+
+
+
+
+
+
+// ==========================================
+// FORMATO FECHA
+// ==========================================
+
+
+function formatoFecha(fecha){
+
+
+if(!fecha)
+
+return "--";
+
+
+
+if(fecha.toDate){
+
+
+return fecha
+.toDate()
+.toLocaleString(
+"es-MX"
+);
+
+}
+
+
+
+return "--";
+
+
+}
+
 
 
 
@@ -122,16 +197,20 @@ document.getElementById(
 
 function mostrarMensaje(
 texto,
-tipo="success"
+tipo
 ){
 
 
 if(!mensaje)
+
 return;
 
 
 
-mensaje.innerHTML = `
+mensaje.innerHTML =
+
+
+`
 
 <div class="alert ${tipo}">
 
@@ -142,8 +221,9 @@ ${texto}
 `;
 
 
-
 }
+
+
 
 
 
@@ -158,26 +238,27 @@ ${texto}
 async function cargarTicket(){
 
 
-try{
-
-
 if(!ticketId){
 
 
 mostrarMensaje(
-"ID de ticket inválido",
+"Ticket inválido",
 "error"
 );
 
 
 return;
 
+
 }
 
 
 
+try{
+
 
 const referencia =
+
 doc(
 db,
 "tickets",
@@ -187,6 +268,7 @@ ticketId
 
 
 const snap =
+
 await getDoc(
 referencia
 );
@@ -205,8 +287,8 @@ mostrarMensaje(
 
 return;
 
-}
 
+}
 
 
 
@@ -217,68 +299,136 @@ snap.data();
 
 
 
-titulo.textContent =
-ticket.titulo ||
-"Ticket sin título";
+
+ticketTitulo.textContent =
+
+ticket.titulo || 
+"Sin título";
 
 
 
-empresa.textContent =
+
+ticketFolio.textContent =
+
+ticket.folio ||
+ticketId;
+
+
+
+
+
+ticketEmpresa.textContent =
+
 ticket.empresa ||
 "--";
 
 
 
-usuario.textContent =
+
+ticketUsuario.textContent =
+
 ticket.nombreUsuario ||
 "--";
 
 
 
-prioridad.textContent =
+
+ticketCorreo.textContent =
+
+ticket.correoUsuario ||
+"--";
+
+
+
+
+ticketCategoria.textContent =
+
+ticket.categoria ||
+"--";
+
+
+
+
+ticketPrioridad.textContent =
+
 ticket.prioridad ||
-"Media";
+"--";
 
 
 
-estado.textContent =
+
+ticketEstado.textContent =
+
 ticket.estado ||
-"abierto";
+"--";
 
 
 
-descripcion.textContent =
+
+ticketTecnico.textContent =
+
+ticket.tecnicoNombre ||
+"Sin asignar";
+
+
+
+
+ticketComentarios.textContent =
+
+ticket.totalComentarios || 
+0;
+
+
+
+
+ticketDescripcion.textContent =
+
 ticket.descripcion ||
 "Sin descripción";
 
 
 
 
-if(nuevoEstado){
+
+fechaCreacion.textContent =
+
+formatoFecha(
+ticket.fechaCreacion
+);
+
+
+
+fechaActualizacion.textContent =
+
+formatoFecha(
+ticket.ultimaActualizacion
+);
+
+
 
 nuevoEstado.value =
-ticket.estado ||
+
+ticket.estado || 
 "abierto";
 
+
+
 }
 
-
-
-}
 
 
 catch(error){
 
 
 console.error(
-"Cargar ticket:",
+"Error cargando ticket:",
 error
 );
 
 
 
 mostrarMensaje(
-error.message,
+"Error cargando ticket",
 "error"
 );
 
@@ -288,6 +438,9 @@ error.message,
 
 
 }
+
+
+
 
 
 
@@ -304,59 +457,102 @@ async function actualizarEstado(){
 
 
 if(!ticketId)
+
 return;
 
 
 
-if(!nuevoEstado)
-return;
-
+const estadoNuevo =
+nuevoEstado.value;
 
 
 
 try{
 
 
-btnGuardar.disabled=true;
-
-
-
-await updateDoc(
+const referencia =
 
 doc(
 db,
 "tickets",
 ticketId
-),
-
-{
+);
 
 
-estado:
-nuevoEstado.value,
+
+
+let datos = {
+
+
+estado:estadoNuevo,
+
+
+fechaActualizacion:
+serverTimestamp(),
 
 
 ultimaActualizacion:
-serverTimestamp()
+serverTimestamp(),
+
+
+ultimaActividad:
+serverTimestamp(),
+
+
+ultimaRespuesta:
+"tecnico"
+
+
+};
+
+
+
+
+
+
+if(
+estadoNuevo === "cerrado"
+){
+
+
+datos.fechaCierre =
+serverTimestamp();
+
+
+datos.fechaResolucion =
+serverTimestamp();
 
 
 }
 
+
+
+
+
+await updateDoc(
+
+referencia,
+
+datos
+
 );
 
 
 
 
-estado.textContent =
-nuevoEstado.value;
 
+ticketEstado.textContent =
+estadoNuevo;
 
 
 
 mostrarMensaje(
-"Ticket actualizado correctamente"
-);
 
+"Ticket actualizado correctamente",
+
+"success"
+
+);
 
 
 
@@ -368,15 +564,18 @@ catch(error){
 
 
 console.error(
-"Actualizar ticket:",
+"Error actualizando ticket:",
 error
 );
 
 
 
 mostrarMensaje(
-error.message,
+
+"No se pudo actualizar el ticket",
+
 "error"
+
 );
 
 
@@ -385,17 +584,8 @@ error.message,
 
 
 
-finally{
-
-
-btnGuardar.disabled=false;
-
-
 }
 
-
-
-}
 
 
 
@@ -424,8 +614,11 @@ actualizarEstado
 
 
 
+
+
+
 // ==========================================
-// INICIO
+// START
 // ==========================================
 
 
