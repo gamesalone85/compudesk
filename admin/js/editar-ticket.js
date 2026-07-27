@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // ADMIN EDITAR TICKET
-// Producción v2.0
+// Producción v3.0
 // Firebase Auth + Firestore
 // ==========================================
 
@@ -13,16 +13,12 @@ import {
 from "../../assets/firebase/firebase-config.js";
 
 
-
 import {
 
     onAuthStateChanged
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
-
-
 
 
 import {
@@ -38,9 +34,7 @@ import {
     serverTimestamp
 
 }
-
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
 
 
 
@@ -57,11 +51,8 @@ window.location.search
 );
 
 
-
 const ticketId =
 params.get("id");
-
-
 
 
 
@@ -83,12 +74,10 @@ document.getElementById(
 );
 
 
-
 const folio =
 document.getElementById(
 "ticketFolio"
 );
-
 
 
 const empresa =
@@ -97,12 +86,10 @@ document.getElementById(
 );
 
 
-
 const usuario =
 document.getElementById(
 "ticketUsuario"
 );
-
 
 
 const categoria =
@@ -111,12 +98,10 @@ document.getElementById(
 );
 
 
-
 const prioridad =
 document.getElementById(
 "ticketPrioridad"
 );
-
 
 
 const estado =
@@ -125,12 +110,10 @@ document.getElementById(
 );
 
 
-
 const descripcion =
 document.getElementById(
 "ticketDescripcion"
 );
-
 
 
 const conversacion =
@@ -139,12 +122,10 @@ document.getElementById(
 );
 
 
-
 const respuestaForm =
 document.getElementById(
 "respuestaForm"
 );
-
 
 
 const respuesta =
@@ -153,12 +134,10 @@ document.getElementById(
 );
 
 
-
 const nuevoEstado =
 document.getElementById(
 "nuevoEstado"
 );
-
 
 
 const btnGuardarEstado =
@@ -167,8 +146,7 @@ document.getElementById(
 );
 
 
-
-const mensaje =
+const mensajeTicket =
 document.getElementById(
 "mensajeTicket"
 );
@@ -178,35 +156,29 @@ document.getElementById(
 
 
 
-
-
 // ==========================================
-// FECHA
+// FECHAS
 // ==========================================
 
 
 function fecha(valor){
 
 
-if(!valor)
-return "--";
+    if(!valor)
+        return "--";
 
 
+    if(typeof valor.toDate === "function"){
 
-if(
-typeof valor.toDate === "function"
-){
+        valor =
+        valor.toDate();
 
-valor =
-valor.toDate();
-
-}
+    }
 
 
-
-return valor.toLocaleString(
-"es-MX"
-);
+    return valor.toLocaleString(
+        "es-MX"
+    );
 
 
 }
@@ -229,8 +201,7 @@ async function cargarTicket(){
 try{
 
 
-const referencia =
-
+const ref =
 doc(
 db,
 "tickets",
@@ -240,10 +211,7 @@ ticketId
 
 
 const snap =
-
-await getDoc(
-referencia
-);
+await getDoc(ref);
 
 
 
@@ -259,7 +227,6 @@ mostrarMensaje(
 
 
 return;
-
 
 }
 
@@ -277,45 +244,36 @@ id:snap.id,
 
 
 
-
 titulo.textContent =
 ticketActual.titulo || "--";
-
 
 
 folio.textContent =
 ticketActual.folio || "--";
 
 
-
 empresa.textContent =
 ticketActual.empresa || "--";
-
 
 
 usuario.textContent =
 ticketActual.nombreUsuario || "--";
 
 
-
 categoria.textContent =
 ticketActual.categoria || "--";
-
 
 
 prioridad.textContent =
 ticketActual.prioridad || "--";
 
 
-
 estado.textContent =
 ticketActual.estado || "--";
 
 
-
 descripcion.textContent =
 ticketActual.descripcion || "--";
-
 
 
 
@@ -330,22 +288,20 @@ ticketActual.estado || "abierto";
 
 
 
+
 await cargarMensajes();
 
 
 
 }
 
-
-
 catch(error){
 
 
 console.error(
-"Error cargando ticket:",
+"Error cargando ticket",
 error
 );
-
 
 
 mostrarMensaje(
@@ -354,12 +310,12 @@ mostrarMensaje(
 );
 
 
-
 }
 
 
 
 }
+
 
 
 
@@ -376,59 +332,37 @@ mostrarMensaje(
 async function cargarMensajes(){
 
 
-
 try{
 
 
-const mensajesRef =
-
+const ref =
 collection(
-
 db,
-
 "tickets",
-
 ticketId,
-
 "mensajes"
-
 );
 
 
 
-
-
-const consulta =
-
+const q =
 query(
-
-mensajesRef,
-
+ref,
 orderBy(
 "fecha",
 "asc"
 )
-
 );
-
-
 
 
 
 const snap =
-
-await getDocs(
-consulta
-);
-
-
+await getDocs(q);
 
 
 
 
 conversacion.innerHTML="";
-
-
 
 
 
@@ -446,22 +380,19 @@ Sin mensajes todavía.
 
 `;
 
-return;
 
+return;
 
 }
 
 
 
 
-
-
-snap.forEach(doc=>{
+snap.forEach(item=>{
 
 
 const msg =
-doc.data();
-
+item.data();
 
 
 
@@ -480,14 +411,11 @@ ${msg.autor || "Usuario"}
 </strong>
 
 
-
 <p>
 
-${msg.mensaje}
+${msg.mensaje || ""}
 
 </p>
-
-
 
 
 <small>
@@ -495,7 +423,6 @@ ${msg.mensaje}
 ${fecha(msg.fecha)}
 
 </small>
-
 
 
 </div>
@@ -508,14 +435,13 @@ ${fecha(msg.fecha)}
 
 
 
-
 }
 
 catch(error){
 
 
 console.error(
-"Error mensajes:",
+"Error cargando mensajes",
 error
 );
 
@@ -536,8 +462,8 @@ Error cargando conversación.
 }
 
 
-
 }
+
 
 
 
@@ -572,14 +498,17 @@ return;
 
 
 
-
-
 try{
-
 
 
 const admin =
 auth.currentUser;
+
+
+
+if(!admin)
+return;
+
 
 
 
@@ -611,14 +540,20 @@ admin.uid,
 
 
 nombre:
-
 "Administrador",
 
 
 mensaje:texto,
 
 
-tipo:"texto",
+tipo:"respuesta",
+
+
+ticketId:ticketId,
+
+
+folio:
+ticketActual.folio,
 
 
 fecha:
@@ -659,7 +594,15 @@ serverTimestamp(),
 
 
 ultimaActualizacion:
-serverTimestamp()
+serverTimestamp(),
+
+
+totalComentarios:
+(
+ticketActual.totalComentarios || 0
+)
++
+1
 
 
 }
@@ -667,8 +610,6 @@ serverTimestamp()
 
 
 );
-
-
 
 
 
@@ -678,7 +619,18 @@ respuesta.value="";
 
 
 
+ticketActual.totalComentarios++;
+
+
+
 await cargarMensajes();
+
+
+
+mostrarMensaje(
+"Respuesta enviada correctamente",
+"success"
+);
 
 
 
@@ -687,15 +639,15 @@ await cargarMensajes();
 catch(error){
 
 
-
 console.error(
-"Error enviando respuesta:",
+"Error enviando respuesta",
 error
 );
 
 
+
 mostrarMensaje(
-"Error enviando mensaje",
+error.message,
 "error"
 );
 
@@ -704,8 +656,8 @@ mostrarMensaje(
 }
 
 
-
 }
+
 
 );
 
@@ -718,7 +670,7 @@ mostrarMensaje(
 
 
 // ==========================================
-// CAMBIO ESTADO
+// ACTUALIZAR ESTADO
 // ==========================================
 
 
@@ -732,9 +684,7 @@ async()=>{
 try{
 
 
-
 await updateDoc(
-
 
 doc(
 db,
@@ -758,7 +708,6 @@ serverTimestamp()
 }
 
 
-
 );
 
 
@@ -771,11 +720,8 @@ nuevoEstado.value;
 
 
 mostrarMensaje(
-
 "Estado actualizado correctamente",
-
 "success"
-
 );
 
 
@@ -786,10 +732,8 @@ catch(error){
 
 
 console.error(
-"Error estado:",
 error
 );
-
 
 
 mostrarMensaje(
@@ -798,7 +742,6 @@ mostrarMensaje(
 );
 
 
-
 }
 
 
@@ -806,7 +749,6 @@ mostrarMensaje(
 }
 
 );
-
 
 
 
@@ -817,7 +759,7 @@ mostrarMensaje(
 
 
 // ==========================================
-// MENSAJES UI
+// ALERTAS
 // ==========================================
 
 
@@ -827,12 +769,12 @@ tipo
 ){
 
 
-if(!mensaje)
+if(!mensajeTicket)
 return;
 
 
 
-mensaje.innerHTML =
+mensajeTicket.innerHTML =
 
 
 `
@@ -846,7 +788,19 @@ ${texto}
 `;
 
 
+
+setTimeout(()=>{
+
+
+mensajeTicket.innerHTML="";
+
+
+},4000);
+
+
+
 }
+
 
 
 
@@ -873,13 +827,16 @@ if(user){
 cargarTicket();
 
 
+
 }
+
 else{
 
 
 location.replace(
 "../login.html"
 );
+
 
 
 }
