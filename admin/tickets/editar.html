@@ -7,451 +7,526 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-
-<title>
-Detalle Ticket | Compu Desk
-</title>
-
+<title>Detalle del Ticket | Compu Desk</title>
 
 <meta name="robots" content="noindex,nofollow">
 
-
 <link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
 rel="stylesheet">
-
 
 <link
 rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-
-<link rel="stylesheet"
+<link
+rel="stylesheet"
 href="/admin/css/admin.css">
-
 
 </head>
 
-
-
 <body>
-
 
 <div class="admin-layout">
 
+    <!-- Sidebar -->
+    <aside id="sidebar-container"></aside>
 
+    <!-- Contenido -->
+    <section class="admin-main">
 
-<aside id="sidebar-container"></aside>
+        <!-- Header -->
+        <div id="header-container"></div>
 
+        <main class="admin-content">
 
+            <div class="dashboard-title">
 
-<section class="admin-main">
+                <div>
 
+                    <h1>
+                        Detalle del Ticket
+                    </h1>
 
-<div id="header-container"></div>
+                    <p>
+                        Administración y seguimiento de incidencias
+                    </p>
 
+                </div>
 
+                <a
+                href="index.html"
+                class="btn-secondary">
 
-<main class="admin-content">
+                    <i class="fa-solid fa-arrow-left"></i>
 
+                    Regresar
 
+                </a>
 
-<div class="dashboard-title">
+            </div>
 
+            <!-- Layout principal -->
 
-<h1>
-Detalle del Ticket
-</h1>
+            <section class="ticket-layout">
 
+                <!-- Panel izquierdo -->
 
-<p>
-Administración y seguimiento de incidencia
-</p>
+                <aside class="ticket-sidebar">
 
+                    <div class="ticket-card">
+
+                        <h2>
+
+                            <i class="fa-solid fa-ticket"></i>
+
+                            Información
+
+                        </h2>
+                      <!-- ===========================
+     INFORMACIÓN DEL TICKET
+=========================== -->
+
+<div class="ticket-info-list">
+
+    <div class="ticket-info-item">
+
+        <span>Folio</span>
+
+        <strong id="ticketFolio">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Empresa</span>
+
+        <strong id="ticketEmpresa">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Usuario</span>
+
+        <strong id="ticketUsuario">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Categoría</span>
+
+        <strong id="ticketCategoria">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Prioridad</span>
+
+        <strong id="ticketPrioridad">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Estado</span>
+
+        <strong id="ticketEstado">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Técnico asignado</span>
+
+        <strong id="ticketTecnico">
+
+            Sin asignar
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Fecha de creación</span>
+
+        <strong id="ticketFecha">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>Última actividad</span>
+
+        <strong id="ticketUltimaActividad">
+
+            --
+
+        </strong>
+
+    </div>
+
+    <div class="ticket-info-item">
+
+        <span>SLA</span>
+
+        <strong id="ticketSLA">
+
+            En tiempo
+
+        </strong>
+
+    </div>
 
 </div>
-
-
-
-
-
-
-
-<section class="admin-card">
-
-
-
-<div class="admin-card-header">
-
-
-<h2 id="ticketTitulo">
-
-Cargando ticket...
-
-</h2>
-
-
-
-<a href="index.html"
-class="btn-secondary">
-
-<i class="fa-solid fa-arrow-left"></i>
-
-Regresar
-
-</a>
-
-
-</div>
-
-
-
-
-
-
-
-
-<div class="admin-card-body">
-
-
-
-
-
-<div class="ticket-detail-grid">
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Folio
-</label>
-
-<strong id="ticketFolio">
---
-</strong>
-
-</div>
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Empresa
-</label>
-
-<strong id="ticketEmpresa">
---
-</strong>
-
-</div>
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Usuario
-</label>
-
-<strong id="ticketUsuario">
---
-</strong>
-
-</div>
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Categoría
-</label>
-
-<strong id="ticketCategoria">
---
-</strong>
-
-</div>
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Prioridad
-</label>
-
-<strong id="ticketPrioridad">
---
-</strong>
-
-</div>
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Estado actual
-</label>
-
-<strong id="ticketEstado">
---
-</strong>
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-<div class="ticket-description">
-
-
-<h3>
-Descripción
-</h3>
-
-
-<p id="ticketDescripcion">
-
---
-
-</p>
-
-
-</div>
-
-
-
-
-
-
-
-
 
 <hr>
 
+<div class="ticket-sidebar-actions">
 
+    <button
+    id="btnAsignarTecnico"
+    class="btn-primary">
 
+        <i class="fa-solid fa-user-gear"></i>
 
+        Asignar técnico
 
-<h2>
+    </button>
 
-<i class="fa-solid fa-comments"></i>
+    <button
+    id="btnCambiarPrioridad"
+    class="btn-secondary">
 
-Conversación
+        <i class="fa-solid fa-flag"></i>
 
-</h2>
+        Cambiar prioridad
 
-
-
-<div id="conversacion">
-
-
-Cargando mensajes...
-
-
-</div>
-
-
-
-
-
-
-
-
-<form id="respuestaForm">
-
-
-
-<div class="form-group">
-
-
-<label>
-Responder al cliente
-</label>
-
-
-
-<textarea
-
-id="respuesta"
-
-rows="5"
-
-placeholder="Escribe una respuesta..."
-
-required>
-
-</textarea>
-
-
+    </button>
 
 </div>
-
-
-
-
-
-<button
-class="btn-primary"
-type="submit">
-
-
-<i class="fa-solid fa-paper-plane"></i>
-
-
-Enviar respuesta
-
-
-</button>
-
-
-
-
-</form>
-
-
-
-
-
-
-
-
 
 <hr>
 
+<div class="ticket-sidebar-actions">
 
+    <label for="nuevoEstado">
 
+        Estado del ticket
 
+    </label>
 
-<div class="ticket-actions">
+    <select id="nuevoEstado">
 
+        <option value="abierto">
 
+            Abierto
 
-<label>
-Cambiar estado
-</label>
+        </option>
 
+        <option value="en_proceso">
 
+            En proceso
 
-<select id="nuevoEstado">
+        </option>
 
+        <option value="pendiente_cliente">
 
-<option value="abierto">
-Abierto
-</option>
+            Pendiente cliente
 
+        </option>
 
-<option value="en_proceso">
-En proceso
-</option>
+        <option value="cerrado">
 
+            Cerrado
 
-<option value="pendiente_cliente">
-Pendiente cliente
-</option>
+        </option>
 
+    </select>
 
-<option value="cerrado">
-Cerrado
-</option>
+    <button
+    id="btnGuardarEstado"
+    class="btn-primary">
 
+        <i class="fa-solid fa-floppy-disk"></i>
 
-</select>
+        Guardar cambios
 
-
-
-
-
-<button
-id="btnGuardarEstado"
-class="btn-primary">
-
-
-<i class="fa-solid fa-save"></i>
-
-Actualizar estado
-
-
-</button>
-
-
+    </button>
 
 </div>
-
-
-
-
 
 <div id="mensajeTicket"></div>
 
+</div>
 
+</aside>
 
+<!-- ===========================
+     PANEL DERECHO
+=========================== -->
+
+<section class="ticket-chat">
+<!-- ===========================
+     PANEL DERECHO
+=========================== -->
+
+<section class="ticket-chat">
+
+    <!-- Cabecera -->
+
+    <div class="ticket-chat-header">
+
+        <div>
+
+            <h2 id="ticketTitulo">
+
+                Cargando ticket...
+
+            </h2>
+
+            <small id="ticketSubtitulo">
+
+                Información del ticket
+
+            </small>
+
+        </div>
+
+        <div class="ticket-badges">
+
+            <span
+            id="badgeEstado"
+            class="badge-ticket abierto">
+
+                Abierto
+
+            </span>
+
+            <span
+            id="badgePrioridad"
+            class="prioridad media">
+
+                Media
+
+            </span>
+
+        </div>
+
+    </div>
+
+    <!-- Descripción -->
+
+    <div class="ticket-card">
+
+        <h3>
+
+            <i class="fa-solid fa-file-lines"></i>
+
+            Descripción del problema
+
+        </h3>
+
+        <p id="ticketDescripcion">
+
+            --
+
+        </p>
+
+    </div>
+
+    <!-- Conversación -->
+
+    <div class="ticket-card">
+
+        <h3>
+
+            <i class="fa-solid fa-comments"></i>
+
+            Conversación
+
+        </h3>
+
+        <div
+        id="conversacion"
+        class="conversation">
+
+            <div class="conversation-empty">
+
+                Cargando mensajes...
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Adjuntos -->
+
+    <div class="ticket-card">
+
+        <h3>
+
+            <i class="fa-solid fa-paperclip"></i>
+
+            Archivos adjuntos
+
+        </h3>
+
+        <div
+        id="ticketAdjuntos"
+        class="attachments">
+
+            <div class="conversation-empty">
+
+                No hay archivos adjuntos.
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Respuesta -->
+
+    <div class="ticket-card">
+
+        <h3>
+
+            <i class="fa-solid fa-reply"></i>
+
+            Responder al cliente
+
+        </h3>
+
+        <form id="respuestaForm">
+
+            <textarea
+
+                id="respuesta"
+
+                rows="6"
+
+                placeholder="Escribe una respuesta..."
+
+                required>
+
+            </textarea>
+
+            <div class="ticket-response-actions">
+
+                <button
+                type="button"
+                id="btnAdjuntar"
+                class="btn-secondary">
+
+                    <i class="fa-solid fa-paperclip"></i>
+
+                    Adjuntar
+
+                </button>
+
+                <button
+                type="submit"
+                class="btn-primary">
+
+                    <i class="fa-solid fa-paper-plane"></i>
+
+                    Enviar respuesta
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Historial -->
+
+    <div class="ticket-card">
+
+        <h3>
+
+            <i class="fa-solid fa-clock-rotate-left"></i>
+
+            Historial del Ticket
+
+        </h3>
+
+        <div
+        id="ticketTimeline"
+        class="timeline">
+
+            <div class="timeline-item">
+
+                <div class="timeline-icon">
+
+                    <i class="fa-solid fa-spinner"></i>
+
+                </div>
+
+                <div class="timeline-content">
+
+                    Cargando historial...
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+        </main>
+
+    </section>
 
 </div>
 
-
-
-</section>
-
-
-
-
-
-</main>
-
-
-
-</section>
-
-
-
-</div>
-
-
-
-
-
+<script
+type="module"
+src="../js/auth-guard.js"></script>
 
 <script
 type="module"
-src="../js/auth-guard.js">
-</script>
-
+src="../js/layout.js"></script>
 
 <script
 type="module"
-src="../js/layout.js">
-</script>
-
-
-<script
-type="module"
-src="/admin/js/editar-ticket.js">
-</script>
-
-
+src="../js/editar-ticket.js"></script>
 
 </body>
 
