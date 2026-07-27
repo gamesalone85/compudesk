@@ -157,61 +157,24 @@ async function obtenerCliente(clienteId) {
 // GENERAR FOLIO
 // ==========================================
 
-async function generarFolio() {
+function generarFolio(){
 
-    const configRef =
-        doc(
-            db,
-            "configuracion",
-            "tickets"
-        );
+    const fecha = new Date();
 
-    return await runTransaction(
-        db,
-        async (transaction) => {
+    const anio =
+        fecha.getFullYear();
 
-            const configSnap =
-                await transaction.get(
-                    configRef
-                );
+    const numero =
+        Math.floor(
+            Math.random() * 999999
+        )
+        .toString()
+        .padStart(6,"0");
 
-            let consecutivo = 1;
 
-            if (configSnap.exists()) {
-
-                consecutivo =
-                    (
-                        configSnap.data()
-                        .ultimoConsecutivo || 0
-                    ) + 1;
-
-            }
-
-            transaction.set(
-                configRef,
-                {
-                    ultimoConsecutivo:
-                        consecutivo
-                },
-                {
-                    merge: true
-                }
-            );
-
-            const anio =
-                new Date()
-                .getFullYear();
-
-            const folio =
-                `CD-TK-${anio}-${String(consecutivo).padStart(6, "0")}`;
-
-            return folio;
-
-        }
-    );
+    return `CD-TK-${anio}-${numero}`;
 
 }
-
 
 // ==========================================
 // CREAR ESTRUCTURA TICKET
@@ -468,8 +431,8 @@ async function crearTicket() {
 
     // Generar folio
 
-    const folio =
-        await generarFolio();
+   const folio =
+    generarFolio();
 
     // Construir objeto
 
