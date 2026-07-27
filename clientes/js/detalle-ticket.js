@@ -1,10 +1,17 @@
 // ==========================================
 // COMPU DESK
 // DETALLE TICKET CLIENTE
-// Versión 1.0
+// Producción 2.0
+// Firebase Auth + Firestore
 // ==========================================
 
-import { db } from "../../assets/firebase/firebase-config.js";
+
+import {
+    auth,
+    db
+}
+from "../../assets/firebase/firebase-config.js";
+
 
 import {
     doc,
@@ -14,10 +21,10 @@ import {
     orderBy,
     getDocs,
     addDoc,
-    updateDoc,
-    increment,
     serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+}
+from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
 
 
 // ==========================================
@@ -27,279 +34,606 @@ import {
 const ticketInfo =
 document.getElementById("ticketInfo");
 
+
 const conversacion =
 document.getElementById("conversacion");
+
 
 const respuestaForm =
 document.getElementById("respuestaForm");
 
-const txtRespuesta =
+
+const respuesta =
 document.getElementById("respuesta");
 
 
+
+
 // ==========================================
-// VARIABLES
+// ID TICKET
 // ==========================================
 
+
 const params =
-new URLSearchParams(window.location.search);
+new URLSearchParams(
+window.location.search
+);
+
 
 const ticketId =
 params.get("id");
 
-let ticketActual=null;
+
+
+let ticketActual = null;
+
+
+
 
 
 // ==========================================
 // FECHA
 // ==========================================
 
-function formatearFecha(fecha){
 
-    if(!fecha) return "-";
+function fecha(valor){
 
-    if(typeof fecha.toDate==="function"){
+    if(!valor)
+        return "-";
 
-        fecha=fecha.toDate();
+
+    if(valor.toDate){
+
+        valor =
+        valor.toDate();
 
     }
 
-    return fecha.toLocaleString("es-MX",{
 
-        day:"2-digit",
-        month:"short",
-        year:"numeric",
-        hour:"2-digit",
-        minute:"2-digit"
-
-    });
+    return valor.toLocaleString(
+        "es-MX"
+    );
 
 }
 
 
+
+
+
+
 // ==========================================
-// BADGE ESTADO
+// CARGAR TICKET
 // ==========================================
 
-function badgeEstado(estado){
-
-    switch((estado||"").toLowerCase()){
-
-        case "abierto":
-
-            return `<span class="ticket-status abierto">
-                        Abierto
-                    </span>`;
-
-        case "proceso":
-
-            return `<span class="ticket-status proceso">
-                        En proceso
-                    </span>`;
-
-        case "cerrado":
-
-            return `<span class="ticket-status cerrado">
-                        Cerrado
-                    </span>`;
-
-        default:
-
-            return `<span class="ticket-status">
-                        ${estado}
-                    </span>`;
-
-    }
-
-}
-// ==========================================
-// CARGAR INFORMACIÓN DEL TICKET
-// ==========================================
 
 async function cargarTicket(){
 
-    if(!ticketId){
 
-        ticketInfo.innerHTML=`
+try{
 
-            <div class="ticket-error">
 
-                <h3>Ticket no válido.</h3>
+const usuario =
+auth.currentUser;
 
-            </div>
 
-        `;
 
-        return;
+if(!usuario){
 
-    }
+location.replace("../login.html");
 
-    try{
-
-        const ticketRef=doc(
-
-            db,
-            "tickets",
-            ticketId
-
-        );
-
-        const ticketSnap=await getDoc(ticketRef);
-
-        if(!ticketSnap.exists()){
-
-            ticketInfo.innerHTML=`
-
-                <div class="ticket-error">
-
-                    <h3>El ticket no existe.</h3>
-
-                </div>
-
-            `;
-
-            return;
-
-        }
-
-        ticketActual=ticketSnap.data();
-
-        renderTicket();
-
-        cargarConversacion();
-
-    }
-
-    catch(error){
-
-        console.error(error);
-
-        ticketInfo.innerHTML=`
-
-            <div class="ticket-error">
-
-                <h3>Error cargando ticket.</h3>
-
-            </div>
-
-        `;
-
-    }
+return;
 
 }
 
 
 
-// ==========================================
-// RENDER TICKET
-// ==========================================
 
-function renderTicket(){
+const ref =
+doc(
+db,
+"tickets",
+ticketId
+);
 
-    ticketInfo.innerHTML=`
 
-<div class="ticket-detail-card">
 
-    <div class="ticket-detail-header">
+const snap =
+await getDoc(ref);
 
-        <div>
 
-            <div class="ticket-detail-folio">
 
-                ${ticketActual.folio}
+if(!snap.exists()){
 
-            </div>
 
-            <h2>
+ticketInfo.innerHTML = `
 
-                ${ticketActual.titulo}
+<div class="ticket-error">
 
-            </h2>
+<h3>
+El ticket no existe.
+</h3>
 
-        </div>
+</div>
 
-        ${badgeEstado(ticketActual.estado)}
+`;
 
-    </div>
+return;
 
-    <div class="ticket-detail-grid">
+}
 
-        <div>
 
-            <label>Empresa</label>
 
-            <strong>
+ticketActual =
+{
+id:snap.id,
+...snap.data()
+};
 
-                ${ticketActual.empresa}
 
-            </strong>
 
-        </div>
 
-        <div>
 
-            <label>Solicitante</label>
+// SEGURIDAD CLIENTE
 
-            <strong>
+if(
+ticketActual.usuarioId !== usuario.uid
+){
 
-                ${ticketActual.nombreUsuario}
+ticketInfo.innerHTML=`
 
-            </strong>
+<div class="ticket-error">
 
-        </div>
+<h3>
+No tienes permiso para ver este ticket.
+</h3>
 
-        <div>
+</div>
 
-            <label>Categoría</label>
+`;
 
-            <strong>
+return;
 
-                ${ticketActual.categoria}
+}
 
-            </strong>
 
-        </div>
 
-        <div>
 
-            <label>Prioridad</label>
 
-            <strong>
+renderTicket();
 
-                ${ticketActual.prioridad}
 
-            </strong>
+cargarMensajes();
 
-        </div>
 
-        <div>
 
-            <label>Técnico</label>
+}
 
-            <strong>
+catch(error){
 
-                ${ticketActual.tecnicoNombre || "Sin asignar"}
 
-            </strong>
+console.error(
+"Error detalle ticket:",
+error
+);
 
-        </div>
 
-        <div>
+ticketInfo.innerHTML=`
 
-            <label>Creado</label>
+<div class="ticket-error">
 
-            <strong>
+<h3>
+Error cargando ticket.
+</h3>
 
-                ${formatearFecha(ticketActual.fechaCreacion)}
-
-            </strong>
-
-        </div>
-
-    </div>
+<p>
+${error.message}
+</p>
 
 </div>
 
 `;
 
 }
+
+
+}
+
+
+
+
+
+
+// ==========================================
+// MOSTRAR TICKET
+// ==========================================
+
+
+function renderTicket(){
+
+
+ticketInfo.innerHTML = `
+
+
+<div class="ticket-detail-card">
+
+
+<div class="ticket-detail-header">
+
+
+<div>
+
+<div class="ticket-detail-folio">
+
+${ticketActual.folio}
+
+</div>
+
+
+<h2>
+
+${ticketActual.titulo}
+
+</h2>
+
+
+</div>
+
+
+
+<span class="ticket-status">
+
+${ticketActual.estado}
+
+</span>
+
+
+</div>
+
+
+
+
+
+<div class="ticket-detail-grid">
+
+
+<div>
+
+<label>
+Empresa
+</label>
+
+<strong>
+${ticketActual.empresa}
+</strong>
+
+</div>
+
+
+
+<div>
+
+<label>
+Solicitante
+</label>
+
+<strong>
+${ticketActual.nombreUsuario}
+</strong>
+
+</div>
+
+
+
+<div>
+
+<label>
+Categoría
+</label>
+
+<strong>
+${ticketActual.categoria}
+</strong>
+
+</div>
+
+
+
+
+<div>
+
+<label>
+Prioridad
+</label>
+
+<strong>
+${ticketActual.prioridad}
+</strong>
+
+</div>
+
+
+
+
+<div>
+
+<label>
+Técnico
+</label>
+
+<strong>
+
+${ticketActual.tecnicoNombre}
+
+</strong>
+
+</div>
+
+
+
+
+<div>
+
+<label>
+Creado
+</label>
+
+<strong>
+
+${fecha(ticketActual.fechaCreacion)}
+
+</strong>
+
+</div>
+
+
+</div>
+
+
+
+
+<hr>
+
+
+<h3>
+
+Descripción
+
+</h3>
+
+
+<p>
+
+${ticketActual.descripcion}
+
+</p>
+
+
+
+</div>
+
+
+`;
+
+}
+
+
+
+
+
+
+// ==========================================
+// CARGAR MENSAJES
+// ==========================================
+
+
+async function cargarMensajes(){
+
+
+conversacion.innerHTML="";
+
+
+
+const ref =
+collection(
+db,
+"tickets",
+ticketId,
+"mensajes"
+);
+
+
+
+const q =
+query(
+ref,
+orderBy(
+"fecha",
+"asc"
+)
+);
+
+
+
+const snap =
+await getDocs(q);
+
+
+
+if(snap.empty){
+
+
+conversacion.innerHTML=`
+
+<p>
+Sin mensajes todavía.
+</p>
+
+`;
+
+return;
+
+
+}
+
+
+
+snap.forEach(doc=>{
+
+
+const msg =
+doc.data();
+
+
+
+conversacion.innerHTML += `
+
+
+<div class="mensaje">
+
+
+<strong>
+
+${msg.autor}
+
+</strong>
+
+
+<p>
+
+${msg.mensaje}
+
+</p>
+
+
+<small>
+
+${fecha(msg.fecha)}
+
+</small>
+
+
+</div>
+
+
+`;
+
+});
+
+
+}
+
+
+
+
+
+
+
+
+// ==========================================
+// RESPONDER
+// ==========================================
+
+
+respuestaForm.addEventListener(
+"submit",
+async(e)=>{
+
+
+e.preventDefault();
+
+
+
+const texto =
+respuesta.value.trim();
+
+
+
+if(!texto)
+return;
+
+
+
+const user =
+auth.currentUser;
+
+
+
+await addDoc(
+
+collection(
+db,
+"tickets",
+ticketId,
+"mensajes"
+),
+
+{
+
+
+autor:"cliente",
+
+
+uid:user.uid,
+
+
+nombre:
+ticketActual.nombreUsuario,
+
+
+mensaje:texto,
+
+
+tipo:"texto",
+
+
+fecha:
+serverTimestamp()
+
+
+}
+
+
+);
+
+
+
+respuesta.value="";
+
+
+await cargarMensajes();
+
+
+
+}
+
+);
+
+
+
+
+
+
+// ==========================================
+// INIT
+// ==========================================
+
+
+auth.onAuthStateChanged(
+auth,
+(user)=>{
+
+
+if(user){
+
+cargarTicket();
+
+}
+
+else{
+
+location.replace("../login.html");
+
+}
+
+
+});
