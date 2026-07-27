@@ -275,3 +275,76 @@
     }
 
 }
+.ticket-grid{
+
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:15px;
+    margin:25px 0;
+
+}
+
+.ticket-grid div{
+
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:#64748b;
+    font-size:14px;
+
+}
+
+.ticket-grid i{
+
+    color:#0057ff;
+    width:18px;
+
+}
+
+.ticket-category{
+
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:#eef4ff;
+    color:#0057ff;
+    padding:8px 15px;
+    border-radius:30px;
+    margin-top:12px;
+
+}
+
+.ticket-footer{
+
+    border-top:1px solid #edf2f7;
+    margin-top:25px;
+    padding-top:20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+}
+
+.ticket-footer span{
+
+    color:#64748b;
+
+}
+
+@media(max-width:768px){
+
+    .ticket-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .ticket-footer{
+
+        flex-direction:column;
+        align-items:flex-start;
+        gap:15px;
+
+    }
+
+}
