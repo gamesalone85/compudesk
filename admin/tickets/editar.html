@@ -33,6 +33,7 @@ href="/admin/css/admin.css">
 </head>
 
 
+
 <body>
 
 
@@ -44,14 +45,10 @@ href="/admin/css/admin.css">
 
 
 
-
 <section class="admin-main">
 
 
-
 <div id="header-container"></div>
-
-
 
 
 
@@ -80,7 +77,6 @@ Administración y seguimiento de incidencia
 
 
 
-
 <section class="admin-card">
 
 
@@ -88,41 +84,25 @@ Administración y seguimiento de incidencia
 <div class="admin-card-header">
 
 
-<div>
-
 <h2 id="ticketTitulo">
 
-Cargando...
+Cargando ticket...
 
 </h2>
 
 
-<small id="ticketFolio">
 
---
-
-</small>
-
-
-</div>
-
-
-
-<a
-href="index.html"
+<a href="index.html"
 class="btn-secondary">
-
 
 <i class="fa-solid fa-arrow-left"></i>
 
 Regresar
 
-
 </a>
 
 
 </div>
-
 
 
 
@@ -138,6 +118,20 @@ Regresar
 
 
 <div class="ticket-detail-grid">
+
+
+
+<div class="ticket-info-box">
+
+<label>
+Folio
+</label>
+
+<strong id="ticketFolio">
+--
+</strong>
+
+</div>
 
 
 
@@ -159,8 +153,6 @@ Empresa
 
 
 
-
-
 <div class="ticket-info-box">
 
 <label>
@@ -172,26 +164,6 @@ Usuario
 </strong>
 
 </div>
-
-
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Correo
-</label>
-
-<strong id="ticketCorreo">
---
-</strong>
-
-</div>
-
-
 
 
 
@@ -213,8 +185,6 @@ Categoría
 
 
 
-
-
 <div class="ticket-info-box">
 
 <label>
@@ -226,8 +196,6 @@ Prioridad
 </strong>
 
 </div>
-
-
 
 
 
@@ -247,46 +215,7 @@ Estado actual
 
 
 
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Técnico asignado
-</label>
-
-<strong id="ticketTecnico">
---
-</strong>
-
 </div>
-
-
-
-
-
-
-
-<div class="ticket-info-box">
-
-<label>
-Comentarios
-</label>
-
-<strong id="ticketComentarios">
-0
-</strong>
-
-</div>
-
-
-
-</div>
-
-
-
 
 
 
@@ -320,18 +249,110 @@ Descripción
 
 
 
+<hr>
+
+
+
+
+
+<h2>
+
+<i class="fa-solid fa-comments"></i>
+
+Conversación
+
+</h2>
+
+
+
+<div id="conversacion">
+
+
+Cargando mensajes...
+
+
+</div>
+
+
+
+
+
+
+
+
+<form id="respuestaForm">
+
+
+
+<div class="form-group">
+
+
+<label>
+Responder al cliente
+</label>
+
+
+
+<textarea
+
+id="respuesta"
+
+rows="5"
+
+placeholder="Escribe una respuesta..."
+
+required>
+
+</textarea>
+
+
+
+</div>
+
+
+
+
+
+<button
+class="btn-primary"
+type="submit">
+
+
+<i class="fa-solid fa-paper-plane"></i>
+
+
+Enviar respuesta
+
+
+</button>
+
+
+
+
+</form>
+
+
+
+
+
+
+
+
+
+<hr>
+
+
+
+
+
 <div class="ticket-actions">
-
-
-<h3>
-Actualizar ticket
-</h3>
 
 
 
 <label>
-Nuevo estado
+Cambiar estado
 </label>
+
 
 
 <select id="nuevoEstado">
@@ -363,7 +384,6 @@ Cerrado
 
 
 
-
 <button
 id="btnGuardarEstado"
 class="btn-primary">
@@ -371,104 +391,14 @@ class="btn-primary">
 
 <i class="fa-solid fa-save"></i>
 
-
-Guardar cambios
-
-
-</button>
-
-
-
-</div>
-
-
-
-
-
-
-
-
-
-
-<div class="ticket-dates">
-
-
-<p>
-Creado:
-<strong id="fechaCreacion">
---
-</strong>
-</p>
-
-
-<p>
-Última actualización:
-<strong id="fechaActualizacion">
---
-</strong>
-</p>
-
-
-</div>
-
-<section class="admin-card">
-
-
-<div class="admin-card-header">
-
-<h2>
-Conversación
-</h2>
-
-</div>
-
-
-
-<div class="admin-card-body">
-
-
-<div id="listaMensajes">
-
-Cargando mensajes...
-
-</div>
-
-
-
-
-
-<div class="nuevo-mensaje">
-
-
-<textarea
-id="nuevoMensaje"
-placeholder="Escribe una respuesta al cliente..."
-rows="4">
-</textarea>
-
-
-
-<button
-id="btnEnviarMensaje"
-class="btn-primary">
-
-
-<i class="fa-solid fa-paper-plane"></i>
-
-Enviar respuesta
+Actualizar estado
 
 
 </button>
 
 
-</div>
-
 
 </div>
-
-
-</section>
-
 
 
 
@@ -483,7 +413,6 @@ Enviar respuesta
 
 
 
-
 </section>
 
 
@@ -494,10 +423,7 @@ Enviar respuesta
 
 
 
-
-
 </section>
-
 
 
 
@@ -523,11 +449,6 @@ src="../js/layout.js">
 <script
 type="module"
 src="../js/editar-ticket.js">
-</script>
-
-<script
-type="module"
-src="../js/mensajes-ticket.js">
 </script>
 
 
