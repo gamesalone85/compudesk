@@ -1,7 +1,7 @@
 // ==========================================
 // COMPU DESK
 // ADMIN EDITAR TICKET
-// Producción v3.0
+// Producción v2.0
 // Firebase Auth + Firestore
 // ==========================================
 
@@ -13,10 +13,16 @@ import {
 from "../../assets/firebase/firebase-config.js";
 
 
+
 import {
+
     onAuthStateChanged
+
 }
+
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+
 
 
 import {
@@ -32,7 +38,10 @@ import {
     serverTimestamp
 
 }
+
 from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
 
 
 
@@ -41,10 +50,12 @@ from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 // ID TICKET
 // ==========================================
 
+
 const params =
 new URLSearchParams(
 window.location.search
 );
+
 
 
 const ticketId =
@@ -52,18 +63,12 @@ params.get("id");
 
 
 
-if(!ticketId){
 
-console.error(
-"No existe ID de ticket"
-);
 
-}
+let ticketActual = null;
 
 
 
-
-let ticketActual=null;
 
 
 
@@ -71,60 +76,106 @@ let ticketActual=null;
 // ELEMENTOS
 // ==========================================
 
+
 const titulo =
-document.getElementById("ticketTitulo");
+document.getElementById(
+"ticketTitulo"
+);
+
 
 
 const folio =
-document.getElementById("ticketFolio");
+document.getElementById(
+"ticketFolio"
+);
+
 
 
 const empresa =
-document.getElementById("ticketEmpresa");
+document.getElementById(
+"ticketEmpresa"
+);
+
 
 
 const usuario =
-document.getElementById("ticketUsuario");
+document.getElementById(
+"ticketUsuario"
+);
+
 
 
 const categoria =
-document.getElementById("ticketCategoria");
+document.getElementById(
+"ticketCategoria"
+);
+
 
 
 const prioridad =
-document.getElementById("ticketPrioridad");
+document.getElementById(
+"ticketPrioridad"
+);
+
 
 
 const estado =
-document.getElementById("ticketEstado");
+document.getElementById(
+"ticketEstado"
+);
+
 
 
 const descripcion =
-document.getElementById("ticketDescripcion");
+document.getElementById(
+"ticketDescripcion"
+);
+
 
 
 const conversacion =
-document.getElementById("conversacion");
+document.getElementById(
+"conversacion"
+);
+
 
 
 const respuestaForm =
-document.getElementById("respuestaForm");
+document.getElementById(
+"respuestaForm"
+);
+
 
 
 const respuesta =
-document.getElementById("respuesta");
+document.getElementById(
+"respuesta"
+);
+
 
 
 const nuevoEstado =
-document.getElementById("nuevoEstado");
+document.getElementById(
+"nuevoEstado"
+);
+
 
 
 const btnGuardarEstado =
-document.getElementById("btnGuardarEstado");
+document.getElementById(
+"btnGuardarEstado"
+);
+
 
 
 const mensaje =
-document.getElementById("mensajeTicket");
+document.getElementById(
+"mensajeTicket"
+);
+
+
+
+
 
 
 
@@ -133,6 +184,7 @@ document.getElementById("mensajeTicket");
 // FECHA
 // ==========================================
 
+
 function fecha(valor){
 
 
@@ -140,17 +192,28 @@ if(!valor)
 return "--";
 
 
-if(typeof valor.toDate==="function"){
 
-valor=valor.toDate();
+if(
+typeof valor.toDate === "function"
+){
+
+valor =
+valor.toDate();
+
+}
+
+
+
+return valor.toLocaleString(
+"es-MX"
+);
+
 
 }
 
 
-return valor.toLocaleString("es-MX");
 
 
-}
 
 
 
@@ -159,20 +222,15 @@ return valor.toLocaleString("es-MX");
 // CARGAR TICKET
 // ==========================================
 
+
 async function cargarTicket(){
 
 
 try{
 
 
-console.log(
-"Cargando ticket:",
-ticketId
-);
+const referencia =
 
-
-
-const ref =
 doc(
 db,
 "tickets",
@@ -182,7 +240,12 @@ ticketId
 
 
 const snap =
-await getDoc(ref);
+
+await getDoc(
+referencia
+);
+
+
 
 
 
@@ -197,11 +260,12 @@ mostrarMensaje(
 
 return;
 
+
 }
 
 
 
-ticketActual={
+ticketActual = {
 
 id:snap.id,
 
@@ -211,36 +275,48 @@ id:snap.id,
 
 
 
+
+
+
 titulo.textContent =
 ticketActual.titulo || "--";
+
 
 
 folio.textContent =
 ticketActual.folio || "--";
 
 
+
 empresa.textContent =
 ticketActual.empresa || "--";
+
 
 
 usuario.textContent =
 ticketActual.nombreUsuario || "--";
 
 
+
 categoria.textContent =
 ticketActual.categoria || "--";
+
 
 
 prioridad.textContent =
 ticketActual.prioridad || "--";
 
 
+
 estado.textContent =
 ticketActual.estado || "--";
 
 
+
 descripcion.textContent =
 ticketActual.descripcion || "--";
+
+
 
 
 
@@ -253,32 +329,39 @@ ticketActual.estado || "abierto";
 
 
 
+
 await cargarMensajes();
 
 
 
 }
 
+
+
 catch(error){
 
 
 console.error(
-"ERROR TICKET:",
+"Error cargando ticket:",
 error
 );
 
 
+
 mostrarMensaje(
-error.message,
+"Error cargando ticket",
 "error"
 );
 
 
+
+}
+
+
+
 }
 
 
-
-}
 
 
 
@@ -286,23 +369,18 @@ error.message,
 
 
 // ==========================================
-// MENSAJES
+// CARGAR MENSAJES
 // ==========================================
 
 
 async function cargarMensajes(){
 
 
+
 try{
 
 
-console.log(
-"Cargando mensajes"
-);
-
-
-
-const ref =
+const mensajesRef =
 
 collection(
 
@@ -318,11 +396,13 @@ ticketId,
 
 
 
-const q =
+
+
+const consulta =
 
 query(
 
-ref,
+mensajesRef,
 
 orderBy(
 "fecha",
@@ -333,8 +413,16 @@ orderBy(
 
 
 
+
+
 const snap =
-await getDocs(q);
+
+await getDocs(
+consulta
+);
+
+
+
 
 
 
@@ -342,10 +430,13 @@ conversacion.innerHTML="";
 
 
 
+
+
+
 if(snap.empty){
 
 
-conversacion.innerHTML=
+conversacion.innerHTML =
 
 `
 
@@ -355,7 +446,6 @@ Sin mensajes todavía.
 
 `;
 
-
 return;
 
 
@@ -363,11 +453,15 @@ return;
 
 
 
-snap.forEach(item=>{
+
+
+
+snap.forEach(doc=>{
 
 
 const msg =
-item.data();
+doc.data();
+
 
 
 
@@ -378,19 +472,30 @@ conversacion.innerHTML +=
 
 <div class="mensaje">
 
+
 <strong>
+
 ${msg.autor || "Usuario"}
+
 </strong>
 
 
+
 <p>
-${msg.mensaje || ""}
+
+${msg.mensaje}
+
 </p>
 
 
+
+
 <small>
+
 ${fecha(msg.fecha)}
+
 </small>
+
 
 
 </div>
@@ -398,7 +503,9 @@ ${fecha(msg.fecha)}
 `;
 
 
+
 });
+
 
 
 
@@ -408,27 +515,30 @@ catch(error){
 
 
 console.error(
-"ERROR MENSAJES:",
+"Error mensajes:",
 error
 );
 
 
-conversacion.innerHTML=
+
+conversacion.innerHTML =
 
 `
 
 <p>
-No se pudieron cargar mensajes
+Error cargando conversación.
 </p>
 
 `;
 
 
-}
-
-
 
 }
+
+
+
+}
+
 
 
 
@@ -437,11 +547,12 @@ No se pudieron cargar mensajes
 
 
 // ==========================================
-// RESPONDER CLIENTE
+// RESPONDER AL CLIENTE
 // ==========================================
 
 
 respuestaForm?.addEventListener(
+
 "submit",
 
 async(e)=>{
@@ -450,8 +561,10 @@ async(e)=>{
 e.preventDefault();
 
 
+
 const texto =
 respuesta.value.trim();
+
 
 
 if(!texto)
@@ -459,11 +572,15 @@ return;
 
 
 
+
+
 try{
 
 
-const user =
+
+const admin =
 auth.currentUser;
+
 
 
 
@@ -488,13 +605,21 @@ ticketId,
 
 autor:"admin",
 
-uid:user.uid,
 
-nombre:"Administrador",
+uid:
+admin.uid,
+
+
+nombre:
+
+"Administrador",
+
 
 mensaje:texto,
 
+
 tipo:"texto",
+
 
 fecha:
 serverTimestamp()
@@ -505,6 +630,10 @@ serverTimestamp()
 
 
 );
+
+
+
+
 
 
 
@@ -521,10 +650,13 @@ ticketId
 {
 
 
-ultimaRespuesta:"admin",
+ultimaRespuesta:
+"admin",
+
 
 ultimaActividad:
 serverTimestamp(),
+
 
 ultimaActualizacion:
 serverTimestamp()
@@ -538,7 +670,12 @@ serverTimestamp()
 
 
 
+
+
+
+
 respuesta.value="";
+
 
 
 await cargarMensajes();
@@ -550,18 +687,20 @@ await cargarMensajes();
 catch(error){
 
 
+
 console.error(
-"ERROR RESPUESTA:",
+"Error enviando respuesta:",
 error
 );
 
 
 mostrarMensaje(
-error.message,
+"Error enviando mensaje",
 "error"
 );
 
 
+
 }
 
 
@@ -576,18 +715,22 @@ error.message,
 
 
 
+
+
 // ==========================================
-// CAMBIAR ESTADO
+// CAMBIO ESTADO
 // ==========================================
 
 
 btnGuardarEstado?.addEventListener(
+
 "click",
 
 async()=>{
 
 
 try{
+
 
 
 await updateDoc(
@@ -611,10 +754,14 @@ ultimaActualizacion:
 serverTimestamp()
 
 
+
 }
 
 
+
 );
+
+
 
 
 
@@ -624,8 +771,11 @@ nuevoEstado.value;
 
 
 mostrarMensaje(
-"Estado actualizado",
+
+"Estado actualizado correctamente",
+
 "success"
+
 );
 
 
@@ -636,16 +786,19 @@ catch(error){
 
 
 console.error(
+"Error estado:",
 error
 );
 
 
+
 mostrarMensaje(
-error.message,
+"No se pudo actualizar",
 "error"
 );
 
 
+
 }
 
 
@@ -660,12 +813,18 @@ error.message,
 
 
 
+
+
+
 // ==========================================
-// MENSAJE UI
+// MENSAJES UI
 // ==========================================
 
 
-function mostrarMensaje(texto,tipo){
+function mostrarMensaje(
+texto,
+tipo
+){
 
 
 if(!mensaje)
@@ -673,19 +832,22 @@ return;
 
 
 
-mensaje.innerHTML=
+mensaje.innerHTML =
+
 
 `
 
 <div class="alert ${tipo}">
+
 ${texto}
+
 </div>
 
 `;
 
 
-
 }
+
 
 
 
@@ -698,17 +860,31 @@ ${texto}
 // ==========================================
 
 
-document.addEventListener(
-"compudesk-auth-ready",
-()=>{
+onAuthStateChanged(
 
-console.log(
-"Admin autorizado"
-);
+auth,
+
+(user)=>{
+
+
+if(user){
 
 
 cargarTicket();
 
 
 }
+else{
+
+
+location.replace(
+"../login.html"
+);
+
+
+}
+
+
+}
+
 );
