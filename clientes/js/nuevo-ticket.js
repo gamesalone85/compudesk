@@ -1,14 +1,16 @@
 // ==========================================
 // COMPU DESK
 // NUEVO TICKET CLIENTE
-// Versión 3.0
+// Versión 3.1
 // Firebase Auth + Firestore
 // ==========================================
+
 
 import {
     auth,
     db
 } from "../../assets/firebase/firebase-config.js";
+
 
 import {
     collection,
@@ -17,11 +19,11 @@ import {
     getDocs,
     doc,
     getDoc,
-    setDoc,
-    runTransaction,
     serverTimestamp,
     writeBatch
 } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+
 
 // ==========================================
 // ELEMENTOS
@@ -29,6 +31,7 @@ import {
 
 const form = document.getElementById("ticketForm");
 const mensaje = document.getElementById("mensaje");
+
 
 
 // ==========================================
@@ -45,44 +48,52 @@ function mostrarMensaje(texto, tipo = "success") {
 }
 
 
+
 // ==========================================
-// VALIDACIONES
+// VALIDAR FORMULARIO
 // ==========================================
 
-function validarFormulario() {
+function validarFormulario(){
+
 
     const categoria =
         document.getElementById("categoria")
         .value
         .trim();
 
+
     const prioridad =
         document.getElementById("prioridad")
         .value
         .trim();
+
 
     const titulo =
         document.getElementById("titulo")
         .value
         .trim();
 
+
     const descripcion =
         document.getElementById("descripcion")
         .value
         .trim();
 
-    if (
+
+
+    if(
         !categoria ||
         !prioridad ||
         !titulo ||
         !descripcion
-    ) {
+    ){
 
         throw new Error(
             "Completa todos los campos."
         );
 
     }
+
 
     return {
         categoria,
@@ -94,21 +105,31 @@ function validarFormulario() {
 }
 
 
+
+
 // ==========================================
 // OBTENER USUARIO
 // ==========================================
 
-async function obtenerUsuario(uid) {
+async function obtenerUsuario(uid){
+
 
     const usuarioQuery = query(
-        collection(db, "usuarios"),
-        where("uid", "==", uid)
+        collection(db,"usuarios"),
+        where(
+            "uid",
+            "==",
+            uid
+        )
     );
+
 
     const usuarioSnap =
         await getDocs(usuarioQuery);
 
-    if (usuarioSnap.empty) {
+
+
+    if(usuarioSnap.empty){
 
         throw new Error(
             "No existe perfil de usuario."
@@ -116,19 +137,29 @@ async function obtenerUsuario(uid) {
 
     }
 
+
+
     return {
-        id: usuarioSnap.docs[0].id,
+
+        id:
+        usuarioSnap.docs[0].id,
+
         ...usuarioSnap.docs[0].data()
+
     };
+
 
 }
 
 
+
+
 // ==========================================
-// OBTENER EMPRESA
+// OBTENER CLIENTE
 // ==========================================
 
-async function obtenerCliente(clienteId) {
+async function obtenerCliente(clienteId){
+
 
     const clienteRef =
         doc(
@@ -137,10 +168,14 @@ async function obtenerCliente(clienteId) {
             clienteId
         );
 
+
+
     const clienteSnap =
         await getDoc(clienteRef);
 
-    if (!clienteSnap.exists()) {
+
+
+    if(!clienteSnap.exists()){
 
         throw new Error(
             "No existe empresa registrada."
@@ -148,9 +183,15 @@ async function obtenerCliente(clienteId) {
 
     }
 
+
+
     return clienteSnap.data();
 
+
 }
+
+
+
 
 
 // ==========================================
@@ -159,25 +200,40 @@ async function obtenerCliente(clienteId) {
 
 function generarFolio(){
 
-    const fecha = new Date();
+
+    const fecha =
+        new Date();
+
+
 
     const anio =
         fecha.getFullYear();
 
+
+
     const numero =
         Math.floor(
-            Math.random() * 999999
+            Math.random()*999999
         )
         .toString()
-        .padStart(6,"0");
+        .padStart(
+            6,
+            "0"
+        );
+
 
 
     return `CD-TK-${anio}-${numero}`;
 
+
 }
 
+
+
+
+
 // ==========================================
-// CREAR ESTRUCTURA TICKET
+// CONSTRUIR TICKET
 // ==========================================
 
 function construirTicket(
@@ -185,86 +241,119 @@ function construirTicket(
     usuario,
     cliente,
     datos
-) {
+){
+
 
     return {
 
-        // Identificación
 
         folio,
 
-        // Cliente
 
         clienteId:
             usuario.clienteId,
 
+
         empresa:
             cliente.empresa || "",
 
-        // Usuario
+
 
         usuarioId:
-            usuario.uid || "",
+            usuario.uid,
+
+
 
         nombreUsuario:
             usuario.nombre || "",
 
+
+
         correoUsuario:
             usuario.correo || "",
 
-        // Ticket
+
 
         categoria:
             datos.categoria,
 
+
         prioridad:
             datos.prioridad,
+
 
         titulo:
             datos.titulo,
 
+
         descripcion:
             datos.descripcion,
 
-        // Estado
+
 
         estado:
             "abierto",
 
-        // Técnico
+
 
         tecnicoId:
             "",
 
-       tecnicoNombre: "Sin asignar",
 
-                // Estadísticas
 
-        totalComentarios: 0,
+        tecnicoNombre:
+            "Sin asignar",
 
-        totalAdjuntos: 0,
 
-        // Auditoría
 
-        ultimaRespuesta: "cliente",
+        totalComentarios:
+            0,
 
-        ultimaActividad: serverTimestamp(),
 
-        // Fechas
+        totalAdjuntos:
+            0,
 
-        fechaCreacion: serverTimestamp(),
 
-        fechaActualizacion: serverTimestamp(),
 
-        fechaAsignacion: null,
+        ultimaRespuesta:
+            "cliente",
 
-        fechaResolucion: null,
 
-        fechaCierre: null
+
+        ultimaActividad:
+            serverTimestamp(),
+
+
+
+        fechaCreacion:
+            serverTimestamp(),
+
+
+
+        fechaActualizacion:
+            serverTimestamp(),
+
+
+
+        fechaAsignacion:
+            null,
+
+
+        fechaResolucion:
+            null,
+
+
+        fechaCierre:
+            null
+
 
     };
 
+
 }
+
+
+
 
 
 // ==========================================
@@ -273,15 +362,21 @@ function construirTicket(
 
 async function guardarTicketCompleto(ticket){
 
-    const batch = writeBatch(db);
 
-    // Documento principal
+    const batch =
+        writeBatch(db);
 
-    const ticketRef = doc(
-        db,
-        "tickets",
-        ticket.folio
-    );
+
+
+
+    const ticketRef =
+        doc(
+            db,
+            "tickets",
+            ticket.folio
+        );
+
+
 
     batch.set(
         ticketRef,
@@ -290,60 +385,82 @@ async function guardarTicketCompleto(ticket){
 
 
 
-    // ==========================
-    // PRIMER MENSAJE
-    // ==========================
 
-    const mensajeRef = doc(
-        collection(
-            ticketRef,
-            "mensajes"
-        )
-    );
+
+    // MENSAJE INICIAL
+
+    const mensajeRef =
+        doc(
+            collection(
+                ticketRef,
+                "mensajes"
+            )
+        );
+
+
 
     batch.set(
         mensajeRef,
         {
 
-            autor:"cliente",
+            autor:
+                "cliente",
 
-            uid:ticket.usuarioId,
 
-            nombre:ticket.nombreUsuario,
+            uid:
+                ticket.usuarioId,
 
-            mensaje:ticket.descripcion,
 
-            tipo:"texto",
+            nombre:
+                ticket.nombreUsuario,
 
-            fecha:serverTimestamp()
+
+            mensaje:
+                ticket.descripcion,
+
+
+            tipo:
+                "texto",
+
+
+            fecha:
+                serverTimestamp()
 
         }
     );
 
 
 
-    // ==========================
-    // HISTORIAL
-    // ==========================
 
-    const historialRef = doc(
-        collection(
-            ticketRef,
-            "historial"
-        )
-    );
+
+
+    // HISTORIAL
+
+    const historialRef =
+        doc(
+            collection(
+                ticketRef,
+                "historial"
+            )
+        );
+
+
 
     batch.set(
         historialRef,
         {
 
-            accion:"Ticket creado",
+            accion:
+                "Ticket creado",
+
 
             descripcion:
                 "El cliente creó el ticket.",
 
+
             usuario:
                 ticket.nombreUsuario,
+
 
             fecha:
                 serverTimestamp()
@@ -353,26 +470,36 @@ async function guardarTicketCompleto(ticket){
 
 
 
-    // ==========================
-    // ACTIVIDAD
-    // ==========================
 
-    const actividadRef = doc(
-        collection(
-            ticketRef,
-            "actividades"
-        )
-    );
+
+
+    // ACTIVIDAD
+
+    const actividadRef =
+        doc(
+            collection(
+                ticketRef,
+                "actividades"
+            )
+        );
+
+
 
     batch.set(
         actividadRef,
         {
 
-            icono:"ticket",
+            icono:
+                "ticket",
 
-            titulo:"Nuevo ticket",
 
-            detalle:ticket.folio,
+            titulo:
+                "Nuevo ticket",
+
+
+            detalle:
+                ticket.folio,
+
 
             fecha:
                 serverTimestamp()
@@ -382,76 +509,113 @@ async function guardarTicketCompleto(ticket){
 
 
 
-    // ==========================
-    // GUARDAR TODO
-    // ==========================
 
-  try {
 
-    await batch.commit();
+
+    try{
+
+
+        await batch.commit();
+
+
+
+    }
+    catch(error){
+
+
+        console.error(
+            "ERROR GUARDANDO TICKET:",
+            error
+        );
+
+
+        console.log(
+            "TICKET ENVIADO:",
+            ticket
+        );
+
+
+        throw error;
+
+
+    }
+
 
 }
-catch(error){
 
-    console.error(
-        "ERROR GUARDANDO TICKET:",
-        error
-    );
 
-    console.log(
-        "TICKET ENVIADO:",
-        ticket
-    );
 
-    throw error;
 
-}
+
 // ==========================================
 // CREAR TICKET
 // ==========================================
 
-async function crearTicket() {
+async function crearTicket(){
 
-    const user = auth.currentUser;
 
-    if (!user) {
 
-        window.location.href = "../login.html";
+    const user =
+        auth.currentUser;
+
+
+
+    if(!user){
+
+        window.location.href =
+            "../login.html";
+
         return;
 
     }
 
-    // Validar formulario
+
+
 
     const datos =
         validarFormulario();
 
-    // Obtener usuario
+
+
+
 
     const usuario =
-        await obtenerUsuario(user.uid);
+        await obtenerUsuario(
+            user.uid
+        );
 
-    if (!usuario.clienteId) {
+
+
+
+
+    if(!usuario.clienteId){
+
 
         throw new Error(
-            "El usuario no tiene una empresa asociada."
+            "El usuario no tiene empresa asociada."
         );
 
     }
 
-    // Obtener empresa
+
+
+
 
     const cliente =
         await obtenerCliente(
             usuario.clienteId
         );
 
-    // Generar folio
 
-   const folio =
-    generarFolio();
 
-    // Construir objeto
+
+
+    const folio =
+        generarFolio();
+
+
+
+
 
     const ticket =
         construirTicket(
@@ -461,13 +625,26 @@ async function crearTicket() {
             datos
         );
 
-    // Guardar
+
+
+
 
     await guardarTicketCompleto(ticket);
 
+
+
+
+
     return folio;
 
+
+
 }
+
+
+
+
+
 
 
 // ==========================================
@@ -475,92 +652,120 @@ async function crearTicket() {
 // ==========================================
 
 form?.addEventListener(
-    "submit",
-    async (e) => {
+"submit",
+async(e)=>{
 
-        e.preventDefault();
 
-        try {
+    e.preventDefault();
 
-            const boton =
-                form.querySelector(
-                    "button[type='submit']"
-                );
 
-            boton.disabled = true;
 
-            boton.innerHTML =
-                `<i class="fa-solid fa-spinner fa-spin"></i>
-                 Creando ticket...`;
+    const boton =
+        form.querySelector(
+            "button[type='submit']"
+        );
 
-            const folio =
-                await crearTicket();
 
-            mostrarMensaje(
-                `Ticket ${folio} creado correctamente.`,
-                "success"
-            );
 
-            form.reset();
+    try{
 
-            setTimeout(() => {
 
-                window.location.href =
-                    "index.html";
+        boton.disabled=true;
 
-            }, 1800);
 
-        }
 
-        catch (error) {
+        boton.innerHTML =
+        `<i class="fa-solid fa-spinner fa-spin"></i>
+        Creando ticket...`;
 
-            console.error(error);
 
-            mostrarMensaje(
-                error.message ||
-                "No fue posible crear el ticket.",
-                "error"
-            );
 
-        }
 
-        finally {
+        const folio =
+            await crearTicket();
 
-            const boton =
-                form.querySelector(
-                    "button[type='submit']"
-                );
 
-            boton.disabled = false;
 
-            boton.innerHTML =
-                `<i class="fa-solid fa-paper-plane"></i>
-                 Enviar solicitud`;
 
-        }
+        mostrarMensaje(
+            `Ticket ${folio} creado correctamente.`,
+            "success"
+        );
+
+
+
+        form.reset();
+
+
+
+        setTimeout(()=>{
+
+
+            window.location.href =
+                "index.html";
+
+
+        },1800);
+
+
+
+    }
+    catch(error){
+
+
+        console.error(error);
+
+
+
+        mostrarMensaje(
+            error.message ||
+            "No fue posible crear el ticket.",
+            "error"
+        );
+
+
+    }
+    finally{
+
+
+        boton.disabled=false;
+
+
+        boton.innerHTML =
+        `<i class="fa-solid fa-paper-plane"></i>
+        Enviar solicitud`;
+
 
     }
 
-);
+
+});
+
+
+
+
 
 
 // ==========================================
-// INICIALIZACIÓN
+// INICIO
 // ==========================================
 
 document.addEventListener(
-    "DOMContentLoaded",
-    () => {
+"DOMContentLoaded",
+()=>{
 
-        console.log(
-            "%cCOMPU DESK",
-            "color:#0057ff;font-size:18px;font-weight:bold;"
-        );
 
-        console.log(
-            "Nuevo Ticket v3.0 cargado."
-        );
-
-    }
-
+console.log(
+"%cCOMPU DESK",
+"color:#0057ff;font-size:18px;font-weight:bold;"
 );
+
+
+
+console.log(
+"Nuevo Ticket v3.1 cargado correctamente."
+);
+
+
+
+});
