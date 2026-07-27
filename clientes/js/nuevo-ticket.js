@@ -307,24 +307,67 @@ function construirTicket(
 
 
 // ==========================================
-// GUARDAR TICKET
+// GUARDAR TICKET + PRIMER MENSAJE
 // ==========================================
 
-async function guardarTicket(ticket) {
+async function guardarTicket(ticket){
+
+    const batch = writeBatch(db);
+
+    // Documento principal del ticket
 
     const ticketRef = doc(
+
         db,
         "tickets",
         ticket.folio
+
     );
 
-    await setDoc(
+    batch.set(
+
         ticketRef,
+
         ticket
+
     );
+
+    // Primer mensaje del historial
+
+    const mensajeRef = doc(
+
+        collection(
+            ticketRef,
+            "mensajes"
+        )
+
+    );
+
+    batch.set(
+
+        mensajeRef,
+
+        {
+
+            autor: "cliente",
+
+            usuarioId: ticket.usuarioId,
+
+            nombre: ticket.nombreUsuario,
+
+            mensaje: ticket.descripcion,
+
+            fecha: serverTimestamp(),
+
+            tipo: "mensaje"
+
+        }
+
+    );
+
+    await batch.commit();
 
 }
-
 
 // ==========================================
 // CREAR TICKET
