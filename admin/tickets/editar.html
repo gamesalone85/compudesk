@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+<title>
+Detalle Ticket | Compu Desk
+</title>
+
+
+<meta name="robots" content="noindex,nofollow">
+
+
+
+<link
+href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+rel="stylesheet">
+
+
+
+<link
+rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+
+
+<link rel="stylesheet"
+href="/admin/css/admin.css">
+
+
+
+</head>
+
+
+<body>
+
+
+
+<div class="admin-layout">
+
+
+
+    <!-- SIDEBAR -->
+
+    <aside id="sidebar-container"></aside>
+
+
+
+
+    <section class="admin-main">
+
+
+
+        <!-- HEADER -->
+
+        <div id="header-container"></div>
+
+
+
+
+
+        <main class="admin-content">
+
+
+
+
+
+            <div class="dashboard-title">
+
+
+                <h1>
+                    Detalle del Ticket
+                </h1>
+
+
+                <p>
+                    Gestión y seguimiento de incidencia
+                </p>
+
+
+            </div>
+
+
+
+
+
+
+
+
+
+            <section class="admin-card">
+
+
+
+                <div class="admin-card-header">
+
+
+                    <h2 id="ticketTitulo">
+                        Cargando ticket...
+                    </h2>
+
+
+
+                    <a 
+                    href="index.html"
+                    class="btn-secondary">
+
+
+                        <i class="fa-solid fa-arrow-left"></i>
+
+                        Regresar
+
+
+                    </a>
+
+
+                </div>
+
+
+
+
+
+
+
+
+
+                <div class="admin-card-body">
+
+
+
+
+
+
+                    <div class="ticket-detail-grid">
+
+
+
+
+
+                        <div class="ticket-info-box">
+
+
+                            <label>
+                                Empresa
+                            </label>
+
+
+                            <strong id="ticketEmpresa">
+                                --
+                            </strong>
+
+
+                        </div>
+
+
+
+
+
+
+
+                        <div class="ticket-info-box">
+
+
+                            <label>
+                                Usuario
+                            </label>
+
+
+                            <strong id="ticketUsuario">
+                                --
+                            </strong>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="ticket-info-box">
+
+
+                            <label>
+                                Prioridad
+                            </label>
+
+
+                            <strong id="ticketPrioridad">
+                                --
+                            </strong>
+
+
+                        </div>
+
+
+
+
+
+
+
+
+                        <div class="ticket-info-box">
+
+
+                            <label>
+                                Estado
+                            </label>
+
+
+                            <strong id="ticketEstado">
+                                --
+                            </strong>
+
+
+                        </div>
+
+
+
+
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="ticket-description">
+
+
+
+                        <h3>
+                            Descripción
+                        </h3>
+
+
+
+                        <p id="ticketDescripcion">
+
+                            --
+
+                        </p>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+
+
+                    <div class="ticket-actions">
+
+
+
+                        <label>
+                            Cambiar estado
+                        </label>
+
+
+
+                        <select id="nuevoEstado">
+
+
+                            <option value="abierto">
+                                Abierto
+                            </option>
+
+
+                            <option value="en_proceso">
+                                En proceso
+                            </option>
+
+
+                            <option value="pendiente_cliente">
+                                Pendiente cliente
+                            </option>
+
+
+                            <option value="cerrado">
+                                Cerrado
+                            </option>
+
+
+
+                        </select>
+
+
+
+
+
+
+                        <button
+                        id="btnGuardarEstado"
+                        class="btn-primary">
+
+
+                            <i class="fa-solid fa-save"></i>
+
+
+                            Actualizar
+
+
+                        </button>
+
+
+
+                    </div>
+
+
+
+
+
+
+
+                    <div id="mensajeTicket"></div>
+
+
+
+
+
+
+
+                </div>
+
+
+
+            </section>
+
+
+
+
+
+
+
+        </main>
+
+
+
+
+
+    </section>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<script
+type="module"
+src="../js/auth-guard.js">
+</script>
+
+
+
+
+<script
+type="module"
+src="../js/layout.js">
+</script>
+
+
+
+
+<script
+type="module"
+src="../js/editar-ticket.js">
+</script>
+
+
+
+
+</body>
+
+
+</html>
