@@ -16,6 +16,21 @@ menu.classList.toggle("active");
 });
 
 }
+// Cerrar menú al seleccionar una opción
+
+const navLinks = document.querySelectorAll("#navMenu a");
+
+navLinks.forEach(link => {
+
+    link.addEventListener("click", () => {
+
+        navMenu.classList.remove("active");
+
+        menuToggle.classList.remove("active");
+
+    });
+
+});
 
 
 //==============================
