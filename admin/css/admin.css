@@ -2761,3 +2761,199 @@ textarea{
     margin-bottom:20px;
 
 }
+/* =====================================================
+   ACTIVIDAD RECIENTE DASHBOARD
+===================================================== */
+
+
+.activity-panel{
+
+    padding:30px;
+
+}
+
+
+
+.panel-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:25px;
+
+}
+
+
+
+.panel-header h2{
+
+    margin-bottom:5px;
+
+}
+
+
+
+.panel-header p{
+
+    color:var(--admin-muted);
+
+    font-size:14px;
+
+}
+
+
+
+.panel-header i{
+
+    font-size:28px;
+
+    color:var(--admin-primary);
+
+}
+
+
+
+
+.activity-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+
+
+
+.activity-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    padding:18px;
+
+    background:#F8FAFC;
+
+    border-radius:14px;
+
+    border:1px solid var(--admin-border);
+
+    transition:.25s;
+
+}
+
+
+
+.activity-item:hover{
+
+    transform:translateX(5px);
+
+    background:white;
+
+    box-shadow:var(--shadow-sm);
+
+}
+
+
+
+
+.activity-icon{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    background:rgba(0,87,255,.10);
+
+    color:var(--admin-primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+
+
+.activity-info{
+
+    flex:1;
+
+}
+
+
+
+.activity-info strong{
+
+    display:block;
+
+    font-size:15px;
+
+    margin-bottom:5px;
+
+}
+
+
+
+.activity-info p{
+
+    color:var(--admin-muted);
+
+    font-size:13px;
+
+    margin-bottom:5px;
+
+}
+
+
+
+.activity-info small{
+
+    color:#94A3B8;
+
+}
+
+
+
+.activity-status{
+
+    margin-left:auto;
+
+}
+
+
+
+
+
+.activity-loading{
+
+    padding:40px;
+
+    text-align:center;
+
+    color:var(--admin-muted);
+
+}
+
+
+
+.activity-loading i{
+
+    margin-right:10px;
+
+}
