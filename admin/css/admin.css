@@ -1,0 +1,2763 @@
+/* =====================================================
+   COMPU DESK
+   ADMIN PANEL CSS
+   MASTER v4.0 CLEAN
+===================================================== */
+
+
+/* =====================================================
+   VARIABLES
+===================================================== */
+
+:root{
+
+    --admin-primary:#0057FF;
+    --admin-primary-hover:#0048D9;
+
+    --admin-bg:#F4F7FB;
+    --admin-white:#FFFFFF;
+
+    --admin-dark:#081120;
+    --admin-text:#1E293B;
+    --admin-muted:#64748B;
+
+    --admin-border:#E2E8F0;
+
+    --admin-success:#16A34A;
+    --admin-warning:#F59E0B;
+    --admin-danger:#DC2626;
+
+
+    --sidebar-width:270px;
+
+
+    --radius-sm:10px;
+    --radius-md:16px;
+    --radius-lg:22px;
+
+
+    --shadow-sm:
+    0 5px 20px rgba(0,0,0,.05);
+
+
+    --shadow-md:
+    0 15px 35px rgba(0,0,0,.08);
+
+}
+
+
+
+/* =====================================================
+   RESET
+===================================================== */
+
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+
+
+body{
+
+    font-family:'Inter',sans-serif;
+
+    background:var(--admin-bg);
+
+    color:var(--admin-text);
+
+}
+
+
+
+a{
+
+    text-decoration:none;
+
+    color:inherit;
+
+}
+
+
+
+button,
+input,
+select,
+textarea{
+
+    font-family:inherit;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   LAYOUT GENERAL
+===================================================== */
+
+
+.admin-layout{
+
+    min-height:100vh;
+
+}
+
+
+
+.admin-main{
+
+    margin-left:var(--sidebar-width);
+
+    min-height:100vh;
+
+    background:var(--admin-bg);
+
+}
+
+
+
+.admin-content{
+
+    padding:40px;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SIDEBAR
+===================================================== */
+
+
+.admin-sidebar{
+
+    width:var(--sidebar-width);
+
+    height:100vh;
+
+    position:fixed;
+
+    left:0;
+
+    top:0;
+
+    background:var(--admin-dark);
+
+    display:flex;
+
+    flex-direction:column;
+
+    z-index:1000;
+
+}
+
+
+
+
+
+
+/* LOGO */
+
+
+.admin-sidebar-header{
+
+    height:110px;
+
+    padding:20px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    border-bottom:
+
+    1px solid rgba(255,255,255,.08);
+
+}
+
+
+
+.admin-logo{
+
+    width:55px;
+
+    height:55px;
+
+    object-fit:contain;
+
+    background:white;
+
+    padding:8px;
+
+    border-radius:14px;
+
+}
+
+
+
+.admin-brand-text{
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+.admin-brand-text strong{
+
+    color:white;
+
+    font-size:18px;
+
+}
+
+
+
+.admin-brand-text span{
+
+    color:#94A3B8;
+
+    font-size:13px;
+
+}
+
+
+
+
+
+
+
+/* MENU */
+
+
+.admin-menu{
+
+    flex:1;
+
+    padding:25px 15px;
+
+}
+
+
+
+.admin-menu-item{
+
+    height:52px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:0 18px;
+
+    margin-bottom:10px;
+
+    border-radius:12px;
+
+    color:#D6E1F0;
+
+    font-size:15px;
+
+    transition:.25s;
+
+}
+
+
+
+.admin-menu-item i{
+
+    width:22px;
+
+    text-align:center;
+
+}
+
+
+
+.admin-menu-item:hover{
+
+    background:#0E1A2D;
+
+}
+
+
+
+.admin-menu-item.active{
+
+    background:var(--admin-primary);
+
+    color:white;
+
+}
+
+
+
+
+
+
+
+/* FOOTER SIDEBAR */
+
+
+.admin-sidebar-footer{
+
+    padding:20px;
+
+    text-align:center;
+
+    border-top:
+
+    1px solid rgba(255,255,255,.08);
+
+    color:#94A3B8;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+
+.admin-header{
+
+    height:85px;
+
+    background:white;
+
+    border-bottom:
+
+    1px solid var(--admin-border);
+
+    padding:0 40px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:900;
+
+}
+
+
+
+.admin-header-title h1{
+
+    font-size:22px;
+
+}
+
+
+
+.admin-header-title p{
+
+    font-size:13px;
+
+    color:var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+.admin-user{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:25px;
+
+}
+
+
+
+.admin-user-info{
+
+    display:flex;
+
+    flex-direction:column;
+
+    text-align:right;
+
+}
+
+
+
+.admin-user-info strong{
+
+    font-size:15px;
+
+}
+
+
+
+.admin-user-info span{
+
+    color:var(--admin-muted);
+
+    font-size:13px;
+
+}
+
+
+
+
+
+.btn-logout{
+
+    background:var(--admin-danger);
+
+    color:white;
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:12px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+}
+
+/* =====================================================
+   COMPU DESK
+   ADMIN PANEL CSS
+   MASTER v4.0 CLEAN
+
+   SECCION:
+   DASHBOARD
+===================================================== */
+
+
+/* =====================================================
+   TITULOS GENERALES
+===================================================== */
+
+
+.dashboard-title{
+
+    margin-bottom:40px;
+
+}
+
+
+
+.dashboard-title h1{
+
+    font-size:34px;
+
+    font-weight:800;
+
+    color:var(--admin-text);
+
+    margin-bottom:8px;
+
+}
+
+
+
+.dashboard-title p{
+
+    color:var(--admin-muted);
+
+    font-size:15px;
+
+}
+
+
+
+
+
+/* =====================================================
+   KPI CARDS
+===================================================== */
+
+
+.kpi-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(4,1fr);
+
+    gap:25px;
+
+    margin-bottom:40px;
+
+}
+
+
+
+
+
+.kpi-card{
+
+    background:var(--admin-white);
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:
+
+    var(--radius-lg);
+
+    padding:28px;
+
+    display:flex;
+
+    align-items:center;
+
+    gap:22px;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+    transition:.25s;
+
+}
+
+
+
+.kpi-card:hover{
+
+    transform:translateY(-5px);
+
+    box-shadow:
+
+    var(--shadow-md);
+
+}
+
+
+
+
+
+
+
+.kpi-icon{
+
+    width:65px;
+
+    height:65px;
+
+    border-radius:18px;
+
+    background:
+
+    rgba(0,87,255,.10);
+
+    color:
+
+    var(--admin-primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:26px;
+
+}
+
+
+
+
+
+.kpi-card span{
+
+    display:block;
+
+    color:
+
+    var(--admin-muted);
+
+    font-size:14px;
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+
+.kpi-card strong{
+
+    display:block;
+
+    font-size:34px;
+
+    font-weight:800;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   PANELES DASHBOARD
+===================================================== */
+
+
+.dashboard-panel{
+
+    background:white;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:
+
+    var(--radius-lg);
+
+    padding:32px;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+
+
+
+.dashboard-panel h2{
+
+    font-size:22px;
+
+    margin-bottom:25px;
+
+}
+
+
+
+
+
+/* =====================================================
+   CARDS GENERALES
+===================================================== */
+
+
+.portal-card,
+.clientes-card,
+.form-card,
+.ticket-card{
+
+    background:white;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:
+
+    var(--radius-lg);
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+/* =====================================================
+   COMPU DESK
+   ADMIN PANEL CSS
+   MASTER v4.0 CLEAN
+
+   SECCION:
+   CLIENTES / TABLAS / FORMULARIOS
+===================================================== */
+
+
+
+/* =====================================================
+   HEADER DE CARDS
+===================================================== */
+
+
+.clientes-card-header{
+
+    padding:28px 35px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    border-bottom:
+
+    1px solid var(--admin-border);
+
+}
+
+
+
+.clientes-card-header h2{
+
+    font-size:22px;
+
+    font-weight:700;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   BOTONES GENERALES
+===================================================== */
+
+
+.btn-primary{
+
+    background:
+
+    var(--admin-primary);
+
+    color:white;
+
+    border:none;
+
+    padding:
+
+    13px 25px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:.25s;
+
+}
+
+
+
+.btn-primary:hover{
+
+    background:
+
+    var(--admin-primary-hover);
+
+}
+
+
+
+
+
+
+.btn-secondary{
+
+    background:#E2E8F0;
+
+    color:#334155;
+
+    border:none;
+
+    padding:
+
+    13px 25px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:10px;
+
+    transition:.25s;
+
+}
+
+
+
+.btn-secondary:hover{
+
+    background:#CBD5E1;
+
+}
+
+
+
+
+
+
+
+.btn-nuevo{
+
+    background:
+
+    var(--admin-primary);
+
+    color:white;
+
+    padding:
+
+    14px 24px;
+
+    border-radius:14px;
+
+    font-weight:600;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    transition:.25s;
+
+}
+
+
+
+.btn-nuevo:hover{
+
+    background:
+
+    var(--admin-primary-hover);
+
+}
+
+
+
+
+
+
+.btn-action{
+
+    width:38px;
+
+    height:38px;
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    border-radius:10px;
+
+    background:#EFF6FF;
+
+    color:
+
+    var(--admin-primary);
+
+    transition:.25s;
+
+}
+
+
+
+.btn-action:hover{
+
+    background:
+
+    var(--admin-primary);
+
+    color:white;
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   BUSCADOR
+===================================================== */
+
+
+.clientes-search{
+
+    position:relative;
+
+    width:330px;
+
+}
+
+
+
+.clientes-search input{
+
+    width:100%;
+
+    height:45px;
+
+    padding:
+
+    0 15px 0 45px;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:12px;
+
+    font-size:14px;
+
+}
+
+
+
+.clientes-search i{
+
+    position:absolute;
+
+    left:16px;
+
+    top:50%;
+
+    transform:
+
+    translateY(-50%);
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TABLAS ADMIN
+===================================================== */
+
+
+.clientes-table-wrapper{
+
+    padding:35px;
+
+    overflow-x:auto;
+
+}
+
+
+
+.clientes-table,
+.tabla-clientes,
+.tickets-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+
+
+.clientes-table th,
+.tabla-clientes th,
+.tickets-table th{
+
+    text-align:left;
+
+    padding:16px 20px;
+
+    background:#F8FAFC;
+
+    color:#475569;
+
+    font-size:13px;
+
+    text-transform:uppercase;
+
+    letter-spacing:.4px;
+
+    border-bottom:
+
+    1px solid var(--admin-border);
+
+}
+
+
+
+.clientes-table td,
+.tabla-clientes td,
+.tickets-table td{
+
+    padding:
+
+    16px 20px;
+
+    border-bottom:
+
+    1px solid var(--admin-border);
+
+    font-size:14px;
+
+    color:#334155;
+
+}
+
+
+
+.clientes-table tbody tr:hover,
+.tabla-clientes tbody tr:hover,
+.tickets-table tbody tr:hover{
+
+    background:#F8FAFC;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   EMPRESA CLIENTE
+===================================================== */
+
+
+.empresa-cell{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+
+
+.empresa-icon{
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:12px;
+
+    background:
+
+    rgba(0,87,255,.10);
+
+    color:
+
+    var(--admin-primary);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+.empresa-cell strong{
+
+    display:block;
+
+}
+
+
+
+.empresa-cell small{
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   BADGES GENERALES
+===================================================== */
+
+
+.plan-badge,
+.badge-activo,
+.badge-inactivo,
+.status{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    padding:
+
+    6px 12px;
+
+    border-radius:30px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+
+.plan-badge{
+
+    background:#EFF6FF;
+
+    color:#0057FF;
+
+}
+
+
+
+
+
+
+.badge-activo,
+.status.activo{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+}
+
+
+
+
+
+.badge-inactivo,
+.status.inactivo{
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   FORMULARIOS
+===================================================== */
+
+
+.form-card{
+
+    padding:35px;
+
+}
+
+
+
+.form-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+    gap:25px;
+
+}
+
+
+
+
+
+.form-group{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+
+
+.form-group label{
+
+    font-size:14px;
+
+    font-weight:600;
+
+    color:
+
+    var(--admin-text);
+
+}
+
+
+
+
+
+.form-group input,
+.form-group select,
+.form-group textarea{
+
+    width:100%;
+
+    padding:
+
+    14px 16px;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:12px;
+
+    background:white;
+
+    font-size:14px;
+
+}
+
+
+
+.form-group textarea{
+
+    min-height:140px;
+
+    resize:vertical;
+
+}
+
+
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus{
+
+    outline:none;
+
+    border-color:
+
+    var(--admin-primary);
+
+    box-shadow:
+
+    0 0 0 4px rgba(0,87,255,.12);
+
+}
+
+
+
+
+
+
+
+.form-actions{
+
+    margin-top:30px;
+
+    display:flex;
+
+    justify-content:flex-end;
+
+    gap:15px;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   ESTADOS VACIOS
+===================================================== */
+
+
+.empty-state{
+
+    padding:
+
+    60px 20px;
+
+    text-align:center;
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+.empty-state i{
+
+    font-size:45px;
+
+    margin-bottom:15px;
+
+    color:#CBD5E1;
+
+}
+
+
+
+
+
+
+/* =====================================================
+   SCROLL TABLAS
+===================================================== */
+
+
+.clientes-table-wrapper::-webkit-scrollbar{
+
+    height:8px;
+
+}
+
+
+
+.clientes-table-wrapper::-webkit-scrollbar-thumb{
+
+    background:#CBD5E1;
+
+    border-radius:20px;
+
+}
+/* =====================================================
+   COMPU DESK
+   ADMIN PANEL CSS
+   MASTER v4.0 CLEAN
+
+   SECCION:
+   TICKETS
+===================================================== */
+
+
+/* =====================================================
+   TABLA TICKETS
+===================================================== */
+
+
+.tickets-table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+
+.tickets-table th{
+
+    background:#F8FAFC;
+
+    padding:16px;
+
+    text-align:left;
+
+    color:#475569;
+
+    font-size:13px;
+
+}
+
+
+
+.tickets-table td{
+
+    padding:16px;
+
+    border-bottom:
+
+    1px solid var(--admin-border);
+
+    font-size:14px;
+
+}
+
+
+
+
+
+.tickets-table tbody tr:hover{
+
+    background:#F8FAFC;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   TITULO TICKET TABLA
+===================================================== */
+
+
+.ticket-title{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:5px;
+
+}
+
+
+
+.ticket-title small{
+
+    color:
+
+    var(--admin-muted);
+
+    font-size:12px;
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   BADGES ESTADO TICKET
+===================================================== */
+
+
+.badge-ticket{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    gap:6px;
+
+    padding:
+
+    7px 14px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+.badge-ticket.abierto{
+
+    background:#DBEAFE;
+
+    color:#1D4ED8;
+
+}
+
+
+
+
+
+.badge-ticket.en_proceso{
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+}
+
+
+
+
+
+.badge-ticket.pendiente_cliente{
+
+    background:#EDE9FE;
+
+    color:#6D28D9;
+
+}
+
+
+
+
+
+.badge-ticket.cerrado{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   PRIORIDAD TICKET
+===================================================== */
+
+
+.prioridad{
+
+    display:inline-flex;
+
+    padding:
+
+    6px 12px;
+
+    border-radius:20px;
+
+    font-size:12px;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+.prioridad.alta{
+
+    background:#FEE2E2;
+
+    color:#991B1B;
+
+}
+
+
+
+
+
+.prioridad.media{
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+}
+
+
+
+
+
+.prioridad.baja{
+
+    background:#DCFCE7;
+
+    color:#166534;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   LAYOUT DETALLE TICKET
+===================================================== */
+
+
+.ticket-layout{
+
+    display:grid;
+
+    grid-template-columns:
+
+    330px 1fr;
+
+    gap:25px;
+
+    align-items:start;
+
+}
+
+
+
+
+
+.ticket-sidebar{
+
+    position:sticky;
+
+    top:20px;
+
+}
+
+
+
+
+
+.ticket-chat{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   TARJETAS TICKET
+===================================================== */
+
+
+.ticket-card{
+
+    background:white;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:
+
+    var(--radius-lg);
+
+    padding:25px;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+
+
+
+
+
+.ticket-card h2,
+.ticket-card h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    margin-bottom:20px;
+
+    color:#111827;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   INFORMACION LATERAL
+===================================================== */
+
+
+.ticket-info-list{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:14px;
+
+}
+
+
+
+
+
+.ticket-info-item{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:15px;
+
+    padding-bottom:10px;
+
+    border-bottom:
+
+    1px solid #EEEEEE;
+
+}
+
+
+
+
+
+.ticket-info-item span{
+
+    color:
+
+    var(--admin-muted);
+
+    font-size:14px;
+
+}
+
+
+
+.ticket-info-item strong{
+
+    text-align:right;
+
+    font-weight:600;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   HEADER DETALLE TICKET
+===================================================== */
+
+
+.ticket-chat-header{
+
+    background:white;
+
+    padding:25px;
+
+    border-radius:
+
+    var(--radius-lg);
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    box-shadow:
+
+    var(--shadow-sm);
+
+}
+
+
+
+
+
+.ticket-chat-header h2{
+
+    margin:0;
+
+    font-size:24px;
+
+}
+
+
+
+
+
+.ticket-chat-header p{
+
+    margin-top:8px;
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   DESCRIPCION
+===================================================== */
+
+
+#ticketDescripcion{
+
+    line-height:1.7;
+
+    white-space:pre-line;
+
+    color:#374151;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   CONVERSACION
+===================================================== */
+
+
+.conversation-body{
+
+    min-height:220px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:15px;
+
+}
+
+
+
+
+
+.conversation-loading,
+.conversation-empty,
+.attachment-empty{
+
+    padding:30px;
+
+    text-align:center;
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+.mensaje{
+
+    background:#F8FAFC;
+
+    border:
+
+    1px solid var(--admin-border);
+
+    border-radius:12px;
+
+    padding:15px;
+
+}
+
+
+
+
+
+.mensaje-header{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-bottom:10px;
+
+}
+
+
+
+.mensaje strong{
+
+    color:#1E293B;
+
+}
+
+
+
+.mensaje small{
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+.mensaje p{
+
+    color:#475569;
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   RESPUESTA CLIENTE
+===================================================== */
+
+
+#respuesta{
+
+    width:100%;
+
+    min-height:140px;
+
+    padding:15px;
+
+    border:
+
+    1px solid #CBD5E1;
+
+    border-radius:12px;
+
+    resize:vertical;
+
+    font-family:inherit;
+
+    margin-bottom:15px;
+
+}
+
+
+
+
+
+#respuesta:focus{
+
+    outline:none;
+
+    border-color:
+
+    var(--admin-primary);
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   ADJUNTOS
+===================================================== */
+
+
+.ticket-attachments{
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+}
+
+
+
+
+
+.attachment-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+    background:#F8FAFC;
+
+    padding:12px 15px;
+
+    border-radius:10px;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   SLA
+===================================================== */
+
+
+.sla-grid{
+
+    display:grid;
+
+    grid-template-columns:
+
+    repeat(2,1fr);
+
+    gap:15px;
+
+}
+
+
+
+
+
+.sla-item{
+
+    background:#F8FAFC;
+
+    padding:18px;
+
+    border-radius:12px;
+
+}
+
+
+
+
+
+.sla-item span{
+
+    display:block;
+
+    color:
+
+    var(--admin-muted);
+
+    font-size:13px;
+
+    margin-bottom:8px;
+
+}
+
+
+
+
+
+
+
+
+/* =====================================================
+   TIMELINE HISTORIAL
+===================================================== */
+
+
+.ticket-timeline{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:20px;
+
+}
+
+
+
+
+
+.timeline-item{
+
+    display:flex;
+
+    gap:15px;
+
+}
+
+
+
+
+
+.timeline-icon{
+
+    width:38px;
+
+    height:38px;
+
+    flex-shrink:0;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+}
+
+
+
+
+
+.timeline-content{
+
+    flex:1;
+
+    background:#F8FAFC;
+
+    padding:15px;
+
+    border-radius:12px;
+
+}
+
+
+
+
+
+.timeline-content strong{
+
+    display:block;
+
+    margin-bottom:5px;
+
+}
+
+
+
+
+
+.timeline-content p{
+
+    color:
+
+    var(--admin-muted);
+
+    margin-bottom:5px;
+
+}
+
+
+
+
+
+.timeline-content small{
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+
+
+
+
+/* ICONOS TIMELINE */
+
+
+.timeline-mensaje{
+
+    background:#DBEAFE;
+
+    color:#1D4ED8;
+
+}
+
+
+
+.timeline-estado{
+
+    background:#FEF3C7;
+
+    color:#92400E;
+
+}
+
+
+
+.timeline-prioridad{
+
+    background:#FEE2E2;
+
+    color:#DC2626;
+
+}
+
+
+
+.timeline-tecnico{
+
+    background:#EDE9FE;
+
+    color:#7C3AED;
+
+}
+
+
+
+.timeline-default{
+
+    background:#E5E7EB;
+
+    color:#374151;
+
+}
+
+
+
+
+
+
+
+/* =====================================================
+   ACCIONES SIDEBAR
+===================================================== */
+
+
+.ticket-sidebar button{
+
+    width:100%;
+
+}
+
+
+
+
+
+.ticket-sidebar select{
+
+    width:100%;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    border:
+
+    1px solid #CBD5E1;
+
+}
+/* =====================================================
+   COMPU DESK
+   ADMIN PANEL CSS
+   MASTER v4.0 CLEAN
+
+   SECCION:
+   RESPONSIVE FINAL
+===================================================== */
+
+
+
+/* =====================================================
+   TABLETS
+===================================================== */
+
+
+@media(max-width:1200px){
+
+
+    .kpi-grid{
+
+        grid-template-columns:
+
+        repeat(2,1fr);
+
+    }
+
+
+
+    .ticket-layout{
+
+        grid-template-columns:
+
+        280px 1fr;
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   TABLET PEQUEÑA
+===================================================== */
+
+
+@media(max-width:900px){
+
+
+
+    .admin-main{
+
+        margin-left:0;
+
+    }
+
+
+
+    .admin-header{
+
+        padding:
+
+        0 20px;
+
+    }
+
+
+
+    .admin-content{
+
+        padding:25px;
+
+    }
+
+
+
+
+
+    .kpi-grid{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+
+
+
+    .ticket-layout{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+
+
+
+    .ticket-sidebar{
+
+        position:relative;
+
+        top:auto;
+
+    }
+
+
+
+
+    .form-grid{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+
+
+    .clientes-card-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:20px;
+
+    }
+
+
+
+    .clientes-search{
+
+        width:100%;
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   MOVIL
+===================================================== */
+
+
+@media(max-width:700px){
+
+
+
+    .admin-content{
+
+        padding:15px;
+
+    }
+
+
+
+
+
+    .admin-header{
+
+        height:auto;
+
+        min-height:80px;
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+        padding:
+
+        20px;
+
+    }
+
+
+
+
+
+    .admin-user{
+
+        width:100%;
+
+        justify-content:space-between;
+
+        gap:10px;
+
+    }
+
+
+
+
+
+
+    .admin-user-info{
+
+        text-align:left;
+
+    }
+
+
+
+
+
+
+    .dashboard-title h1{
+
+        font-size:26px;
+
+    }
+
+
+
+
+
+    .kpi-card{
+
+        padding:20px;
+
+    }
+
+
+
+
+
+    .kpi-card strong{
+
+        font-size:28px;
+
+    }
+
+
+
+
+
+
+    .btn-primary,
+    .btn-secondary,
+    .btn-nuevo{
+
+        width:100%;
+
+    }
+
+
+
+
+
+
+    .form-actions{
+
+        flex-direction:column;
+
+    }
+
+
+
+
+
+    .ticket-chat-header{
+
+        flex-direction:column;
+
+        align-items:flex-start;
+
+        gap:15px;
+
+    }
+
+
+
+
+
+    .sla-grid{
+
+        grid-template-columns:
+
+        1fr;
+
+    }
+
+
+
+
+
+    .ticket-info-item{
+
+        flex-direction:column;
+
+        gap:5px;
+
+    }
+
+
+
+
+
+    .ticket-info-item strong{
+
+        text-align:left;
+
+    }
+
+
+
+
+    .tickets-table{
+
+        display:block;
+
+        overflow-x:auto;
+
+    }
+
+
+
+}
+
+
+
+
+
+
+
+
+
+/* =====================================================
+   UTILIDADES FINALES
+===================================================== */
+
+
+.text-center{
+
+    text-align:center;
+
+}
+
+
+
+.text-muted{
+
+    color:
+
+    var(--admin-muted);
+
+}
+
+
+
+.hidden{
+
+    display:none!important;
+
+}
+
+
+
+.mt-20{
+
+    margin-top:20px;
+
+}
+
+
+
+.mb-20{
+
+    margin-bottom:20px;
+
+}
