@@ -1203,7 +1203,7 @@ await registrarHistorial(
 
 `
 El estado cambió de ${estadoAnterior}
-a ${nuevoEstado.value}
+a ${nuevo}
 `,
 
 "estado"
@@ -1235,8 +1235,18 @@ nuevo;
 
 
 }
+await cargarTimeline();
 
 
+
+mostrarMensaje(
+
+"Estado actualizado correctamente",
+
+"success"
+
+);
+    
 
 
 
