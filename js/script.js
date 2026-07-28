@@ -3,36 +3,74 @@
 //==============================
 
 const menu = document.getElementById("navMenu");
-
 const toggle = document.getElementById("menuToggle");
 
 
-if(toggle && menu){
+if(menu && toggle){
+
+
+// Abrir / cerrar menú hamburguesa
 
 toggle.addEventListener("click",()=>{
 
-menu.classList.toggle("active");
+
+    menu.classList.toggle("active");
+
+    toggle.classList.toggle("active");
+
 
 });
 
-}
+
+
 // Cerrar menú al seleccionar una opción
 
-const navLinks = document.querySelectorAll("#navMenu a");
+const navLinks = menu.querySelectorAll("a");
 
-navLinks.forEach(link => {
 
-    link.addEventListener("click", () => {
+navLinks.forEach(link=>{
 
-        navMenu.classList.remove("active");
 
-        menuToggle.classList.remove("active");
+    link.addEventListener("click",()=>{
+
+
+        menu.classList.remove("active");
+
+        toggle.classList.remove("active");
+
 
     });
 
+
 });
 
 
+// Cerrar menú si se hace clic fuera
+
+document.addEventListener("click",(event)=>{
+
+
+    const clickDentroMenu = menu.contains(event.target);
+
+    const clickBoton = toggle.contains(event.target);
+
+
+
+    if(!clickDentroMenu && !clickBoton){
+
+
+        menu.classList.remove("active");
+
+        toggle.classList.remove("active");
+
+
+    }
+
+
+});
+
+
+}
 //==============================
 // HEADER SCROLL
 //==============================
