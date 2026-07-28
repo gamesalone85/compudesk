@@ -1417,10 +1417,10 @@ timeline.innerHTML +=
 <div class="timeline-item">
 
 
-<div class="timeline-icon">
+<div class="timeline-icon ${iconoTimeline(evento.tipo).clase}">
 
 
-${iconoTimeline(evento.tipo)}
+${iconoTimeline(evento.tipo).icon}
 
 
 </div>
@@ -1505,7 +1505,7 @@ Error cargando historial.
 }
 
 // ==========================================
-// ICONOS TIMELINE
+// ICONOS Y CLASES TIMELINE
 // ==========================================
 
 
@@ -1517,51 +1517,71 @@ switch(tipo){
 
 case "mensaje":
 
-return `
+return {
 
-<i class="fa-solid fa-comment"></i>
+icon:
+'<i class="fa-solid fa-comment"></i>',
 
-`;
+clase:
+"timeline-mensaje"
+
+};
 
 
 
 case "estado":
 
-return `
+return {
 
-<i class="fa-solid fa-arrows-rotate"></i>
+icon:
+'<i class="fa-solid fa-arrows-rotate"></i>',
 
-`;
+clase:
+"timeline-estado"
+
+};
 
 
 
 case "prioridad":
 
-return `
+return {
 
-<i class="fa-solid fa-flag"></i>
+icon:
+'<i class="fa-solid fa-flag"></i>',
 
-`;
+clase:
+"timeline-prioridad"
+
+};
 
 
 
 case "tecnico":
 
-return `
+return {
 
-<i class="fa-solid fa-user-gear"></i>
+icon:
+'<i class="fa-solid fa-user-gear"></i>',
 
-`;
+clase:
+"timeline-tecnico"
+
+};
 
 
 
 default:
 
-return `
+return {
 
-<i class="fa-solid fa-clock"></i>
+icon:
+'<i class="fa-solid fa-clock"></i>',
 
-`;
+clase:
+"timeline-default"
+
+};
 
 
 
