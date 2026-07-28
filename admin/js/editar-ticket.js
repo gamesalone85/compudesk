@@ -1157,7 +1157,7 @@ const nuevo =
 nuevoEstado.value;
 
 
-const estadoAnterior = estado.textContent;
+const estadoAnterior = ticketEstado.textContent;
 
 
 await updateDoc(
