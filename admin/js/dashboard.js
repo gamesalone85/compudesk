@@ -334,35 +334,73 @@ function renderActivity(tickets){
 
     container.innerHTML =
 
-        recientes.map(ticket => `
+recientes.map(ticket => {
 
 
-            <div class="activity-item">
+    return `
+
+    <div class="activity-item">
 
 
-                <strong>
+        <div class="activity-icon">
 
-                    ${ticket.titulo || "Ticket"}
+            <i class="fa-solid fa-ticket"></i>
 
-                </strong>
-
-
-                <span>
-
-                    ${ticket.estado || "Nuevo"}
-
-                </span>
-
-
-            </div>
-
-
-        `)
-
-        .join("");
+        </div>
 
 
 
+        <div class="activity-info">
+
+
+            <strong>
+
+                ${ticket.titulo || "Ticket sin título"}
+
+            </strong>
+
+
+            <p>
+
+                ${ticket.descripcion 
+                ? ticket.descripcion.substring(0,80)+"..."
+                : "Sin descripción"}
+
+            </p>
+
+
+            <small>
+
+                Folio: ${ticket.folio || "N/A"}
+
+            </small>
+
+
+        </div>
+
+
+
+        <div class="activity-status">
+
+
+            <span class="badge-ticket ${ticket.estado || "abierto"}">
+
+                ${ticket.estado || "Nuevo"}
+
+            </span>
+
+
+        </div>
+
+
+    </div>
+
+    `;
+
+
+})
+
+.join("");
 }
 
 
