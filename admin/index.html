@@ -215,28 +215,49 @@
             <!-- ACTIVIDAD -->
 
 
-            <section class="dashboard-panel">
+            <section class="dashboard-panel activity-panel">
 
 
-                <h2>
+    <div class="panel-header">
 
-                    Actividad reciente
+        <div>
 
-                </h2>
+            <h2>
+                Actividad reciente
+            </h2>
 
+            <p>
+                Últimos movimientos registrados en el sistema
+            </p>
 
-                <div id="actividadReciente">
-
-
-                    <p>
-                        Cargando información...
-                    </p>
-
-
-                </div>
+        </div>
 
 
-            </section>
+        <i class="fa-solid fa-clock-rotate-left"></i>
+
+
+    </div>
+
+
+
+    <div id="actividadReciente" class="activity-list">
+
+
+        <div class="activity-loading">
+
+            <i class="fa-solid fa-spinner fa-spin"></i>
+
+            <span>
+                Cargando información...
+            </span>
+
+        </div>
+
+
+    </div>
+
+
+</section>
 
 
 
