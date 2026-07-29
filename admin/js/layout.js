@@ -306,7 +306,49 @@ function initLogout(){
 
 }
 
+function initMobileMenu(){
 
+    const sidebar=document.querySelector(".admin-sidebar");
+
+    const overlay=document.getElementById("sidebarOverlay");
+
+    const button=document.getElementById("menuToggle");
+
+    if(!sidebar || !button) return;
+
+    button.addEventListener("click",()=>{
+
+        sidebar.classList.toggle("active");
+
+        overlay?.classList.toggle("active");
+
+    });
+
+    overlay?.addEventListener("click",()=>{
+
+        sidebar.classList.remove("active");
+
+        overlay.classList.remove("active");
+
+    });
+
+    document.querySelectorAll(".admin-menu-item").forEach(item=>{
+
+        item.addEventListener("click",()=>{
+
+            if(window.innerWidth<=900){
+
+                sidebar.classList.remove("active");
+
+                overlay?.classList.remove("active");
+
+            }
+
+        });
+
+    });
+
+}
 
 
 // ==========================================
@@ -328,7 +370,7 @@ document.addEventListener(
 function initMobileMenu(){
 
     const sidebar =
-        document.querySelector(".admin-sidebar");
+        document.querySelectorAll(".admin-menu-item")
 
     const overlay =
         document.getElementById("sidebarOverlay");
