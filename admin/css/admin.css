@@ -2957,3 +2957,107 @@ textarea{
     margin-right:10px;
 
 }
+/*=====================================
+HEADER
+=====================================*/
+
+.admin-header-left{
+
+    display:flex;
+    align-items:center;
+    gap:20px;
+
+}
+
+.menu-toggle{
+
+    display:none;
+
+    width:46px;
+    height:46px;
+
+    border:none;
+
+    border-radius:12px;
+
+    background:var(--admin-primary);
+
+    color:#fff;
+
+    cursor:pointer;
+
+    font-size:20px;
+
+}
+
+/*=====================================
+OVERLAY
+=====================================*/
+
+.sidebar-overlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.45);
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:.30s;
+
+    z-index:998;
+
+}
+
+/*=====================================
+RESPONSIVE
+=====================================*/
+
+@media(max-width:900px){
+
+    .menu-toggle{
+
+        display:flex;
+
+        align-items:center;
+
+        justify-content:center;
+
+    }
+
+    .admin-sidebar{
+
+        left:-270px;
+
+        transition:left .30s;
+
+        z-index:999;
+
+    }
+
+    .admin-sidebar.active{
+
+        left:0;
+
+    }
+
+    .sidebar-overlay.active{
+
+        opacity:1;
+
+        visibility:visible;
+
+    }
+
+    .admin-main{
+
+        margin-left:0;
+
+        width:100%;
+
+    }
+
+}
