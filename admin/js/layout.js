@@ -113,6 +113,8 @@ async function initLayout(){
 
     initLogout();
 
+    initMobileMenu();
+
 
 }
 
@@ -319,3 +321,57 @@ document.addEventListener(
     initLayout
 
 );
+// ==========================================
+// MENU MOVIL
+// ==========================================
+
+function initMobileMenu(){
+
+    const sidebar =
+        document.querySelector(".admin-sidebar");
+
+    const overlay =
+        document.getElementById("sidebarOverlay");
+
+    const menu =
+        document.getElementById("menuToggle");
+
+    if(menu){
+
+        menu.addEventListener("click",()=>{
+
+            sidebar.classList.toggle("active");
+
+            overlay?.classList.toggle("active");
+
+        });
+
+    }
+
+    overlay?.addEventListener("click",()=>{
+
+        sidebar.classList.remove("active");
+
+        overlay.classList.remove("active");
+
+    });
+
+    document
+        .querySelectorAll(".admin-menu-item")
+        .forEach(item=>{
+
+            item.addEventListener("click",()=>{
+
+                if(window.innerWidth<=900){
+
+                    sidebar.classList.remove("active");
+
+                    overlay?.classList.remove("active");
+
+                }
+
+            });
+
+        });
+
+}
