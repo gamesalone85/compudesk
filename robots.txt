@@ -2,22 +2,26 @@ User-agent: *
 
 Allow: /
 
-# Evitar indexación de áreas privadas
+# ==========================================
+# AREAS PRIVADAS DE COMPU DESK
+# ==========================================
 
 Disallow: /clientes/perfil/
 Disallow: /clientes/dashboard/
 Disallow: /admin/
 Disallow: /private/
 
-
-# Archivos sensibles
+# ==========================================
+# ARCHIVOS Y DIRECTORIOS SENSIBLES
+# ==========================================
 
 Disallow: /.git/
 Disallow: /.env
 Disallow: /backup/
 Disallow: /config/
 
+# ==========================================
+# SITEMAP OFICIAL
+# ==========================================
 
-# Sitemap oficial
-
-Sitemap: https://www.compudesk.org/sitemap.xml
+Sitemap: https://compudesk.org/sitemap.xml
