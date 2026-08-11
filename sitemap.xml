@@ -2,66 +2,53 @@
 
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
-    <!-- PAGINA PRINCIPAL -->
+    <!-- HOME -->
     <url>
-        <loc>https://compudesk.org/</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/</loc>
+        <lastmod>2026-08-11</lastmod>
         <changefreq>weekly</changefreq>
         <priority>1.0</priority>
     </url>
 
     <!-- CENTRO LEGAL -->
     <url>
-        <loc>https://compudesk.org/legal/</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/</loc>
         <changefreq>yearly</changefreq>
         <priority>0.8</priority>
     </url>
 
-    <!-- AVISO DE PRIVACIDAD -->
     <url>
-        <loc>https://compudesk.org/legal/aviso-de-privacidad.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/aviso-de-privacidad.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
 
-    <!-- TERMINOS Y CONDICIONES -->
     <url>
-        <loc>https://compudesk.org/legal/terminos-y-condiciones.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/terminos-y-condiciones.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.6</priority>
     </url>
 
-    <!-- POLITICA DE COOKIES -->
     <url>
-        <loc>https://compudesk.org/legal/politica-de-cookies.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/politica-de-cookies.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
 
-    <!-- POLITICA DE GARANTIAS -->
     <url>
-        <loc>https://compudesk.org/legal/politica-de-garantias.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/politica-de-garantias.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
 
-    <!-- POLITICA DE SOPORTE -->
     <url>
-        <loc>https://compudesk.org/legal/politica-de-soporte.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/politica-de-soporte.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
 
-    <!-- DESCARGO DE RESPONSABILIDAD -->
     <url>
-        <loc>https://compudesk.org/legal/descargo-de-responsabilidad.html</loc>
-        <lastmod>2026-08-10</lastmod>
+        <loc>https://www.compudesk.org/legal/descargo-de-responsabilidad.html</loc>
         <changefreq>yearly</changefreq>
         <priority>0.5</priority>
     </url>
