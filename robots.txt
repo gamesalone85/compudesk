@@ -24,4 +24,4 @@ Disallow: /config/
 # SITEMAP OFICIAL
 # ==========================================
 
-Sitemap: https://compudesk.org/sitemap.xml
+Sitemap: https://www.compudesk.org/sitemap.xml
